@@ -4,9 +4,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="user")
+ * @ORM\Table(name="figure")
  */
-class User 
+class Figure 
 {
     /**
      * @var int
@@ -15,6 +15,7 @@ class User
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
+
     protected $id;
 
     /**
@@ -22,27 +23,13 @@ class User
      * 
      * @ORM\Column(type="string")
      */
-    protected $pseudo;
+    protected $name;
 
     /**
      * @var string
      * 
      * @ORM\Column(type="string")
      */
-    protected $email;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(type="string")
-     */
-    protected $password;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(type="string")
-     */
-    protected $url_photo;
+    protected $description;
 
 }

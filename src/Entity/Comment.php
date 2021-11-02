@@ -4,9 +4,9 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="user")
+ * @ORM\Table(name="comment")
  */
-class User 
+class Comment 
 {
     /**
      * @var int
@@ -18,31 +18,17 @@ class User
     protected $id;
 
     /**
-     * @var string
+     * @var datetime
      * 
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime")
      */
-    protected $pseudo;
+    protected $date;
 
     /**
      * @var string
      * 
      * @ORM\Column(type="string")
      */
-    protected $email;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(type="string")
-     */
-    protected $password;
-
-    /**
-     * @var string
-     * 
-     * @ORM\Column(type="string")
-     */
-    protected $url_photo;
+    protected $content;
 
 }
