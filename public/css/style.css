@@ -1,0 +1,42 @@
+.menu 
+{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+
+.imageHero
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image:url("../images/snowboarding_1920x1000.png");
+    height: calc(100vh - 80px);
+    
+    filter: grayscale(40%);
+    background-repeat: no-repeat;
+
+}
+
+.imageHero h1 {
+    color: white;
+    font-size: 5rem;
+}
+
+.imageHero h2 {
+    color: white;
+}
+.imageHero p {
+    color: white;
+    margin-top:25px;
+    font-size: 1.2rem;
+}
+
+.arrow-down {
+    position:absolute;
+    top: 90%; left: 95%;
+}
