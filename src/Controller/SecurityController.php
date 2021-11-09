@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SecurityController extends AbstractController
 {
     /**
-     * @Route("/register", name="registerPage", methods={"get","post"})
+     * @Route("/register", name="registerPage")
      */
     public function register( ServerRequestInterface $request)
     {
@@ -48,7 +48,7 @@ class SecurityController extends AbstractController
      */
     public function login()
     {
-        exit;
+        return $this->render('core/login.html.twig');
     }
 
     /**
