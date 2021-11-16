@@ -3,10 +3,9 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\DBAL\Types\BooleanType;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  * @ORM\Table(name="video")
  */
 class Video 

@@ -4,7 +4,7 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @ORM\Table(name="comment")
  */
 class Comment 
