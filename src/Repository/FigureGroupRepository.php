@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Figure;
+use App\Entity\FigureGroup;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Figure|null find($id, $lockMode = null, $lockVersion = null)
- * @method Figure|null findOneBy(array $criteria, array $orderBy = null)
- * @method Figure[]    findAll()
- * @method Figure[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method FigureGroup|null find($id, $lockMode = null, $lockVersion = null)
+ * @method FigureGroup|null findOneBy(array $criteria, array $orderBy = null)
+ * @method FigureGroup[]    findAll()
+ * @method FigureGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FigureRepository extends ServiceEntityRepository
+class FigureGroupRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Figure::class);
+        parent::__construct($registry, FigureGroup::class);
     }
 
     // /**
-    //  * @return Figure[] Returns an array of Figure objects
+    //  * @return FigureGroup[] Returns an array of FigureGroup objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FigureRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Figure
+    public function findOneBySomeField($value): ?FigureGroup
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

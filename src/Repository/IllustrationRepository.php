@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Figure;
+use App\Entity\Illustration;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Figure|null find($id, $lockMode = null, $lockVersion = null)
- * @method Figure|null findOneBy(array $criteria, array $orderBy = null)
- * @method Figure[]    findAll()
- * @method Figure[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Illustration|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Illustration|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Illustration[]    findAll()
+ * @method Illustration[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FigureRepository extends ServiceEntityRepository
+class IllustrationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Figure::class);
+        parent::__construct($registry, Illustration::class);
     }
 
     // /**
-    //  * @return Figure[] Returns an array of Figure objects
+    //  * @return Illustration[] Returns an array of Illustration objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FigureRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Figure
+    public function findOneBySomeField($value): ?Illustration
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')

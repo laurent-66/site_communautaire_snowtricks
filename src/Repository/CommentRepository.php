@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Figure;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Figure|null find($id, $lockMode = null, $lockVersion = null)
- * @method Figure|null findOneBy(array $criteria, array $orderBy = null)
- * @method Figure[]    findAll()
- * @method Figure[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Comment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Comment[]    findAll()
+ * @method Comment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class FigureRepository extends ServiceEntityRepository
+class CommentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Figure::class);
+        parent::__construct($registry, Comment::class);
     }
 
     // /**
-    //  * @return Figure[] Returns an array of Figure objects
+    //  * @return Comment[] Returns an array of Comment objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class FigureRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Figure
+    public function findOneBySomeField($value): ?Comment
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.exampleField = :val')
