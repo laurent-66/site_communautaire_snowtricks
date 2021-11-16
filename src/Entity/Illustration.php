@@ -45,8 +45,16 @@ class Illustration
         $this->updatedAt = new DateTime();
     }
 
+    /**
+     * @var Figure
+     * 
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure")
+     * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
+     */
+    protected $figure;
 
-        /* getter and setter */
+
+    /* getter and setter */
 
     /**
      * @return int 
@@ -70,6 +78,38 @@ class Illustration
     public function setUrl_illustration(string $url_illustration): void
     {
         $this->url_illustration = $url_illustration;
+    }
+
+        /**
+     * @return Datetime 
+     */
+    public function getCreatedAt(): Datetime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param Datetime $createdAt
+     */
+    public function setCreatedAt(Datetime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Datetime 
+     */
+    public function getUpdatedAt(): Datetime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param Datetime $updatedAt
+     */
+    public function setUpdatedAt(Datetime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 
 }

@@ -32,6 +32,42 @@ class Comment
      */
     protected $content;
 
+    /**
+     * @var Datetime 
+     * 
+     * @ORM\column(type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var Datetime 
+     * 
+     * @ORM\column(type="datetime")
+     */
+    protected $updatedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
+    }
+
+    /**
+     * @var User
+     * 
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     */
+    protected $author;
+
+    /**
+     * @var Figure
+     * 
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure")
+     * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
+     */
+    protected $figure;
+
 
     /* getter and setter */
 
@@ -41,14 +77,6 @@ class Comment
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**
@@ -71,7 +99,7 @@ class Comment
     /**
      * @return text 
      */
-    public function getContent(): text
+    public function getContent()
     {
         return $this->content;
     }
@@ -79,8 +107,40 @@ class Comment
     /**
      * @param text $content
      */
-    public function setContent(text $content): void
+    public function setContent($content): void
     {
         $this->content = $content;
+    }
+
+        /**
+     * @return Datetime 
+     */
+    public function getCreatedAt(): Datetime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param Datetime $createdAt
+     */
+    public function setCreatedAt(Datetime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Datetime 
+     */
+    public function getUpdatedAt(): Datetime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param Datetime $updatedAt
+     */
+    public function setUpdatedAt(Datetime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
     }
 }

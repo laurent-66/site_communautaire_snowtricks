@@ -47,11 +47,18 @@ class Figure
      */
     protected $updatedAt;
 
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
+    }
+
     /**
+     * Relation bidirectionnelle Figure ManyToOne User et User ManyToOne Figure
      * @var User
      * 
-     * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\Joincolumn(name="author_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     protected $author;
 
@@ -59,15 +66,11 @@ class Figure
      * @var FigureGroup
      * 
      * @ORM\ManyToOne(targetEntity="App\Entity\FigureGroup")
-     * @ORM\Joincolumn(name="figure_group_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="figure_group_id", referencedColumnName="id")
      */
     protected $figureGroup;
 
-    public function __construct()
-    {
-        $this->createdAt = new DateTime();
-        $this->updatedAt = new DateTime();
-    }
+
 
 
     /* getter and setter */
@@ -110,6 +113,70 @@ class Figure
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return Datetime 
+     */
+    public function getCreatedAt(): Datetime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param Datetime $createdAt
+     */
+    public function setCreatedAt(Datetime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Datetime 
+     */
+    public function getUpdatedAt(): Datetime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param Datetime $updatedAt
+     */
+    public function setUpdatedAt(Datetime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return User 
+     */
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param User $author
+     */
+    public function setAuthor(User $author): void
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * @return FigureGroup 
+     */
+    public function getFigureGroup(): FigureGroup
+    {
+        return $this->figureGroup;
+    }
+
+    /**
+     * @param FigureGroup $figureGroup
+     */
+    public function setFigureGroup(FigureGroup $figureGroup): void
+    {
+        $this->figureGroup = $figureGroup;
     }
 
 }
