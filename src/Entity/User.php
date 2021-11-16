@@ -152,7 +152,7 @@ class User
     /**
      * @return string 
      */
-    public function getUrl_photo(): string
+    public function getUrlPhoto(): string
     {
         return $this->url_photo;
     }
@@ -160,7 +160,7 @@ class User
     /**
      * @param string $url_photo
      */
-    public function setUrl_photo(string $url_photo): void
+    public function setUrlPhoto(string $url_photo): void
     {
         $this->url_photo = $url_photo;
     }
