@@ -2,6 +2,7 @@
 namespace App\Entity;
 
 use DateTime;
+use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -19,7 +20,6 @@ class Video
      */
     protected $id;
 
-
     /**
      * @var string
      * 
@@ -34,7 +34,7 @@ class Video
      */
     protected $embed;
 
-        /**
+    /**
      * @var Datetime 
      * 
      * @ORM\column(type="datetime")
@@ -85,7 +85,7 @@ class Video
     /**
      * @return string 
      */
-    public function getUrl_video(): string
+    public function getUrlVideo(): string
     {
         return $this->url_video;
     }
@@ -93,7 +93,7 @@ class Video
     /**
      * @param string $url_video
      */
-    public function setUrl_video(string $url_video): void
+    public function setUrlVideo(string $url_video): void
     {
         $this->url_video = $url_video;
     }
@@ -114,7 +114,7 @@ class Video
         $this->embed = $embed;
     }
 
-        /**
+    /**
      * @return Datetime 
      */
     public function getCreatedAt(): Datetime
@@ -144,5 +144,21 @@ class Video
     public function setUpdatedAt(Datetime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return Figure 
+     */
+    public function getFigure()
+    {
+        return $this->figure;
+    }
+
+    /**
+     * @param Figure $figure
+     */
+    public function setFigure(Figure $figure): void
+    {
+        $this->figure = $figure;
     }
 }

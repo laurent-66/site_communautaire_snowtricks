@@ -1,7 +1,8 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\Figure;
+use DateTime;
+use App\Entity\Comment;
 use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixture;
@@ -10,37 +11,35 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class FigureFixture extends Fixture implements DependentFixtureInterface
 {
-    public const FIG_REF = 'fig-ref';
-
     public function load(ObjectManager $manager)
     {
+        //datetime comment
+        $datetime = new DateTime();
         // this reference returns the User object created in UserFixture
         $author = $this->getReference(UserFixture::USER_REF);
 
         // this reference returns the FigureGroup object created in FigureGroupFixture
-        $figureGroup = $this->getReference(FigureGroupFixture::FIG_GRP_REF);
+        $figure = $this->getReference(FigureFixture::FIG_REF);
 
         // create 20 products! Bam!
         for ($i = 0; $i < 20; $i++) {
-            $figure = new Figure();
-            $figure->setName('name');
-            $figure->setDescription('Description');
-            $figure->setAuthor($author);
-            $figure->setFigureGroup($figureGroup);
+            $comment = new Comment();
+            $comment->setDate($datetime);
+            $comment->setContent('');
+            $comment->setAuthor($author);
+            $comment->setFigure($figure);
 
-            $manager->persist($figure);
+            $manager->persist($comment);
         }
 
         $manager->flush();
-        $this->addReference(self::FIG_REF, $figure);
     }
-
 
     public function getDependencies()
     {
         return [
             UserFixture::class,
-            FigureGroupFixture::class
+            FigureFixture::class
         ];
     }
 }

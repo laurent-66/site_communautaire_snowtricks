@@ -1,6 +1,7 @@
 <?php
 namespace App\Entity;
 use DateTime;
+use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,7 +54,6 @@ class Illustration
      */
     protected $figure;
 
-
     /* getter and setter */
 
     /**
@@ -67,7 +67,7 @@ class Illustration
     /**
      * @return string 
      */
-    public function getUrl_illustration(): string
+    public function getUrlIllustration(): string
     {
         return $this->url_illustration;
     }
@@ -75,12 +75,12 @@ class Illustration
     /**
      * @param string $url_illustration
      */
-    public function setUrl_illustration(string $url_illustration): void
+    public function setUrlIllustration(string $url_illustration): void
     {
         $this->url_illustration = $url_illustration;
     }
 
-        /**
+    /**
      * @return Datetime 
      */
     public function getCreatedAt(): Datetime
@@ -112,4 +112,19 @@ class Illustration
         $this->updatedAt = $updatedAt;
     }
 
+    /**
+     * @return Figure 
+     */
+    public function getFigure()
+    {
+        return $this->figure;
+    }
+
+    /**
+     * @param Figure $figure
+     */
+    public function setFigure(Figure $figure): void
+    {
+        $this->figure = $figure;
+    }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace App\Entity;
 use DateTime;
+use App\Entity\User;
+use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -142,5 +144,38 @@ class Comment
     public function setUpdatedAt(Datetime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+
+    /**
+     * @return User 
+     */
+    public function getAuthor(): User
+    {
+        return $this->author;
+    }
+
+    /**
+     * @param User $author
+     */
+    public function setAuthor(User $author): void
+    {
+        $this->author = $author;
+    }
+
+    /**
+     * @return Figure 
+     */
+    public function getFigure()
+    {
+        return $this->figure;
+    }
+
+    /**
+     * @param Figure $figure
+     */
+    public function setFigure(Figure $figure): void
+    {
+        $this->figure = $figure;
     }
 }

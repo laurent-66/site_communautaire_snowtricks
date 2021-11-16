@@ -5,7 +5,7 @@ use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
-class Userfixture extends Fixture
+class UserFixture extends Fixture
 {
     public const USER_REF = 'user-ref';
 
@@ -14,10 +14,10 @@ class Userfixture extends Fixture
         // create 20 products! Bam!
         for ($i = 0; $i < 20; $i++) {
             $user = new User();
-            $user->setPseudo('pseudo:'.$i);
-            $user->setEmail(mt_rand(10, 100));
-            $user->setPassword(mt_rand(10, 100));
-            $user->setUrlPhoto(mt_rand(10, 100));
+            $user->setPseudo('pseudo');
+            $user->setEmail('');
+            $user->setPassword('1234');
+            $user->setUrlPhoto('');
 
             $manager->persist($user);
         }
