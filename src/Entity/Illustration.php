@@ -1,9 +1,11 @@
 <?php
 namespace App\Entity;
+use DateTime;
+use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\IllustrationRepository")
  * @ORM\Table(name="illustration")
  */
 class Illustration 
@@ -24,4 +26,105 @@ class Illustration
      */
     protected $url_illustration;
 
+    /**
+     * @var Datetime 
+     * 
+     * @ORM\column(type="datetime")
+     */
+    protected $createdAt;
+
+    /**
+     * @var Datetime 
+     * 
+     * @ORM\column(type="datetime")
+     */
+    protected $updatedAt;
+
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+        $this->updatedAt = new DateTime();
+    }
+
+    /**
+     * @var Figure
+     * 
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure")
+     * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
+     */
+    protected $figure;
+
+    /* getter and setter */
+
+    /**
+     * @return int 
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string 
+     */
+    public function getUrlIllustration(): string
+    {
+        return $this->url_illustration;
+    }
+
+    /**
+     * @param string $url_illustration
+     */
+    public function setUrlIllustration(string $url_illustration): void
+    {
+        $this->url_illustration = $url_illustration;
+    }
+
+    /**
+     * @return Datetime 
+     */
+    public function getCreatedAt(): Datetime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param Datetime $createdAt
+     */
+    public function setCreatedAt(Datetime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return Datetime 
+     */
+    public function getUpdatedAt(): Datetime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param Datetime $updatedAt
+     */
+    public function setUpdatedAt(Datetime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * @return Figure 
+     */
+    public function getFigure()
+    {
+        return $this->figure;
+    }
+
+    /**
+     * @param Figure $figure
+     */
+    public function setFigure(Figure $figure): void
+    {
+        $this->figure = $figure;
+    }
 }
