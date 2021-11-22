@@ -35,5 +35,4 @@ class UserFixture extends Fixture
         // other fixtures can get this object using the UserFixtures::ADMIN_USER_REFERENCE constant
         $this->addReference(self::USER_REF, $user);
     }
-
 }
