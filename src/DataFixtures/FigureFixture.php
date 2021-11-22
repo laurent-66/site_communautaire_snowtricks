@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Figure;
 use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
@@ -14,6 +15,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        $faker = Factory::create('fr-FR');
         // this reference returns the User object created in UserFixture
         $author = $this->getReference(UserFixture::USER_REF);
 
@@ -22,9 +24,13 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
 
         // create 20 products! Bam!
         for ($i = 0; $i < 20; $i++) {
+
+            $titleFigure = $faker->word;
+            $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
+
             $figure = new Figure();
-            $figure->setName('name');
-            $figure->setDescription('Description');
+            $figure->setName($titleFigure);
+            $figure->setDescription($description);
             $figure->setAuthor($author);
             $figure->setFigureGroup($figureGroup);
 
