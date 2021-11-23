@@ -7,6 +7,7 @@ use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class FigureFixture extends Fixture implements DependentFixtureInterface
@@ -22,15 +23,21 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
         // this reference returns the FigureGroup object created in FigureGroupFixture
         $figureGroup = $this->getReference(FigureGroupFixture::FIG_GRP_REF);
 
-        // create 20 products! Bam!
+        //intance slugger
+        $slugger = new AsciiSlugger();
+
         for ($i = 0; $i < 20; $i++) {
 
-            $titleFigure = $faker->word;
+            $titleFigure = $faker->sentence($nbWords = 10, $variableNbWords = true);
+            $slug = $slugger->slug($titleFigure);
             $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
+            $coverImage = $faker->imageUrl(1000,350);
 
             $figure = new Figure();
             $figure->setName($titleFigure);
+            $figure->setSlug($slug);
             $figure->setDescription($description);
+            $figure->setCoverImage($coverImage);
             $figure->setAuthor($author);
             $figure->setFigureGroup($figureGroup);
 

@@ -3,6 +3,7 @@ namespace App\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -27,11 +28,21 @@ class Figure
     protected $name;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
+
+    /**
      * @var string
      * 
      * @ORM\Column(type="string")
      */
     protected $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $coverImage;
 
     /**
      * @var Datetime 
@@ -71,8 +82,6 @@ class Figure
     protected $figureGroup;
 
 
-
-
     /* getter and setter */
 
     /**
@@ -100,6 +109,26 @@ class Figure
     }
 
     /**
+     *
+     * @return string
+     */
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    /**
+     *
+     * @param string $slug
+     * 
+     */
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+
+    }
+
+    /**
      * @return string 
      */
     public function getDescription(): string
@@ -113,6 +142,26 @@ class Figure
     public function setDescription(string $description): void
     {
         $this->description = $description;
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getCoverImage(): string
+    {
+        return $this->coverImage;
+    }
+
+    /**
+     *
+     * @param string $coverImage
+     * 
+     */
+    public function setCoverImage(string $coverImage): void
+    {
+        $this->coverImage = $coverImage;
+
     }
 
     /**
