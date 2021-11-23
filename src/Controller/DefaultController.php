@@ -2,33 +2,29 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\FigureRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class DefaultController extends AbstractController
 {
+    private  $figureRepository;
+
+    public function __construct(FigureRepository $figureRepository)
+    {
+        $this->figureRepository = $figureRepository;
+    }
+
     /**
      * @Route("/", name="homePage", methods={"get"})
      */
+    public function home(Request $request){
 
-    public function home(){
-        return $this->render('core/home.html.twig', ['name'=> 'snowtricks']);
-    }
+        $figures = $this->figureRepository->findAll();
 
-    /**
-     * @Route("/trick", name="trickPage", methods={"get"})
-     */
+        return $this->render('core/home.html.twig', ['figures'=> $figures]);
 
-    public function trick(){
-        return $this->render('core/trick.html.twig');
-    }
-
-    /**
-     * @Route("/trick/edit", name="trickEditPage", methods={"get"})
-     */
-
-    public function trickEdit(){
-        return $this->render('core/editTrick.html.twig');
     }
 
 }
