@@ -11,6 +11,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  */
 class Figure 
 {
+    public const LIMIT_PER_PAGE = 8;
+
     /**
      * @var int
      * 

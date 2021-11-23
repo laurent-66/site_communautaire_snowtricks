@@ -18,50 +18,15 @@
         {% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light py-0 " style="height:80px;">
-            <div class="container-fluid">
-                <div class="menu">
-                    <div><a class="navbar-brand"  href="{{ path('homePage') }}"><i class="fas fa-snowboarding fa-2x"></i><strong> SNOWTRICKS</strong></a></div>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarColor03">
-                        <ul class="navbar-nav">
-                            <li class="menu-item">
-                                <a class="item nav-link" href="{{ path('homePage') }}">Home |</a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="item nav-link" href="{{ path('homePage') }}#Tricks-list">Tricks |</a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="item nav-link" href="{{ path('loginPage') }}">sign in |</a>
-                            </li>
-                            <li class="menu-item">
-                                <a class="item nav-link" href="{{ path('registerPage') }}">sign up</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
 
+        {% include 'partials/header.html.twig' %}
 
-
-
-
-
-
-
-
-            </div>
-
-
-
-
-
-        </nav>  
         {% block body %}{% endblock %}
+
         <footer class="bg-secondary py-0" style="height:80px;">
             <p class="text-light text-center pt-3">Copyright @ 2021</p>
         </footer>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     </body>
 </html>
