@@ -10,40 +10,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class FigureController extends AbstractController
 {
     /**
-     * tricks list Home
-     * 
-     * @Route("/", name="tricksListHome")
-     */
-
-    private  $figureRepository;
-
-    public function __construct(FigureRepository $figureRepository)
-    {
-        $this->figureRepository = $figureRepository;
-    }
-
-    public function trickList(Request $request){
-
-        $figures = $this->figureRepository->findAll();
-
-
-        return $this->render('core/home.html.twig', ['figures'=> $figures]);
-    }
-
-    /**
      * trick view
      * 
-     * @Route("/trick/view/{id}", name="trickViewPage", methods={"get"})
+     * @Route("/tricks/{slug}/view", name="trickViewPage", methods={"get"})
      */
 
     public function trickView(){
-        return $this->render('core/editTrick.html.twig');
+        return $this->render('core/viewTrick.html.twig');
     }
 
     /**
      * trick edit
      * 
-     * @Route("/trick/edit/{id}", name="trickEditPage")
+     * @Route("/tricks/{slug}/edit", name="trickEditPage")
      */
 
     public function trickEdit(){
@@ -53,10 +32,10 @@ class FigureController extends AbstractController
     /**
      * trick delete
      * 
-     * @Route("/trick/edit/{id}", name="trickEditPage")
+     * @Route("/tricks/{slug}/delete", name="trickDeletePage")
      */
 
     public function trickDelete(){
-        return $this->render('core/editTrick.html.twig');
+
     }
 }
