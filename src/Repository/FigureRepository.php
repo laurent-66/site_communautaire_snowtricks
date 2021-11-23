@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Figure;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -18,6 +19,20 @@ class FigureRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Figure::class);
     }
+
+
+
+    public function getFigureByLimit(int $page, int $limitPerPage)
+    {
+        $querybuilder = $this->createQueryBuilder('a')
+            ->setFirstResult(($page - 1)*$limitPerPage)
+            ->setMaxResults($limitPerPage)
+            ->orderBy('a.updatedAt','DESC');
+            
+        return new Paginator($querybuilder);
+    }
+
+
 
     // /**
     //  * @return Figure[] Returns an array of Figure objects
