@@ -1,5 +1,43 @@
 {% extends 'base.html.twig' %}
 {% block title %}trick{% endblock %}
 {% block body %}
-    page figure
+
+
+
+
+    <div class="imageHero px-0">
+		<div class="arrow-down">
+			<a href="#Tricks-list">
+				<i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
+			</a>
+		</div>
+	</div>
+
+    <div class="main-container">
+    
+        <div class=" px-0 mx-0 trick-card">
+                <div class="row px-0 border border-primary">
+                        <div class ="px-0 mx-0" style="height:300px; background-color: grey;">
+                            <div class="imgHeroTrick" style="background: url('{{figure.coverImage}}');">
+                                <h1>{{figure.name}}</h1>
+                            </div>
+                        </div>
+                </div>
+                <div class="row px-0 mx-0 border border-primary">
+                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                </div>
+
+
+        </div>
+    
+    </div>
+
+
+
+
 {% endblock %}
