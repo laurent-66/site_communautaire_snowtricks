@@ -16,7 +16,7 @@ class FigureController extends AbstractController
      */
 
     public function trickView(){
-        return $this->render('core/viewTrick.html.twig');
+        return $this->render('core/trick.html.twig');
     }
 
     /**
@@ -26,7 +26,7 @@ class FigureController extends AbstractController
      */
 
     public function trickEdit(){
-        return $this->render('core/editTrick.html.twig');
+        return $this->render('core/trick.html.twig');
     }
 
     /**
