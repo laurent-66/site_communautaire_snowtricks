@@ -27,12 +27,13 @@ class DefaultController extends AbstractController
     {
 
         $figures = $this->figureRepository->findAll();
+        
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
         return $this->render(
             'core/figures/home.html.twig', 
             [
-                'figures' => $figures,
+                'figures' => $paginator,
                 'page' => 1,
                 'pageTotal' => ceil(count($paginator) / Figure::LIMIT_PER_PAGE)
             ]
@@ -50,13 +51,12 @@ class DefaultController extends AbstractController
      */
     public function getFiguresWithAjaxRequest(Request $request)
     {
-
         $pageTargeted = $request->query->getInt('page');
         $figures = $this->figureRepository->getFigureByLimit($pageTargeted, Figure::LIMIT_PER_PAGE);
         return new JsonResponse(
             [
-                "html" => $this->renderView('figures/partials/list_figures.html.twig', ['figures'=>$figures])
+                "html" => $this->renderView('core/figures/__list_figures.html.twig', ['figures' => $figures])
             ]
-            );
+        );
     }
 }
