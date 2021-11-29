@@ -61,7 +61,10 @@
 		<script type="text/javascript">
 			const element = document.querySelector('#load-more');
             const containerfigures = document.querySelector('#container-figures');
+			const loader = document.querySelector('.loading');
+
             element.addEventListener('click', async (e) => { 
+			loader.style.display='block';	
             const totalPage = e.target.dataset.totalPage;
             const nextPage = e.target.dataset.nextPage;
             const urlToCallAjax = e.target.dataset.figureAjax;
@@ -70,7 +73,7 @@
             console.log(response);
 
             if(response.ok) {
-
+				loader.style.display='none';
                 const data = await response.json();
                 // if all page display thon disabled button
                 if((Number(nextPage)) === Number(totalPage)) {
