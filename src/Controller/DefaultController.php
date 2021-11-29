@@ -19,14 +19,16 @@ class DefaultController extends AbstractController
     }
 
     /**
-     * find all tricks list
+     * Undocumented function
+     *
+     * @param Request $request
+     * @return response
      * 
      * @Route("/", name="homePage", methods={"get"})
+     * 
      */
     public function home(Request $request)
     {
-
-        $figures = $this->figureRepository->findAll();
         
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
