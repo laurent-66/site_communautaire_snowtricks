@@ -1,10 +1,6 @@
 {% extends 'base.html.twig' %}
 {% block title %}trick{% endblock %}
 {% block body %}
-
-
-
-
     <div class="imageHero px-0">
 		<div class="arrow-down">
 			<a href="#Tricks-list">
@@ -12,32 +8,79 @@
 			</a>
 		</div>
 	</div>
-
     <div class="main-container">
-    
-        <div class=" px-0 mx-0 trick-card">
-                <div class="row px-0 border border-primary">
-                        <div class ="px-0 mx-0" style="height:300px; background-color: grey;">
-                            <div class="imgHeroTrick" style="background: url('{{figure.coverImage}}');">
-                                <h1>{{figure.name}}</h1>
-                            </div>
+        <div class="container px-0 mx-0 trick-card">
+            <div class="row px-0 mx-0 border border-primary">
+                {# <div class="imgHeroTrick" style="background: url('{{figure.coverImage}}');"> #}
+                <div class="imgHeroTrick" style="background-image: url('/images/mute-grab.jpg');">
+                    <h1>{{figure.name}}</h1>
+                </div>
+            </div>
+            <div class="manageImageHero">
+                <a href="#" class="btn btn-info">
+			        <i class="fas fa-edit"></i>
+				</a>
+				<a href="#" class="btn btn-danger">
+					<i class="fas fa-trash-alt"></i>
+				</a>
+            </div>                                            
+
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
                         </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="row px-0 mx-0 border border-primary">
-                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
-                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
-                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
-                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
-                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
-                    <div class="col-2 item"><img src="http://placehold.it/75x75" alt="img"></div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <div class="row px-0 mx-0">
+                <p>{{figure.description}}</p>
+            </div>
+            <div class="row mx-0 px-0 d-flex justify-content-center align-items-center">
+                <div class="col-sm-12 col-md-1 col-lg-1 label-info">test</div>
+                <div class="col-sm-12 col-md-1 col-lg-1 label-info">test</div>
+                <div class="col-sm-12 col-md-1 col-lg-1 label-info">test</div>
+                <div class="col-sm-12 col-md-1 col-lg-1 label-info">{{figure.createdAt|date("d/m/Y")}}</div>
+            </div>
+            <div class="separator"></div>
+            <form>
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-sm-12 col-md-9 col-lg-9 mb-3">
+                        <input type="text" class="form-control" id="comment-trick" placeholder="Laisser votre commentaire ici">
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3 mb-3 d-flex justify-content-end align-items-center">
+                        <button type="submit" class="btn btn-primary d-block">Laisser un commentaire</button>
+                    </div>
                 </div>
+            </form>
+            <div class="separator"></div>
 
-
+            
         </div>
-    
     </div>
-
-
-
-
 {% endblock %}

@@ -1,5 +1,6 @@
 @import "./loader.css";
 @import "./trick-card.css";
+@import "./trickPage.css";
 
 .menu 
 {
@@ -16,9 +17,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image:url("../images/snowboarding_1920x1000.png");
+    background-image:url("/images/snowboarding_1920x1000.png");
     height: calc(100vh - 80px);
-    
     filter: grayscale(40%);
     background-repeat: no-repeat;
 
@@ -41,18 +41,4 @@
 .arrow-down {
     position:absolute;
     top: 90%; left: 95%;
-}
-
-.item
-{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-}
-
-.item img
-{
-    display: block;
-    margin: 30px 0px;
 }
