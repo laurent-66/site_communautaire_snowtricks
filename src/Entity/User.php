@@ -1,15 +1,17 @@
 <?php
 namespace App\Entity;
 use DateTime;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
  */
-class User 
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @var int
@@ -229,5 +231,29 @@ class User
             $this->figures->removeElement($figure);
         }
     }
+
+
+    public function getRoles()
+    {
+        return ['ROLE_USER'];
+    }
+    public function getSalt()
+    {
+        return '';
+    }
+    
+    public function eraseCredentials()
+    {
+        return;
+    }
+    public function getUsername()
+    {
+        return $this->email;
+    }
+    // public function getUserIdentifier()
+    // {
+    //     return $this->email;
+    // }
+
 
 }
