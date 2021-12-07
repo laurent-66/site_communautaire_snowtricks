@@ -1,4 +1,6 @@
 @import "./loader.css";
+@import "./trick-card.css";
+@import "./trickPage.css";
 
 .menu 
 {
@@ -9,16 +11,14 @@
 
 }
 
-
 .imageHero
 {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image:url("../images/snowboarding_1920x1000.png");
+    background-image:url("/images/snowboarding_1920x1000.png");
     height: calc(100vh - 80px);
-    
     filter: grayscale(40%);
     background-repeat: no-repeat;
 

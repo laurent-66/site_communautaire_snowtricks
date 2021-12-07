@@ -1,0 +1,32 @@
+.imgHeroTrick
+{
+    height: 100vh;
+    background-repeat: no-repeat;
+}
+
+.manageImageHero {
+    position:absolute;
+    top: 15px; left: 89%;
+}
+
+.item-carousel
+{
+    width: 125px;
+    height: 125px;
+    margin: 30px 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.img-carousel
+{
+    display: block;
+    width: 125px;
+    height: 125px;
+    margin: 0px auto;
+    padding: 0px auto;
+}
