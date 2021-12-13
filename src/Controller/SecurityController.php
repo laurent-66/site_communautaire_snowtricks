@@ -1,65 +1,50 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\User;
+use App\Form\RegistrationType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/register", name="registerPage")
-     */
-    public function register( Request $request)
+ /**
+  *
+  * @param Request $request
+  * @return Response
+  *
+  * @Route("/register", name="registerPage")
+  */
+    public function register( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
-        dump($request);
-        exit;
-        $error = '';
+        $this->entityManager = $entityManager;
+        $this->passwordHasher = $passwordHasher;
 
-        // if ($request->getMethod() === 'POST') {
-        //     $dataSubmitted = $request->getParsedBody();
+        $user = new User();
+        $form = $this->createForm(RegistrationType::class, $user);
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $form->handleRequest($request);
 
-        //     if (
-        //         (strlen(trim($dataSubmitted['email']))) === 0 ||
-        //         (strlen(trim($dataSubmitted['pseudo']))) === 0 ||
-        //         (strlen(trim($dataSubmitted['inputPassword']))) === 0 ||
-        //         (strlen(trim($dataSubmitted['confirmPassword']))) === 0
-        //     ) {
-        //         $error = 'Tout les champs sont requis.';
-        //     } elseif (
-        //         strlen(trim($dataSubmitted['inputPassword']))
-        //         !== strlen(trim($dataSubmitted['confirmPassword']))
-        //     ) {
-        //         $error = 'Le mot de passe et la confirmation sont différents.';
-        //     } else {
-        //         $passwordHash = password_hash($dataSubmitted['inputPassword'], PASSWORD_DEFAULT);
-        //         $this->userRepository->registerUser($dataSubmitted['pseudo'], $dataSubmitted['email'], $passwordHash);
-        //     }
-        // }
+        if($form->isSubmitted() && $form->isValid() && $form->getConfig()->getMethod() === 'POST') {
 
+            //Hash du mot de passe
+            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($passwordHashed);
+            //Persister l'utilisateur
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            //Redirection
+            return $this->redirectToRoute('homePage');
+        }else{
+            $error = "Veuillez renseigner tout les champs";
+        }
 
-
-
-
-        // ... e.g. get the user data from a registration form
-
-        // $user = new User();
-        // $plaintextPassword = "";
-        
-        // hash the password (based on the security.yaml config for the $user class)
-
-        // $hashedPassword = $passwordHasher->hashPassword(
-        //     $user,
-        //     $plaintextPassword
-        // );
-        //     $user->setPassword($hashedPassword);
-    
-
-
-        return $this->render('core/auth/register.html.twig', ['error' => $error]);
-
+        return $this->render('core/auth/register.html.twig', ['form' => $form->createView(), 'error'=> $error]);
     }
 
     /**
@@ -81,13 +66,5 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);
-    }
-
-    /**
-     * @Route("/disconnect", name="disconnectPage", methods={"get"})
-    */
-    public function disconnect()
-    {
-        exit;
     }
 }
