@@ -31,7 +31,9 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $titleFigure = $faker->sentence($nbWords = 10, $variableNbWords = true);
             $slug = $slugger->slug($titleFigure);
             $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
-            $coverImage = $faker->imageUrl(1000,350);
+
+            $coverImage = "https://picsum.photos/1000/350";
+            // $coverImage = $faker->imageUrl(1000,350);
 
             $figure = new Figure();
             $figure->setName($titleFigure);
