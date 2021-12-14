@@ -3,21 +3,28 @@
 {% block title %}Bienvenue{% endblock %}
 
 {% block body %}
-    {% if error %}
-        {# <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div> #}
-        <div>Identifiants Invalides</div>
-    {% endif %}
 
-    <form action="{{ path('login') }}" method="post">
-        <label for="username">Email:</label>
-        <input type="text" id="username" name="_username" value="{{ last_username }}"/>
+<div class="container-fluid container-body bg-warning">
+    <div class="container card rounded shadow p-3 mb-5">
+        <div class="card-body mt-5">
+            {% if error %}
+                <div>Identifiants Invalides</div>
+            {% endif %}
+            <h2 class="text-center">Connexion</h2>
+            <form action="{{ path('login') }}" method="post">
+                <div class="form-group">
+                    <label for="username">Email:</label>
+                    <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}"/>
+                </div>        
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control"  id="password" name="_password"/>
+                </div>
 
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="_password"/>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
+    </div>
+</div>
 
-        {# If you want to control the URL the user is redirected to on success
-        <input type="hidden" name="_target_path" value="/account"/> #}
-
-        <button type="submit">login</button>
-    </form>
 {% endblock %}
