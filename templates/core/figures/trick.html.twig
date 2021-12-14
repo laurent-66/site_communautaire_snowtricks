@@ -69,18 +69,24 @@
             </div>
             <div class="separator"></div>
             <form>
-                <div class="row d-flex justify-content-center align-items-center">
-                    <div class="col-sm-12 col-md-9 col-lg-9 mb-3">
-                        <input type="text" class="form-control" id="comment-trick" placeholder="Laisser votre commentaire ici">
-                    </div>
-                    <div class="col-sm-12 col-md-3 col-lg-3 mb-3 d-flex justify-content-end align-items-center">
-                        <button type="submit" class="btn btn-primary d-block">Laisser un commentaire</button>
-                    </div>
+                <div class="row">
+                        <div class="col-sm-12 col-md-9 col-lg-9">
+                            {# {{form_start(formComment)}} #}
+                            {{form_widget(formComment)}}
+                        </div>
+                        <div class="col-sm-12 col-md-3 col-lg-3">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
+                        </div>
+
+
+                        {# {{form_end(formComment)}} #}
+
                 </div>
             </form>
             <div class="separator"></div>
-
-            
+            <div class="row" id="container-figures">
+			    {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
+		    </div>  
         </div>
     </div>
 {% endblock %}
