@@ -6,9 +6,11 @@ use App\Entity\Figure;
 use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixture;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+
 
 class FigureFixture extends Fixture implements DependentFixtureInterface
 {
@@ -31,15 +33,17 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $titleFigure = $faker->sentence($nbWords = 10, $variableNbWords = true);
             $slug = $slugger->slug($titleFigure);
             $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
-
-            $coverImage = "https://picsum.photos/1000/350";
-            // $coverImage = $faker->imageUrl(1000,350);
-
             $figure = new Figure();
             $figure->setName($titleFigure);
             $figure->setSlug($slug);
             $figure->setDescription($description);
-            $figure->setCoverImage($coverImage);
+
+            for ($j = 0; $j < 20; $j++) {
+                $coverImage = "https://picsum.photos/1000/350";
+                // $coverImage = $faker->imageUrl(1000,350);
+                $figure->setCoverImage($coverImage);
+            }
+
             $figure->setAuthor($author);
             $figure->setFigureGroup($figureGroup);
 

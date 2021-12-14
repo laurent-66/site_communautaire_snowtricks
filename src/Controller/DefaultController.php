@@ -29,7 +29,6 @@ class DefaultController extends AbstractController
      */
     public function home(Request $request)
     {
-        
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
         return $this->render(
