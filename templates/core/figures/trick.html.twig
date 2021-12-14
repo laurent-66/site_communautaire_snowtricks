@@ -79,8 +79,9 @@
                 </div>
             </form>
             <div class="separator"></div>
-
-            
+            <div class="row" id="container-figures">
+			    {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
+		    </div>  
         </div>
     </div>
 {% endblock %}

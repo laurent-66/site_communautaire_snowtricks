@@ -1,0 +1,11 @@
+{% if comments|length > 0 %}
+<h2 class="mb-3">Commentaires des snowboarders</h2>
+    {% for comment in comments %}
+        <div class="bg-light rounded mb-3 py-3 px-3">
+            <strong>{{ comment.author.pseudo }}</strong> a dit :
+            <blockquote> {{comment.content}}</blockquote>
+        </div>
+    {% endfor %}
+{% else %} 
+    <h2> Cette figure n'as pas encore reçu de commentaires ...</h2>
+{% endif %}

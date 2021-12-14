@@ -3,6 +3,7 @@ namespace App\DataFixtures;
 
 use Faker\Factory;
 use App\Entity\Figure;
+use App\Entity\Comment;
 use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixture;
@@ -48,6 +49,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $figure->setFigureGroup($figureGroup);
 
             $manager->persist($figure);
+            
         }
 
         $manager->flush();
