@@ -4,25 +4,28 @@
 
 {% block body %}
 
-<div class="container-fluid container-body bg-warning">
-    <div class="container card rounded shadow p-3 mb-5">
-        <div class="card-body mt-5">
-            {% if error %}
-                <div>Identifiants Invalides</div>
-            {% endif %}
-            <h2 class="text-center">Connexion</h2>
-            <form action="{{ path('login') }}" method="post">
-                <div class="form-group">
-                    <label for="username">Email:</label>
-                    <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}"/>
-                </div>        
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control"  id="password" name="_password"/>
+<div class="container-fluid container-body">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="card rounded shadow p-3 mb-5">
+                <div class="card-body">
+                    {% if error %}
+                        <div>Identifiants Invalides</div>
+                    {% endif %}
+                    <h2 class="text-center">Connexion</h2>
+                    <form action="{{ path('login') }}" method="post">
+                        <div class="form-group">
+                            <label for="username">Email:</label>
+                            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}"/>
+                        </div>        
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control"  id="password" name="_password"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                    </form>
                 </div>
-
-                <button type="submit" class="btn btn-primary">Envoyer</button>
-            </form>
+            </div>
         </div>
     </div>
 </div>
