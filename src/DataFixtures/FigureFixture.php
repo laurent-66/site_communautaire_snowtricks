@@ -39,10 +39,8 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $figure->setName($titleFigure);
             $figure->setSlug($slug);
             $figure->setDescription($description);
-
             $listPictures = file_get_contents('https://picsum.photos/v2/list');
             $coverImage = json_decode($listPictures, true)[$i]["download_url"];
-            dump($coverImage);
             $figure->setCoverImage($coverImage);
             $figure->setAuthor($author);
             $figure->setFigureGroup($figureGroup);
