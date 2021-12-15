@@ -28,7 +28,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
 
         //intance slugger
         $slugger = new AsciiSlugger();
-        $this->test = [];
+
         for ($i = 0; $i < 20; $i++) {
 
             $titleFigure = $faker->sentence($nbWords = 10, $variableNbWords = true);
