@@ -28,28 +28,23 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
 
         //intance slugger
         $slugger = new AsciiSlugger();
-
+        $this->test = [];
         for ($i = 0; $i < 20; $i++) {
 
             $titleFigure = $faker->sentence($nbWords = 10, $variableNbWords = true);
             $slug = $slugger->slug($titleFigure);
             $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
+            // $coverImage = $faker->imageUrl(1000,350);
             $figure = new Figure();
             $figure->setName($titleFigure);
             $figure->setSlug($slug);
             $figure->setDescription($description);
-
-            for ($j = 0; $j < 20; $j++) {
-                $coverImage = "https://picsum.photos/1000/350";
-                // $coverImage = $faker->imageUrl(1000,350);
-                $figure->setCoverImage($coverImage);
-            }
-
+            $listPictures = file_get_contents('https://picsum.photos/v2/list');
+            $coverImage = json_decode($listPictures, true)[$i]["download_url"];
+            $figure->setCoverImage($coverImage);
             $figure->setAuthor($author);
             $figure->setFigureGroup($figureGroup);
-
             $manager->persist($figure);
-            
         }
 
         $manager->flush();
