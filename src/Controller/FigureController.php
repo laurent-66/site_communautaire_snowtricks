@@ -6,6 +6,7 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
+use App\Repository\IllustrationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Collections\Expr\Value;
 use Symfony\Component\HttpFoundation\Request;
@@ -48,6 +49,7 @@ class FigureController extends AbstractController
         $slug,
         FigureRepository $figureRepository,
         CommentRepository $commentRepository,
+        IllustrationRepository $illustrationRepository,
         Request $request, 
         EntityManagerInterface $entityManager
          ) {
@@ -58,6 +60,21 @@ class FigureController extends AbstractController
 
         //Je récupère tous les commentaires lié à la figure
         $comments = $commentRepository->findBy(['figure' => $figure]);
+
+        //je récupère tous les medias lié à la figure
+
+        $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
+        // dump($arrayIllustration[0]->getUrlIllustration());
+        // exit;
+
+        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
+        $illustrations = [];
+        $arrayIllustrationLength = count($arrayIllustration);
+
+        for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
+            $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            array_push($illustrations, $url_Illustration );   
+        }      
 
         $newComment = new Comment();
         //création du formulaire avec les propriétées de l'entitée Comment
@@ -75,7 +92,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('homePage');
         }
 
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView()]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations]);
     }
 
     /**
