@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\UpdateProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,4 +67,51 @@ class SecurityController extends AbstractController
             'error'         => $error,
         ]);
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return Response
+     * 
+     * @Route("/updateProfil", name="updatProfilPage")
+     */
+    public function updateProfil( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->entityManager = $entityManager;
+        $this->passwordHasher = $passwordHasher;
+
+        $user = new User();
+        $form = $this->createForm(UpdateProfilType::class, $user);
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+            //Hash du mot de passe
+            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($passwordHashed);
+            //Persister l'utilisateur
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            //Redirection
+            return $this->redirectToRoute('homePage');
+        }else{
+            $error = "Veuillez renseigner tout les champs";
+        }
+
+        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'error'=> $error]);
+    }
+
+
+
+
+
+
+
+
+
+
 }

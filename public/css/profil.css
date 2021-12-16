@@ -1,0 +1,18 @@
+.container-picture-profil
+{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px 0px;
+}
+
+.borderImageProfil
+{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:100px;
+    height:100px;
+    border: 3px solid black;
+    border-radius: 50px;
+}
