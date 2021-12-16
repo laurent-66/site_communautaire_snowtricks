@@ -29,22 +29,9 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
-                            <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="http://placehold.it/125x125" alt="img"></div>
+                            {% for illustration in illustrations %}
+                                <div class="item-carousel col-sm-12 col-md-2 col-lg-2 bg-primary"><img class="img-carousel" src="{{illustration}}" alt="img"></div>
+                            {% endfor %}
                         </div>
                     </div>
                 </div>

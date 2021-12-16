@@ -21,9 +21,9 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
         for ($i = 0; $i < 20; $i++) {
 
             // $urlIllustration = $faker->imageUrl(500, 250);
-            $urlIllustration = "https://picsum.photos/200/300";
-
             $illustration = new Illustration();
+            $listPictures = file_get_contents('https://picsum.photos/v2/list');
+            $urlIllustration = json_decode($listPictures, true)[$i]["download_url"];
             $illustration->setUrlIllustration($urlIllustration);
             $illustration->setFigure($figure);
 
