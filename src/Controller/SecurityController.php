@@ -3,6 +3,7 @@
 namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\UpdateProfilType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,11 +84,11 @@ class SecurityController extends AbstractController
         $this->passwordHasher = $passwordHasher;
 
         $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+        $form = $this->createForm(UpdateProfilType::class, $user);
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid() && $form->getConfig()->getMethod() === 'POST') {
+        if($form->isSubmitted() && $form->isValid()) {
 
             //Hash du mot de passe
             $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
