@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Figure;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Form\NewTrickType;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
-use App\Repository\IllustrationRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\IllustrationRepository;
 use Doctrine\Common\Collections\Expr\Value;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,8 +26,48 @@ class FigureController extends AbstractController
         $this->figureRepository = $figureRepository;
     }
 
+
+
+
+/**
+ * Permet de créer un trick
+ *
+ * @return Response
+ * 
+ * @Route("tricks/new", name="newtrickPage")
+ */
+    public function create(Request $request, EntityManagerInterface $entityManager){
+        $this->entityManager = $entityManager;
+        $newTrick = new Figure();
+        //création du formulaire avec les propriétées de l'entitée Comment
+        $formTrick = $this->createForm(NewTrickType::class, $newTrick);
+
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formTrick->handleRequest($request);
+
+        if($formTrick->isSubmitted() && $formTrick->isValid()) {
+        
+            //Persister le commentaire
+            $this->entityManager->persist($newTrick);
+            $this->entityManager->flush();
+            //Redirection
+            return $this->redirectToRoute('homePage');
+        }
+
+        return $this->render('core/figures/trickCreate.html.twig', ['formTrick' => $formTrick->createView()]);
+    }
+
+
+
+
+
+
+
+
+
+
     /**
-     * trick view
+     * trick edit
      * 
      * @Route("/tricks/{slug}/edit", name="trickEditPage", methods={"get"})
      */
