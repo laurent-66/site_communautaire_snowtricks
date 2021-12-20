@@ -11,13 +11,11 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
-use Doctrine\Common\Collections\Expr\Value;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 
 class FigureController extends AbstractController
 {
@@ -42,12 +40,12 @@ class FigureController extends AbstractController
     public function create(
         Request $request, 
         EntityManagerInterface $entityManager,
-        FigureGroupRepository $figureGroupRepository,
-        RequestStack $requestStack
+        FigureGroupRepository $figureGroupRepository
         
         ){
+
         $this->entityManager = $entityManager;
-        $this->requestStack = $requestStack;
+
 
         //récupération array des groupes de tricks pour liste déroulante formulaire
         $groupTricks = $figureGroupRepository->findAll();
@@ -59,25 +57,30 @@ class FigureController extends AbstractController
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request);
-
-        
-        
-
-        //Ajout des éléments Déduit non renseigné dans le formulaire
-        //insertion slug
-
-
-        //insertion du pseudo de l'utilisateur depuis la session
-
-            $session =  $this->requestStack->getSession();
-
-
+        dump($formTrick);
+        exit;
+ 
 
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
+
+
+
+
+            //TODO
+
+            $coverImage = $formTrick->get('coverImage')->getData();
+
+
+
+
+
+
+
         
             //Persister le commentaire
             $this->entityManager->persist($newTrick);
             $this->entityManager->flush();
+
             //Redirection
             return $this->redirectToRoute('homePage');
         }

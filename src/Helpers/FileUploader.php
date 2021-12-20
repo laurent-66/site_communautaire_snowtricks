@@ -6,7 +6,7 @@ use GuzzleHttp\Psr7\UploadedFile;
 
 class FileUploader
 {
-    public const DEFAULT_UPLOAD_DIR = __DIR__ . '/../../public/uploads/';
+    public const DEFAULT_UPLOAD_DIR = __DIR__ . 'public/uploads/';
 
     public static function uploadFile($file, string $pathDirectory = self::DEFAULT_UPLOAD_DIR)
     {

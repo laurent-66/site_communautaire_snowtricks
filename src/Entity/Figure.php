@@ -222,15 +222,15 @@ class Figure
     /**
      * @return User 
      */
-    public function getAuthor(): User
+    public function getPseudo(): User
     {
         return $this->pseudo;
     }
 
     /**
-     * @param User $author
+     * @param User $pseudo
      */
-    public function setAuthor(User $pseudo): void
+    public function setPseudo(User $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
