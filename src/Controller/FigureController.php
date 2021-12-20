@@ -41,9 +41,11 @@ class FigureController extends AbstractController
         $newTrick = new Figure();
         //création du formulaire avec les propriétées de l'entitée Comment
         $formTrick = $this->createForm(NewTrickType::class, $newTrick);
-
+        dump($formTrick);
+        exit;
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request);
+
 
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
         

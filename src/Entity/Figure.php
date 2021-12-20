@@ -71,9 +71,9 @@ class Figure
      * @var User
      * 
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures")
-     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="pseudo_id", referencedColumnName="id")
      */
-    protected $author;
+    protected $pseudo;
 
     /**
      * @var FigureGroup
@@ -203,15 +203,15 @@ class Figure
      */
     public function getAuthor(): User
     {
-        return $this->author;
+        return $this->pseudo;
     }
 
     /**
      * @param User $author
      */
-    public function setAuthor(User $author): void
+    public function setAuthor(User $pseudo): void
     {
-        $this->author = $author;
+        $this->pseudo = $pseudo;
     }
 
     /**
