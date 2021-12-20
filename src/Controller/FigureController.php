@@ -9,12 +9,15 @@ use App\Form\NewTrickType;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
 use Doctrine\Common\Collections\Expr\Value;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class FigureController extends AbstractController
 {
@@ -36,15 +39,38 @@ class FigureController extends AbstractController
  * 
  * @Route("tricks/new", name="newtrickPage")
  */
-    public function create(Request $request, EntityManagerInterface $entityManager){
+    public function create(
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        FigureGroupRepository $figureGroupRepository,
+        RequestStack $requestStack
+        
+        ){
         $this->entityManager = $entityManager;
+        $this->requestStack = $requestStack;
+
+        //récupération array des groupes de tricks pour liste déroulante formulaire
+        $groupTricks = $figureGroupRepository->findAll();
+
         $newTrick = new Figure();
+
         //création du formulaire avec les propriétées de l'entitée Comment
         $formTrick = $this->createForm(NewTrickType::class, $newTrick);
-        dump($formTrick);
-        exit;
+
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request);
+
+        
+        
+
+        //Ajout des éléments Déduit non renseigné dans le formulaire
+        //insertion slug
+
+
+        //insertion du pseudo de l'utilisateur depuis la session
+
+            $session =  $this->requestStack->getSession();
+
 
 
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
@@ -56,7 +82,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('homePage');
         }
 
-        return $this->render('core/figures/trickCreate.html.twig', ['formTrick' => $formTrick->createView()]);
+        return $this->render('core/figures/trickCreate.html.twig', ['formTrick' => $formTrick->createView(),'groupTricks' => $groupTricks]);
     }
 
 

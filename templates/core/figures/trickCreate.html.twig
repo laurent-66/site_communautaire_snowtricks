@@ -7,16 +7,33 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-lg-12">
                 <div class="container card rounded shadow p-3 mb-5">
-                    {% if error %}
+                    {# {% if error %}
                     <div class="alert alert-danger" role="alert">
                         {{ error }}
                     </div>
-                    {% endif %}
+                    {% endif %} #}
+
                     <h2 class="text-center">Création Trick</h2>
-                    {{form_start(form)}}
-                    {{form_widget(form)}}
+                    {{form_start(formTrick)}}
+                    {{form_widget(formTrick)}}
+
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Choisir le groupe du trick
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for grouptrick in groupTricks %}
+                                <a class="dropdown-item" href="#">{{grouptrick.name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn-upload btn btn-primary">Choisir le fichier</button>
+                        <input type="file" class="file_input_id" id="file_input_name" name="file_input_name" accept="image/png, image/jpeg, image/jpg" visibility="hidden">
+                    </div>
+
                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
-                    {{form_end(form)}}
+                    {{form_end(formTrick)}}
                 </div>
             </div>
         </div>       

@@ -16,10 +16,10 @@ class NewTrickType extends AbstractType
             ->add('slug')
             ->add('description')
             ->add('coverImage')
-            ->add('createdAt')
-            ->add('updatedAt')
-            ->add('author')
-            ->add('figureGroup')
+            // ->add('createdAt')
+            // ->add('updatedAt')
+            // ->add('author')
+            // ->add('figureGroup')
         ;
     }
 

@@ -2,12 +2,14 @@
 namespace App\Entity;
 
 use DateTime;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
+ * @ORM\HasLifecycleCallbacks
  */
 class Figure 
 {
@@ -84,7 +86,26 @@ class Figure
     protected $figureGroup;
 
 
-    /* getter and setter */
+ 
+    /** Method Entity lifecycle */
+
+    /**
+     * Permet d'initialiser le slug ! (annotation cycle de vie orm doctrine)
+     * 
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     *
+     * @return void
+     */
+    public function initializeSlug() {
+        if(empty($this->slug)) {
+            $slugify = new Slugify();
+            $this->slug = $slugify->slugify($this->name);
+        }
+    }
+
+   /* getter and setter */
+
 
     /**
      * @return int 
