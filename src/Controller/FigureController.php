@@ -8,7 +8,6 @@ use App\Form\CommentType;
 use App\Form\NewTrickType;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
-use Application\Helpers\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
@@ -59,9 +58,11 @@ class FigureController extends AbstractController
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request); 
 
+
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $coverImage = $formTrick->get('coverImage')->getData();
+
 
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
@@ -85,6 +86,7 @@ class FigureController extends AbstractController
                 // instead of its contents
                 $newTrick->setCoverImage($newFilename);
             }
+
 
             //Persister le commentaire
             $this->entityManager->persist($newTrick);

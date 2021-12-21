@@ -37,7 +37,7 @@ class NewTrickType extends AbstractType
                             'application/jpg',
                             'application/png',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid jpeg,jpg or png image',
+                        'mimeTypesMessage' => 'Veuillez télécharger une image valide jpeg, jpg ou png',
                     ])
                 ],
             ])

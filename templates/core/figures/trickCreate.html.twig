@@ -14,14 +14,13 @@
                     {% endif %} #}
 
                     <h2 class="text-center">Création Trick</h2>
+                    {{form_start(formTrick)}}
                     {{form_row(formTrick.name)}}
                     {{form_row(formTrick.coverImage)}}
                     {{form_row(formTrick.description)}}
-
                     {{form_widget(formTrick)}}
-
                     <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <button class="btn btn-secondary dropdown-toggle mb-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Choisir le groupe du trick
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -30,8 +29,6 @@
                             {% endfor %}
                         </div>
                     </div>
-
-
                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
                     {{form_end(formTrick)}}
                 </div>
