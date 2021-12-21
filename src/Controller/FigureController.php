@@ -11,6 +11,7 @@ use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -63,7 +64,6 @@ class FigureController extends AbstractController
 
             $coverImage = $formTrick->get('coverImage')->getData();
 
-
             // this condition is needed because the 'brochure' field is not required
             // so the PDF file must be processed only when a file is uploaded
             if ($coverImage) {
@@ -86,7 +86,6 @@ class FigureController extends AbstractController
                 // instead of its contents
                 $newTrick->setCoverImage($newFilename);
             }
-
 
             //Persister le commentaire
             $this->entityManager->persist($newTrick);
@@ -151,20 +150,32 @@ class FigureController extends AbstractController
             array_push($illustrations, $url_Illustration );   
         }      
 
-        $newComment = new Comment();
+
         //création du formulaire avec les propriétées de l'entitée Comment
-        $formComment = $this->createForm(CommentType::class, $newComment);
+        $formComment = $this->createForm(CommentType::class);
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formComment->handleRequest($request);
 
         if($formComment->isSubmitted() && $formComment->isValid()) {
+            try{
 
-            //Persister le commentaire
-            $this->entityManager->persist($newComment);
-            $this->entityManager->flush();
+                $newComment = $formComment->getData();
+                $newComment->setFigure($figure);
+                $newComment->setAuthor($this->getUser());
+    
+                //Persister le commentaire
+                $this->entityManager->persist($newComment);
+                $this->entityManager->flush();
+
+            }catch(Exception $e){
+
+                dump($e);
+                exit;
+            }
+
             //Redirection
-            return $this->redirectToRoute('homePage');
+            return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
 
         return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations]);

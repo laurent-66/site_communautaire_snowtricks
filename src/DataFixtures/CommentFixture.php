@@ -30,7 +30,6 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
             $content = $faker->sentence($nbWords = 30, $variableNbWords = true);
 
             $comment = new Comment();
-            $comment->setDate($datetime);
             $comment->setContent($content);
             $comment->setAuthor($author);
             $comment->setFigure($figure);
