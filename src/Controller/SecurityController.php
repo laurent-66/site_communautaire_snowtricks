@@ -105,13 +105,4 @@ class SecurityController extends AbstractController
         return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'error'=> $error]);
     }
 
-
-
-
-
-
-
-
-
-
 }

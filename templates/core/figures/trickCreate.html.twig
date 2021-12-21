@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+{% block title %}Création trick{% endblock %}
+
+{% block body %} 
+<div class="container-fluid mx-0 my-0 px-0 mx-0" id="register">
+    <div class="container-fluid container-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="container card rounded shadow p-3 mb-5">
+                    {# {% if error %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
+                    {% endif %} #}
+
+                    <h2 class="text-center">Création Trick</h2>
+                    {{form_start(formTrick)}}
+                    {{form_row(formTrick.name)}}
+                    {{form_row(formTrick.coverImage)}}
+                    {{form_row(formTrick.description)}}
+                    {{form_widget(formTrick)}}
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle mb-3" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Choisir le groupe du trick
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {% for grouptrick in groupTricks %}
+                                <a class="dropdown-item" href="#">{{grouptrick.name}}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
+                    {{form_end(formTrick)}}
+                </div>
+            </div>
+        </div>       
+    </div>
+</div>
+{% endblock %} 
