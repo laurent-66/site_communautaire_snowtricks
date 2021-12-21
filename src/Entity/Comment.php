@@ -21,13 +21,6 @@ class Comment
     protected $id;
 
     /**
-     * @var Datetime
-     * 
-     * @ORM\Column(type="datetime")
-     */
-    protected $date;
-
-    /**
      * @var string
      * 
      * @ORM\Column(type="string")
@@ -80,23 +73,6 @@ class Comment
     {
         return $this->id;
     }
-
-    /**
-     * @return Datetime 
-     */
-    public function getDate(): Datetime
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param Datetime $date
-     */
-    public function setDate(Datetime $date): void
-    {
-        $this->date = $date;
-    }
-
 
     /**
      * @return text 

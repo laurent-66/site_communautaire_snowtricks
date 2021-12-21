@@ -59,7 +59,7 @@
                 <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Trick modifié le :  </strong>{{figure.updatedAt|date("d/m/Y")}}</div>
             </div>
             <div class="separator"></div>
-            <form>
+                {{form_start(formComment)}}
                 <div class="row">
                         <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
                             {{form_widget(formComment.content)}}
@@ -68,7 +68,7 @@
                             <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
                         </div>
                 </div>
-            </form>
+                {{form_end(formComment)}}
             <div class="separator"></div>
             <div class="row" id="container-figures">
 			    {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
