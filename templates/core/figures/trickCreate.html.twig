@@ -14,8 +14,10 @@
                     {% endif %} #}
 
                     <h2 class="text-center">Création Trick</h2>
-                    {{form_start(formTrick)}}
-                    {{form_row(form.coverImage)}}
+                    {{form_row(formTrick.name)}}
+                    {{form_row(formTrick.coverImage)}}
+                    {{form_row(formTrick.description)}}
+
                     {{form_widget(formTrick)}}
 
                     <div class="dropdown">
@@ -28,10 +30,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="input-group mb-3">
-                        <button class="btn-upload btn btn-primary">Choisir le fichier</button>
-                        <input type="file" class="file_input_id" id="file_input_name" name="file_input_name" accept="image/png, image/jpeg, image/jpg" visibility="hidden">
-                    </div>
+
 
                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
                     {{form_end(formTrick)}}
