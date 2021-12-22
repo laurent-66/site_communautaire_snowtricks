@@ -22,14 +22,14 @@ class Figure
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    protected $id;
+    private $id;
 
     /**
      * @var string
      * 
      * @ORM\Column(type="string")
      */
-    protected $name;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -41,7 +41,7 @@ class Figure
      * 
      * @ORM\Column(type="string")
      */
-    protected $description;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -53,14 +53,14 @@ class Figure
      * 
      * @ORM\column(type="datetime")
      */
-    protected $createdAt;
+    private $createdAt;
 
     /**
      * @var Datetime 
      * 
      * @ORM\column(type="datetime")
      */
-    protected $updatedAt;
+    private $updatedAt;
 
     public function __construct()
     {
@@ -72,10 +72,10 @@ class Figure
      * Relation bidirectionnelle Figure ManyToOne User et User ManyToOne Figure
      * @var User
      * 
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figures")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figure")
      * @ORM\JoinColumn(name="pseudo_id", referencedColumnName="id")
      */
-    protected $pseudo;
+    private $author;
 
     /**
      * @var FigureGroup
@@ -83,10 +83,9 @@ class Figure
      * @ORM\ManyToOne(targetEntity="App\Entity\FigureGroup")
      * @ORM\JoinColumn(name="figure_group_id", referencedColumnName="id")
      */
-    protected $figureGroup;
+    private $figureGroup;
 
 
- 
     /** Method Entity lifecycle */
 
     /**
@@ -222,17 +221,17 @@ class Figure
     /**
      * @return User 
      */
-    public function getPseudo(): User
+    public function getAuthor(): User
     {
-        return $this->pseudo;
+        return $this->author;
     }
 
     /**
-     * @param User $pseudo
+     * @param User $author
      */
-    public function setPseudo(User $pseudo): void
+    public function setAuthor(User $author): void
     {
-        $this->pseudo = $pseudo;
+        $this->author = $author;
     }
 
     /**
