@@ -90,20 +90,21 @@ class SecurityController extends AbstractController
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
 
-        $user = new User();
+        $user = $this->getUser();
+
+
         $form = $this->createForm(UpdateProfilType::class, $user);
+
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
             $newTrick = $form->getData();
-            dump($newTrick);
-            exit;
-            
+
             $profilImage = $form->get('url_photo')->getData();
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
+            // upload and register the image profil
+
             if ($profilImage) {
                 $originalFilename = pathinfo($profilImage->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -122,13 +123,6 @@ class SecurityController extends AbstractController
 
                 $newTrick->setCoverImage($newFilename);
             }
-
-
-            //Hash du mot de passe
-            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($passwordHashed);
-
-
 
 
             //Persister l'utilisateur

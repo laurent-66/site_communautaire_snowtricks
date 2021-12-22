@@ -30,9 +30,8 @@ class UpdateProfilType extends AbstractType
     {
         $builder
             // ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "{{}}"))
-            ->add('pseudo', EntityType::class, ['choice_label'=> 'pseudo', 'class' => User::class])
+            ->add('pseudo', TextType::class, ['label'=> 'pseudo'])
             ->add('email', EmailType::class, ["label"=>"Email"])
-            ->add('password', PasswordType::class,["label"=>"Mot de passe"])
             ->add('url_photo', FileType::class, [
 
                 'label' => 'Image de profil (jpeg,jpg ou png)',
