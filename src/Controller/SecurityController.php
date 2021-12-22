@@ -92,14 +92,14 @@ class SecurityController extends AbstractController
 
         $user = $this->getUser();
 
-
         $form = $this->createForm(UpdateProfilType::class, $user);
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $newTrick = $form->getData();
+
+            $profil = $form->getData();
 
             $profilImage = $form->get('url_photo')->getData();
 
@@ -121,9 +121,8 @@ class SecurityController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
 
-                $newTrick->setCoverImage($newFilename);
+                $profil->setUrlPhoto($newFilename);
             }
-
 
             //Persister l'utilisateur
             $this->entityManager->persist($user);
@@ -134,7 +133,7 @@ class SecurityController extends AbstractController
             $error = "Veuillez renseigner tout les champs";
         }
 
-        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'error'=> $error]);
+        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user, 'error'=> $error]);
     }
 
 }

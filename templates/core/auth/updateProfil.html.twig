@@ -14,8 +14,11 @@
                     {% endif %} #}
                     <h2 class="text-center mt-3">Mon profil</h2>
                         <div class="container-picture-profil mt-3">
-                            <div class="borderImageProfil"><i class="fas fa-user fa-3x"></i></div>
-                            {# <img src="http://placehold.it/100x100" alt="photo laurent" class="rounded-circle d-block"> #}
+                            {% if user.urlphoto %}
+                                <div class="borderImageProfil"><img src="uploads/profilImage/{{user.urlphoto}}" alt="photo laurent" class="rounded-circle d-block"></div>
+                            {% else %}
+                                <div class="borderImageProfil"><i class="fas fa-user fa-3x"></i></div>
+                            {% endif %}    
                         </div>
                         {{form_start(form)}}
                         {{form_end(form)}}
