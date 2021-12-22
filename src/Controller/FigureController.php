@@ -48,13 +48,11 @@ class FigureController extends AbstractController
 
         $this->entityManager = $entityManager;
 
-        $newTrick = new Figure();
-
         //récupération array des groupes de tricks pour liste déroulante formulaire
         $groupTricks = $figureGroupRepository->findAll();
 
         //création du formulaire avec les propriétées de l'entitée Comment
-        $formTrick = $this->createForm(NewTrickType::class, $newTrick);
+        $formTrick = $this->createForm(NewTrickType::class);
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request); 
@@ -62,6 +60,7 @@ class FigureController extends AbstractController
 
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
+            $newTrick = $formTrick->getData();
             $coverImage = $formTrick->get('coverImage')->getData();
 
             // this condition is needed because the 'brochure' field is not required
@@ -82,8 +81,6 @@ class FigureController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
 
-                // updates the 'setCoverImage' property to store the PDF file name
-                // instead of its contents
                 $newTrick->setCoverImage($newFilename);
             }
 
