@@ -221,7 +221,7 @@ class Figure
     /**
      * @return User 
      */
-    public function getAuthor(): User
+    public function getAuthor(): ?User
     {
         return $this->author;
     }
@@ -237,7 +237,7 @@ class Figure
     /**
      * @return FigureGroup 
      */
-    public function getFigureGroup(): FigureGroup
+    public function getFigureGroup(): ?FigureGroup
     {
         return $this->figureGroup;
     }

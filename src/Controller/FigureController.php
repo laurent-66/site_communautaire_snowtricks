@@ -43,7 +43,6 @@ class FigureController extends AbstractController
         EntityManagerInterface $entityManager,
         FigureGroupRepository $figureGroupRepository,
         SluggerInterface $slugger
-        
         ){
 
         $this->entityManager = $entityManager;
@@ -61,6 +60,8 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $newTrick = $formTrick->getData();
+            $newTrick->setAuthor($this->getUser());
+
             $coverImage = $formTrick->get('coverImage')->getData();
 
             // this condition is needed because the 'brochure' field is not required
