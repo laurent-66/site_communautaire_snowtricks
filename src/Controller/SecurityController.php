@@ -8,7 +8,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -78,21 +80,50 @@ class SecurityController extends AbstractController
      * 
      * @Route("/updateProfil", name="updatProfilPage")
      */
-    public function updateProfil( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
+    public function updateProfil( 
+        Request $request,
+        EntityManagerInterface $entityManager, 
+        UserPasswordHasherInterface $passwordHasher, 
+        SluggerInterface $slugger
+        )
     {
         $this->entityManager = $entityManager;
         $this->passwordHasher = $passwordHasher;
 
-        $user = new User();
+        $user = $this->getUser();
+
         $form = $this->createForm(UpdateProfilType::class, $user);
+
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            //Hash du mot de passe
-            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($passwordHashed);
+            $profil = $form->getData();
+
+            $profilImage = $form->get('url_photo')->getData();
+
+            // upload and register the image profil
+
+            if ($profilImage) {
+                $originalFilename = pathinfo($profilImage->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$profilImage->guessExtension();
+
+                // Move the file to the directory where images are stored
+                try {
+                    $profilImage->move(
+                        $this->getParameter('images_profil_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $profil->setUrlPhoto($newFilename);
+            }
+
             //Persister l'utilisateur
             $this->entityManager->persist($user);
             $this->entityManager->flush();
@@ -102,7 +133,7 @@ class SecurityController extends AbstractController
             $error = "Veuillez renseigner tout les champs";
         }
 
-        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'error'=> $error]);
+        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user, 'error'=> $error]);
     }
 
 }
