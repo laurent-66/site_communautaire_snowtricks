@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class NewTrickType extends AbstractType
 {
@@ -18,7 +19,8 @@ class NewTrickType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('author', EntityType::class, ['choice_label'=> 'pseudo', 'class' => User::class])
+            // ->add('author', EntityType::class, ['choice_label'=> 'pseudo', 'class' => User::class])
+            // ->add('author', TextType::class, ['label'=> 'pseudo'])
             ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class])
             ->add('coverImage', FileType::class, [
 
