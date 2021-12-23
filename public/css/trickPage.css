@@ -34,3 +34,10 @@
 #comment_content{
     height:48px;
 }
+
+.authorPictureComment{
+    width:64px;
+    height:64px;
+    border-radius: 32px;
+    box-shadow: 2px 2px 10px grey;
+}
