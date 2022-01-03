@@ -37,7 +37,11 @@ class RegistrationType extends AbstractType
             ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "votre pseudo"))
             ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse email"))
             ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe"))
-            ->add('url_photo', UrlType::class, $this->getConfiguration("Photo de profil","Url de votre avatar"))
+            ->add('url_photo', UrlType::class,[
+                'label'=>'Photo de profil',
+                'attr'=> ['placholder' =>'Url de votre avatar'],
+                'required' => false 
+                ])
         ;
     }
 

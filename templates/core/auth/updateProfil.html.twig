@@ -1,6 +1,5 @@
 {% extends "base.html.twig" %}
 {% block title %}Gérer profil{% endblock %}
-
 {% block body %} 
 <div class="container-fluid mx-0 my-0 px-0 mx-0" id="updateProfil">
     <div class="container-fluid">
@@ -13,17 +12,17 @@
                     </div>
                     {% endif %} #}
                     <h2 class="text-center mt-3">Mon profil</h2>
-                        <div class="container-picture-profil mt-3">
-                            {% if user.urlphoto %}
-                                <div class="borderImageProfil"><img src="uploads/profilImage/{{user.urlphoto}}" alt="photo laurent" class="rounded-circle d-block"></div>
-                            {% else %}
-                                <div class="borderImageProfil"><i class="fas fa-user fa-3x"></i></div>
-                            {% endif %}    
-                        </div>
-                        {{form_start(form)}}
-                        {{form_end(form)}}
-                        <p>Vous souhaitez supprimer votre profil ? Veuillez cliquer sur supprimer. Attention cette opération est irréversible ! </p>
-                        <a class="btn btn-lg btn-danger d-block my-4 mx-auto" href="#">Supprimer</a>
+                    <div class="container-picture-profil mt-3">
+                        {% if user.urlphoto %}
+                            <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo laurent" class="rounded-circle d-block"></div>
+                        {% else %}
+                            <div><img src="/images/defaultProfil.png" alt="defaultProfil" class="rounded-circle d-block"></div>
+                        {% endif %}    
+                    </div>
+                    {{form_start(form)}}
+                    {{form_end(form)}}
+                    <p>Vous souhaitez supprimer votre profil ? Veuillez cliquer sur supprimer. Attention cette opération est irréversible ! </p>
+                    <a class="btn btn-lg btn-danger d-block my-4 mx-auto" href="#">Supprimer</a>
                 </div>
             </div>
         </div>       

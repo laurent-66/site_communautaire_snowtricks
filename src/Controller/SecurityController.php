@@ -32,23 +32,41 @@ class SecurityController extends AbstractController
         $form = $this->createForm(RegistrationType::class, $user);
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $form->handleRequest($request);
+        $registerData = $form->getData();
+        $pseudoRegister = $registerData->getPseudo();
+        $emailRegister = $registerData->getEmail();
+        $passwordRegister = $registerData->getPassword();
+        $urlPhotoRegister = $registerData->getUrlPhoto();
 
-        if($form->isSubmitted() && $form->isValid() && $form->getConfig()->getMethod() === 'POST') {
+        if(
+            strlen(trim($pseudoRegister)) === 0 ||
+            strlen(trim($emailRegister)) === 0 ||
+            strlen(trim($passwordRegister)) === 0
+        ) {
 
-            //Hash du mot de passe
-            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($passwordHashed);
-            //Persister l'utilisateur
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-            //Redirection
-            return $this->redirectToRoute('homePage');
-        }else{
-            $error = "Veuillez renseigner tout les champs";
+            $error = 'Tout les champs sont requis.';
+        
+        }  else if ($form->isSubmitted() && $form->isValid()) {
+
+
+            if(strlen(trim($urlPhotoRegister)) === 0 ) {
+                $user->setUrlPhoto('/images/mute-grab.JPG');
+            }
+ 
+                    //Hash du mot de passe
+                    $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
+                    $user->setPassword($passwordHashed);
+                    //Persister l'utilisateur
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+                    //Redirection
+                    return $this->redirectToRoute('homePage');
+
+            } else {
+                $error = "Tout les champs sont requis";
+            } 
+            return $this->render('core/auth/register.html.twig', ['form' => $form->createView(), 'error'=> $error]);
         }
-
-        return $this->render('core/auth/register.html.twig', ['form' => $form->createView(), 'error'=> $error]);
-    }
 
     /**
      * 
@@ -56,7 +74,7 @@ class SecurityController extends AbstractController
      * 
      * @Route("/login", name="login")
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+     function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -80,7 +98,7 @@ class SecurityController extends AbstractController
      * 
      * @Route("/updateProfil", name="updatProfilPage")
      */
-    public function updateProfil( 
+     function updateProfil( 
         Request $request,
         EntityManagerInterface $entityManager, 
         UserPasswordHasherInterface $passwordHasher, 
@@ -135,5 +153,4 @@ class SecurityController extends AbstractController
 
         return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user, 'error'=> $error]);
     }
-
 }
