@@ -102,8 +102,32 @@ class FigureController extends AbstractController
      * @Route("/tricks/{slug}/edit", name="trickEditPage", methods={"get"})
      */
 
-    public function trickEdit(){
-        return $this->render('core/figures/trickEdit.html.twig');
+    public function trickEdit(
+        $slug,
+        FigureRepository $figureRepository,
+        IllustrationRepository $illustrationRepository,
+        Request $request
+
+    ){
+
+        //je récupère la figure qui correspond au slug
+        $figure = $figureRepository->findOneBySlug($slug);
+
+        //je récupère tous les medias lié à la figure
+
+        $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
+
+        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
+        $illustrations = [];
+        $arrayIllustrationLength = count($arrayIllustration);
+        
+        for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
+            $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            array_push($illustrations, $url_Illustration );   
+        }    
+
+
+        return $this->render('core/figures/trickEdit.html.twig',['figure' => $figure,'illustrations' => $illustrations]);
     }
 
 
