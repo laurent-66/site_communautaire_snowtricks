@@ -4,7 +4,8 @@ namespace App\Entity;
 use DateTime;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -66,6 +67,7 @@ class Figure
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
+        $this->illustrations = new ArrayCollection();
     }
 
     /**
@@ -84,6 +86,15 @@ class Figure
      * @ORM\JoinColumn(name="figure_group_id", referencedColumnName="id")
      */
     private $figureGroup;
+
+
+    /**
+     * @var Collection
+     * 
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure")
+     * 
+     */
+    private $illustrations;
 
 
     /** Method Entity lifecycle */
@@ -249,5 +260,33 @@ class Figure
     {
         $this->figureGroup = $figureGroup;
     }
+
+    /**
+     * Undocumented function
+     *
+     * @return ArrayCollection
+     */
+    public function getIllustrations(): ArrayCollection
+    {
+        return $this->illustrations;
+    }
+
+
+    public function addIllustration(Illustration $illustration)
+    {
+        if(!$this->illustrations->contains($illustration))
+        {
+            $this->illustrations->add($illustration);
+        }
+    }
+
+    public function removeIllustration(Illustration $illustration)
+    {
+        if($this->illustrations->contains($illustration))
+        {
+            $this->illustrations->remove($illustration);
+        }
+    }
+
 
 }
