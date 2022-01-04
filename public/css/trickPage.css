@@ -1,8 +1,17 @@
-/* .imgHeroTrick
+.main-container
 {
-    background-repeat: no-repeat;
-    background-size: cover;
-} */
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.imgHeroTrick
+{
+    min-height:100vh;
+    margin: 0px;
+    padding: 0px;
+} 
 
 .manageImageHero {
     position:absolute;
@@ -40,4 +49,47 @@
     height:64px;
     border-radius: 32px;
     box-shadow: 2px 2px 10px grey;
+}
+
+.avatar-image
+{
+    margin: 0px;
+    padding: 0px;
+
+}
+
+.see-media
+{
+    display: none;
+}
+
+/*  inférieur à 768px  */
+
+@media screen and (max-width: 767px) {
+
+    .imageHero
+    {
+        display: none;
+    } 
+
+    .imgHeroTrick
+    {
+        display: none;
+    } 
+
+    .fas.fa-arrow-down.fa-3x
+    {
+        display: none;
+    }
+
+    #carouselExampleControls
+    {
+        display: none;
+
+    }
+    .see-media
+    {
+        display: contents flex;
+        justify-content: center;
+    }
 }

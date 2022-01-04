@@ -1,16 +1,20 @@
 {% if comments|length > 0 %}
-<h2 class="center-text mb-3">Commentaires des snowboarders</h2>
+<div class="container">
+<div class="row">
+    <h2 class="mx-auto mb-3">Commentaires des snowboarders</h2>
+</div>
+
     {% for comment in comments %}
-    <div class="container mb-3">
-        <div class="row">
-            <div class="col-sm-12 col-md-1 col-lg-1">
+    <div class="container mb-3 mx-0 px-0">
+        <div class="row mx-auto">
+            <div class="col-sm-1 col-md-1 col-lg-1 avatar-image">
                 {% if comment.author.urlPhoto %}
                     <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
                 {% else %}
                     <div class="borderImageProfil"><i class="fas fa-user fa-3x authorPictureComment"></i></div>
                 {% endif %} 
             </div>
-            <div class="col-sm-12 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3">
+            <div class="col-sm-11 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3 content-comment">
                 <strong>{{comment.author.pseudo}}</strong> a dit :
                 <blockquote> {{comment.content}}</blockquote>
             </div>
@@ -20,3 +24,16 @@
 {% else %} 
     <h2> Cette figure n'as pas encore reçu de commentaires ...</h2>
 {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
