@@ -2,21 +2,21 @@
 
 namespace App\Form;
 
-use App\Entity\Illustration;
+use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class IllustrationType extends AbstractType
+class VideoType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('url_illustration', FileType::class, [
+            ->add('url_video', FileType::class, [
 
-                'label' => 'Inserer un image dans la collection (jpeg,jpg ou png)',
+                'label' => 'Inserer une video dans la collection',
     
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -31,7 +31,7 @@ class IllustrationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Illustration::class,
+            'data_class' => Video::class,
         ]);
     }
 }

@@ -41,6 +41,15 @@ class NewTrickType extends AbstractType
                     'allow_add' => true,
                 ]
             )
+            ->add(
+                'videos',
+                CollectionType::class,
+                [
+                    'entry_type' => VideoType::class,
+                    'entry_options' => ['label' => false],
+                    'allow_add' => true,
+                ]
+            )
         ;
     }
 

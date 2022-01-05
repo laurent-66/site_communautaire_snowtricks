@@ -29,7 +29,6 @@ class UpdateProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "{{}}"))
             ->add('pseudo', TextType::class, ['label'=> 'pseudo'])
             ->add('email', EmailType::class, ["label"=>"Email"])
             ->add('url_photo', FileType::class, [
