@@ -70,8 +70,8 @@ class Figure
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
-        $this->illustrations = new ArrayCollection();
-        $this->videos = new ArrayCollection();
+        $this->collectionIllustrations = new ArrayCollection();
+        $this->collectionVideos = new ArrayCollection();
     }
 
     /**
@@ -98,7 +98,7 @@ class Figure
      * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure")
      * 
      */
-    protected $illustrations;
+    protected $collectionIllustrations;
 
 
     /**
@@ -107,7 +107,7 @@ class Figure
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure")
      * 
      */
-    private $videos;
+    private $collectionVideos;
 
 
     /** Method Entity lifecycle */
@@ -280,23 +280,23 @@ class Figure
      */
     public function getIllustrations(): ArrayCollection
     {
-        return $this->illustrations;
+        return $this->collectionIllustrations;
     }
 
 
     public function addIllustration(Illustration $illustration)
     {
-        if(!$this->illustrations->contains($illustration))
+        if(!$this->collectionIllustrations->contains($illustration))
         {
-            $this->illustrations->add($illustration);
+            $this->collectionIllustrations->add($illustration);
         }
     }
 
     public function removeIllustration(Illustration $illustration)
     {
-        if($this->illustrations->contains($illustration))
+        if($this->collectionIllustrations->contains($illustration))
         {
-            $this->illustrations->remove($illustration);
+            $this->collectionIllustrations->remove($illustration);
         }
     }
 
@@ -306,24 +306,24 @@ class Figure
      *
      * @return ArrayCollection
      */
-    public function getVideos(): ArrayCollection
+    public function getVideos(): ?ArrayCollection
     {
-        return $this->videos;
+        return $this->collectionVideos;
     }
 
     public function addVideo(Video $video)
     {
-        if(!$this->videos->contains($video))
+        if(!$this->collectionVideos->contains($video))
         {
-            $this->videos->add($video);
+            $this->collectionVideos->add($video);
         }
     }
 
     public function removeVideo(Video $video)
     {
-        if($this->videos->contains($video))
+        if($this->collectionVideos->contains($video))
         {
-            $this->videos->remove($video);
+            $this->collectionVideos->remove($video);
         }
     }
 

@@ -25,7 +25,7 @@ class Video
      * 
      * @ORM\Column(type="string")
      */
-    protected $url_video;
+    protected $urlVideo;
 
     /**
      * @var boolean
@@ -64,6 +64,13 @@ class Video
     protected $figure;
 
 
+    /* propriety FileVideo from form and mapped on object video */
+
+
+    protected $fileVideo;
+
+
+
     /* getter and setter */
 
     /**
@@ -87,15 +94,15 @@ class Video
      */
     public function getUrlVideo(): string
     {
-        return $this->url_video;
+        return $this->urlVideo;
     }
 
     /**
-     * @param string $url_video
+     * @param string $urlVideo
      */
-    public function setUrlVideo(string $url_video): void
+    public function setUrlVideo(string $urlVideo): void
     {
-        $this->url_video = $url_video;
+        $this->urlVideo = $urlVideo;
     }
 
     /**
@@ -103,7 +110,7 @@ class Video
      */
     public function getEmbed(): bool
     {
-        return $this->url_video;
+        return $this->embed;
     }
 
     /**
@@ -161,4 +168,15 @@ class Video
     {
         $this->figure = $figure;
     }
+
+    public function getFileVideo()
+    {
+        return $this->fileVideo;
+    }
+
+    public function setFileVideo($fileVideo): void
+    {
+        $this->fileVideo = $fileVideo;
+    }
+
 }

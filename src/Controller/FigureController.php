@@ -56,14 +56,15 @@ class FigureController extends AbstractController
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request); 
 
-
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
             $newTrick = $formTrick->getData();
+            dump($newTrick);
+   
             $newTrick->setAuthor($this->getUser());
-            $coverImage = $formTrick->get('coverImage')->getData();
 
-            // this condition is needed because the 'brochure' field is not required
-            // so the PDF file must be processed only when a file is uploaded
+            // Chargement et enregistrement de l'image de couverture du trick
+
+            $coverImage = $formTrick->get('coverImage')->getData();
             if ($coverImage) {
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -76,6 +77,8 @@ class FigureController extends AbstractController
                         $this->getParameter('images_directory'),
                         $newFilename
                     );
+                    dump($newFilename);
+                    exit;
                 } catch (FileException $e) {
                     dump($e);
                 }
@@ -87,14 +90,17 @@ class FigureController extends AbstractController
 
             }
 
-            $imagesCollection = $formTrick->get('illustrations')->getData();
+            //chargement et enregistrement de la collection d'images
+
+            $imagesCollection = $formTrick->get('collectionIllustrations')->getData();
             dump($imagesCollection);
+            exit;
 
             if ($imagesCollection) {
 
                 foreach( $imagesCollection as $objectIllustration ) {
 
-                    $image = $objectIllustration->getFile()->getClientOriginalName();
+                    $image = $objectIllustration->getFilellustration()->getClientOriginalName();
                     dump($image);
 
                     $originalFilename = pathinfo($image, PATHINFO_FILENAME);
@@ -102,13 +108,13 @@ class FigureController extends AbstractController
                     //slugger le nom du fichier
                     $safeFilename = $slugger->slug($originalFilename);
                     // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFile()->guessExtension();
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFilellustration()->guessExtension();
                     dump($newFilename);
 
                     // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
                     try {
-                        $objectIllustration->getFile()->move(
-                            $this->getParameter('mediasCollection_directory'),
+                        $objectIllustration->getFilellustration()->move(
+                            $this->getParameter('imagesCollection_directory'),
                             $newFilename
                         );
                     } catch (FileException $e) {
@@ -123,6 +129,36 @@ class FigureController extends AbstractController
                 }
 
             }
+
+
+            //chargement et enregistrement de la collection des videos
+
+            // $videosCollection = $formTrick->get('videos')->getData();
+            // dump($videosCollection);
+
+            // if ($videosCollection) {
+
+            //     foreach( $videosCollection as $objectVideo ) {
+
+            //         $video = $objectVideo->getUrlVideo();
+            //         dump($video);
+
+            //         // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
+            //         try {
+            //             $newTrick->addVideo($video);
+
+            //         } catch (FileException $e) {
+            //             dump($e);
+            //         }
+                    
+            //         //Persister l'image
+            //         $this->entityManager->persist($newTrick);
+            //         dump($newTrick);
+
+            //     }
+
+            // }
+
 
             dump($newTrick);
             exit;
