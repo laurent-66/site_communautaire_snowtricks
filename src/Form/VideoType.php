@@ -14,15 +14,9 @@ class VideoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('url_video', FileType::class, [
+            ->add('url_video', TextType::class, [
 
-                'label' => 'Inserer une video dans la collection',
-    
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-    
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
+                'label' => 'Inserer le lien de la video dans la collection',
                 'required' => false,
             ])
         ;

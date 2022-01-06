@@ -60,8 +60,6 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
             $newTrick = $formTrick->getData();
             $newTrick->setAuthor($this->getUser());
-            dump($newTrick);
-            exit;
             $coverImage = $formTrick->get('coverImage')->getData();
 
             // this condition is needed because the 'brochure' field is not required
@@ -79,14 +77,55 @@ class FigureController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                    dump($e);
                 }
 
                 $newTrick->setCoverImage($newFilename);
+
+                //Persister l'image
+                $this->entityManager->persist($newTrick);
+
             }
 
-            //Persister le commentaire
-            $this->entityManager->persist($newTrick);
+            $imagesCollection = $formTrick->get('illustrations')->getData();
+            dump($imagesCollection);
+
+            if ($imagesCollection) {
+
+                foreach( $imagesCollection as $objectIllustration ) {
+
+                    $image = $objectIllustration->getFile()->getClientOriginalName();
+                    dump($image);
+
+                    $originalFilename = pathinfo($image, PATHINFO_FILENAME);
+                    dump($originalFilename);
+                    //slugger le nom du fichier
+                    $safeFilename = $slugger->slug($originalFilename);
+                    // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFile()->guessExtension();
+                    dump($newFilename);
+
+                    // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
+                    try {
+                        $objectIllustration->getFile()->move(
+                            $this->getParameter('mediasCollection_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        dump($e);
+                    }
+                    
+                    $newTrick->addIllustration($newFilename);
+
+                    //Persister l'image
+                    $this->entityManager->persist($newTrick);
+
+                }
+
+            }
+
+            dump($newTrick);
+            exit;
             $this->entityManager->flush();
 
             //Redirection

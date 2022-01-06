@@ -24,7 +24,10 @@ class Illustration
      * 
      * @ORM\Column(type="string")
      */
-    protected $url_illustration;
+    protected $urlIllustration;
+
+
+    protected $file;
 
     /**
      * @var Datetime 
@@ -69,15 +72,15 @@ class Illustration
      */
     public function getUrlIllustration(): string
     {
-        return $this->url_illustration;
+        return $this->urlIllustration;
     }
 
     /**
-     * @param string $url_illustration
+     * @param string $urlIllustration
      */
-    public function setUrlIllustration(string $url_illustration): void
+    public function setUrlIllustration(string $urlIllustration): void
     {
-        $this->url_illustration = $url_illustration;
+        $this->urlIllustration = $urlIllustration;
     }
 
     /**
@@ -127,4 +130,26 @@ class Illustration
     {
         $this->figure = $figure;
     }
+
+
+    /**
+     * @return 
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param 
+     */
+    public function setFile($file): void
+    {
+        $this->file = $file;
+    }
+
+
+
+
+
 }

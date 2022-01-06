@@ -14,12 +14,9 @@ class IllustrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('url_illustration', FileType::class, [
+            ->add('file', FileType::class, [
 
                 'label' => 'Inserer un image dans la collection (jpeg,jpg ou png)',
-    
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
     
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
