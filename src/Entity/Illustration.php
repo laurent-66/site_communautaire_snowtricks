@@ -27,7 +27,7 @@ class Illustration
     protected $urlIllustration;
 
 
-    protected $file;
+    protected $fileIllustration;
 
     /**
      * @var Datetime 
@@ -131,21 +131,20 @@ class Illustration
         $this->figure = $figure;
     }
 
-
     /**
      * @return 
      */
-    public function getFile()
+    public function getFileIllustration()
     {
-        return $this->file;
+        return $this->fileIllustration;
     }
 
     /**
      * @param 
      */
-    public function setFile($file): void
+    public function setFileIllustration($fileIllustration): void
     {
-        $this->file = $file;
+        $this->fileIllustration = $fileIllustration;
     }
 
 

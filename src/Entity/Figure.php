@@ -4,6 +4,7 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Video;
 use Cocur\Slugify\Slugify;
+use App\Entity\Illustration;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -64,8 +65,6 @@ class Figure
      */
     private $updatedAt;
 
-
-
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -95,7 +94,7 @@ class Figure
     /**
      * @var Collection
      * 
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure")
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade="ALL")
      * 
      */
     protected $illustrations;
