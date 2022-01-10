@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light py-0 " style="height:80px;" id="menu-smartphone">
+    <div class="container-fluid">
+        <div class="menu d-flex justify-content-around">
+            <div><a class="navbar-brand d-block"  href="{{ path('homePage') }}"><i class="fas fa-home fa-2x"></i></a></div>
+            <button class="navbar-toggler d-block" type="button" data-ts-toggle="collapse" data-ts-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fas fa-caret-square-up fa-2x"></i>
+            </button>
+
+        
+            <div><a class="navbar-brand d-block"  href="{{ path('app_logout') }}"><i class="fas fa-sign-in-alt fa-2x"></i></a></div>
+
+
+
+            <div class="collapse navbar-collapse" id="navbarColor03">
+                <ul class="navbar-nav">
+                    <li class="menu-item">
+                        <a class="item nav-link" href="{{ path('homePage') }}">Acceuil |</a>
+                    </li>
+                    <li class="menu-item">
+                        <a class="item nav-link" href="{{ path('homePage') }}#Tricks-list">Tricks |</a>
+                    </li>
+                    {% if not app.user %}
+                    <li class="menu-item">
+                        <a class="item nav-link" href="{{ path('login') }}">connexion |</a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="item nav-link" href="{{ path('registerPage') }}">s'enregistrer</a>
+                    </li>
+
+                    {% else %}
+                    <li class="menu-item">
+                        <a class="item nav-link" href="{{ path('app_logout') }}">se déconnecter</a>
+                    </li>
+
+                    <li class="menu-item">
+                        <a class="item nav-link" href="{{ path('updatProfilPage') }}">Gérer mon profil</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav> 
