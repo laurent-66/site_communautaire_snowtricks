@@ -46,12 +46,13 @@ class FigureController extends AbstractController
         ){
 
         $this->entityManager = $entityManager;
+        $this->trick = new Figure();
 
         //récupération array des groupes de tricks pour liste déroulante formulaire
         $groupTricks = $figureGroupRepository->findAll();
 
         //création du formulaire avec les propriétées de l'entitée Comment
-        $formTrick = $this->createForm(NewTrickType::class);
+        $formTrick = $this->createForm(NewTrickType::class, $this->trick);
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formTrick->handleRequest($request); 
@@ -89,26 +90,24 @@ class FigureController extends AbstractController
 
             }
 
-
             //chargement et enregistrement de la collection d'images
 
+            //Définition de la collection d'objets illustration 
+
             $imagesCollection = $formTrick->get('illustrations')->getData();
-            dump($imagesCollection);
 
             if ($imagesCollection) {
 
+                //préparation des urls images pour la base de données 
                 foreach( $imagesCollection as $objectIllustration ) {
-
+                    //récupération de l'image
                     $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
-                    dump($image);
-
+                    //récupération du nom sans extension de l'image
                     $originalFilename = pathinfo($image, PATHINFO_FILENAME);
-                    dump($originalFilename);
                     //slugger le nom du fichier
                     $safeFilename = $slugger->slug($originalFilename);
                     // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-                    dump($newFilename);
 
                     // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
                     try {
@@ -116,20 +115,29 @@ class FigureController extends AbstractController
                             $this->getParameter('illustrationsCollection_directory'),
                             $newFilename
                         );
+                        //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
+                        $objectIllustration->setUrlIllustration($newFilename);
 
-                        $objectIllustration->setFileIllustration($newFilename);
-      
+                        //enregistrement de l'id de la figure dans l'instance de l'object illustration
+                        $objectIllustration->setFigure($newTrick);
+
+                        //persistance de l'instance illustration
+                        $this->entityManager->persist($objectIllustration);
+
+                        //enregistrement des illustrations dans l'instance de l'object figure
+                        $newTrick->addIllustration($objectIllustration);
+
+
                     } catch (FileException $e) {
                         dump($e);
                     }
-                    
-                    $newTrick->addIllustration($objectIllustration);
 
-                    //Persister l'image
-                    $this->entityManager->persist($newTrick);
-                    dump($newTrick);
                 }
+
             }
+
+            //persistance de la figure
+            $this->entityManager->persist($newTrick);
 
             $this->entityManager->flush();
 
