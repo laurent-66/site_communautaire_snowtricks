@@ -9,12 +9,12 @@
 
 .trick-card
 {
-    /* display: flex;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    */
+   
     background-color: rgba(255, 255, 255, 05);
     position: absolute;
     top: 200px;
@@ -72,4 +72,4 @@
     border-radius: 5px;
     padding:15px;
     margin:15px;
-}
+} 
