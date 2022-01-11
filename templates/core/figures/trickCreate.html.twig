@@ -20,13 +20,10 @@
                     {{form_row(formTrick.description)}}
                     {{form_widget(formTrick.figureGroup)}}
 
-                    <ul class="illustrations" data-index="{{ formTrick.illustrations|length > 0 ? formTrick.illustrations|last.vars.illustrations + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.illustrations.vars.prototype)|e('html_attr') }}">
-                        {% for illustration in formTrick.illustrations %}
-                            {{form_widget(formTrick.illustration)}}
-                        {% endfor %}
-                    </ul>
-                    <button type="button" class="add_item_link" data-collection-holder-class="illustrations">Ajouter une image</button>
-
+                    <ul class="illustrations" data-index="{{ formTrick.illustrations|length > 0 ? formTrick.illustrations|last.vars.illustrations + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
+                    <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
+                    <ul class="videos" data-index="{{ formTrick.videos|length > 0 ? formTrick.videos|last.vars.videos + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
+                    <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
                     {{form_end(formTrick)}}
                 </div>
@@ -47,18 +44,25 @@
         .dataset
         .prototype
         .replace(
-        /__illustration__/g,
+        /__name__/g,
         collectionHolder.dataset.index
         );
 
     collectionHolder.appendChild(item);
 
     collectionHolder.dataset.index++;
+
     };
 
 
-    document.querySelectorAll('.add_item_link')
+    document.querySelectorAll('.add_item_link_image')
     .forEach(btn => btn.addEventListener("click", addFormToCollection));
+
+    document.querySelectorAll('.add_item_link_video')
+    .forEach(btn => btn.addEventListener("click", addFormToCollection));
+
+
+
 
 </script>
 {% endblock %}

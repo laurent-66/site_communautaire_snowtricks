@@ -2,7 +2,9 @@
 namespace App\Entity;
 
 use DateTime;
+use App\Entity\Video;
 use Cocur\Slugify\Slugify;
+use App\Entity\Illustration;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -68,6 +70,7 @@ class Figure
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
         $this->illustrations = new ArrayCollection();
+        $this->videos = new ArrayCollection();
     }
 
     /**
@@ -91,10 +94,19 @@ class Figure
     /**
      * @var Collection
      * 
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure")
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade="ALL")
      * 
      */
-    private $illustrations;
+    protected $illustrations;
+
+
+    /**
+     * @var Collection
+     * 
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure")
+     * 
+     */
+    private $videos;
 
 
     /** Method Entity lifecycle */
@@ -115,7 +127,6 @@ class Figure
     }
 
    /* getter and setter */
-
 
     /**
      * @return int 
@@ -262,7 +273,7 @@ class Figure
     }
 
     /**
-     * Undocumented function
+     * Action sur le tableau des illustrations
      *
      * @return ArrayCollection
      */
@@ -288,5 +299,31 @@ class Figure
         }
     }
 
+
+    /**
+     * Action sur le tableau des videos
+     *
+     * @return ArrayCollection
+     */
+    public function getVideos(): ArrayCollection
+    {
+        return $this->videos;
+    }
+
+    public function addVideo(Video $video)
+    {
+        if(!$this->videos->contains($video))
+        {
+            $this->videos->add($video);
+        }
+    }
+
+    public function removeVideo(Video $video)
+    {
+        if($this->videos->contains($video))
+        {
+            $this->videos->remove($video);
+        }
+    }
 
 }
