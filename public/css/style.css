@@ -75,7 +75,7 @@
 
 .menu-smartphone
 {
-    display:none;
+    display: none;
 }
 
 @media screen and (max-width: 768px) {
@@ -96,12 +96,21 @@
 
     .menu-smartphone
     {
-        display: contents;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #E2E6EA;
+        padding: 5px;
+        position: sticky;
+        bottom: 0px;
+
     }
 
     .dropdown-menu li {
         list-style: none;
-        background-color: #000000;
+        background-color: #5A6268;
+
     }
     
     .dropdown-menu a {
@@ -111,5 +120,7 @@
         margin: 0px 7.5px;
     }
 
-
+    .navbar-brand i {
+        color: black;
+    };
   }
