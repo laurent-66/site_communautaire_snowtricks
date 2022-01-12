@@ -8,7 +8,8 @@
 
 .imgHeroTrick
 {
-    min-height:100vh;
+    min-height:200px;
+    background-size: cover;
     margin: 0px;
     padding: 0px;
 } 

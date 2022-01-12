@@ -223,7 +223,16 @@ class FigureController extends AbstractController
             $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
             array_push($illustrations, $url_Illustration );   
         }      
+        //nombre d'items dans la collection d'illustration
+        $nbItemsIllustrations = count($illustrations);
 
+        //nombre de slides nécessaire pour afficher toutes les illustrations (entier arrondi supérieur) 
+
+
+
+        $nbSlides = round(($nbItemsIllustrations/6), 0 , PHP_ROUND_HALF_UP);
+
+  
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
@@ -251,8 +260,8 @@ class FigureController extends AbstractController
             //Redirection
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
-
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations]);
+ 
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
     }
 
     /**
