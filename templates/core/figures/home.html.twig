@@ -19,17 +19,20 @@
 			</a>
 		</div>
 	</div>
-	<div class="container-fluid mx-0 px-0">
-		<h2 class="mt-2 mb-4 text-center" id="Tricks-list">Liste des figures</h2>
+	<h2 class="my-5 text-center" id="Tricks-list">Liste des figures</h2>
 
-		<div class="row mx-5" id="container-figures">
+	<div class="container-fluid container-list-tricks">
+		{% if app.user %}
+			<a href="{{ path('newtrickPage')}}" class="btn btn-success mb-5 mx-auto">Ajouter un trick</a>
+		{% endif %}
+		<div class="container-fluid mx-0 px-0" id="container-figures">
 			{% include "core/figures/__list_figures.html.twig" with {'figures': figures} %}
 		</div>
-
-		<div style="display:flex; justify-content:center;">
-			<button class="btn btn-primary my-3" id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ page + 1 }}" data-figure-ajax="{{ path('get_figure_ajax')}}">Charger plus</button>
-		</div>
 	</div>
+	<div style="display:flex; justify-content:center;">
+		<button class="btn btn-primary my-3" id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ page + 1 }}" data-figure-ajax="{{ path('get_figure_ajax')}}">Charger plus</button>
+	</div>
+
 
 	{% block javascripts %}
 		<script type="text/javascript">

@@ -4,6 +4,7 @@
 @import "./loginPage.css";
 @import "./profil.css";
 @import "./trickcreatePage.css";
+@import "./tricks-list.css";
 
 .menu 
 {
@@ -77,6 +78,23 @@
 {
     display: none;
 }
+
+.container-list-tricks
+{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+#container-figures
+{
+    display:block;
+    width: 95%;
+    margin: 0px auto;
+    padding: auto;
+}
+
 
 @media screen and (max-width: 768px) {
 
