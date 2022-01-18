@@ -157,6 +157,7 @@ class FigureController extends AbstractController
     public function trickEdit(
         $slug,
         FigureRepository $figureRepository,
+        CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
         Request $request
 
@@ -164,6 +165,9 @@ class FigureController extends AbstractController
 
         //je récupère la figure qui correspond au slug
         $figure = $figureRepository->findOneBySlug($slug);
+
+        //Je récupère tous les commentaires lié à la figure
+        $comments = $commentRepository->findBy(['figure' => $figure]);
 
         //je récupère tous les medias lié à la figure
 
@@ -178,8 +182,34 @@ class FigureController extends AbstractController
             array_push($illustrations, $url_Illustration );   
         }    
 
+                //création du formulaire avec les propriétées de l'entitée Comment
+                $formComment = $this->createForm(CommentType::class);
 
-        return $this->render('core/figures/trickEdit.html.twig',['figure' => $figure,'illustrations' => $illustrations]);
+                //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+                $formComment->handleRequest($request);
+        
+                if($formComment->isSubmitted() && $formComment->isValid()) {
+                    try{
+        
+                        $newComment = $formComment->getData();
+                        $newComment->setFigure($figure);
+                        $newComment->setAuthor($this->getUser());
+            
+                        //Persister le commentaire
+                        $this->entityManager->persist($newComment);
+                        $this->entityManager->flush();
+        
+                    }catch(Exception $e){
+        
+                        dump($e);
+                        exit;
+                    }
+        
+                    //Redirection
+                    return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+                }
+
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations]);
     }
 
 
