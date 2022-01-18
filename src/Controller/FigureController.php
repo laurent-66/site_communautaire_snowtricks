@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Figure;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\NewTrickType;
+use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -198,6 +199,7 @@ class FigureController extends AbstractController
         FigureRepository $figureRepository,
         CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
         Request $request, 
         EntityManagerInterface $entityManager
          ) {
@@ -212,27 +214,83 @@ class FigureController extends AbstractController
         //je récupère tous les medias lié à la figure
 
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
-        // dump($arrayIllustration[0]->getUrlIllustration());
-        // exit;
+        $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
 
-        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $illustrations = [];
+
+        //récupération de toute les url illustration et vidéos liés à la figure joint dans un tableau $medias
+        $medias = [];
         $arrayIllustrationLength = count($arrayIllustration);
+        $arrayVideoLength = count($arrayVideo);
 
+        //Ajout des illustrations dans les medias
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
             $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            array_push($illustrations, $url_Illustration );   
-        }      
+            array_push($medias, $url_Illustration );   
+        } 
+
+        //Ajout des videos dans les medias
+        for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
+            $url_video = $arrayVideo[$i]->getUrlVideo();
+            array_push($medias, $url_video);   
+        } 
+        
         //nombre d'items dans la collection d'illustration
-        $nbItemsIllustrations = count($illustrations);
+        $nbItemsMedias = count($medias);
+
+        //nombre d'image par slide
+        $nbItemsBySlide = 6;
+
+        //nombre d'image ne complétant pas une slide entière
+        $restMediasBySlide = (int)$nbItemsMedias%$nbItemsBySlide;
+
+        //nombre d'image constituant des slides complet
+
+        $nbMediasSlideComplete = $nbItemsMedias - $restMediasBySlide;
 
         //nombre de slides nécessaire pour afficher toutes les illustrations (entier arrondi supérieur) 
 
+        $nbSlides = round(($nbItemsMedias/6), 0 , PHP_ROUND_HALF_UP);
+
+        $this->arrayFirstLoop = $arrayFirstLoop = [];
+        $this->arrayCurrentLoop = $arrayCurrentLoop = [];
+        $this->arrayLastLoop = $arrayLastLoop = [];
+
+     
+        for ($j = 0; $j <= 5; $j++){
+
+            $this->arrayFirstLoop = array_push($arrayFirstLoop, $medias[$j]); 
+
+        }
 
 
-        $nbSlides = round(($nbItemsIllustrations/6), 0 , PHP_ROUND_HALF_UP);
+        for ($j = 1; $j <= 5; $j++){
 
-  
+            $this->arrayCurrentLoop = array_push($arrayCurrentLoop, $medias[$j]); 
+            
+        }   
+
+
+        for ($j = 1; $j <= $restMediasBySlide; $j++) {
+
+            $this->arrayLastLoop = array_push($arrayLastLoop, $medias[$j]); 
+        }
+
+
+      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
@@ -261,7 +319,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'medias' => $medias, 'nbSlides' => $nbSlides, 'arrayFirstLoop' => $arrayFirstLoop, 'arrayCurrentLoop' => $arrayCurrentLoop,  'arrayLastLoop' => $arrayLastLoop]);
     }
 
     /**
