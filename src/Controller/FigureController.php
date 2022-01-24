@@ -181,10 +181,11 @@ class FigureController extends AbstractController
         $arrayIllustrationLength = count($arrayIllustration);
         
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
-            $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            array_push($arrayMedias, $url_Illustration );   
+            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $tag_img = '<img src='.'"/uploads/illustrationsCollection/'.$uri_Illustration.'"'.' alt='.'"name"'.'>';
+            array_push($arrayMedias, $tag_img );   
         }   
-        
+
         //récupération de toute les url video lié à la figure joint dans un tableau $video
         $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
 
@@ -331,16 +332,10 @@ class FigureController extends AbstractController
 
                     if ( stristr($urlVideo,"embed") ) {
 
-                        // enregistrement de l'url video dans l'instance video
-                        // enregistrement de l'objet video dans
                         try {
 
-                            //récupération de l'uri video
-                            $uriVideo = substr($urlVideo, -11);
-                            dump($uriVideo);
-
-                            //enregistrement de l'url de l'illustration dans l'instance de l'object video
-                            $objectVideo->setUrlVideo($uriVideo);
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($urlVideo);
 
                             //enregistrement de l'id de la figure dans l'instance de l'object video
                             $objectVideo->setFigure($this->currentfigure);
@@ -360,29 +355,44 @@ class FigureController extends AbstractController
 
                     }else{
 
-                        //récupération de l'url video
-                        $uriVideo = substr($urlVideo, -11);
-                        dump($uriVideo);
 
-                        $urlVideoEmbed = '<iframe width='.  '"424"'  .  ' height='.  '"238"'.   ' src='.'"'.'https://www.youtube.com/embed/'.$uriVideo.'"' . ' title='.'"YouTube video player"'.
-                            ' frameborder='.'"0"'.' allow='.'"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"'.' allowfullscreen></iframe>';
-                        dump($urlVideoEmbed);
-                        exit;
-  
+                        try {
+
+                            //récupération de l'url video
+                            $uriVideo = substr($urlVideo, -11);
+
+                            $urlVideoEmbed = '<iframe width='.  '"424"'  .  ' height='.  '"238"'.   ' src='.'"'.'https://www.youtube.com/embed/'.$uriVideo.'"' . ' title='.'"YouTube video player"'.
+                                ' frameborder='.'"0"'.' allow='.'"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"'.' allowfullscreen></iframe>';
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($urlVideoEmbed);
+
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
+
+                            $objectVideo->setEmbed(true);
+                            
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+                            
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);    
+
+                            }catch (FileException $e) {
+                                dump($e);
+                            }
+                        }
                     }
-
                 }
 
-            }
+                //persistance de la figure
+                $this->entityManager->persist($this->currentfigure);
 
-            exit;
-            //persistance de la figure
-            $this->entityManager->persist($this->currentfigure);
+                $this->entityManager->flush();
 
-            $this->entityManager->flush();
-
-            //Redirection
-            return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
+                //Redirection
+                return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
 
         }    
 
@@ -427,7 +437,8 @@ class FigureController extends AbstractController
         $arrayIllustrationLength = count($arrayIllustration);
 
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
-            $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $url_Illustration = '/uploads/illustrationsCollection/'.$uri_Illustration;
             array_push($arrayMedias, $url_Illustration );   
         }  
         
