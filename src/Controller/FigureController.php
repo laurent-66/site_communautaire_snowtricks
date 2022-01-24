@@ -161,6 +161,7 @@ class FigureController extends AbstractController
         FigureRepository $figureRepository,
         CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
         Request $request
 
     ){
@@ -176,45 +177,57 @@ class FigureController extends AbstractController
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
 
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $illustrations = [];
+        $arrayMedias = [];
         $arrayIllustrationLength = count($arrayIllustration);
         
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
             $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            array_push($illustrations, $url_Illustration );   
-        }    
-
-                //création du formulaire avec les propriétées de l'entitée Comment
-                $formComment = $this->createForm(CommentType::class);
-
-                //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
-                $formComment->handleRequest($request);
+            array_push($arrayMedias, $url_Illustration );   
+        }   
         
-                if($formComment->isSubmitted() && $formComment->isValid()) {
-                    try{
+        //récupération de toute les url video lié à la figure joint dans un tableau $video
+        $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
+
+        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
         
-                        $newComment = $formComment->getData();
-                        $newComment->setFigure($figure);
-                        $newComment->setAuthor($this->getUser());
+        $arrayVideoLength = count($arrayVideo);
+        
+        for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
+        
+            $url_video = $arrayVideo[$i]->getUrlVideo();
+        
+            array_push($arrayMedias, $url_video);   
+        }   
+
+        //création du formulaire avec les propriétées de l'entitée Comment
+        $formComment = $this->createForm(CommentType::class);
+
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formComment->handleRequest($request);
+        
+        if($formComment->isSubmitted() && $formComment->isValid()) {
+            try{
+        
+                $newComment = $formComment->getData();
+                $newComment->setFigure($figure);
+                $newComment->setAuthor($this->getUser());
             
-                        //Persister le commentaire
-                        $this->entityManager->persist($newComment);
-                        $this->entityManager->flush();
+                //Persister le commentaire
+                $this->entityManager->persist($newComment);
+                $this->entityManager->flush();
         
-                    }catch(Exception $e){
+                }catch(Exception $e){
         
-                        dump($e);
-                        exit;
-                    }
-        
-                    //Redirection
-                    return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+                    dump($e);
+                    exit;
                 }
+        
+                //Redirection
+                    return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+            }
 
-        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations]);
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
     }
-
-
 
 
     /**
@@ -309,8 +322,6 @@ class FigureController extends AbstractController
 
             }
 
-
-
             if ($videosCollection) {
 
                 //préparation des urls images pour la base de données 
@@ -318,40 +329,57 @@ class FigureController extends AbstractController
                     //récupération de l'url video
                     $urlVideo = $objectVideo->getUrlVideo();
 
-                    // enregistrement de l'url video dans l'instance video
-                    // enregistrement de l'objet video dans
-                    try {
+                    if ( stristr($urlVideo,"embed") ) {
 
-                        //enregistrement de l'url de l'illustration dans l'instance de l'object video
-                        $objectVideo->setUrlVideo($urlVideo);
+                        // enregistrement de l'url video dans l'instance video
+                        // enregistrement de l'objet video dans
+                        try {
 
-                        //enregistrement de l'id de la figure dans l'instance de l'object video
-                        $objectVideo->setFigure($this->currentfigure);
+                            //récupération de l'uri video
+                            $uriVideo = substr($urlVideo, -11);
+                            dump($uriVideo);
 
-                        $objectVideo->setEmbed(false);
+                            //enregistrement de l'url de l'illustration dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($uriVideo);
 
-                        //persistance de l'instance video
-                        $this->entityManager->persist($objectVideo);
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
 
-                        //enregistrement des videos dans l'object figure courante
-                        $this->currentfigure->addVideo($objectVideo);
+                            $objectVideo->setEmbed(true);
 
-                    } catch (FileException $e) {
-                        dump($e);
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);
+
+                        } catch (FileException $e) {
+                            dump($e);
+                        }
+
+
+                    }else{
+
+                        //récupération de l'url video
+                        $uriVideo = substr($urlVideo, -11);
+                        dump($uriVideo);
+
+                        $urlVideoEmbed = '<iframe width='.  '"424"'  .  ' height='.  '"238"'.   ' src='.'"'.'https://www.youtube.com/embed/'.$uriVideo.'"' . ' title='.'"YouTube video player"'.
+                            ' frameborder='.'"0"'.' allow='.'"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"'.' allowfullscreen></iframe>';
+                        dump($urlVideoEmbed);
+                        exit;
+  
                     }
 
                 }
 
             }
 
-
+            exit;
             //persistance de la figure
             $this->entityManager->persist($this->currentfigure);
 
             $this->entityManager->flush();
-
-            dump($currentfigure);
-            exit;
 
             //Redirection
             return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
@@ -360,18 +388,6 @@ class FigureController extends AbstractController
 
         return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure]);
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -390,6 +406,7 @@ class FigureController extends AbstractController
         FigureRepository $figureRepository,
         CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
         Request $request, 
         EntityManagerInterface $entityManager
          ) {
@@ -404,27 +421,36 @@ class FigureController extends AbstractController
         //je récupère tous les medias lié à la figure
 
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
-        // dump($arrayIllustration[0]->getUrlIllustration());
-        // exit;
 
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $illustrations = [];
+        $arrayMedias = [];
         $arrayIllustrationLength = count($arrayIllustration);
 
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
             $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            array_push($illustrations, $url_Illustration );   
+            array_push($arrayMedias, $url_Illustration );   
+        }  
+        
+        //récupération de toute les url video lié à la figure joint dans un tableau $video
+        $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
+
+        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
+
+        $arrayVideoLength = count($arrayVideo);
+
+        for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
+
+            $url_video = $arrayVideo[$i]->getUrlVideo();
+
+            array_push($arrayMedias, $url_video);   
         }      
-        //nombre d'items dans la collection d'illustration
-        $nbItemsIllustrations = count($illustrations);
+
+        //nombre d'items dans la collection des médias
+        $nbItemsIllustrations = count($arrayMedias);
 
         //nombre de slides nécessaire pour afficher toutes les illustrations (entier arrondi supérieur) 
 
-
-
         $nbSlides = round(($nbItemsIllustrations/6), 0 , PHP_ROUND_HALF_UP);
-
-  
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
@@ -453,7 +479,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
     }
 
     /**
