@@ -24,18 +24,19 @@
 				</a>
             </div>    
         </div>
-
-
-            <div class="container bg bg-warning">
-
-
+        <div class="container">
+            <div class="row border border-primary">
                 {% if app.user %}
-                    <a href="{{ path('newCollectionImage')}}" class="btn btn-success mb-5 mx-auto">Ajouter une image à la collection</a>
-                    <a href="{{ path('newCollectionVideo')}}" class="btn btn-success mb-5 mx-auto">Ajouter une nouvelle video youtube</a>
+                    <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
+                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug} )}}" class="btn btn-success mb-5 mx-auto px-auto d-block">Ajouter un média</a>
+                        {# <a href="#" class="btn btn-primary my-3 mx-auto px-auto d-block">Ajouter un média</a> #}
+                    </div>
                 {% endif %}
-
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
+            </div>
+        </div>
+        <div class="container bg bg-warning">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
                         {% if illustrations %}
                             {# {% for illustration in illustrations %}
                                 <div class="carousel-item {% if loop.first %} active {% endif %}">
