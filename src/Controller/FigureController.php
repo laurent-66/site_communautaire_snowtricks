@@ -178,12 +178,18 @@ class FigureController extends AbstractController
 
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
         $arrayMedias = [];
+        $objectMedia = [];
+
         $arrayIllustrationLength = count($arrayIllustration);
         
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
-            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            $tag_img = '<img src='.'"/uploads/illustrationsCollection/'.$uri_Illustration.'"'.' alt='.'"name"'.'>';
-            array_push($arrayMedias, $tag_img );   
+
+                $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+                $tag = "img";
+                $objectMedia = array($uri_Illustration, $tag);
+
+            array_push($arrayMedias, $objectMedia);
+
         }   
 
         //récupération de toute les url video lié à la figure joint dans un tableau $video
@@ -196,9 +202,12 @@ class FigureController extends AbstractController
         for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
         
             $url_video = $arrayVideo[$i]->getUrlVideo();
-        
-            array_push($arrayMedias, $url_video);   
-        }   
+            $tag = "iframe";
+            $objectMedia = array($url_video, $tag);
+
+            array_push($arrayMedias, $objectMedia);
+         
+        }  
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
