@@ -361,7 +361,21 @@ class FigureController extends AbstractController
      * @Route("/tricks/{slug}/delete", name="trickDeletePage")
      */
 
-    public function trickDelete(){
+    public function trickDelete(
+        $slug,
+        EntityManagerInterface $entityManager,
+        FigureRepository $figureRepository
+    ){
+
+        $currentTrick = $figureRepository->findOneBySlug($slug);
+
+        //suppression de la video
+        $entityManager->remove($currentTrick);
+
+        $entityManager->flush();
+        
+        //Redirection
+        return $this->redirectToRoute('homePage');
 
     }
 
