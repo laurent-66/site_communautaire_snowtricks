@@ -262,6 +262,7 @@ class FigureController extends AbstractController
         //je récupère la figure qui correspond au slug
         $currentfigure = $figureRepository->findOneBySlug($slug);
         $this->currentfigure = $currentfigure;
+        $this->codeYoutube = '';
 
 
         //je récupère tous les illustrations lié à la figure
@@ -343,8 +344,11 @@ class FigureController extends AbstractController
 
                         try {
 
+                            $attrSrc = stristr($urlVideo, 'embed/'); // recherche l'occurence 'm'
+                            $this->codeYoutube = substr($attrSrc, 6, 11);
+
                             //enregistrement de l'url de la video dans l'instance de l'object video
-                            $objectVideo->setUrlVideo($urlVideo);
+                            $objectVideo->setUrlVideo($this->codeYoutube);
 
                             //enregistrement de l'id de la figure dans l'instance de l'object video
                             $objectVideo->setFigure($this->currentfigure);
@@ -368,13 +372,14 @@ class FigureController extends AbstractController
                         try {
 
                             //récupération de l'url video
-                            $uriVideo = substr($urlVideo, -11);
+                            $this->codeYoutube = substr($urlVideo, -11);
 
-                            $urlVideoEmbed = '<iframe width='.  '"424"'  .  ' height='.  '"238"'.   ' src='.'"'.'https://www.youtube.com/embed/'.$uriVideo.'"' . ' title='.'"YouTube video player"'.
-                                ' frameborder='.'"0"'.' allow='.'"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"'.' allowfullscreen></iframe>';
+
+                            // $urlVideoEmbed = '<iframe width='.  '"424"'  .  ' height='.  '"238"'.   ' src='.'"'.'https://www.youtube.com/embed/'.$uriVideo.'"' . ' title='.'"YouTube video player"'.
+                            //     ' frameborder='.'"0"'.' allow='.'"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"'.' allowfullscreen></iframe>';
 
                             //enregistrement de l'url de la video dans l'instance de l'object video
-                            $objectVideo->setUrlVideo($urlVideoEmbed);
+                            $objectVideo->setUrlVideo($this->codeYoutube);
 
 
                             //enregistrement de l'id de la figure dans l'instance de l'object video
@@ -405,7 +410,7 @@ class FigureController extends AbstractController
 
         }    
 
-        return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure]);
+        return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $this->codeYoutube]);
     }
 
 
