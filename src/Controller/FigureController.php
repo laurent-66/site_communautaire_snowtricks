@@ -301,7 +301,7 @@ class FigureController extends AbstractController
                 $id = $arrayIllustration[$i]->getId();
                 $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
                 $tag = "img";
-                $objectMedia = [ "path" =>$uri_Illustration, "type" => $tag, "id" => $id ];
+                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
 
             array_push($arrayMedias, $objectMedia);
 
@@ -361,7 +361,21 @@ class FigureController extends AbstractController
      * @Route("/tricks/{slug}/delete", name="trickDeletePage")
      */
 
-    public function trickDelete(){
+    public function trickDelete(
+        $slug,
+        EntityManagerInterface $entityManager,
+        FigureRepository $figureRepository
+    ){
+
+        $currentTrick = $figureRepository->findOneBySlug($slug);
+
+        //suppression de la video
+        $entityManager->remove($currentTrick);
+
+        $entityManager->flush();
+        
+        //Redirection
+        return $this->redirectToRoute('homePage');
 
     }
 

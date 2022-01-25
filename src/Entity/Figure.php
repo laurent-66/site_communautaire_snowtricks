@@ -94,7 +94,7 @@ class Figure
     /**
      * @var Collection
      * 
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade="all")
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
      * 
      */
     protected $illustrations;
@@ -103,7 +103,7 @@ class Figure
     /**
      * @var Collection
      * 
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure", cascade="all")
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure", cascade={"ALL"})
      * 
      */
     private $videos;
