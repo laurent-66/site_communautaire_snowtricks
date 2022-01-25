@@ -301,7 +301,7 @@ class FigureController extends AbstractController
                 $id = $arrayIllustration[$i]->getId();
                 $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
                 $tag = "img";
-                $objectMedia = [ "path" =>$uri_Illustration, "type" => $tag, "id" => $id ];
+                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
 
             array_push($arrayMedias, $objectMedia);
 
