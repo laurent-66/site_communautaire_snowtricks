@@ -47,7 +47,6 @@
             const urlToCallAjax = e.target.dataset.figureAjax;
             //Asynchrone response ajax
             const response = await fetch(`${urlToCallAjax}?page=${nextPage}`);
-            console.log(response);
 
             if(response.ok) {
 				loader.style.display='none';

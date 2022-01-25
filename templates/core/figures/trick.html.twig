@@ -30,41 +30,28 @@
 
                 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        {% if illustrations %}
-                            {# {% for illustration in illustrations %}
-                                <div class="carousel-item {% if loop.first %} active {% endif %}">
-                                    <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                                        <div class="item-carousel col-sm-12 col-md-2 col-lg-2"><img class="img-carousel" src="/uploads/illustrationsCollection/{{illustration}}" alt="img"></div>
-                                    </div>
-                                </div>
-                            {% endfor %} #}
-                
-
                         <div class="carousel-item active">
-                            <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                                <div class="item-carousel col-sm-12 col-md-12 col-lg-12">
-                                    {# {% for i in 0..nbSlides %} #}
-                                        {% for j in 0..5 %}
-                                                <img class="img-carousel" src='/uploads/illustrationsCollection/{{illustrations[j]}}' alt="img">
-                                        {% endfor %}
-                                    {# {% endfor %} #}
-                                </div>
-
+                            <div class="carousel-item col-md-3 active">
+                                <img class="img-fluid mx-auto d-block" src='/uploads/illustrationsCollection/{{arrayMedias[0]}}' alt="slide 1">
                             </div>
                         </div>
-
-                        {% else %}
-                            {# {% for video in videos %}
-                                <div class="carousel-item {% if loop.first %} active {% endif %}">
-                                    <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                                        <div class="item-carousel col-sm-12 col-md-2 col-lg-2"><img class="img-carousel" src="{{video}}" alt="video"></div>
-                                        <div class="item-carousel col-sm-12 col-md-2 col-lg-2"><iframe width="560" height="315" src="https://www.youtube.com/embed/ofHoJ4QWVDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-                                    </div>
-                                </div>
-                            {% endfor %} #}
-                        {% endif %}
-                        
+                        {# <div class="carousel-item active">
+                            <div class="carousel-item col-md-3 active">
+                                <img class="img-fluid mx-auto d-block" src='/uploads/illustrationsCollection/{{arrayMedias[1]}}' alt="slide 1">
+                            </div>
+                        </div>
+                        <div class="carousel-item active">
+                            <div class="carousel-item col-md-3 active">
+                                <img class="img-fluid mx-auto d-block" src='/uploads/illustrationsCollection/{{arrayMedias[2]}}' alt="slide 1">
+                            </div>
+                        </div>
+                        <div class="carousel-item active">
+                            <div class="carousel-item col-md-3 active">
+                                <img class="img-fluid mx-auto d-block" src='/uploads/illustrationsCollection/{{arrayMedias[3]}}' alt="slide 1">
+                            </div>
+                        </div> #} 
                     </div>
+                    
                     <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>

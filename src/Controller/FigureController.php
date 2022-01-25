@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
+use Exception;
 use App\Entity\Figure;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\NewTrickType;
+use App\Form\AddMediasTrickType;
+use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
-use Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -157,7 +159,9 @@ class FigureController extends AbstractController
     public function trickEdit(
         $slug,
         FigureRepository $figureRepository,
+        CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
         Request $request
 
     ){
@@ -165,22 +169,250 @@ class FigureController extends AbstractController
         //je récupère la figure qui correspond au slug
         $figure = $figureRepository->findOneBySlug($slug);
 
+        //Je récupère tous les commentaires lié à la figure
+        $comments = $commentRepository->findBy(['figure' => $figure]);
+
         //je récupère tous les medias lié à la figure
 
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
 
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $illustrations = [];
+        $arrayMedias = [];
+        $objectMedia = [];
+
         $arrayIllustrationLength = count($arrayIllustration);
         
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
-            $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            array_push($illustrations, $url_Illustration );   
+
+                $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+                $tag = "img";
+                $objectMedia = array($uri_Illustration, $tag);
+
+            array_push($arrayMedias, $objectMedia);
+
+        }   
+
+        //récupération de toute les url video lié à la figure joint dans un tableau $video
+        $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
+
+        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
+        
+        $arrayVideoLength = count($arrayVideo);
+        
+        for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
+        
+            $url_video = $arrayVideo[$i]->getUrlVideo();
+            $tag = "iframe";
+            $objectMedia = array($url_video, $tag);
+
+            array_push($arrayMedias, $objectMedia);
+         
+        }  
+
+        //création du formulaire avec les propriétées de l'entitée Comment
+        $formComment = $this->createForm(CommentType::class);
+
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formComment->handleRequest($request);
+        
+        if($formComment->isSubmitted() && $formComment->isValid()) {
+            try{
+        
+                $newComment = $formComment->getData();
+                $newComment->setFigure($figure);
+                $newComment->setAuthor($this->getUser());
+            
+                //Persister le commentaire
+                $this->entityManager->persist($newComment);
+                $this->entityManager->flush();
+        
+                }catch(Exception $e){
+        
+                    dump($e);
+                    exit;
+                }
+        
+                //Redirection
+                    return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+            }
+
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
+    }
+
+
+    /**
+     * trick media edit
+     * 
+     * @Route("/tricks/{slug}/edit/medias", name="trickEditMediasPage")
+     */
+
+    public function trickEditMedias(
+
+        $slug,
+        FigureRepository $figureRepository,
+        EntityManagerInterface $entityManager,
+        IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
+        SluggerInterface $slugger,
+        Request $request
+
+    ){
+        $this->entityManager = $entityManager;
+        $this->trick = new Figure();
+        //je récupère la figure qui correspond au slug
+        $currentfigure = $figureRepository->findOneBySlug($slug);
+        $this->currentfigure = $currentfigure;
+        $this->codeYoutube = '';
+
+
+        //je récupère tous les illustrations lié à la figure
+        // $arrayIllustration = $illustrationRepository->findBy(['figure' => $currentfigure]);
+        // dump($arrayIllustration);
+
+        //je récupère tous les vidéos lié à la figure
+        // $arrayVideo = $videoRepository->findBy(['figure' => $currentfigure]);
+        // dump($arrayVideo);
+
+
+        //TODO vérifier si l'image ou la video est déjà inséré
+
+        //création du formulaire avec les propriétées de l'entitée trick
+        $formAddMediasTrick = $this->createForm(AddMediasTrickType::class, $this->trick);
+
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formAddMediasTrick->handleRequest($request); 
+
+        if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
+            $updateTrick = $formAddMediasTrick->getData();
+            // $updateTrick->setAuthor($this->getUser());
+
+            //chargement et enregistrement de la collection d'images
+
+            //Définition de la collection d'objets illustration 
+
+            $imagesCollection = $formAddMediasTrick->get('illustrations')->getData();
+            $videosCollection = $formAddMediasTrick->get('videos')->getData();
+
+            if ($imagesCollection) {
+
+                //préparation des urls images pour la base de données 
+                foreach( $imagesCollection as $objectIllustration ) {
+                    //récupération de l'image
+                    $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
+                    //récupération du nom sans extension de l'image
+                    $originalFilename = pathinfo($image, PATHINFO_FILENAME);
+                    //slugger le nom du fichier
+                    $safeFilename = $slugger->slug($originalFilename);
+                    // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+
+                    // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
+                    try {
+                        $objectIllustration->getFileIllustration()->move(
+                            $this->getParameter('illustrationsCollection_directory'),
+                            $newFilename
+                        );
+                        //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
+                        $objectIllustration->setUrlIllustration($newFilename);
+
+                        //enregistrement de l'id de la figure dans l'instance de l'object illustration
+                        $objectIllustration->setFigure($this->currentfigure);
+
+                        //persistance de l'instance illustration
+                        $this->entityManager->persist($objectIllustration);
+
+                        //enregistrement des illustrations dans l'instance de l'object figure courante
+                        $this->currentfigure->addIllustration($objectIllustration);
+
+
+                    } catch (FileException $e) {
+                        dump($e);
+                    }
+
+                }
+
+            }
+
+            if ($videosCollection) {
+
+                //préparation des urls images pour la base de données 
+                foreach( $videosCollection as $objectVideo ) {
+                    //récupération de l'url video
+                    $urlVideo = $objectVideo->getUrlVideo();
+
+                    if ( stristr($urlVideo,"embed") ) {
+
+                        try {
+
+                            $attrSrc = stristr($urlVideo, 'embed/'); // recherche l'occurence 'm'
+                            $this->codeYoutube = substr($attrSrc, 6, 11);
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($this->codeYoutube);
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
+
+                            $objectVideo->setEmbed(true);
+
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);
+
+                        } catch (FileException $e) {
+                            dump($e);
+                        }
+
+
+                    }else{
+
+
+                        try {
+
+                            //récupération de l'url video
+                            $this->codeYoutube = substr($urlVideo, -11);
+
+
+                            // $urlVideoEmbed = '<iframe width='.  '"424"'  .  ' height='.  '"238"'.   ' src='.'"'.'https://www.youtube.com/embed/'.$uriVideo.'"' . ' title='.'"YouTube video player"'.
+                            //     ' frameborder='.'"0"'.' allow='.'"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"'.' allowfullscreen></iframe>';
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($this->codeYoutube);
+
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
+
+                            $objectVideo->setEmbed(true);
+                            
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+                            
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);    
+
+                            }catch (FileException $e) {
+                                dump($e);
+                            }
+                        }
+                    }
+                }
+
+                //persistance de la figure
+                $this->entityManager->persist($this->currentfigure);
+
+                $this->entityManager->flush();
+
+                //Redirection
+                return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
+
         }    
 
-
-        return $this->render('core/figures/trickEdit.html.twig',['figure' => $figure,'illustrations' => $illustrations]);
+        return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $this->codeYoutube]);
     }
+
 
 
     /**
@@ -198,6 +430,7 @@ class FigureController extends AbstractController
         FigureRepository $figureRepository,
         CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
         Request $request, 
         EntityManagerInterface $entityManager
          ) {
@@ -212,27 +445,37 @@ class FigureController extends AbstractController
         //je récupère tous les medias lié à la figure
 
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
-        // dump($arrayIllustration[0]->getUrlIllustration());
-        // exit;
 
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $illustrations = [];
+        $arrayMedias = [];
         $arrayIllustrationLength = count($arrayIllustration);
 
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
-            $url_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            array_push($illustrations, $url_Illustration );   
+            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $url_Illustration = '/uploads/illustrationsCollection/'.$uri_Illustration;
+            array_push($arrayMedias, $url_Illustration );   
+        }  
+        
+        //récupération de toute les url video lié à la figure joint dans un tableau $video
+        $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
+
+        //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
+
+        $arrayVideoLength = count($arrayVideo);
+
+        for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
+
+            $url_video = $arrayVideo[$i]->getUrlVideo();
+
+            array_push($arrayMedias, $url_video);   
         }      
-        //nombre d'items dans la collection d'illustration
-        $nbItemsIllustrations = count($illustrations);
+
+        //nombre d'items dans la collection des médias
+        $nbItemsIllustrations = count($arrayMedias);
 
         //nombre de slides nécessaire pour afficher toutes les illustrations (entier arrondi supérieur) 
 
-
-
         $nbSlides = round(($nbItemsIllustrations/6), 0 , PHP_ROUND_HALF_UP);
-
-  
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
@@ -261,7 +504,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'illustrations' => $illustrations, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
     }
 
     /**
