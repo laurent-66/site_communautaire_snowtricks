@@ -11,6 +11,7 @@ use App\Form\AddMediasTrickType;
 use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Repository\CommentRepository;
+use App\Form\EditIllustrationTrickType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
@@ -248,23 +249,6 @@ class FigureController extends AbstractController
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * trick edit
      * 
@@ -379,15 +363,16 @@ class FigureController extends AbstractController
 
     }
 
-    /**CRUD média trick */
+    /** CRUD média trick */
+
 
     /**
-     * trick media edit
+     * Creating a media of a trick
      * 
-     * @Route("/tricks/{slug}/edit/medias", name="trickEditMediasPage")
+     * @Route("/tricks/{slug}/create/medias", name="trickCreateMediasPage")
      */
 
-    public function trickEditMedias(
+    public function trickCreateMedias(
 
         $slug,
         FigureRepository $figureRepository,
@@ -538,6 +523,50 @@ class FigureController extends AbstractController
 
         return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $this->codeYoutube]);
     }
+
+
+
+    /**
+     * Updating a media of a trick
+     * 
+     * @Route("/tricks/{slug}/edit/medias/{id}", name="trickEditMediasPage")
+     */
+
+    public function trickEditMedias(
+
+        $slug,
+        FigureRepository $figureRepository,
+        EntityManagerInterface $entityManager,
+        IllustrationRepository $illustrationRepository,
+        VideoRepository $videoRepository,
+        SluggerInterface $slugger,
+        Request $request
+
+    ){
+        //je récupère la figure qui correspond au slug
+        $currentfigure = $figureRepository->findOneBySlug($slug);
+        $this->currentfigure = $currentfigure;
+        $this->codeYoutube = '';
+        
+        //TODO vérifier si l'image ou la video est déjà inséré
+
+        //création du formulaire avec les propriétées de l'entitée trick
+        $formEditMediasTrick = $this->createForm(EditIllustrationTrickType::class);
+
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formEditMediasTrick->handleRequest($request); 
+
+        if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) {
+
+            dump( $formEditMediasTrick->get('illustrations')->getData());
+            exit;
+
+        }
+        return $this->render('core/figures/trickEditIllustration.html.twig', ['formEditMediasTrick' => $formEditMediasTrick->createView(),'currentfigure' => $currentfigure]);
+    }
+
+
+    /** Deleting a media from a trick */
 
     /**
      * trick delete illustration
