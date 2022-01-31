@@ -9,11 +9,16 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Notifier\Recipient\RecipientInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkNotification;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
 class SecurityController extends AbstractController
 {
@@ -89,18 +94,72 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+    * @Route("/login_check", name="login_check")
+    */
+    public function check()
+    {
+        throw new \LogicException('This code should never be reached');
+    }
+
 
     /**
-     * 
-     * @return Void
-     * 
-     * @Route("/resetPassword", name="resetPassword")
+     * @Route("/login_link", name="loginLink")
      */
-    function resetPassword(Request $request)
-    {
+    public function requestLoginLink(
 
-        return $this->render('core/auth/askResetPassword.html.twig');
+        NotifierInterface $notifier,
+        // RecipientInterface $recipient[],
+        LoginLinkHandlerInterface $loginLinkHandler, 
+        UserRepository $userRepository, 
+        Request $request
+        
+        )
+    {
+        // check if login form is submitted
+        if ($request->isMethod('POST')) {
+            // load the user in some way (e.g. using the form input)
+            $email = $request->request->get('email');
+            $user = $userRepository->findOneBy(['email' => $email]);
+
+
+
+            //intégrer ici le générateur de token
+
+            // create a login link for $user this returns an instance
+            // of LoginLinkDetails
+            $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
+            $loginLink = $loginLinkDetails->getUrl();
+
+
+            dump($loginLink);
+            exit;
+
+            // create a notification based on the login link details
+
+
+            //ici utilisé l'objet personnalisé  CustomLoginNotification
+
+
+            $notification = new LoginLinkNotification(
+                $loginLinkDetails,
+                'Welcome to MY WEBSITE!' // email subject
+            );
+            // create a recipient for this user
+            $this->recipient = new Recipient($user->getEmail());
+
+            // send the notification to the user
+            $notifier->send($notification, $this->recipient);
+
+            // render a "Login link is sent!" page
+            return $this->render('core/security/login_link_sent.html.twig');
+
+        }
+
+        // if it's not submitted, render the "login" form
+        return $this->render('core/security/login_link.html.twig');
     }
+
 
 
     /**
@@ -124,15 +183,60 @@ class SecurityController extends AbstractController
             $this->entityManager->persist($userEmailregistered);
             $this->entityManager->flush();
 
-            echo "enregistrement token effectué";
+            $urlUpdatePassword = "localhost:8000/compte/update-password/".$token;
+
+            dump($urlUpdatePassword);
+            exit;
 
         } else {
             echo "faux";
             echo "flash: Votre demande à bien été prise en compte veuillez consulter votre boite mail";
         }
 
-        exit;
     }
+
+
+
+    /**
+     * Modification du mot de passe de l'utilisateur
+     *
+     * @return Response
+     * 
+     * @Route("/compte/update-password/{token}", name="updatePassword")
+     */
+    public function updatePassword(
+        $token,
+        Request $request,
+        UserRepository $userRepository,
+        AuthenticationUtils $authenticationUtils
+
+    ) {
+        dump($request);
+        $user = $this->getUser();
+        dump($user);
+        exit;
+        $userEmailregistered = $userRepository->findOneByLastPasswordToken($token);
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        dump($userEmailregistered);
+        exit;
+
+
+        return $this->render('updatePassword.html.twig');
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     /**

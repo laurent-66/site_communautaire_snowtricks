@@ -153,8 +153,6 @@ class FigureController extends AbstractController
     }
 
 
-
-
     /**
      * consulter une figure
      *
