@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Form\UpdateProfilType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -91,42 +92,47 @@ class SecurityController extends AbstractController
 
     /**
      * 
-     * @return Response
+     * @return Void
      * 
      * @Route("/resetPassword", name="resetPassword")
      */
-    function resetPassword(AuthenticationUtils $authenticationUtils): Response
+    function resetPassword(Request $request)
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('core/auth/resetPassword.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ]);
+        return $this->render('core/auth/askResetPassword.html.twig');
     }
 
 
+    /**
+     * 
+     * @return Response
+     * 
+     * @Route("/generateToken", name="generateToken")
+     */
+    function generateToken( Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager )
+    {
+        $this->entityManager = $entityManager;
+        $parametersBag = $request->request;
+        $email = $parametersBag->get("email");
 
+        $userEmailregistered = $userRepository->findOneByEmail($email);
 
+        if($userEmailregistered) {
 
+            $token = md5(uniqId());
+            $userEmailregistered->setLastPasswordToken($token);
+            $this->entityManager->persist($userEmailregistered);
+            $this->entityManager->flush();
 
+            echo "enregistrement token effectué";
 
+        } else {
+            echo "faux";
+            echo "flash: Votre demande à bien été prise en compte veuillez consulter votre boite mail";
+        }
 
-
-
-
-
-
-
-
-
-
-
-
+        exit;
+    }
 
 
     /**

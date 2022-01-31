@@ -82,6 +82,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     protected $updatedAt;
 
+    /**
+     * Undocumented variable
+     *
+     * @var string
+     * 
+     * @ORM\column(type="string")
+     */
+    protected $lastPasswordToken;
+
 
     /* getter and setter */
 
@@ -230,6 +239,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         {
             $this->figures->removeElement($figure);
         }
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return string
+     */
+    public function getLastPasswordToken() {
+
+        return $this->lastPasswordToken;
+        
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param string $lastPasswordToken
+     * @return void
+     */
+    public function setLastPasswordToken(string $lastPasswordToken) {
+
+        $this->lastPasswordToken = $lastPasswordToken;
     }
 
 
