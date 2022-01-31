@@ -88,6 +88,47 @@ class SecurityController extends AbstractController
         ]);
     }
 
+
+    /**
+     * 
+     * @return Response
+     * 
+     * @Route("/resetPassword", name="resetPassword")
+     */
+    function resetPassword(AuthenticationUtils $authenticationUtils): Response
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('core/auth/resetPassword.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /**
      * Undocumented function
      *
