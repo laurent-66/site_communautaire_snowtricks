@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2>Bonjour ! Vous êtes sur le point de vous connecter au formulaire de réinitialisation du mot de passe</h2>
+
+    <!-- for instance, use a form with hidden fields to
+         create the POST request -->
+
+    <form action="{{ path('login_check') }}" method="POST">
+        <input type="hidden" name="expires" value="{{ expires }}">
+        <input type="hidden" name="user" value="{{ user }}">
+        <input type="hidden" name="hash" value="{{ hash }}">
+
+        <button type="submit">Continue</button>
+    </form>
+{% endblock %}

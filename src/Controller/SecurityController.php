@@ -6,6 +6,7 @@ use App\Form\RegistrationType;
 use App\Form\UpdateProfilType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Notifier\CustomLoginLinkNotification;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -95,15 +96,33 @@ class SecurityController extends AbstractController
     }
 
     /**
+    * 
+    * Authentificateur de lien de connexion
+    * 
     * @Route("/login_check", name="login_check")
     */
-    public function check()
+    public function check(Request $request)
     {
-        throw new \LogicException('This code should never be reached');
+        // get the login link query parameters
+        $expires = $request->query->get('expires');
+        $username = $request->query->get('user');
+        $hash = $request->query->get('hash');
+
+        // and render a template with the button
+        return $this->render('security/process_login_link.html.twig', [
+            'expires' => $expires,
+            'user' => $username,
+            'hash' => $hash,
+        ]);
+
+        if ($request->isMethod('POST')) {
+            return $this->render('core/auth/updatePassword.html.twig');
+        }
     }
 
-
     /**
+     * form demande mail + Généraion du lien url de connexion + envoi message par mail avec 
+     * 
      * @Route("/login_link", name="loginLink")
      */
     public function requestLoginLink(
@@ -122,34 +141,33 @@ class SecurityController extends AbstractController
             $email = $request->request->get('email');
             $user = $userRepository->findOneBy(['email' => $email]);
 
-
-
-            //intégrer ici le générateur de token
-
             // create a login link for $user this returns an instance
             // of LoginLinkDetails
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
             $loginLink = $loginLinkDetails->getUrl();
-
-
-            dump($loginLink);
+            dump($loginLinkDetails);
+            // dump($loginLink);
             exit;
 
             // create a notification based on the login link details
 
+            // $notification = new LoginLinkNotification(
+            //     $loginLinkDetails,
+            //     'Welcome to MY WEBSITE!' // email subject
+            // );
 
-            //ici utilisé l'objet personnalisé  CustomLoginNotification
 
-
-            $notification = new LoginLinkNotification(
+            $notification = new CustomLoginLinkNotification(
                 $loginLinkDetails,
                 'Welcome to MY WEBSITE!' // email subject
             );
+
+
             // create a recipient for this user
-            $this->recipient = new Recipient($user->getEmail());
+            $recipient = new Recipient($user->getEmail());
 
             // send the notification to the user
-            $notifier->send($notification, $this->recipient);
+            $notifier->send($notification, $recipient);
 
             // render a "Login link is sent!" page
             return $this->render('core/security/login_link_sent.html.twig');
@@ -162,38 +180,38 @@ class SecurityController extends AbstractController
 
 
 
-    /**
-     * 
-     * @return Response
-     * 
-     * @Route("/generateToken", name="generateToken")
-     */
-    function generateToken( Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager )
-    {
-        $this->entityManager = $entityManager;
-        $parametersBag = $request->request;
-        $email = $parametersBag->get("email");
+    // /**
+    //  * 
+    //  * @return Response
+    //  * 
+    //  * @Route("/generateToken", name="generateToken")
+    //  */
+    // function generateToken( Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager )
+    // {
+    //     $this->entityManager = $entityManager;
+    //     $parametersBag = $request->request;
+    //     $email = $parametersBag->get("email");
 
-        $userEmailregistered = $userRepository->findOneByEmail($email);
+    //     $userEmailregistered = $userRepository->findOneByEmail($email);
 
-        if($userEmailregistered) {
+    //     if($userEmailregistered) {
 
-            $token = md5(uniqId());
-            $userEmailregistered->setLastPasswordToken($token);
-            $this->entityManager->persist($userEmailregistered);
-            $this->entityManager->flush();
+    //         $token = md5(uniqId());
+    //         $userEmailregistered->setLastPasswordToken($token);
+    //         $this->entityManager->persist($userEmailregistered);
+    //         $this->entityManager->flush();
 
-            $urlUpdatePassword = "localhost:8000/compte/update-password/".$token;
+    //         $urlUpdatePassword = "localhost:8000/compte/update-password/".$token;
 
-            dump($urlUpdatePassword);
-            exit;
+    //         dump($urlUpdatePassword);
+    //         exit;
 
-        } else {
-            echo "faux";
-            echo "flash: Votre demande à bien été prise en compte veuillez consulter votre boite mail";
-        }
+    //     } else {
+    //         echo "faux";
+    //         echo "flash: Votre demande à bien été prise en compte veuillez consulter votre boite mail";
+    //     }
 
-    }
+    // }
 
 
 
