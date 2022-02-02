@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 use App\Entity\User;
+use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\UpdateProfilType;
+use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Notifier\CustomLoginLinkNotification;
@@ -95,33 +97,10 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-    * 
-    * Authentificateur de lien de connexion
-    * 
-    * @Route("/login_check", name="login_check")
-    */
-    public function check(Request $request)
-    {
-        // get the login link query parameters
-        $expires = $request->query->get('expires');
-        $username = $request->query->get('user');
-        $hash = $request->query->get('hash');
 
-        // and render a template with the button
-        return $this->render('security/process_login_link.html.twig', [
-            'expires' => $expires,
-            'user' => $username,
-            'hash' => $hash,
-        ]);
-
-        if ($request->isMethod('POST')) {
-            return $this->render('core/auth/updatePassword.html.twig');
-        }
-    }
 
     /**
-     * form demande mail + Généraion du lien url de connexion + envoi message par mail avec 
+     * form mot de passe oublié: demande mail + Généraion du lien url de connexion + envoi message par mail avec 
      * 
      * @Route("/login_link", name="loginLink")
      */
@@ -145,9 +124,9 @@ class SecurityController extends AbstractController
             // of LoginLinkDetails
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
             $loginLink = $loginLinkDetails->getUrl();
-            dump($loginLinkDetails);
+            // dump($loginLinkDetails);
             // dump($loginLink);
-            exit;
+            // exit;
 
             // create a notification based on the login link details
 
@@ -177,6 +156,52 @@ class SecurityController extends AbstractController
         // if it's not submitted, render the "login" form
         return $this->render('core/security/login_link.html.twig');
     }
+
+    /**
+    * 
+    * Authentificateur de lien de connexion
+    * 
+    * @Route("/login_check", name="login_check")
+    */
+    public function check(Request $request)
+    {
+        // get the login link query parameters
+        $expires = $request->query->get('expires');
+        $username = $request->query->get('user');
+        $hash = $request->query->get('hash');
+
+        // and render a template with the button
+        return $this->render('security/process_login_link.html.twig', [
+            'expires' => $expires,
+            'user' => $username,
+            'hash' => $hash,
+        ]);
+
+        if ($request->isMethod('POST')) {
+            return $this->render('core/auth/updatePassword.html.twig');
+        }
+    }
+
+    /**
+     * Modification du mot de passe de l'utilisateur
+     *
+     * @return Response
+     * 
+     * @Route("/compte/updatePassword", name="updatePassword")
+     */
+    public function updatePassword(Request $request) {
+        
+        $passwordUpdate = new PasswordUpdate();
+        $formUpdatePassword = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+        return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
+    }
+
+
+
+
+
+
 
 
 
@@ -215,36 +240,7 @@ class SecurityController extends AbstractController
 
 
 
-    /**
-     * Modification du mot de passe de l'utilisateur
-     *
-     * @return Response
-     * 
-     * @Route("/compte/update-password/{token}", name="updatePassword")
-     */
-    public function updatePassword(
-        $token,
-        Request $request,
-        UserRepository $userRepository,
-        AuthenticationUtils $authenticationUtils
 
-    ) {
-        dump($request);
-        $user = $this->getUser();
-        dump($user);
-        exit;
-        $userEmailregistered = $userRepository->findOneByLastPasswordToken($token);
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        dump($userEmailregistered);
-        exit;
-
-
-        return $this->render('updatePassword.html.twig');
-
-    }
 
 
 
