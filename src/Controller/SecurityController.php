@@ -128,22 +128,20 @@ class SecurityController extends AbstractController
 
             // create a notification based on the login link details
 
-            // $notification = new LoginLinkNotification(
-            //     $loginLinkDetails,
-            //     'Welcome to MY WEBSITE!' // email subject
-            // );
-
-
-            $notification = new CustomLoginLinkNotification(
+            $notification = new LoginLinkNotification(
                 $loginLinkDetails,
                 'Welcome to MY WEBSITE!' // email subject
             );
 
+
+            // $notification = new CustomLoginLinkNotification(
+            //     $loginLinkDetails,
+            //     'Welcome to MY WEBSITE!' // email subject
+            // );
+
             
             // create a recipient for this user
             $recipient = new Recipient($user->getEmail());
-
-            $notification->asEmailMessage($recipient);
 
             // send the notification to the user
             $notifier->send($notification, $recipient);
@@ -177,9 +175,6 @@ class SecurityController extends AbstractController
             'hash' => $hash,
         ]);
 
-        if ($request->isMethod('POST')) {
-            return $this->render('core/auth/updatePassword.html.twig');
-        }
     }
 
 
