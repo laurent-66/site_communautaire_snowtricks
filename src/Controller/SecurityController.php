@@ -183,8 +183,6 @@ class SecurityController extends AbstractController
     }
 
 
-
-
     /**
      * Réinitialisation du mot de passe de l'utilisateur
      *
