@@ -97,8 +97,6 @@ class SecurityController extends AbstractController
         ]);
     }
 
-
-
     /**
      * form mot de passe oublié: demande mail + Généraion du lien url de connexion + envoi message par mail avec 
      * 
@@ -141,9 +139,11 @@ class SecurityController extends AbstractController
                 'Welcome to MY WEBSITE!' // email subject
             );
 
-
+            
             // create a recipient for this user
             $recipient = new Recipient($user->getEmail());
+
+            $notification->asEmailMessage($recipient);
 
             // send the notification to the user
             $notifier->send($notification, $recipient);
@@ -182,26 +182,50 @@ class SecurityController extends AbstractController
         }
     }
 
+
+
+
     /**
-     * Modification du mot de passe de l'utilisateur
+     * Réinitialisation du mot de passe de l'utilisateur
      *
      * @return Response
      * 
      * @Route("/compte/updatePassword", name="updatePassword")
      */
-    public function updatePassword(Request $request) {
+    public function updatePassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher) {
+
+        $session = $request->getSession();
+        // dump($session);
+
+        if($this->getUser()){
+
+            $passwordUpdate = new PasswordUpdate();
+
+            $user = $this->getUser();
+
+            $formUpdatePassword = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
+
+            $formUpdatePassword->handleRequest($request);
+
+            if($formUpdatePassword->isSubmitted() && $formUpdatePassword->isValid()) {
+
+                $newPassword = $passwordUpdate->getNewPassword();
+                //Hash du mot de passe
+                $passwordHashed = $this->passwordHasher->hashPassword($user, $newPassword);
+                $user->setPassword($passwordHashed);
+                //Persister l'utilisateur
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+                //Redirection
+                return $this->redirectToRoute('homePage');
+            }
+
+            return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
+
+        }
         
-        $passwordUpdate = new PasswordUpdate();
-        $formUpdatePassword = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
-
-        return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
+            return $this->redirectToRoute('homePage');
     }
-
-
-
-
-
-
 
 
 
