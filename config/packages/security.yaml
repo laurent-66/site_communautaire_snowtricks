@@ -28,7 +28,12 @@ security:
                 login_path: login
                 check_path: login
             logout:
-                path: app_logout     
+                path: app_logout   
+
+            login_link:
+                check_route: login_check
+                signature_properties: ['id']
+
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

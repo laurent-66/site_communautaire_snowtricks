@@ -51,6 +51,7 @@ class FigureController extends AbstractController
 
         $this->entityManager = $entityManager;
         $this->trick = new Figure();
+        $this->codeYoutube = '';
 
         //récupération array des groupes de tricks pour liste déroulante formulaire
         $groupTricks = $figureGroupRepository->findAll();
@@ -99,6 +100,7 @@ class FigureController extends AbstractController
             //Définition de la collection d'objets illustration 
 
             $imagesCollection = $formTrick->get('illustrations')->getData();
+            $videosCollection = $formTrick->get('videos')->getData();
 
             if ($imagesCollection) {
 
@@ -140,6 +142,68 @@ class FigureController extends AbstractController
 
             }
 
+            if ($videosCollection) {
+
+                //préparation des urls images pour la base de données 
+                foreach( $videosCollection as $objectVideo ) {
+                    //récupération de l'url video
+                    $urlVideo = $objectVideo->getUrlVideo();
+
+                    if ( stristr($urlVideo,"embed") ) {
+
+                        try {
+
+                            $attrSrc = stristr($urlVideo, 'embed/'); // recherche l'occurence 'm'
+                            $this->codeYoutube = substr($attrSrc, 6, 11);
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($this->codeYoutube);
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->trick);
+
+                            $objectVideo->setEmbed(true);
+
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+
+                            //enregistrement des videos dans l'object figure courante
+                            $this->trick->addVideo($objectVideo);
+
+                        } catch (FileException $e) {
+                            dump($e);
+                        }
+
+
+                    }else{
+
+                        try {
+
+                            //récupération de l'url video
+                            $this->codeYoutube = substr($urlVideo, -11);
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($this->codeYoutube);
+
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
+
+                            $objectVideo->setEmbed(true);
+                            
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+                            
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);    
+
+                            }catch (FileException $e) {
+                                dump($e);
+                            }
+                        }
+                    }
+                }
+
             //persistance de la figure
             $this->entityManager->persist($newTrick);
 
@@ -151,8 +215,6 @@ class FigureController extends AbstractController
 
         return $this->render('core/figures/trickCreate.html.twig', ['formTrick' => $formTrick->createView(),'groupTricks' => $groupTricks]);
     }
-
-
 
 
     /**
