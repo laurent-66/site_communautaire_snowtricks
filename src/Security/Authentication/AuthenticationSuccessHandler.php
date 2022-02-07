@@ -14,13 +14,14 @@ class AuthenticationSuccessHandler extends AbstractController implements Authent
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
         $user = $token->getUser();
-        dump($user);
-        exit;
+        // dump($user);
+        // dump($request);
+
         // $userApiToken = $user->getApiToken();
 
         // return new JsonResponse(['apiToken' => $userApiToken]);
 
-        // return $this->redirectToRoute('updatePassword');
+        return $this->redirectToRoute('resetPassword');
 
     }
 }

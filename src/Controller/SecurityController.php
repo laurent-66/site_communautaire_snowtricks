@@ -30,7 +30,7 @@ class SecurityController extends AbstractController
   * @param Request $request
   * @return Response
   *
-  * @Route("/register", name="registerPage")
+  * @Route("/account/register", name="registerPage")
   */
     public function register( Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
     {
@@ -81,7 +81,7 @@ class SecurityController extends AbstractController
      * 
      * @return Response
      * 
-     * @Route("/login", name="login")
+     * @Route("/account/login", name="login")
      */
      function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -100,7 +100,7 @@ class SecurityController extends AbstractController
     /**
      * form mot de passe oublié: demande mail + Généraion du lien url de connexion + envoi message par mail avec 
      * 
-     * @Route("/login_link", name="loginLink")
+     * @Route("/account/login_link", name="loginLink")
      */
     public function requestLoginLink(
 
@@ -122,32 +122,23 @@ class SecurityController extends AbstractController
             // of LoginLinkDetails
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
             $loginLink = $loginLinkDetails->getUrl();
-            // dump($loginLinkDetails);
-            // dump($loginLink);
-            // exit;
 
             // create a notification based on the login link details
 
-            $notification = new LoginLinkNotification(
-                $loginLinkDetails,
-                'Welcome to MY WEBSITE!' // email subject
-            );
-
-
-            // $notification = new CustomLoginLinkNotification(
+            // $notification = new LoginLinkNotification(
             //     $loginLinkDetails,
             //     'Welcome to MY WEBSITE!' // email subject
             // );
 
             
             // create a recipient for this user
-            $recipient = new Recipient($user->getEmail());
+            // $recipient = new Recipient($user->getEmail());
 
             // send the notification to the user
-            $notifier->send($notification, $recipient);
+            // $notifier->send($notification, $recipient);
 
             // render a "Login link is sent!" page
-            return $this->render('core/security/login_link_sent.html.twig');
+            return $this->render('core/security/login_link_sent.html.twig', ['loginLink'=> $loginLink]);
 
         }
 
@@ -159,11 +150,12 @@ class SecurityController extends AbstractController
     * 
     * Authentificateur de lien de connexion
     * 
-    * @Route("/login_check", name="login_check")
+    * @Route("/account/login_check", name="login_check")
     */
     public function check(Request $request)
     {
         // get the login link query parameters
+        // automatically returns these elements to the AuthenticationSuccessHandler service
         $expires = $request->query->get('expires');
         $username = $request->query->get('user');
         $hash = $request->query->get('hash');
@@ -179,30 +171,30 @@ class SecurityController extends AbstractController
 
 
     /**
-     * Réinitialisation du mot de passe de l'utilisateur
+     * Reset user password
      *
      * @return Response
      * 
-     * @Route("/compte/updatePassword", name="updatePassword")
+     * @Route("/account/resetPassword", name="resetPassword")
      */
-    public function updatePassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher) {
+    public function resetPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher) {
 
-        $session = $request->getSession();
-        // dump($session);
+        $this->passwordHasher = $passwordHasher;
+        $this->entityManager = $entityManager;
 
         if($this->getUser()){
 
             $passwordUpdate = new PasswordUpdate();
-
-            $user = $this->getUser();
 
             $formUpdatePassword = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
 
             $formUpdatePassword->handleRequest($request);
 
             if($formUpdatePassword->isSubmitted() && $formUpdatePassword->isValid()) {
+                $user = $this->getUser();
+                $data = $formUpdatePassword->getData();
+                $newPassword = $data->getNewPassword();
 
-                $newPassword = $passwordUpdate->getNewPassword();
                 //Hash du mot de passe
                 $passwordHashed = $this->passwordHasher->hashPassword($user, $newPassword);
                 $user->setPassword($passwordHashed);
@@ -221,64 +213,15 @@ class SecurityController extends AbstractController
     }
 
 
-
-    // /**
-    //  * 
-    //  * @return Response
-    //  * 
-    //  * @Route("/generateToken", name="generateToken")
-    //  */
-    // function generateToken( Request $request, UserRepository $userRepository, EntityManagerInterface $entityManager )
-    // {
-    //     $this->entityManager = $entityManager;
-    //     $parametersBag = $request->request;
-    //     $email = $parametersBag->get("email");
-
-    //     $userEmailregistered = $userRepository->findOneByEmail($email);
-
-    //     if($userEmailregistered) {
-
-    //         $token = md5(uniqId());
-    //         $userEmailregistered->setLastPasswordToken($token);
-    //         $this->entityManager->persist($userEmailregistered);
-    //         $this->entityManager->flush();
-
-    //         $urlUpdatePassword = "localhost:8000/compte/update-password/".$token;
-
-    //         dump($urlUpdatePassword);
-    //         exit;
-
-    //     } else {
-    //         echo "faux";
-    //         echo "flash: Votre demande à bien été prise en compte veuillez consulter votre boite mail";
-    //     }
-
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
-     * Undocumented function
+     * Update user profil
      *
      * @param Request $request
      * @param EntityManagerInterface $entityManager
      * @param UserPasswordHasherInterface $passwordHasher
      * @return Response
      * 
-     * @Route("/updateProfil", name="updatProfilPage")
+     * @Route("/account/updateProfil", name="updatProfilPage")
      */
      function updateProfil( 
         Request $request,
