@@ -22,6 +22,11 @@ class IllustrationType extends AbstractType
                 // every time you edit the Product details
                 'required' => false,
             ])
+            ->add( 'alt', TextType::class , [
+
+                'label'=> 'Attribut alternatif'
+            ]
+            )
         ;
     }
 

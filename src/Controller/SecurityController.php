@@ -125,17 +125,17 @@ class SecurityController extends AbstractController
 
             // create a notification based on the login link details
 
-            // $notification = new LoginLinkNotification(
-            //     $loginLinkDetails,
-            //     'Welcome to MY WEBSITE!' // email subject
-            // );
+            $notification = new LoginLinkNotification(
+                $loginLinkDetails,
+                'Welcome to MY WEBSITE!' // email subject
+            );
 
             
             // create a recipient for this user
-            // $recipient = new Recipient($user->getEmail());
+            $recipient = new Recipient($user->getEmail());
 
             // send the notification to the user
-            // $notifier->send($notification, $recipient);
+            $notifier->send($notification, $recipient);
 
             // render a "Login link is sent!" page
             return $this->render('core/security/login_link_sent.html.twig', ['loginLink'=> $loginLink]);

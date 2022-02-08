@@ -22,6 +22,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 
 class FigureController extends AbstractController
 {
@@ -597,6 +599,7 @@ class FigureController extends AbstractController
     public function trickEditMedias(
 
         $slug,
+        $id,
         FigureRepository $figureRepository,
         EntityManagerInterface $entityManager,
         IllustrationRepository $illustrationRepository,
@@ -607,10 +610,13 @@ class FigureController extends AbstractController
     ){
         //je récupère la figure qui correspond au slug
         $currentfigure = $figureRepository->findOneBySlug($slug);
+        $currentIllustration = $illustrationRepository->findOneById($id);
+
+        $this->entityManager = $entityManager;
         $this->currentfigure = $currentfigure;
+        $this->currentIllustration = $currentIllustration;
         $this->codeYoutube = '';
-        
-        //TODO vérifier si l'image ou la video est déjà inséré
+
 
         //création du formulaire avec les propriétées de l'entitée trick
         $formEditMediasTrick = $this->createForm(EditIllustrationTrickType::class);
@@ -618,14 +624,36 @@ class FigureController extends AbstractController
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formEditMediasTrick->handleRequest($request); 
 
-        if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) {
+        if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) { 
 
-            dump( $formEditMediasTrick->get('illustrations')->getData());
-            exit;
+        //récupération de l'image
+        $image = $this->currentIllustration->getFileIllustration()->getClientOriginalName();
+
+        //récupération du nom sans extension de l'image
+        $originalFilename = pathinfo($image, PATHINFO_FILENAME);
+
+        //slugger le nom du fichier
+        $safeFilename = $slugger->slug($originalFilename);
+
+        // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$this->currentIllustration->getFileIllustration()->guessExtension();   
+
+        dump($newFilename);
+        exit;
+
+        //persistance de la figure
+        $this->entityManager->persist($this->currentfigure);
+
+        $this->entityManager->flush();
+        
+        //Redirection
+        return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
+
 
         }
         return $this->render('core/figures/trickEditIllustration.html.twig', ['formEditMediasTrick' => $formEditMediasTrick->createView(),'currentfigure' => $currentfigure]);
     }
+
 
 
     /** Deleting a media from a trick */
