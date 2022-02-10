@@ -636,16 +636,13 @@ class FigureController extends AbstractController
             // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
             $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->guessClientExtension();
             
-            dump($newFilename);
-            exit;
 
             // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
             try {
-                $currentIllustration->getFileIllustration()->move(
+                $objectIllustration->move(
                 $this->getParameter('illustrationsCollection_directory'),
                 $newFilename
                 );
-
 
                 //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
                 $this->currentIllustration->setUrlIllustration($newFilename);
