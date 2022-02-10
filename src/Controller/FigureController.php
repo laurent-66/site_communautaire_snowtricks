@@ -87,6 +87,7 @@ class FigureController extends AbstractController
                         $this->getParameter('images_directory'),
                         $newFilename
                     );
+
                 } catch (FileException $e) {
                     dump($e);
                 }
@@ -589,8 +590,6 @@ class FigureController extends AbstractController
         return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $this->codeYoutube]);
     }
 
-
-
     /**
      * Updating a media of a trick
      * 
@@ -693,11 +692,18 @@ class FigureController extends AbstractController
         Request $request
     ){
     
-        $currentIdIllustration = $illustrationRepository->findOneById($id);
+        $currentIllustration = $illustrationRepository->findOneById($id);
+    
+        $fileName = $currentIllustration->getUrlIllustration();
+        // $fileName = $currentIdIllustration->urlIllustration;
 
-        $entityManager->remove($currentIdIllustration);
+        $entityManager->remove($currentIllustration);
 
         $entityManager->flush();
+
+        $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
+        $filePath = $pathIllustrationsCollection."/".$fileName;
+        unlink($filePath);
         
         //Redirection
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);

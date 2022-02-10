@@ -26,6 +26,13 @@ class Illustration
      */
     protected $urlIllustration;
 
+    /**
+     * @var string
+     * 
+     * @ORM\Column(type="string")
+     */
+    protected $alternativeAttribute;
+
 
     protected $fileIllustration;
 
@@ -147,8 +154,21 @@ class Illustration
         $this->fileIllustration = $fileIllustration;
     }
 
+    /**
+     * @return 
+     */
+    public function getAlternativeAttribute()
+    {
+        return $this->alternativeAttribute;
+    }
 
-
+    /**
+     * @param 
+     */
+    public function setAlternativeAttribute($alternativeAttribute): void
+    {
+        $this->alternativeAttribute = $alternativeAttribute;
+    }
 
 
 }
