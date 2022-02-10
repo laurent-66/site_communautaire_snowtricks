@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class EditOneIllustrationType extends AbstractType
 {
@@ -25,6 +26,11 @@ class EditOneIllustrationType extends AbstractType
                 // every time you edit the Product details
                 'required' => false,
             ])
+            ->add( 'alternativeAttribute', TextType::class , [
+
+                'label'=> 'Entrez le nom de l\'image'
+            ]
+            )
         ;
     }
 
