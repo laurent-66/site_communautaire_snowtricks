@@ -8,9 +8,8 @@
                 <div class="container card rounded shadow p-3 mb-5">
                     <h2 class="text-center">Modifier l'illustration de la figure {{currentfigure.name}}</h2>
                     {{form_start(formEditMediasTrick)}}
-                    <ul class="illustrations" data-index="{{ formEditMediasTrick.illustrations|length > 0 ? formEditMediasTrick.illustrations|last.vars.illustrations + 1 : 0 }}" data-prototype="{{ form_widget(formEditMediasTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
-                    <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Modifier l'image</button>
-                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
+                    {{form_widget(formEditMediasTrick.urlIllustration)}}
+                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Modifier l'image</button>
                     {{form_end(formEditMediasTrick)}}
                 </div>
             </div>
@@ -18,37 +17,3 @@
     </div>
 </div>
 {% endblock %} 
-{% block javascripts %}
-<script>
-
-    const addFormToCollection = (e) => {
-    const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-
-    const item = document.createElement('li');
-
-    item.innerHTML = collectionHolder
-        .dataset
-        .prototype
-        .replace(
-        /__name__/g,
-        collectionHolder.dataset.index
-        );
-
-    collectionHolder.appendChild(item);
-
-    collectionHolder.dataset.index++;
-
-    };
-
-
-    document.querySelectorAll('.add_item_link_image')
-    .forEach(btn => btn.addEventListener("click", addFormToCollection));
-
-    document.querySelectorAll('.add_item_link_video')
-    .forEach(btn => btn.addEventListener("click", addFormToCollection));
-
-
-
-
-</script>
-{% endblock %}
