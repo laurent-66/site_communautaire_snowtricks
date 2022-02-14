@@ -414,16 +414,30 @@ class FigureController extends AbstractController
     public function trickDelete(
         $slug,
         EntityManagerInterface $entityManager,
-        FigureRepository $figureRepository
+        FigureRepository $figureRepository,
+        IllustrationRepository $illustrationRepository
     ){
 
         $currentTrick = $figureRepository->findOneBySlug($slug);
+        $idTrick = $currentTrick->getId();
 
-        //suppression de la video
+        $arrayIllustrations = $illustrationRepository->findByFigure($idTrick);
+
+        //Delete physical images on server
+
+        foreach($arrayIllustrations as $objectIllustration) {
+            $fileName = $objectIllustration->getUrlIllustration();
+            $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
+            $filePath = $pathIllustrationsCollection."/".$fileName;
+            unlink($filePath);
+        }
+
+        //remove trick in database
+
         $entityManager->remove($currentTrick);
-
         $entityManager->flush();
-        
+
+    
         //Redirection
         return $this->redirectToRoute('homePage');
 
@@ -608,6 +622,11 @@ class FigureController extends AbstractController
         Request $request
 
     ){
+
+
+        dump($request);
+        exit;
+
         //je récupère la figure qui correspond au slug
         $currentfigure = $figureRepository->findOneBySlug($slug);
         $currentIllustration = $illustrationRepository->findOneById($id);
@@ -672,8 +691,6 @@ class FigureController extends AbstractController
         return $this->render('core/figures/trickEditIllustration.html.twig', ['formEditMediasTrick' => $formEditMediasTrick->createView(),'currentfigure' => $currentfigure]);
     }
 
-
-
     /** Deleting a media from a trick */
 
     /**
@@ -686,16 +703,13 @@ class FigureController extends AbstractController
 
         $slug,
         $id,
-        FigureRepository $figureRepository,
         EntityManagerInterface $entityManager,
-        IllustrationRepository $illustrationRepository,
-        Request $request
+        IllustrationRepository $illustrationRepository
     ){
     
         $currentIllustration = $illustrationRepository->findOneById($id);
     
         $fileName = $currentIllustration->getUrlIllustration();
-        // $fileName = $currentIdIllustration->urlIllustration;
 
         $entityManager->remove($currentIllustration);
 
@@ -720,7 +734,6 @@ class FigureController extends AbstractController
 
         $slug,
         $id,
-        FigureRepository $figureRepository,
         EntityManagerInterface $entityManager,
         VideoRepository $videoRepository
 
