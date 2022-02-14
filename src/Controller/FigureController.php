@@ -191,7 +191,7 @@ class FigureController extends AbstractController
 
 
                             //enregistrement de l'id de la figure dans l'instance de l'object video
-                            $objectVideo->setFigure($this->currentfigure);
+                            $objectVideo->setFigure($this->trick);
 
                             $objectVideo->setEmbed(true);
                             
@@ -199,7 +199,7 @@ class FigureController extends AbstractController
                             $this->entityManager->persist($objectVideo);
                             
                             //enregistrement des videos dans l'object figure courante
-                            $this->currentfigure->addVideo($objectVideo);    
+                            $this->trick->addVideo($objectVideo);    
 
                             }catch (FileException $e) {
                                 dump($e);
