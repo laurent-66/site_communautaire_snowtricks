@@ -34,24 +34,79 @@
                 {% endif %}
             </div>
         </div>
-        <div class="container bg bg-warning">
-            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <div class="carousel-item  active">
-                            {% include "core/figures/__card_media_collection.html.twig" with {'arrayMedias': arrayMedias} %}
+
+        <div class="container bg bg-info my-5">
+
+                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="col-sm-12 col-md-12 col-lg-12 mx-0 px-0">
+                            <div class="row mx-0 px-0">
+                                {% for media in arrayMedias %}
+                                    <div class="carousel-item {% if loop.first %} active {% endif %} col-sm-2 col-md-2 col-lg-2 mx-0 px-0">
+                                        {% if media.type == "img" %}
+                                            {# <div class="row"> #}
+                                                <div class="col-sm-12 col-md-12 col-lg-12">	
+                                                    <div class="card px-0 mx-0 bg-light rounded-3 d-block w-100 ">
+                                                        <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" alt="slide 2">
+                                                        <div class="card-body">
+                                                            {% if app.user %}
+                                                                <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
+                                                                    <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
+                                                                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </a>
+                                                                        <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
+                                                                        {# <a href="#" class="btn btn-danger"> #}
+                                                                            <i class="fas fa-trash-alt"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>	
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {# </div> #}
+                                        {% else %}
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">	
+                                                    <div class="card px-0 mx-0 bg-light rounded-3">
+                                                    <iframe width="424" height="238" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                        <div class="card-body">
+                                                            {% if app.user %}
+                                                                <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
+                                                                    <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
+                                                                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
+                                                                            <i class="fas fa-edit"></i>
+                                                                        </a>
+                                                                        <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
+                                                                        {# <a href="#" class="btn btn-danger"> #}
+                                                                            <i class="fas fa-trash-alt"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>	
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
                         </div>
                     </div>
-
-                    {# <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a> #}
                 </div>
+        </div> 
+
+        <div class="container my-5 bg bg-warning">
 
                 <div class="see-media">
 			        <button class="btn btn-primary my-3" id="media-button">See media</button>

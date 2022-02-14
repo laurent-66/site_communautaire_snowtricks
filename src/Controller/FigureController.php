@@ -342,8 +342,8 @@ class FigureController extends AbstractController
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
 
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $arrayMedias = [];
-        $objectMedia = [];
+        $this->arrayMedias = [];
+        $this->objectMedia = [];
 
         $arrayIllustrationLength = count($arrayIllustration);
         
@@ -351,9 +351,9 @@ class FigureController extends AbstractController
                 $id = $arrayIllustration[$i]->getId();
                 $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
                 $tag = "img";
-                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+                $this->objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
 
-            array_push($arrayMedias, $objectMedia);
+            array_push($this->arrayMedias, $this->objectMedia);
 
         }   
 
@@ -368,11 +368,12 @@ class FigureController extends AbstractController
             $id = $arrayVideo[$i]->getId();
             $url_video = $arrayVideo[$i]->getUrlVideo();
             $tag = "iframe";
-            $objectMedia = ["path"=>$url_video, "type"=> $tag , "id"=>$id];
-
-            array_push($arrayMedias, $objectMedia);
+            $this->objectMedia = ["path"=>$url_video, "type"=> $tag , "id"=>$id];
+            array_push($this->arrayMedias, $this->objectMedia);
          
         }  
+
+        $arrayMedias = $this->arrayMedias;
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
@@ -401,7 +402,7 @@ class FigureController extends AbstractController
                     return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
             }
 
-        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formComment' => $formComment->createView()]);
     }
 
 
