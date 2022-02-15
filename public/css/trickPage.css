@@ -67,6 +67,10 @@
     display: none;
 }
 
+.medias-list-smartphone
+{
+    display: none;
+}
 
 
 /*  inférieur à 768px  */
@@ -104,5 +108,10 @@
     .btn-see-media
     {
         display: block;
+    }
+    
+    .medias-list-smartphone
+    {
+        display: none;
     }
 }
