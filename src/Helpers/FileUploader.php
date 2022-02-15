@@ -1,6 +1,6 @@
 <?php
 
-namespace Application\Helpers;
+namespace App\Helpers;
 
 class FileUploader
 {
