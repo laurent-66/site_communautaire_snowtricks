@@ -1,77 +1,79 @@
-.main-container
-{
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
+@media screen and (min-width: 768px) {
+    .main-container
+    {
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
 
-.manageImageHero {
-    position:absolute;
-    top: 15px; left: 89%;
-}
+    .manageImageHero {
+        position:absolute;
+        top: 15px; left: 89%;
+    }
 
-.item-carousel
-{
-    width: 125px;
-    height: 125px;
-    margin: 30px 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
+    .item-carousel
+    {
+        width: 125px;
+        height: 125px;
+        margin: 30px 0px;
+        padding: 0px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
 
-.img-carousel
-{
-    display: block;
-    width: 125px;
-    height: 125px;
-    margin: 0px auto;
-    padding: 0px auto;
-}
+    .img-carousel
+    {
+        display: block;
+        width: 125px;
+        height: 125px;
+        margin: 0px auto;
+        padding: 0px auto;
+    }
 
-#comment_content{
-    height:48px;
-}
+    #comment_content{
+        height:48px;
+    }
 
-.authorPictureComment , .borderImageProfil{
-    width:64px;
-    height:64px;
-    border-radius: 32px;
-    box-shadow: 2px 2px 10px grey;
-}
+    .authorPictureComment , .borderImageProfil{
+        width:64px;
+        height:64px;
+        border-radius: 32px;
+        box-shadow: 2px 2px 10px grey;
+    }
 
-.avatar-image
-{
-    margin: 0px;
-    padding: 0px;
+    .avatar-image
+    {
+        margin: 0px;
+        padding: 0px;
 
-}
+    }
 
-.see-media
-{
-    display: block;
-    margin: 0px;
-    padding: 0px;
-}
+    .see-media
+    {
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
 
-.btn-see-media
-{
-    display: none;
-}
-.btn-hidden-media
-{
-    display: none;
-}
+    .btn-see-media
+    {
+        display: none;
+    }
 
-.medias-list-smartphone
-{
-    display: none;
-}
+    .btn-hidden-media
+    {
+        display: none;
+    }
 
+    .medias-list-smartphone
+    {
+        display: none;
+    }
+}
 
 /*  inférieur à 768px  */
 
@@ -109,7 +111,12 @@
     {
         display: block;
     }
-    
+
+    .btn-hidden-media
+    {
+        display: none;
+    }
+
     .medias-list-smartphone
     {
         display: none;
