@@ -6,14 +6,6 @@
     align-items: center;
 }
 
-.imgHeroTrick
-{
-    min-height:200px;
-    background-size: cover;
-    margin: 0px;
-    padding: 0px;
-} 
-
 .manageImageHero {
     position:absolute;
     top: 15px; left: 89%;
@@ -61,8 +53,25 @@
 
 .see-media
 {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+}
+
+.btn-see-media
+{
     display: none;
 }
+.btn-hidden-media
+{
+    display: none;
+}
+
+.medias-list-smartphone
+{
+    display: none;
+}
+
 
 /*  inférieur à 768px  */
 
@@ -88,9 +97,21 @@
         display: none;
 
     }
-    .see-media
+
+    .container-see-media
     {
-        display: contents flex;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
+    }   
+    .btn-see-media
+    {
+        display: block;
+    }
+    
+    .medias-list-smartphone
+    {
+        display: none;
     }
 }

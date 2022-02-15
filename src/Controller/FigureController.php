@@ -624,10 +624,6 @@ class FigureController extends AbstractController
 
     ){
 
-
-        dump($request);
-        exit;
-
         //je récupère la figure qui correspond au slug
         $currentfigure = $figureRepository->findOneBySlug($slug);
         $currentIllustration = $illustrationRepository->findOneById($id);

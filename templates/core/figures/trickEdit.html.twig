@@ -10,11 +10,9 @@
 	</div>
     <div class="mx-0 px-0 main-container">
         <div class="container px-0 mx-0 trick-card">
-            <div class="row px-0 mx-0">
-                <div class="imgHeroTrick" style="background: no-repeat url('/uploads/coverImage/{{figure.coverImage}}');">
+                <div class="imgHeroTrick" style="background: url('/uploads/coverImage/{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
                     <h1>{{figure.name}}</h1>
                 </div>
-            </div>
             <div class="manageImageHero">
                 <a href="{{ path('trickEditPage', {'slug': figure.slug} )}}" class="btn btn-info">
 			        <i class="fas fa-edit"></i>
@@ -28,93 +26,135 @@
             <div class="row mt-5">
                 {% if app.user %}
                     <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
-                        <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn btn-success mb-5 mx-auto px-auto d-block">Ajouter un média</a>
+                        <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn btn-success mb-3 mx-auto px-auto d-block">Ajouter un média</a>
                     </div>
                 {% endif %}
             </div>
         </div>
-
-        <div class="container bg bg-info my-5">
-
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="col-sm-12 col-md-12 col-lg-12 mx-0 px-0">
-                            <div class="row mx-0 px-0">
-                                {% for media in arrayMedias %}
-                                    <div class="carousel-item {% if loop.first %} active {% endif %} col-sm-2 col-md-2 col-lg-2 mx-0 px-0">
-                                        {% if media.type == "img" %}
-                                            {# <div class="row"> #}
-                                                <div class="col-sm-12 col-md-12 col-lg-12">	
-                                                    <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-                                                        <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" alt="slide 2">
-                                                        <div class="card-body">
-                                                            {% if app.user %}
-                                                                <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
-                                                                    <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
-                                                                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
-                                                                            <i class="fas fa-edit"></i>
-                                                                        </a>
-                                                                        <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
-                                                                        {# <a href="#" class="btn btn-danger"> #}
-                                                                            <i class="fas fa-trash-alt"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>	
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            {# </div> #}
-                                        {% else %}
-                                            <div class="row">
-                                                <div class="col-sm-12 col-md-12 col-lg-12">	
-                                                    <div class="card px-0 mx-0 bg-light rounded-3">
-                                                    <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                                        <div class="card-body">
-                                                            {% if app.user %}
-                                                                <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
-                                                                    <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
-                                                                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
-                                                                            <i class="fas fa-edit"></i>
-                                                                        </a>
-                                                                        <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
-                                                                        {# <a href="#" class="btn btn-danger"> #}
-                                                                            <i class="fas fa-trash-alt"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>	
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
+        <div class="container mt-3">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="col-sm-12 col-md-12 col-lg-12 mx-0 px-0">
+                        <div class="row mx-0 px-0">
+                            {% for media in arrayMedias %}
+                            <div class="carousel-item {% if loop.first %} active {% endif %} col-sm-2 col-md-2 col-lg-2 mx-0 px-0">
+                                {% if media.type == "img" %}
+                                <div class="col-sm-12 col-md-12 col-lg-12">	
+                                    <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                                        <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                                        <div class="card-body bg-light">
+                                        {% if app.user %}
+                                        <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
+                                            <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
+                                                <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </a>
                                             </div>
+                                        </div>	
                                         {% endif %}
                                     </div>
-                                {% endfor %}
+                                </div>
                             </div>
-                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                                <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
-                                <span class="sr-only">Previous</span>
-                            </a>
-                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="sr-only">Next</span>
-                            </a>
+                            {% else %}
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-lg-12">	
+                                        <div class="card px-0 mx-3 bg-light rounded-3">
+                                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            <div class="card-body">
+                                            {% if app.user %}
+                                            <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
+                                                <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
+                                                    <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
+                                                        <i class="fas fa-edit"></i>
+                                                    </a>
+                                                    <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                                                </div>
+                                            </div>	
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
+            </div>
+
+            <div class="medias-list-smartphone mx-0 my-0 px-0 py-0">
+                {% for media in arrayMedias %}
+                    {% if media.type == "img" %}
+                        <div class="card px-0 mx-0 mb-3 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                            <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                            <div class="card-body bg-light">
+                            {% if app.user %}
+                                <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="card px-0 mx-0 mb-3 bg-light rounded-3">
+                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <div class="card-body">
+                            {% if app.user %}
+                                <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
         </div> 
 
-        <div class="container my-5 bg bg-warning">
+        <div class="container my-0">
+                <div class="container-see-media">
+                    <div class="see-media">
+                        <button class="btn-see-media btn btn-primary mb-4">Voir les medias</button>
+                        <button class="btn-hidden-media btn btn-primary mb-4">Masquer les medias</button>
+                    </div>
+                </div>
 
-                <div class="see-media">
-			        <button class="btn btn-primary my-3" id="media-button">See media</button>
-		        </div>
-
-                <div class="row mx-0 px-0 d-flex justify-content-center align-items-center">
-                    <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Trick créé le :  </strong>{{figure.createdAt|date("d/m/Y")}}</div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Groupe du trick : </strong>{{figure.figureGroup.name}}</div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Trick modifié le :  </strong>{{figure.updatedAt|date("d/m/Y")}}</div>
+                <div class="row mx-0 px-0 mb-5 d-flex justify-content-center align-items-center">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
+                            <strong>Trick créé le :  </strong>{{figure.createdAt|date("d/m/Y")}}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
+                            <strong>Groupe du trick : </strong>{{figure.figureGroup.name}}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
+                            <strong>Trick modifié le :  </strong>{{figure.updatedAt|date("d/m/Y")}}
+                        </div>
+                    </div>
                 </div>
 
                 <div class="separator"></div>
@@ -133,6 +173,25 @@
                     {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
                 </div> 
             </div>
-
     </div>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript">
+        const btnSeeMedias = document.querySelector('.btn-see-media');
+        const btnHiddenMedias = document.querySelector('.btn-hidden-media');
+        const mediasList = document.querySelector('.medias-list-smartphone');
+
+        btnSeeMedias.addEventListener('click', () => { 
+            mediasList.style.display = 'block';
+            btnSeeMedias.style.display ='none';
+            btnHiddenMedias.style.display = 'block';
+        });
+
+        btnHiddenMedias.addEventListener('click', () => { 
+            mediasList.style.display = 'none';
+            btnHiddenMedias.style.display = 'none';
+            btnSeeMedias.style.display ='block';
+        });
+
+    </script>
 {% endblock %}
