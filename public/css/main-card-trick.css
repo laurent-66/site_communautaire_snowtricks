@@ -1,23 +1,13 @@
 @media screen and (min-width: 768px) {
 
-    .main-container
+    .main-card
     {
-        display:flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-    }
-
-    .trick-card
-    {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 05);
         position: absolute;
         top: 200px;
+        left:15%;
         width:70%;
+        margin: 0px auto;
+        background-color:rgba(108, 117, 125, 0.50);
     }
 
     .imgHeroTrick
@@ -40,35 +30,12 @@
         margin: 0px 100px;
     }
 
-    .item
-    {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        padding: 0px;
-    }
-
-    .item img
-    {
-        display: block;
-        margin: 30px 0px;
-    }
-
     .separator
     {
         border-bottom: 3px solid grey;
         width: 300px;
         margin: 5px auto 25px auto;
     }
-
-    .label-info
-    {
-        background-color:skyblue;
-        border-radius: 5px;
-        padding:15px;
-        margin:15px;
-    } 
 
 }
 
@@ -89,17 +56,7 @@
 
     }
 
-    .trick-card
-    {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-        background-color: rgba(255, 255, 255, 05);
-        position: absolute;
-        top: 0px;
-        width:100%;
-    }
+
 
     .imgHeroTrick
     {
