@@ -2,12 +2,9 @@
 
     .main-card
     {
-        position: absolute;
-        top: 200px;
-        left:15%;
-        width:70%;
-        margin: 0px auto;
-        background-color:rgba(108, 117, 125, 0.50);
+        width:100%;
+        margin: -500px auto 0px auto;
+
     }
 
     .imgHeroTrick
@@ -18,7 +15,7 @@
         align-items: center;
         margin: 0px;
         padding: 0px;
-        height:740px;
+        height:500px;
     }
 
     .imgHeroTrick h1
@@ -29,6 +26,13 @@
         text-shadow: 5px 5px 10px grey;
         margin: 0px 100px;
     }
+
+
+    .card-item-carousel
+    {
+        box-shadow: 5px 5px 10px grey, -5px -5px 10px grey;
+    }
+
 
     .separator
     {
