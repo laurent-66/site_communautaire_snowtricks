@@ -42,10 +42,9 @@
         justify-content: center;
         align-items: center;
         background-image:url("/images/snowboarding_1920x1000.png");
+        background-repeat: no-repeat;
         height: calc(100vh - 80px);
         filter: grayscale(40%);
-        background-repeat: no-repeat;
-
     }
 
     .imageHero h1 {
@@ -88,14 +87,13 @@
         padding: auto;
     }
 
-    .carousel-control-prev
+    /* .carousel-control-prev
     {
         margin: 0px;
         padding: 0px;
         position: relative;
         transform: translate(200%, 0);
         color: #6C757D;
-
     }
 
     .carousel-control-next
@@ -106,18 +104,8 @@
         transform: translate(0%, 0);
         color: #6C757D;
 
-    }
+    } */
 
-
-    /* Global parameter */
-
-    .main-container
-    {
-        display:flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-    }
 }
 
 @media screen and (max-width: 767px) {

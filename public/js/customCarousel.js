@@ -1,4 +1,4 @@
-$('#carouselExample').on('slide.bs.carousel', function (e) {
+$('#carouselExampleControls').on('slide.bs.carousel', function (e) {
 
     var $e = $(e.relatedTarget);
     var idx = $e.index();
