@@ -4,7 +4,9 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
@@ -24,13 +26,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
-     * 
+
      * @ORM\Column(type="string")
      */
     protected $pseudo;
 
     /**
      * @var string
+     * @Assert\NotBlank
+     * 
+     * @Assert\Email(
+     * message = "The email '{{ value }}' is not a valid email."
+     * )
      * 
      * @ORM\Column(type="string")
      */
@@ -38,6 +45,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
+     * @Assert\NotBlank
+     * 
+     * @SecurityAssert\UserPassword(
+     *     message = "Wrong value for your current password"
+     * )
      * 
      * @ORM\Column(type="string")
      */
@@ -46,7 +58,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @ORM\Column(type="string")
+     * @Assert\Url
+     * @ORM\Column(type="string",nullable=true)
      */
     protected $url_photo;
 

@@ -118,27 +118,35 @@ class SecurityController extends AbstractController
             $email = $request->request->get('email');
             $user = $userRepository->findOneBy(['email' => $email]);
 
-            // create a login link for $user this returns an instance
-            // of LoginLinkDetails
-            $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
-            $loginLink = $loginLinkDetails->getUrl();
+            if($user) {
 
-            // create a notification based on the login link details
+                // create a login link for $user this returns an instance
+                // of LoginLinkDetails
+                $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
 
-            $notification = new LoginLinkNotification(
-                $loginLinkDetails,
-                'Bienvenue sur le site communautaire snowtrick !' // email subject
-            );
+                // create a notification based on the login link details
 
-            
-            // create a recipient for this user
-            $recipient = new Recipient($user->getEmail());
+                $notification = new LoginLinkNotification(
+                    $loginLinkDetails,
+                    'Bienvenue sur le site communautaire snowtrick !' // email subject
+                );
 
-            // send the notification to the user
-            $notifier->send($notification, $recipient);
+                // create a recipient for this user
+                $recipient = new Recipient($user->getEmail());
 
-            // render a "Login link is sent!" page
-            return $this->render('core/security/login_link_sent.html.twig', ['loginLink'=> $loginLink]);
+                // send the notification to the user
+                $notifier->send($notification, $recipient);
+
+                // render a "Login link is sent!" page
+                
+                return $this->render('core/security/login_link_sent.html.twig');
+                // return $this->redirectToRoute('loginLink');
+
+            } else {
+
+                return $this->render('core/security/login_link_sent.html.twig');
+                // return $this->redirectToRoute('loginLink');
+            }
 
         }
 
