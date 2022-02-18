@@ -87,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @var string
      * 
-     * @ORM\column(type="string")
+     * @ORM\column(type="string", nullable=true)
      */
     protected $lastPasswordToken;
 
