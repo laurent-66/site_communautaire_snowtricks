@@ -127,7 +127,7 @@ class SecurityController extends AbstractController
 
             $notification = new LoginLinkNotification(
                 $loginLinkDetails,
-                'Welcome to MY WEBSITE!' // email subject
+                'Bienvenue sur le site communautaire snowtrick !' // email subject
             );
 
             
