@@ -26,17 +26,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
-
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide."
+     * )
      * @ORM\Column(type="string")
      */
     protected $pseudo;
 
     /**
      * @var string
-     * @Assert\NotBlank
-     * 
+     * @Assert\NotBlank(
+     * message = "La valeur ne peut être vide."
+     * )
      * @Assert\Email(
-     * message = "The email '{{ value }}' is not a valid email."
+     * message = "l'email '{{ value }}' n'est pas un email valide."
      * )
      * 
      * @ORM\Column(type="string")
@@ -45,11 +48,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
-     * @Assert\NotBlank
-     * 
-     * @SecurityAssert\UserPassword(
-     *     message = "Wrong value for your current password"
+     * @Assert\NotBlank(
+     * message = "La valeur ne peut être vide."
      * )
+     * 
+     * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères !")
+     * 
      * 
      * @ORM\Column(type="string")
      */

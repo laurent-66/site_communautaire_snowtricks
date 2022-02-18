@@ -47,35 +47,24 @@ class SecurityController extends AbstractController
         $passwordRegister = $registerData->getPassword();
         $urlPhotoRegister = $registerData->getUrlPhoto();
 
-        if(
-            strlen(trim($pseudoRegister)) === 0 ||
-            strlen(trim($emailRegister)) === 0 ||
-            strlen(trim($passwordRegister)) === 0
-        ) {
-
-            $error = 'Tout les champs sont requis.';
-        
-        }  else if ($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
 
             if(strlen(trim($urlPhotoRegister)) === 0 ) {
                 $user->setUrlPhoto('/images/mute-grab.JPG');
             }
  
-                    //Hash du mot de passe
-                    $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
-                    $user->setPassword($passwordHashed);
-                    //Persister l'utilisateur
-                    $this->entityManager->persist($user);
-                    $this->entityManager->flush();
-                    //Redirection
-                    return $this->redirectToRoute('homePage');
-
-            } else {
-                $error = "Tout les champs sont requis";
-            } 
-            return $this->render('core/auth/register.html.twig', ['form' => $form->createView(), 'error'=> $error]);
+            //Hash du mot de passe
+            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
+            $user->setPassword($passwordHashed);
+            //Persister l'utilisateur
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+            //Redirection
+            return $this->redirectToRoute('homePage');
         }
+        
+        return $this->render('core/auth/register.html.twig', ['form' => $form->createView()]);
+    } 
 
     /**
      * 
