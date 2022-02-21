@@ -676,21 +676,17 @@ class FigureController extends AbstractController
                         $newFilename
                         );
 
-                        //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
+                        //Update the current illustration with new filename
+
                         $this->currentIllustration->setUrlIllustration($newFilename);
-                        
-                        //enregistrement de l'id de la figure dans l'instance de l'object illustration
                         $this->currentIllustration->setFigure($this->currentfigure);
-                        
-                        //persistance de l'instance illustration
                         $this->entityManager->persist($this->currentIllustration);
+
                         
                         //enregistrement des illustrations dans l'instance de l'object figure courante
+
                         $this->currentfigure->addIllustration($currentIllustration);
-
-                        //persistance de la figure
                         $this->entityManager->persist($this->currentfigure);
-
                         $this->entityManager->flush();
 
                     } catch (FileException $e) {
@@ -716,6 +712,8 @@ class FigureController extends AbstractController
 
                     $objectVideo = $formEditMediasTrick->getData();
 
+                    $this->objectVideo = $objectVideo;
+
                     //récupération de l'url video
                     $urlVideo = $objectVideo->getUrlVideo();
 
@@ -723,24 +721,28 @@ class FigureController extends AbstractController
 
                         try {
 
-                            $attrSrc = stristr($urlVideo, 'embed/'); // recherche l'occurence 'm'
+                            //Update the new object Video
+
+                            $attrSrc = stristr($urlVideo, 'embed/'); 
+
                             $this->codeYoutube = substr($attrSrc, 6, 11);
+                            $this->objectVideo->setUrlVideo($this->codeYoutube);
+                            $this->objectVideo->setFigure($this->currentfigure);
+                            $this->objectVideo->setEmbed(true);
+                            $this->entityManager->persist($this->objectVideo);
+                            $this->entityManager->flush($this->objectVideo);
 
-                            //enregistrement de l'url de la video dans l'instance de l'object video
-                            $objectVideo->setUrlVideo($this->codeYoutube);
+                            //delete the old video object
 
-                            //enregistrement de l'id de la figure dans l'instance de l'object video
-                            $objectVideo->setFigure($this->currentfigure);
+                            $currentIdVideo = $videoRepository->findOneById($id);
+                            $entityManager->remove($currentIdVideo);
 
-                            $objectVideo->setEmbed(true);
+                            //add new object video into current figure
+                            // and delete the old video object
 
-                            //persistance de l'instance video
-                            $this->entityManager->persist($objectVideo);
-
-                            $this->currentfigure->removeVideo($objectVideo);                            
-
-                            //enregistrement des videos dans l'object figure courante
-                            $this->currentfigure->addVideo($objectVideo);
+                            $this->currentfigure->addVideo($this->objectVideo);   
+                            $this->entityManager->persist($this->currentfigure);
+                            $this->entityManager->flush($this->currentfigure);
 
                         } catch (FileException $e) {
                             dump($e);
@@ -751,25 +753,28 @@ class FigureController extends AbstractController
 
                         try {
 
-                            //récupération de l'url video
+                            //Update the new object Video
+
                             $this->codeYoutube = substr($urlVideo, -11);
+                            $this->objectVideo->setUrlVideo($this->codeYoutube);
+                            $this->objectVideo->setFigure($this->currentfigure);
+                            $this->objectVideo->setEmbed(true);
+                            $this->entityManager->persist($this->objectVideo);
+                            $this->entityManager->flush($this->objectVideo);
 
-                            //enregistrement de l'url de la video dans l'instance de l'object video
-                            $objectVideo->setUrlVideo($this->codeYoutube);
-
-
-                            //enregistrement de l'id de la figure dans l'instance de l'object video
-                            $objectVideo->setFigure($this->currentfigure);
-
-                            $objectVideo->setEmbed(true);
                             
-                            //persistance de l'instance video
-                            $this->entityManager->persist($objectVideo);
+                            //delete the old video object
 
-                            $this->currentfigure->removeVideo($objectVideo);
-                            
-                            //enregistrement des videos dans l'object figure courante
-                            $this->currentfigure->addVideo($objectVideo);    
+                            $currentIdVideo = $videoRepository->findOneById($id);
+                            $entityManager->remove($currentIdVideo);
+
+
+                            //add new object video into current figure
+
+                            $this->currentfigure->addVideo($this->objectVideo);   
+                            $this->entityManager->persist($this->currentfigure);
+                            $this->entityManager->flush($this->currentfigure);
+
 
                             }catch (FileException $e) {
                                 dump($e);
