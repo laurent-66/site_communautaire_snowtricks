@@ -325,5 +325,15 @@ class Figure
             $this->videos->remove($video);
         }
     }
+    
+    // public function removeVideo(Video $video)
+    // {
+    //     $this->video = $video;
+
+    //     if($this->videos->contains($this->video))
+    //     {
+    //         $this->videos->current();
+    //     }
+    // }
 
 }
