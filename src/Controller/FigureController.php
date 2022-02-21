@@ -7,6 +7,7 @@ use App\Entity\Figure;
 use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\NewTrickType;
+use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
 use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
@@ -20,11 +21,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FigureController extends AbstractController
 {
@@ -537,6 +538,7 @@ class FigureController extends AbstractController
 
                 //préparation des urls images pour la base de données 
                 foreach( $videosCollection as $objectVideo ) {
+
                     //récupération de l'url video
                     $urlVideo = $objectVideo->getUrlVideo();
 
@@ -608,6 +610,8 @@ class FigureController extends AbstractController
         return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $this->codeYoutube]);
     }
 
+
+
     /**
      * Updating a media of a trick
      * 
@@ -625,71 +629,169 @@ class FigureController extends AbstractController
         SluggerInterface $slugger,
         Request $request
 
-    ){
+    ) {
 
+        $typeMedia = $request->query->get('type');
         //je récupère la figure qui correspond au slug
+
         $currentfigure = $figureRepository->findOneBySlug($slug);
+
         $currentIllustration = $illustrationRepository->findOneById($id);
 
-        $this->entityManager = $entityManager;
+        $currentVideo = $videoRepository->findOneById($id);
+
         $this->currentfigure = $currentfigure;
         $this->currentIllustration = $currentIllustration;
+        $this->currentVideo = $currentVideo;
+        $this->entityManager = $entityManager;
         $this->codeYoutube = '';
 
-        $formEditMediasTrick = $this->createForm(EditOneIllustrationType::class);
 
-        $formEditMediasTrick->handleRequest($request); 
-    
-        if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) { 
+            if($typeMedia === 'image') {
+                echo 'image';
 
-            $objectIllustration = $formEditMediasTrick->get('urlIllustration')->getData();
+                $formEditMediasTrick = $this->createForm(EditOneIllustrationType::class);
 
-            $image = $objectIllustration->getClientOriginalName();
-
-            //récupération du nom sans extension de l'image
-            $originalFilename = pathinfo($image, PATHINFO_FILENAME);
-
-            $safeFilename = $slugger->slug($originalFilename);
-
-            // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->guessClientExtension();
+                $formEditMediasTrick->handleRequest($request); 
             
+                if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) { 
 
-            // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
-            try {
-                $objectIllustration->move(
-                $this->getParameter('illustrationsCollection_directory'),
-                $newFilename
-                );
+                    $objectIllustration = $formEditMediasTrick->get('urlIllustration')->getData();
 
-                //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
-                $this->currentIllustration->setUrlIllustration($newFilename);
-                
-                //enregistrement de l'id de la figure dans l'instance de l'object illustration
-                $this->currentIllustration->setFigure($this->currentfigure);
-                
-                //persistance de l'instance illustration
-                $this->entityManager->persist($this->currentIllustration);
-                
-                //enregistrement des illustrations dans l'instance de l'object figure courante
-                $this->currentfigure->addIllustration($currentIllustration);
+                    $image = $objectIllustration->getClientOriginalName();
+
+                    //récupération du nom sans extension de l'image
+                    $originalFilename = pathinfo($image, PATHINFO_FILENAME);
+
+                    $safeFilename = $slugger->slug($originalFilename);
+
+                    // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->guessClientExtension();
+                    
+
+                    // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
+                    try {
+                        $objectIllustration->move(
+                        $this->getParameter('illustrationsCollection_directory'),
+                        $newFilename
+                        );
+
+                        //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
+                        $this->currentIllustration->setUrlIllustration($newFilename);
+                        
+                        //enregistrement de l'id de la figure dans l'instance de l'object illustration
+                        $this->currentIllustration->setFigure($this->currentfigure);
+                        
+                        //persistance de l'instance illustration
+                        $this->entityManager->persist($this->currentIllustration);
+                        
+                        //enregistrement des illustrations dans l'instance de l'object figure courante
+                        $this->currentfigure->addIllustration($currentIllustration);
+
+                        //persistance de la figure
+                        $this->entityManager->persist($this->currentfigure);
+
+                        $this->entityManager->flush();
+
+                    } catch (FileException $e) {
+                        dump($e);
+                    }
+
+                    //Redirection
+                    return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
+
+                } 
+
+                return $this->render('core/figures/trickEditIllustration.html.twig', ['formEditMediasTrick' => $formEditMediasTrick->createView(),'currentfigure' => $currentfigure]);
+
+
+            } else {
+
+                $formEditMediasTrick = $this->createForm(EditOneVideoType::class);
+
+                $formEditMediasTrick->handleRequest($request); 
+
             
-            } catch (FileException $e) {
-                dump($e);
+                if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) {
+
+                    $objectVideo = $formEditMediasTrick->getData();
+
+                    //récupération de l'url video
+                    $urlVideo = $objectVideo->getUrlVideo();
+
+                    if ( stristr($urlVideo,"embed") ) {
+
+                        try {
+
+                            $attrSrc = stristr($urlVideo, 'embed/'); // recherche l'occurence 'm'
+                            $this->codeYoutube = substr($attrSrc, 6, 11);
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($this->codeYoutube);
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
+
+                            $objectVideo->setEmbed(true);
+
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+
+                            $this->currentfigure->removeVideo($objectVideo);                            
+
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);
+
+                        } catch (FileException $e) {
+                            dump($e);
+                        }
+
+
+                    }else{
+
+                        try {
+
+                            //récupération de l'url video
+                            $this->codeYoutube = substr($urlVideo, -11);
+
+                            //enregistrement de l'url de la video dans l'instance de l'object video
+                            $objectVideo->setUrlVideo($this->codeYoutube);
+
+
+                            //enregistrement de l'id de la figure dans l'instance de l'object video
+                            $objectVideo->setFigure($this->currentfigure);
+
+                            $objectVideo->setEmbed(true);
+                            
+                            //persistance de l'instance video
+                            $this->entityManager->persist($objectVideo);
+
+                            $this->currentfigure->removeVideo($objectVideo);
+                            
+                            //enregistrement des videos dans l'object figure courante
+                            $this->currentfigure->addVideo($objectVideo);    
+
+                            }catch (FileException $e) {
+                                dump($e);
+                            }
+                        
+                    }
+
+                    //Redirection
+                    return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);    
+
+                }
+
+                return $this->render('core/figures/trickEditVideo.html.twig', ['formEditMediasTrick' => $formEditMediasTrick->createView(),'currentfigure' => $currentfigure]);
+
             }
 
-            //persistance de la figure
-            $this->entityManager->persist($this->currentfigure);
-
-            $this->entityManager->flush();
-            
-            //Redirection
-            return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
-
-        }
-
-        return $this->render('core/figures/trickEditIllustration.html.twig', ['formEditMediasTrick' => $formEditMediasTrick->createView(),'currentfigure' => $currentfigure]);
     }
+
+
+
+
+
 
     /** Deleting a media from a trick */
 

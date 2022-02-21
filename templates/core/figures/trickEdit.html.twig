@@ -26,8 +26,16 @@
                     <div class="row mt-5">
                         {% if app.user %}
                         <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
-                            <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn-add-media btn btn-success mx-auto px-auto d-block">Ajouter un média</a>
+                            <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn-add-media btn btn-success mx-auto mb-4 px-auto d-block">Ajouter un média</a>
                         </div>
+                        <div class="container my-0">
+                            <div class="container-see-media">
+                                <div class="see-media">
+                                    <button class="btn-see-media btn btn-primary mb-4">Voir les medias</button>
+                                    <button class="btn-hidden-media btn btn-primary mb-4">Masquer les medias</button>
+                                </div>
+                            </div>
+                        </div> 
                         {% endif %}
                     </div>
                 </div> 
@@ -171,14 +179,7 @@
             {% endfor %}
         </div>
     </div> 
-    <div class="container my-0">
-        <div class="container-see-media">
-            <div class="see-media">
-                <button class="btn-see-media btn btn-primary mb-4">Voir les medias</button>
-                <button class="btn-hidden-media btn btn-primary mb-4">Masquer les medias</button>
-            </div>
-        </div>
-    </div> 
+
 {% endblock %}
 
 {% block javascripts %}

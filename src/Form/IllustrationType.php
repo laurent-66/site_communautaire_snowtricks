@@ -24,7 +24,8 @@ class IllustrationType extends AbstractType
             ])
             ->add( 'alternativeAttribute', TextType::class , [
 
-                'label'=> 'Entrez le nom de l\'image'
+                'label'=> 'Entrez le nom de l\'image',
+                'required' => false
             ]
             )
         ;
