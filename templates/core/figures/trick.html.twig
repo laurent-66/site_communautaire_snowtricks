@@ -85,9 +85,9 @@
                     {{form_end(formComment)}}
                 <div class="separator"></div>
                 <div class="row" id="container-figures">
-                    {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
+                    {% include "core/figures/__comments.html.twig" with {'comments': comments, 'urlImageProfile': urlImageProfile} %}
                 </div> 
-            </div>
+            </div> 
 
     </div>
 {% endblock %}

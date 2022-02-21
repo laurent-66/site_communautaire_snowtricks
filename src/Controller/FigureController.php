@@ -283,6 +283,9 @@ class FigureController extends AbstractController
 
         $nbSlides = round(($nbItemsIllustrations/6), 0 , PHP_ROUND_HALF_UP);
 
+
+        $urlImageProfile = $this->getParameter('images_profil_directory');
+
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
 
@@ -310,7 +313,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides ]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides, 'urlImageProfile'=> $urlImageProfile]);
     }
 
 
@@ -318,7 +321,7 @@ class FigureController extends AbstractController
     /**
      * trick edit
      * 
-     * @Route("/tricks/{slug}/edit", name="trickEditPage", methods={"get"})
+     * @Route("/tricks/{slug}/edit", name="trickEditPage", methods={"get"}) 
      */
 
     public function trickEdit(
