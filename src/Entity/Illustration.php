@@ -29,11 +29,23 @@ class Illustration
     /**
      * @var string
      * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide."
+     * )
+     * 
      * @ORM\Column(type="string")
      */
     protected $alternativeAttribute;
 
 
+
+    /**
+     * @Assert\File(
+     *     maxSize = "1024k",
+     *     mimeTypes = {"application/jpeg", "application/jpg", "application/png"},
+     *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
+     * )
+     */
     protected $fileIllustration;
 
     /**
