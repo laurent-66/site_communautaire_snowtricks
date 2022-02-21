@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <p>Votre demande de réinitialisation de mot de passe à bien été pris en compte, veuillez consulter votre boite email.</p>
-
-    <a href="{{loginLink}}"><p>Lien magique provisoire pour test</p></a>
+    <div class="container-fluid container-body">
+        <div class="card">
+            <div class="card-body bg bg-light">
+                <p class="font-weight-bold mx-0 px-0 my-0 py-0">
+                    Votre demande de réinitialisation de mot de passe à bien été pris en compte, veuillez consulter votre boite email.
+                </p> 
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

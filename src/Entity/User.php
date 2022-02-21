@@ -4,7 +4,9 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 /**
@@ -24,13 +26,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
-     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide."
+     * )
      * @ORM\Column(type="string")
      */
     protected $pseudo;
 
     /**
      * @var string
+     * @Assert\NotBlank(
+     * message = "La valeur ne peut être vide."
+     * )
+     * @Assert\Email(
+     * message = "l'email '{{ value }}' n'est pas un email valide."
+     * )
      * 
      * @ORM\Column(type="string")
      */
@@ -38,6 +48,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
+     * @Assert\NotBlank(
+     * message = "La valeur ne peut être vide."
+     * )
+     * 
+     * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères !")
+     * 
      * 
      * @ORM\Column(type="string")
      */
@@ -46,9 +62,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @ORM\Column(type="string")
+     * @Assert\Url
+     * @ORM\Column(type="string",nullable=true)
      */
-    protected $url_photo;
+    protected $urlPhoto;
 
 
     public function __construct()
@@ -87,7 +104,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @var string
      * 
-     * @ORM\column(type="string")
+     * @ORM\column(type="string", nullable=true)
      */
     protected $lastPasswordToken;
 
@@ -165,15 +182,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUrlPhoto(): ?string
     {
-        return $this->url_photo;
+        return $this->urlPhoto;
     }
 
     /**
      * @param string $url_photo
      */
-    public function setUrlPhoto(string $url_photo): void
+    public function setUrlPhoto(string $urlPhoto): void
     {
-        $this->url_photo = $url_photo;
+        $this->urlPhoto = $urlPhoto;
     }
         /**
      * @return Datetime 

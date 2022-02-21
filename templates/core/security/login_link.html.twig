@@ -16,12 +16,35 @@
                             <label for="email">Email:</label>
                             <input type="email" class="form-control" id="email" name="email"/>
                         </div>        
-                        <button type="submit" class="btn btn-primary">Envoyer le lien de connexion</button>
+                        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Envoyer le lien de connexion</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Votre demande de réinitialisation de mot de passe à bien été pris en compte, veuillez consulter votre boite email.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 {% endblock %}
