@@ -65,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Url
      * @ORM\Column(type="string",nullable=true)
      */
-    protected $url_photo;
+    protected $urlPhoto;
 
 
     public function __construct()
@@ -182,15 +182,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUrlPhoto(): ?string
     {
-        return $this->url_photo;
+        return $this->urlPhoto;
     }
 
     /**
      * @param string $url_photo
      */
-    public function setUrlPhoto(string $url_photo): void
+    public function setUrlPhoto(string $urlPhoto): void
     {
-        $this->url_photo = $url_photo;
+        $this->urlPhoto = $urlPhoto;
     }
         /**
      * @return Datetime 

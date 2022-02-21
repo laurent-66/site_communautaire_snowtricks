@@ -50,7 +50,7 @@ class SecurityController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if(strlen(trim($urlPhotoRegister)) === 0 ) {
-                $user->setUrlPhoto('/images/mute-grab.JPG');
+                $user->setUrlPhoto('defaultProfil.jpg');
             }
  
             //Hash du mot de passe

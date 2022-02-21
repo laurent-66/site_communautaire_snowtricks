@@ -11,12 +11,12 @@
                 {% if comment.author.urlPhoto %}
                     <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
                 {% else %}
-                    <div class="borderImageProfil"><i class="fas fa-user fa-3x authorPictureComment"></i></div>
+                    <div class="borderImageProfil"><img class="authorPictureComment" src="/images/defaultProfil.jpg" alt="author image default"></div>
                 {% endif %} 
             </div>
             <div class="col-sm-11 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3 content-comment">
                 <strong>{{comment.author.pseudo}}</strong> a dit :
-                <blockquote> {{comment.content}}</blockquote>
+                <blockquote> {{comment.content}}</blockquote> 
             </div>
         </div>
     </div>
