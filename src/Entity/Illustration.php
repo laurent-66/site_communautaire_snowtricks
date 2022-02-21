@@ -3,6 +3,8 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IllustrationRepository")
@@ -29,12 +31,24 @@ class Illustration
     /**
      * @var string
      * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide."
+     * )
+     * 
      * @ORM\Column(type="string")
      */
     protected $alternativeAttribute;
 
 
+    /**
+    * @Assert\Image(
+    *     maxSize = "1024k",
+    *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
+    *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
+    * )
+    */
     protected $fileIllustration;
+
 
     /**
      * @var Datetime 
