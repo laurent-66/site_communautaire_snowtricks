@@ -248,44 +248,44 @@ class FigureController extends AbstractController
 
         //Je récupère tous les commentaires lié à la figure
         $comments = $commentRepository->findBy(['figure' => $figure]);
-
+        
         //je récupère tous les medias lié à la figure
-
+        
         $arrayIllustration = $illustrationRepository->findBy(['figure' => $figure]);
-
+        
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-        $arrayMedias = [];
+        $this->arrayMedias = [];
+        $this->objectMedia = [];
+        
         $arrayIllustrationLength = count($arrayIllustration);
-
+                
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
+            $id = $arrayIllustration[$i]->getId();
             $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
-            $url_Illustration = '/uploads/illustrationsCollection/'.$uri_Illustration;
-            array_push($arrayMedias, $url_Illustration );   
-        }  
+            $tag = "img";
+            $this->objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+        
+            array_push($this->arrayMedias, $this->objectMedia);
+        
+        }   
         
         //récupération de toute les url video lié à la figure joint dans un tableau $video
         $arrayVideo = $videoRepository->findBy(['figure' => $figure]);
-
+        
         //récupération de toute les url illustration lié à la figure joint dans un tableau $illustration
-
+                
         $arrayVideoLength = count($arrayVideo);
-
+                
         for ($i = 0 ; $i < (int)$arrayVideoLength ; $i++) {
-
+            $id = $arrayVideo[$i]->getId();
             $url_video = $arrayVideo[$i]->getUrlVideo();
-
-            array_push($arrayMedias, $url_video);   
-        }      
-
-        //nombre d'items dans la collection des médias
-        $nbItemsIllustrations = count($arrayMedias);
-
-        //nombre de slides nécessaire pour afficher toutes les illustrations (entier arrondi supérieur) 
-
-        $nbSlides = round(($nbItemsIllustrations/6), 0 , PHP_ROUND_HALF_UP);
-
-
-        $urlImageProfile = $this->getParameter('images_profil_directory');
+            $tag = "iframe";
+            $this->objectMedia = ["path"=>$url_video, "type"=> $tag , "id"=>$id];
+            array_push($this->arrayMedias, $this->objectMedia);
+                 
+        }  
+        
+        $arrayMedias = $this->arrayMedias;
 
         //création du formulaire avec les propriétées de l'entitée Comment
         $formComment = $this->createForm(CommentType::class);
@@ -314,7 +314,7 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         }
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'nbItemsIllustrations' => $nbItemsIllustrations, 'nbSlides' => $nbSlides, 'urlImageProfile'=> $urlImageProfile]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
     }
 
 
