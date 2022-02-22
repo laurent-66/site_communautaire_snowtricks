@@ -318,22 +318,12 @@ class Figure
         }
     }
 
-    public function removeVideo(Video $video)
-    {
-        if($this->videos->contains($video))
-        {
-            $this->videos->remove($video);
-        }
-    }
-    
     // public function removeVideo(Video $video)
     // {
-    //     $this->video = $video;
-
-    //     if($this->videos->contains($this->video))
+    //     if($this->videos->contains($video))
     //     {
-    //         $this->videos->current();
+    //         $this->videos->remove($video);
     //     }
     // }
-
+    
 }
