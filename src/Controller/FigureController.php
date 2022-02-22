@@ -9,6 +9,7 @@ use App\Form\CommentType;
 use App\Form\NewTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
+use App\Form\DescriptionTrickType;
 use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Form\EditOneIllustrationType;
@@ -20,8 +21,8 @@ use App\Repository\IllustrationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\ParameterBag;
 
+use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -378,35 +379,40 @@ class FigureController extends AbstractController
         }  
 
         $arrayMedias = $this->arrayMedias;
-
-        //création du formulaire avec les propriétées de l'entitée Comment
-        $formComment = $this->createForm(CommentType::class);
+    
+        //création du formulaire pour description du trick
+        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$figure);
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
-        $formComment->handleRequest($request);
+        $formDescriptionTrick->handleRequest($request);
+
+        // dump($formDescriptionTrick);
+        // exit;
         
-        if($formComment->isSubmitted() && $formComment->isValid()) {
-            try{
+        // if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
+        //     try{
         
-                $newComment = $formComment->getData();
-                $newComment->setFigure($figure);
-                $newComment->setAuthor($this->getUser());
+        //         $descriptionTrick = $formDescriptionTrick->getData();
+
+        //         $descriptionTrick->setDescription($currentDescription);
+
+        //         $descriptionTrick->setFigureGroup($currentfigureGroup)
             
                 //Persister le commentaire
-                $this->entityManager->persist($newComment);
-                $this->entityManager->flush();
+                // $this->entityManager->persist($newComment);
+                // $this->entityManager->flush();
         
-                }catch(Exception $e){
+                // }catch(Exception $e){
         
-                    dump($e);
-                    exit;
-                }
+                //     dump($e);
+                //     exit;
+                // }
         
                 //Redirection
-                    return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
-            }
+                    // return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+            // }
 
-        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formComment' => $formComment->createView()]);
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView()]);
     }
 
 

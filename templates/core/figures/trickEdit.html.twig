@@ -125,21 +125,33 @@
                     </div>
                 </div>
 
-                <div class="separator"></div>
-                {{form_start(formComment)}}
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
-                        {{form_widget(formComment.content)}}
+                <div class="container">
+                    {{form_start(formDescriptionTrick)}}
+                    <div class="row">
+                        <div class="col-12">
+                        {{form_row(formDescriptionTrick.name)}}
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-3 mx-auto">
-                        <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formDescriptionTrick.description)}}
+                        </div>
                     </div>
-                </div>
-                {{form_end(formComment)}}
-                <div class="separator"></div>
-                <div class="row" id="container-figures">
-                    {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
-                </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {# {{form_row(formDescriptionTrick.figureGroup)}} #}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                        <a href="#"><button class="btn btn-lg btn-danger btn-block mb-3">Supprimer la figure</button> </a>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Enregistrer la figure</button>
+                        </div>
+                    </div>
+                    {{form_end(formDescriptionTrick)}}
+                </div>   
             </div>
         </div>
     </div>
