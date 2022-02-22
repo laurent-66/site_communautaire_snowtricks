@@ -10,6 +10,7 @@ use App\Form\NewTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
 use App\Form\DescriptionTrickType;
+use App\Form\UpdateCoverImageType;
 use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Form\EditOneIllustrationType;
@@ -20,8 +21,8 @@ use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -416,6 +417,62 @@ class FigureController extends AbstractController
     }
 
 
+
+
+    /**
+     * trick delete video
+     * 
+     * @Route("/tricks/{slug}/edit/updateCoverImage", name="trickUpdateCoverImage")
+     */
+
+    public function trickUdapteCoverImage(
+
+        $slug,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        FigureRepository $figureRepository
+    ){
+        $figure = $figureRepository->findOneBySlug($slug);
+
+        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class);
+
+        $formUpdateCoverImage->handleRequest($request);
+    
+        if($formUpdateCoverImage->isSubmitted() && $formUpdateCoverImage->isValid()) {
+
+            try{
+
+                $updatefigure = $formUpdateCoverImage->getData();
+                dump($updatefigure );
+                exit;
+                // $form ->setFigure($figure);
+                // $form ->setAuthor($this->getUser());
+    
+                // //Persister le commentaire
+                // $this->entityManager->persist($newComment);
+                // $this->entityManager->flush();
+
+            }catch(Exception $e){
+
+                dump($e);
+                exit;
+            }
+
+
+            return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
+     
+        }
+
+        // $figure->setCoverImage("image-solid.svg");
+        // $entityManager->persist($figure);
+        // $entityManager->flush();
+
+
+        //Redirection
+        return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
+    }
+
+
     /**
      * trick delete
      * 
@@ -800,10 +857,6 @@ class FigureController extends AbstractController
     }
 
 
-
-
-
-
     /** Deleting a media from a trick */
 
     /**
@@ -862,6 +915,29 @@ class FigureController extends AbstractController
         //Redirection
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
 
+    }
+
+    /**
+     * trick delete video
+     * 
+     * @Route("/tricks/{slug}/edit/deleteCoverImage", name="trickDeleteCoverImage")
+     */
+
+    public function trickDeleteCoverImage(
+
+        $slug,
+        EntityManagerInterface $entityManager,
+        FigureRepository $figureRepository
+    ){
+        $figure = $figureRepository->findOneBySlug($slug);
+
+        $figure->setCoverImage("image-solid.svg");
+        $entityManager->persist($figure);
+        $entityManager->flush();
+
+
+        //Redirection
+        return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
     }
 
 }

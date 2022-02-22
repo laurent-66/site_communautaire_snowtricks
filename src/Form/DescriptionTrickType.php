@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Figure;
+use App\Entity\FigureGroup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -25,15 +27,8 @@ class DescriptionTrickType extends AbstractType
                     'label'=>'Modifier la description de la figure',
                     'required' => false
                 ])
-
-            // ->add('figureGroup', ChoiceType::class, [
-            //     'choices' => [
-            //         'Sélectionner un group' => [
-            //             'Yes' => 'stock_yes',
-            //             'No' => 'stock_no'
-            //         ]
-            //     ]
-            // ])
+                
+            ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class])
         ;
     }
 
