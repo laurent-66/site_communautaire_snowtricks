@@ -19,6 +19,7 @@ use App\Form\EditIllustrationTrickType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -324,7 +325,7 @@ class FigureController extends AbstractController
     /**
      * trick edit
      * 
-     * @Route("/tricks/{slug}/edit", name="trickEditPage", methods={"get"}) 
+     * @Route("/tricks/{slug}/edit", name="trickEditPage") 
      */
 
     public function trickEdit(
@@ -333,9 +334,12 @@ class FigureController extends AbstractController
         CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
         VideoRepository $videoRepository,
+        SluggerInterface $slugger,
+        EntityManagerInterface $entityManager,
         Request $request
 
     ){
+        $this->entityManager =  $entityManager;
 
         //je récupère la figure qui correspond au slug
         $figure = $figureRepository->findOneBySlug($slug);
@@ -387,33 +391,49 @@ class FigureController extends AbstractController
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formDescriptionTrick->handleRequest($request);
 
-        // dump($formDescriptionTrick);
-        // exit;
-        
-        // if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
-        //     try{
-        
-        //         $descriptionTrick = $formDescriptionTrick->getData();
+        $this->messageError = null;
 
-        //         $descriptionTrick->setDescription($currentDescription);
+        
+        if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
+            try{
+        
+                $descriptionTrick = $formDescriptionTrick->getData();
+                // dump($descriptionTrick);
+                // exit;
+                $nameTrickField = $descriptionTrick->getName();
+                $descriptionfield = $descriptionTrick->getDescription();
+                $figureGroupSelect = $descriptionTrick->getFigureGroup();
+                $coverImageTrick = $descriptionTrick->getCoverImage();
+                $nameTrickSluger = $slugger->slug($nameTrickField);
 
-        //         $descriptionTrick->setFigureGroup($currentfigureGroup)
-            
-                //Persister le commentaire
-                // $this->entityManager->persist($newComment);
-                // $this->entityManager->flush();
-        
-                // }catch(Exception $e){
-        
-                //     dump($e);
-                //     exit;
-                // }
-        
-                //Redirection
-                    // return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
-            // }
+                $coverImageTrick === null ? '' : $coverImageTrick;
 
-        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView()]);
+                    // if(!$nameTrickSluger){
+                        $figure->setName($nameTrickField);
+                        $figure->setSlug($nameTrickSluger);
+                        $figure->setDescription($descriptionfield);
+                        $figure->setCoverImage($coverImageTrick);
+                        $figure->setFigureGroup($figureGroupSelect);
+                        dump($figure);
+                        exit;
+                        $this->entityManager->persist($figure);
+                        $this->entityManager->flush();
+
+                    // } else {
+                    //     $this->messageError  = " Attention ce nom existe déjà ! Veuillez changer l'intitulé";
+                    //     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(), 'messageError' => $this->messageError , 'error' => true]);
+                    // }
+        
+            }catch(Exception $e){
+        
+                dump($e);
+                exit;
+            }
+
+            return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+        }
+
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $this->messageError ,'error' => false ]);
     }
 
 
@@ -434,7 +454,7 @@ class FigureController extends AbstractController
     ){
         $figure = $figureRepository->findOneBySlug($slug);
 
-        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class);
+        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class, $figure);
 
         $formUpdateCoverImage->handleRequest($request);
     
@@ -451,16 +471,12 @@ class FigureController extends AbstractController
                 // //Persister le commentaire
                 // $this->entityManager->persist($newComment);
                 // $this->entityManager->flush();
-                return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
-
+                
             }catch(Exception $e){
 
                 dump($e);
                 exit;
             }
-
-
-            return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
      
         }
 
@@ -468,8 +484,6 @@ class FigureController extends AbstractController
         // $entityManager->persist($figure);
         // $entityManager->flush();
 
-
-        //Redirection
         return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
     }
 

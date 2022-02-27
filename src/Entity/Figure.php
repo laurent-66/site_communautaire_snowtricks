@@ -47,7 +47,7 @@ class Figure
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable="true")
      */
     private $coverImage;
 
@@ -192,7 +192,7 @@ class Figure
      *
      * @return string
      */
-    public function getCoverImage(): string
+    public function getCoverImage(): string 
     {
         return $this->coverImage;
     }

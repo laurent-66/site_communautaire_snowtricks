@@ -25,11 +25,11 @@ class UpdateCoverImageType extends AbstractType
             // every time you edit the Product details
             'required' => false,
         ])
-        ->add( 'alternativeAttribute', TextType::class , [
+        // ->add( 'alternativeAttribute', TextType::class , [
 
-            'label'=> 'Entrez le nom de l\'image',
-            'required' => false
-        ])
+        //     'label'=> 'Entrez le nom de l\'image',
+        //     'required' => false
+        // ])
         ;
     }
 
