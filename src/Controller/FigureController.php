@@ -505,7 +505,7 @@ class FigureController extends AbstractController
             }
             return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
         }
-        return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
+        return $this->render('core/figures/updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
     }
 
 
