@@ -42,6 +42,7 @@ class UpdateProfilType extends AbstractType
                 // every time you edit the Product details
                 'required' => false,
             ])
+
             ->add('save', SubmitType::class,[
                 "label"=>"Modifier le profil",
                 "attr" => [

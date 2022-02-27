@@ -62,7 +62,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @Assert\Url
      * @ORM\Column(type="string",nullable=true)
      */
     protected $urlPhoto;
