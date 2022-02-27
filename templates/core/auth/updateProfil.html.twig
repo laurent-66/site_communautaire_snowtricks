@@ -6,15 +6,10 @@
         <div class="row">
             <div class="col-sm-12 col-md-8 col-lg-6 mx-auto my-auto">
                 <div class="container card rounded shadow p-4 my-5 d-flex flex-column">
-                    {# {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                    {% endif %} #}
                     <h2 class="text-center mt-3">Mon profil</h2>
                     <div class="container-picture-profil mt-3">
                         {% if user.urlphoto %}
-                            <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo laurent" class="rounded-circle d-block"></div>
+                            <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo avatar utilisateur" class="rounded-circle d-block"></div>
                         {% else %}
                             <div><img src="/images/defaultProfil.png" alt="defaultProfil" class="rounded-circle d-block"></div>
                         {% endif %}    

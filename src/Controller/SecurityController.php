@@ -203,7 +203,6 @@ class SecurityController extends AbstractController
             }
 
             return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
-
         }
         
             return $this->redirectToRoute('homePage');
@@ -263,16 +262,13 @@ class SecurityController extends AbstractController
 
                 $profil->setUrlPhoto($newFilename);
             }
-
             //Persister l'utilisateur
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             //Redirection
             return $this->redirectToRoute('homePage');
-        }else{
-            $error = "Veuillez renseigner tout les champs";
         }
 
-        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user, 'error'=> $error]);
+        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user]);
     }
 }
