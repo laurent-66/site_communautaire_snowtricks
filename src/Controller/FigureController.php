@@ -451,6 +451,7 @@ class FigureController extends AbstractController
                 // //Persister le commentaire
                 // $this->entityManager->persist($newComment);
                 // $this->entityManager->flush();
+                return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
 
             }catch(Exception $e){
 
