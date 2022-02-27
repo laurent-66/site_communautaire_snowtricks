@@ -9,6 +9,8 @@ use App\Form\CommentType;
 use App\Form\NewTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
+use App\Form\DescriptionTrickType;
+use App\Form\UpdateCoverImageType;
 use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Form\EditOneIllustrationType;
@@ -19,9 +21,9 @@ use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ParameterBag;
-
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -378,35 +380,97 @@ class FigureController extends AbstractController
         }  
 
         $arrayMedias = $this->arrayMedias;
-
-        //création du formulaire avec les propriétées de l'entitée Comment
-        $formComment = $this->createForm(CommentType::class);
+    
+        //création du formulaire pour description du trick
+        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$figure);
 
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
-        $formComment->handleRequest($request);
+        $formDescriptionTrick->handleRequest($request);
+
+        // dump($formDescriptionTrick);
+        // exit;
         
-        if($formComment->isSubmitted() && $formComment->isValid()) {
-            try{
+        // if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
+        //     try{
         
-                $newComment = $formComment->getData();
-                $newComment->setFigure($figure);
-                $newComment->setAuthor($this->getUser());
+        //         $descriptionTrick = $formDescriptionTrick->getData();
+
+        //         $descriptionTrick->setDescription($currentDescription);
+
+        //         $descriptionTrick->setFigureGroup($currentfigureGroup)
             
                 //Persister le commentaire
-                $this->entityManager->persist($newComment);
-                $this->entityManager->flush();
+                // $this->entityManager->persist($newComment);
+                // $this->entityManager->flush();
         
-                }catch(Exception $e){
+                // }catch(Exception $e){
         
-                    dump($e);
-                    exit;
-                }
+                //     dump($e);
+                //     exit;
+                // }
         
                 //Redirection
-                    return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+                    // return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+            // }
+
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView()]);
+    }
+
+
+
+
+    /**
+     * trick delete video
+     * 
+     * @Route("/tricks/{slug}/edit/updateCoverImage", name="trickUpdateCoverImage")
+     */
+
+    public function trickUdapteCoverImage(
+
+        $slug,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        FigureRepository $figureRepository
+    ){
+        $figure = $figureRepository->findOneBySlug($slug);
+
+        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class);
+
+        $formUpdateCoverImage->handleRequest($request);
+    
+        if($formUpdateCoverImage->isSubmitted() && $formUpdateCoverImage->isValid()) {
+
+            try{
+
+                $updatefigure = $formUpdateCoverImage->getData();
+                dump($updatefigure );
+                exit;
+                // $form ->setFigure($figure);
+                // $form ->setAuthor($this->getUser());
+    
+                // //Persister le commentaire
+                // $this->entityManager->persist($newComment);
+                // $this->entityManager->flush();
+                return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
+
+            }catch(Exception $e){
+
+                dump($e);
+                exit;
             }
 
-        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formComment' => $formComment->createView()]);
+
+            return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
+     
+        }
+
+        // $figure->setCoverImage("image-solid.svg");
+        // $entityManager->persist($figure);
+        // $entityManager->flush();
+
+
+        //Redirection
+        return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
     }
 
 
@@ -794,10 +858,6 @@ class FigureController extends AbstractController
     }
 
 
-
-
-
-
     /** Deleting a media from a trick */
 
     /**
@@ -856,6 +916,29 @@ class FigureController extends AbstractController
         //Redirection
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
 
+    }
+
+    /**
+     * trick delete video
+     * 
+     * @Route("/tricks/{slug}/edit/deleteCoverImage", name="trickDeleteCoverImage")
+     */
+
+    public function trickDeleteCoverImage(
+
+        $slug,
+        EntityManagerInterface $entityManager,
+        FigureRepository $figureRepository
+    ){
+        $figure = $figureRepository->findOneBySlug($slug);
+
+        $figure->setCoverImage("image-solid.svg");
+        $entityManager->persist($figure);
+        $entityManager->flush();
+
+
+        //Redirection
+        return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
     }
 
 }

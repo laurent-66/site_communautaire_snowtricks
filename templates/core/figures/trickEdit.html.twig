@@ -14,13 +14,54 @@
                 <h1>{{figure.name}}</h1>
             </div>
             <div class="manageImageHero">
-                <a href="{{ path('trickEditPage', {'slug': figure.slug} )}}" class="btn btn-info">
+
+                <a href="{{ path('trickUpdateCoverImage', {'slug': figure.slug} )}}" class="btn btn-info">
                     <i class="fas fa-edit"></i>
-                </a>
-                <a href="#" class="btn btn-danger">
+                </a>     
+
+                {# <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                <i class="fas fa-edit"></i>
+                </button> #}
+
+                <a href="{{ path('trickDeleteCoverImage', {'slug': figure.slug } ) }}" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </div> 
+
+
+                {# <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                           {{form_start(formUpdateCoverImage)}}
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">Modification image de couverture</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <div class="modal-body">
+ 
+                            {{form_row(formUpdateCoverImage.coverImage)}}
+                            
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" type="submit">Save changes</button>
+                            </div>
+                            {{form_end(formUpdateCoverImage)}}
+                        </div>
+                    </div>
+                </div> #}
+
+
+
+
+
+
+
             <div class="card-body">
                 <div class="container">
                     <div class="row mt-5">
@@ -107,39 +148,33 @@
                     </div>
                 </div>
 
-                <div class="row mx-0 px-0 my-5 d-flex justify-content-center align-items-center">
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
-                            <strong>Trick créé le :  </strong>{{figure.createdAt|date("d/m/Y")}}
+                <div class="container">
+                    {{form_start(formDescriptionTrick)}}
+                    <div class="row">
+                        <div class="col-12">
+                        {{form_row(formDescriptionTrick.name)}}
                         </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
-                            <strong>Groupe du trick : </strong>{{figure.figureGroup.name}}
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formDescriptionTrick.description)}}
                         </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
-                            <strong>Trick modifié le :  </strong>{{figure.updatedAt|date("d/m/Y")}}
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formDescriptionTrick.figureGroup)}}
                         </div>
                     </div>
-                </div>
-
-                <div class="separator"></div>
-                {{form_start(formComment)}}
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
-                        {{form_widget(formComment.content)}}
+                    <div class="row flex-wrap-reverse">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                        <a href="#"><button class="btn btn-lg btn-danger btn-block mb-3">Supprimer</button> </a>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Enregistrer</button>
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-3 mx-auto">
-                        <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
-                    </div>
-                </div>
-                {{form_end(formComment)}}
-                <div class="separator"></div>
-                <div class="row" id="container-figures">
-                    {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
-                </div>
+                    {{form_end(formDescriptionTrick)}}
+                </div>   
             </div>
         </div>
     </div>
