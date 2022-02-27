@@ -450,8 +450,11 @@ class FigureController extends AbstractController
         $slug,
         Request $request,
         EntityManagerInterface $entityManager,
-        FigureRepository $figureRepository
+        FigureRepository $figureRepository,
+        SluggerInterface $slugger 
     ){
+        $this->entityManager = $entityManager;
+
         $figure = $figureRepository->findOneBySlug($slug);
 
         $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class, $figure);
@@ -462,28 +465,46 @@ class FigureController extends AbstractController
 
             try{
 
-                $updatefigure = $formUpdateCoverImage->getData();
-                dump($updatefigure );
-                exit;
-                // $form ->setFigure($figure);
-                // $form ->setAuthor($this->getUser());
-    
-                // //Persister le commentaire
-                // $this->entityManager->persist($newComment);
-                // $this->entityManager->flush();
-                
+                $coverImage = $formUpdateCoverImage->get('coverImage')->getData();
+
+                if ($coverImage) {
+                    $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImage->guessExtension();
+
+                    // Move the file to the directory where images are stored
+                    try {
+                        $coverImage->move(
+                            $this->getParameter('images_directory'),
+                            $newFilename
+                        );
+
+                    } catch (FileException $e) {
+                        dump($e);
+                    }
+
+                    $alternativeAttribute = $formUpdateCoverImage->get('alternativeAttribute')->getData();
+                    $figure->setCoverImage($newFilename);
+                    $figure->setAlternativeAttribute($alternativeAttribute);
+                    $this->entityManager->persist($figure);
+                    $this->entityManager->flush();
+
+                } else {
+
+                    $figure->setCoverImage("image-solid.svg");
+                    $figure->setAlternativeAttribute('default-image');
+                    $this->entityManager->persist($figure);
+                    $this->entityManager->flush();
+                }
+
             }catch(Exception $e){
 
                 dump($e);
                 exit;
             }
-     
+            return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
         }
-
-        // $figure->setCoverImage("image-solid.svg");
-        // $entityManager->persist($figure);
-        // $entityManager->flush();
-
         return $this->render('updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
     }
 
