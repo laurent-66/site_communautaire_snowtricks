@@ -52,6 +52,15 @@ class Figure
     private $coverImage;
 
     /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=255)
+     * 
+     */
+    private $alternativeAttribute;
+
+    /**
      * @var Datetime 
      * 
      * @ORM\column(type="datetime")
@@ -192,7 +201,7 @@ class Figure
      *
      * @return string
      */
-    public function getCoverImage(): string
+    public function getCoverImage(): string 
     {
         return $this->coverImage;
     }
@@ -205,6 +214,27 @@ class Figure
     public function setCoverImage(string $coverImage): void
     {
         $this->coverImage = $coverImage;
+
+    }
+
+
+    /**
+     *
+     * @return string
+     */
+    public function getAlternativeAttribute(): string
+    {
+        return $this->alternativeAttribute;
+    }
+
+    /**
+     *
+     * @param string $alternativeAttribute
+     * 
+     */
+    public function setAlternativeAttribute(string $alternativeAttribute): void
+    {
+        $this->alternativeAttribute = $alternativeAttribute;
 
     }
 

@@ -149,12 +149,24 @@
                 </div>
 
                 <div class="container">
+
+                        <div class="row alert alert-danger" role="alert">
+                            {{ messageError }}
+                        </div>
+   
+
+
                     {{form_start(formDescriptionTrick)}}
+
                     <div class="row">
                         <div class="col-12">
                         {{form_row(formDescriptionTrick.name)}}
                         </div>
                     </div>
+
+
+
+
                     <div class="row">
                         <div class="col-12">
                             {{form_row(formDescriptionTrick.description)}}
