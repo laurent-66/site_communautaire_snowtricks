@@ -414,8 +414,6 @@ class FigureController extends AbstractController
                         $figure->setDescription($descriptionfield);
                         $figure->setCoverImage($coverImageTrick);
                         $figure->setFigureGroup($figureGroupSelect);
-                        dump($figure);
-                        exit;
                         $this->entityManager->persist($figure);
                         $this->entityManager->flush();
 
@@ -480,6 +478,7 @@ class FigureController extends AbstractController
                             $newFilename
                         );
 
+
                     } catch (FileException $e) {
                         dump($e);
                     }
@@ -499,6 +498,7 @@ class FigureController extends AbstractController
                 }
 
             }catch(Exception $e){
+
 
                 dump($e);
                 exit;
@@ -967,10 +967,10 @@ class FigureController extends AbstractController
     ){
         $figure = $figureRepository->findOneBySlug($slug);
 
-        $figure->setCoverImage("image-solid.svg");
+        $figure->setCoverImage('defaultCoverImage');
+        $figure->setAlternativeAttribute('image par defaut');
         $entityManager->persist($figure);
         $entityManager->flush();
-
 
         //Redirection
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
