@@ -478,6 +478,7 @@ class FigureController extends AbstractController
                             $newFilename
                         );
 
+
                     } catch (FileException $e) {
                         dump($e);
                     }
@@ -497,6 +498,7 @@ class FigureController extends AbstractController
                 }
 
             }catch(Exception $e){
+
 
                 dump($e);
                 exit;
