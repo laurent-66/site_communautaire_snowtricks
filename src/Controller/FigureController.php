@@ -114,6 +114,7 @@ class FigureController extends AbstractController
 
                 //préparation des urls images pour la base de données 
                 foreach( $imagesCollection as $objectIllustration ) {
+
                     //récupération de l'image
                     $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
                     //récupération du nom sans extension de l'image
@@ -391,7 +392,7 @@ class FigureController extends AbstractController
         //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
         $formDescriptionTrick->handleRequest($request);
 
-        $this->messageError = null;
+        $this->messageError = '';
 
         
         if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
@@ -401,27 +402,29 @@ class FigureController extends AbstractController
                 // dump($descriptionTrick);
                 // exit;
                 $nameTrickField = $descriptionTrick->getName();
-                $descriptionfield = $descriptionTrick->getDescription();
-                $figureGroupSelect = $descriptionTrick->getFigureGroup();
-                $coverImageTrick = $descriptionTrick->getCoverImage();
-                $nameTrickSluger = $slugger->slug($nameTrickField);
 
-                $coverImageTrick === null ? '' : $coverImageTrick;
+                if (!$nameTrickField ){
+                    $descriptionfield = $descriptionTrick->getDescription();
+                    $figureGroupSelect = $descriptionTrick->getFigureGroup();
+                    $coverImageTrick = $descriptionTrick->getCoverImage();
+                    $nameTrickSluger = $slugger->slug($nameTrickField);
+    
+                    $coverImageTrick === null ? '' : $coverImageTrick;
+    
+                        // if(!$nameTrickSluger){
+                            $figure->setName($nameTrickField);
+                            $figure->setSlug($nameTrickSluger);
+                            $figure->setDescription($descriptionfield);
+                            $figure->setCoverImage($coverImageTrick);
+                            $figure->setFigureGroup($figureGroupSelect);
+                            $this->entityManager->persist($figure);
+                            $this->entityManager->flush();
 
-                    // if(!$nameTrickSluger){
-                        $figure->setName($nameTrickField);
-                        $figure->setSlug($nameTrickSluger);
-                        $figure->setDescription($descriptionfield);
-                        $figure->setCoverImage($coverImageTrick);
-                        $figure->setFigureGroup($figureGroupSelect);
-                        $this->entityManager->persist($figure);
-                        $this->entityManager->flush();
+                } else {
+                    $this->messageError  = " Attention ce nom existe déjà ! Veuillez changer l'intitulé";
+                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $this->messageError ,'error' => false ]);
+                }
 
-                    // } else {
-                    //     $this->messageError  = " Attention ce nom existe déjà ! Veuillez changer l'intitulé";
-                    //     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(), 'messageError' => $this->messageError , 'error' => true]);
-                    // }
-        
             }catch(Exception $e){
         
                 dump($e);
@@ -497,8 +500,6 @@ class FigureController extends AbstractController
                 }
 
             }catch(Exception $e){
-
-
                 dump($e);
                 exit;
             }
@@ -560,8 +561,6 @@ class FigureController extends AbstractController
         $slug,
         FigureRepository $figureRepository,
         EntityManagerInterface $entityManager,
-        IllustrationRepository $illustrationRepository,
-        VideoRepository $videoRepository,
         SluggerInterface $slugger,
         Request $request
 
@@ -596,6 +595,7 @@ class FigureController extends AbstractController
 
                 //préparation des urls images pour la base de données 
                 foreach( $imagesCollection as $objectIllustration ) {
+
                     //récupération de l'image
                     $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
                     //récupération du nom sans extension de l'image
@@ -604,6 +604,8 @@ class FigureController extends AbstractController
                     $safeFilename = $slugger->slug($originalFilename);
                     // renommage du fichier composé du nom du fichier slugger-identifiant sha1 unique.son extension
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+
+                    $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
 
                     // enregistrement du média sur le serveur à l'adresse indiqué par mediasCollection_directory
                     try {
@@ -614,6 +616,8 @@ class FigureController extends AbstractController
                         //enregistrement de l'url de l'illustration dans l'instance de l'object illustration
                         $objectIllustration->setUrlIllustration($newFilename);
 
+                        $objectIllustration->setAlternativeAttribute($alternativeAttribute);
+
                         //enregistrement de l'id de la figure dans l'instance de l'object illustration
                         $objectIllustration->setFigure($this->currentfigure);
 
@@ -623,13 +627,10 @@ class FigureController extends AbstractController
                         //enregistrement des illustrations dans l'instance de l'object figure courante
                         $this->currentfigure->addIllustration($objectIllustration);
 
-
                     } catch (FileException $e) {
                         dump($e);
                     }
-
                 }
-
             }
 
             if ($videosCollection) {
@@ -708,8 +709,6 @@ class FigureController extends AbstractController
         return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $this->codeYoutube]);
     }
 
-
-
     /**
      * Updating a media of a trick
      * 
@@ -743,7 +742,6 @@ class FigureController extends AbstractController
         $this->currentVideo = $currentVideo;
         $this->entityManager = $entityManager;
         $this->codeYoutube = '';
-
 
             if($typeMedia === 'image') {
                 echo 'image';

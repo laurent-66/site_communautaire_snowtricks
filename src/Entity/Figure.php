@@ -8,6 +8,8 @@ use App\Entity\Illustration;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -55,6 +57,9 @@ class Figure
      *
      * @var string
      * 
+     * @Assert\NotBlank(
+     * message = "La valeur ne peut être vide."
+     * )
      * @ORM\Column(type="string", length=255)
      * 
      */

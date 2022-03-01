@@ -15,11 +15,21 @@
 
                     <h2 class="text-center">Création Trick</h2>
                     {{form_start(formTrick)}}
-                    {{form_row(formTrick.name)}}
-                    {{form_widget(formTrick.coverImage)}}
-                    {{form_row(formTrick.description)}}
-                    {{form_widget(formTrick.figureGroup)}}
-
+                    <div class="mb-3">
+                        {{form_row(formTrick.name)}}
+                    </div>
+                    <div class="mb-3">
+                        {{form_widget(formTrick.coverImage)}}
+                    </div>
+                    <div class="mb-3">
+                        {{form_widget(formTrick.alternativeAttribute)}}
+                    </div>
+                    <div class="mb-3">
+                        {{form_row(formTrick.description)}}
+                    </div>
+                    <div class="mb-3">
+                        {{form_widget(formTrick.figureGroup)}}
+                    </div>
                     <ul class="illustrations" data-index="{{ formTrick.illustrations|length > 0 ? formTrick.illustrations|last.vars.illustrations + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
                     <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
                     <ul class="videos" data-index="{{ formTrick.videos|length > 0 ? formTrick.videos|last.vars.videos + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
