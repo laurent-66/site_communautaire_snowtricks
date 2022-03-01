@@ -343,6 +343,8 @@ class FigureController extends AbstractController
 
         //je récupère la figure qui correspond au slug
         $figure = $figureRepository->findOneBySlug($slug);
+        dump($figure);
+        exit;
 
         //Je récupère tous les commentaires lié à la figure
         $comments = $commentRepository->findBy(['figure' => $figure]);
