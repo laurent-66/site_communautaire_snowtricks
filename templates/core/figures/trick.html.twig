@@ -18,7 +18,7 @@
                 <a href="{{ path('trickEditPage', {'slug': figure.slug} )}}" class="btn btn-info">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="#" class="btn btn-danger">
+                <a href="{{ path('trickDeletePage', {'slug': figure.slug} ) }}" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </div> 
@@ -103,17 +103,21 @@
                     <p>{{figure.description}}</p>
                 </div>
                 <div class="separator"></div>
-                {{form_start(formComment)}}
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
-                        {{form_widget(formComment.content)}}
+
+                {% if app.user %}
+                    {{form_start(formComment)}}
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
+                            {{form_widget(formComment.content)}}
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3 mx-auto">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
+                        </div>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4 mb-3 mx-auto">
-                        <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
-                    </div>
-                </div>
-                {{form_end(formComment)}}
-                <div class="separator"></div>
+                    {{form_end(formComment)}}
+                    <div class="separator"></div>
+                {% endif %}
+
                 <div class="row" id="container-figures">
                     {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
                 </div>

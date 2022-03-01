@@ -527,14 +527,26 @@ class FigureController extends AbstractController
 
         $arrayIllustrations = $illustrationRepository->findByFigure($idTrick);
 
+
         //Delete physical images on server
 
         foreach($arrayIllustrations as $objectIllustration) {
+
+            //delete illustration
             $fileName = $objectIllustration->getUrlIllustration();
             $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
-            $filePath = $pathIllustrationsCollection."/".$fileName;
+            $filePath = $pathIllustrationsCollection.'\\'.$fileName;
             unlink($filePath);
+ 
         }
+
+            //delete coverImage
+            $fileNameCoverImage = $currentTrick->getCoverImage();
+            $pathCoverImage = $this->getParameter('images_directory');
+            $filePath = $pathCoverImage.'\\'. $fileNameCoverImage ;
+            unlink($filePath);
+
+
 
         //remove trick in database
 
