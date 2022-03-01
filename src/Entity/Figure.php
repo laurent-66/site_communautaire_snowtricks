@@ -96,6 +96,18 @@ class Figure
      */
     private $author;
 
+
+    /**
+     * Relation Figure OneToMany Comment
+     * 
+     * @var Comment
+     * 
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="figure", cascade={"ALL"})
+     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
+     */
+    private $comment;
+
+
     /**
      * @var FigureGroup
      * 
@@ -289,6 +301,23 @@ class Figure
     public function setAuthor(User $author): void
     {
         $this->author = $author;
+    }
+
+
+    /**
+     * @return Comment 
+     */
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function setComment(Comment $comment): void
+    {
+        $this->comment = $comment;
     }
 
     /**
