@@ -252,10 +252,19 @@ class SecurityController extends AbstractController
 
                 // Move the file to the directory where images are stored
                 try {
+
+                    //deletion of the stored image
+                    $currentUrlPhoto = $user->getUrlPhoto();
+                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
+                    $filePath = $pathUrlPhoto."/".$currentUrlPhoto; 
+                    unlink($filePath);
+
+                    //Adding the image to store
                     $profilImage->move(
                         $this->getParameter('images_profil_directory'),
                         $newFilename
                     );
+
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -272,3 +281,10 @@ class SecurityController extends AbstractController
         return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user]);
     }
 }
+
+
+
+
+
+
+

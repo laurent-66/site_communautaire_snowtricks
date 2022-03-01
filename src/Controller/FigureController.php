@@ -965,6 +965,12 @@ class FigureController extends AbstractController
     ){
         $figure = $figureRepository->findOneBySlug($slug);
 
+        $currentCoverImage = $figure->getCoverImage();
+
+        $pathCoverImage = $this->getParameter('images_directory');
+        $filePath = $pathCoverImage."/".$currentCoverImage;
+        unlink($filePath);
+
         $figure->setCoverImage('defaultCoverImage');
         $figure->setAlternativeAttribute('image par defaut');
         $entityManager->persist($figure);
