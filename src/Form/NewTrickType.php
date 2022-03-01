@@ -39,7 +39,8 @@ class NewTrickType extends AbstractType
                     'entry_type' => IllustrationType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                ]
+                    'label'=> false
+                ],
             )
             ->add(
                 'videos',
@@ -48,8 +49,14 @@ class NewTrickType extends AbstractType
                     'entry_type' => VideoType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
+                    'label'=> false
                 ]
             )
+            ->add( 'alternativeAttribute', TextType::class , [
+
+                'label'=> 'Entrez le nom de l\'image',
+                'required' => false
+            ])
         ;
     }
 

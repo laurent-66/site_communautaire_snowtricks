@@ -122,7 +122,6 @@ class Comment
         $this->updatedAt = $updatedAt;
     }
 
-
     /**
      * @return User 
      */
