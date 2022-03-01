@@ -478,7 +478,6 @@ class FigureController extends AbstractController
                             $newFilename
                         );
 
-
                     } catch (FileException $e) {
                         dump($e);
                     }
@@ -966,6 +965,12 @@ class FigureController extends AbstractController
         FigureRepository $figureRepository
     ){
         $figure = $figureRepository->findOneBySlug($slug);
+
+        $currentCoverImage = $figure->getCoverImage();
+
+        $pathCoverImage = $this->getParameter('images_directory');
+        $filePath = $pathCoverImage."/".$currentCoverImage;
+        unlink($filePath);
 
         $figure->setCoverImage('defaultCoverImage');
         $figure->setAlternativeAttribute('image par defaut');

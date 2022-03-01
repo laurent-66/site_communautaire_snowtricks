@@ -23,51 +23,11 @@
 
                 <a href="{{ path('trickUpdateCoverImage', {'slug': figure.slug} )}}" class="btn btn-info">
                     <i class="fas fa-edit"></i>
-                </a>     
-
-                {# <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                <i class="fas fa-edit"></i>
-                </button> #}
-
+                </a>    
                 <a href="{{ path('trickDeleteCoverImage', {'slug': figure.slug } ) }}" class="btn btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </a>
             </div> 
-
-
-                {# <!-- Modal -->
-                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered" role="document">
-                        <div class="modal-content">
-                           {{form_start(formUpdateCoverImage)}}
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLongTitle">Modification image de couverture</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-
-                            <div class="modal-body">
- 
-                            {{form_row(formUpdateCoverImage.coverImage)}}
-                            
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary" type="submit">Save changes</button>
-                            </div>
-                            {{form_end(formUpdateCoverImage)}}
-                        </div>
-                    </div>
-                </div> #}
-
-
-
-
-
-
-
             <div class="card-body">
                 <div class="container">
                     <div class="row mt-5">
@@ -153,15 +113,10 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="container">
-
                         <div class="row alert alert-danger" role="alert">
                             {{ messageError }}
                         </div>
-   
-
-
                     {{form_start(formDescriptionTrick)}}
 
                     <div class="row">
@@ -169,10 +124,6 @@
                         {{form_row(formDescriptionTrick.name)}}
                         </div>
                     </div>
-
-
-
-
                     <div class="row">
                         <div class="col-12">
                             {{form_row(formDescriptionTrick.description)}}
@@ -196,7 +147,6 @@
             </div>
         </div>
     </div>
-
     <div class="container mt-3">
         <div class="medias-list-smartphone mx-0 my-0 px-0 py-0">
             {% for media in arrayMedias %}
