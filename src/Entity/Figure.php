@@ -11,11 +11,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+//* @UniqueEntity("name")
+
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("name")
  */
 class Figure 
 {
