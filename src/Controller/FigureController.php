@@ -414,8 +414,6 @@ class FigureController extends AbstractController
                         $figure->setDescription($descriptionfield);
                         $figure->setCoverImage($coverImageTrick);
                         $figure->setFigureGroup($figureGroupSelect);
-                        dump($figure);
-                        exit;
                         $this->entityManager->persist($figure);
                         $this->entityManager->flush();
 

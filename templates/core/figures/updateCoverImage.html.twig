@@ -1,21 +1,27 @@
 {% extends "base.html.twig" %}
-{% block title %}Création trick{% endblock %}
+{% block title %} Edition de l'image de couverture {% endblock %}
 
 {% block body %} 
 <div class="container-fluid mx-0 my-0 px-0 mx-0">
     <div class="container-fluid container-body">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="container card rounded shadow p-3 mb-5">
-                    <h2 class="text-center">Création Trick</h2>
-                    {{form_start(formUpdateCoverImage)}}
-                    {{form_widget(formUpdateCoverImage.coverImage)}}
-                    {{form_widget(formUpdateCoverImage.alternativeAttribute)}}
-                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
-                    {{form_end(formUpdateCoverImage)}}
+        <div class="container">
+            <div class="row ">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <div class="card-editCoverImage container card rounded shadow p-3 mb-5">
+                        <h2 class="text-center">Edition de l'image de couverture</h2>
+                        {{form_start(formUpdateCoverImage)}}
+                        <div class="mb-3">
+                            {{form_widget(formUpdateCoverImage.coverImage)}}
+                        </div>
+                        <div class="mb-3">
+                            {{form_widget(formUpdateCoverImage.alternativeAttribute)}}
+                        </div>
+                        <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
+                        {{form_end(formUpdateCoverImage)}}
+                    </div>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 {% endblock %} 
