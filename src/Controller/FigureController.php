@@ -498,6 +498,7 @@ class FigureController extends AbstractController
 
             }catch(Exception $e){
 
+
                 dump($e);
                 exit;
             }
