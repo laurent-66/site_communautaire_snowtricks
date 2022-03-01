@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("name")
  */
 class Figure 
 {
@@ -57,9 +58,6 @@ class Figure
      *
      * @var string
      * 
-     * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide."
-     * )
      * @ORM\Column(type="string", length=255)
      * 
      */
@@ -96,6 +94,18 @@ class Figure
      */
     private $author;
 
+
+    /**
+     * Relation Figure OneToMany Comment
+     * 
+     * @var Comment
+     * 
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="figure", cascade={"ALL"})
+     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
+     */
+    private $comment;
+
+
     /**
      * @var FigureGroup
      * 
@@ -107,6 +117,8 @@ class Figure
 
     /**
      * @var Collection
+     * 
+     * 
      * 
      * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
      * 
@@ -289,6 +301,23 @@ class Figure
     public function setAuthor(User $author): void
     {
         $this->author = $author;
+    }
+
+
+    /**
+     * @return Comment 
+     */
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function setComment(Comment $comment): void
+    {
+        $this->comment = $comment;
     }
 
     /**

@@ -403,15 +403,20 @@ class FigureController extends AbstractController
                 // exit;
                 $nameTrickField = $descriptionTrick->getName();
 
-                if (!$nameTrickField ){
+                $nameExist = $figureRepository->findOneByName($nameTrickField);
+ 
+                if (!$nameExist){
+
                     $descriptionfield = $descriptionTrick->getDescription();
                     $figureGroupSelect = $descriptionTrick->getFigureGroup();
                     $coverImageTrick = $descriptionTrick->getCoverImage();
+
+                    $coverImageTrick == null ? '' : $coverImageTrick;
+
                     $nameTrickSluger = $slugger->slug($nameTrickField);
     
-                    $coverImageTrick === null ? '' : $coverImageTrick;
+            
     
-                        // if(!$nameTrickSluger){
                             $figure->setName($nameTrickField);
                             $figure->setSlug($nameTrickSluger);
                             $figure->setDescription($descriptionfield);
@@ -423,7 +428,7 @@ class FigureController extends AbstractController
                 } else {
                     $this->messageError  = " Attention ce nom existe déjà ! Veuillez changer l'intitulé";
                     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $this->messageError ,'error' => false ]);
-                }
+                } 
 
             }catch(Exception $e){
         
@@ -527,14 +532,26 @@ class FigureController extends AbstractController
 
         $arrayIllustrations = $illustrationRepository->findByFigure($idTrick);
 
+
         //Delete physical images on server
 
         foreach($arrayIllustrations as $objectIllustration) {
+
+            //delete illustration
             $fileName = $objectIllustration->getUrlIllustration();
             $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
-            $filePath = $pathIllustrationsCollection."/".$fileName;
+            $filePath = $pathIllustrationsCollection.'\\'.$fileName;
             unlink($filePath);
+ 
         }
+
+            //delete coverImage
+            $fileNameCoverImage = $currentTrick->getCoverImage();
+            $pathCoverImage = $this->getParameter('images_directory');
+            $filePath = $pathCoverImage.'\\'. $fileNameCoverImage ;
+            unlink($filePath);
+
+
 
         //remove trick in database
 
