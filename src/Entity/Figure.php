@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("name")
  */
 class Figure 
 {
@@ -57,9 +58,6 @@ class Figure
      *
      * @var string
      * 
-     * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide."
-     * )
      * @ORM\Column(type="string", length=255)
      * 
      */
@@ -119,6 +117,8 @@ class Figure
 
     /**
      * @var Collection
+     * 
+     * 
      * 
      * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
      * 

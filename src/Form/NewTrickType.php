@@ -39,7 +39,9 @@ class NewTrickType extends AbstractType
                     'entry_type' => IllustrationType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                    'label'=> false
+                    'label'=> false,
+                    // 'error_bubbling'=> false
+                    
                 ],
             )
             ->add(
