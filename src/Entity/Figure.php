@@ -18,7 +18,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
-
  */
 class Figure 
 {
