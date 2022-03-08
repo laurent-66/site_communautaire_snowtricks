@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 //* @UniqueEntity("name")
@@ -18,6 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("name", message = "Le nom de la figure déjà existant")
+ * 
  */
 class Figure 
 {

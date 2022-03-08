@@ -249,6 +249,8 @@ class FigureController extends AbstractController
 
         //je récupère la figure qui correspond au slug
         $figure = $figureRepository->findOneBySlug($slug);
+        dump($figure);
+        exit;
 
         //Je récupère tous les commentaires lié à la figure
         $comments = $commentRepository->findBy(['figure' => $figure]);
@@ -399,36 +401,22 @@ class FigureController extends AbstractController
             try{
         
                 $descriptionTrick = $formDescriptionTrick->getData();
-                // dump($descriptionTrick);
-                // exit;
                 $nameTrickField = $descriptionTrick->getName();
+                $descriptionfield = $descriptionTrick->getDescription();
+                $figureGroupSelect = $descriptionTrick->getFigureGroup();
+                $coverImageTrick = $descriptionTrick->getCoverImage();
 
-                $nameExist = $figureRepository->findOneByName($nameTrickField);
- 
-                if (!$nameExist){
+                $coverImageTrick == null ? 'defaultCoverImage' : $coverImageTrick;
 
-                    $descriptionfield = $descriptionTrick->getDescription();
-                    $figureGroupSelect = $descriptionTrick->getFigureGroup();
-                    $coverImageTrick = $descriptionTrick->getCoverImage();
-
-                    $coverImageTrick == null ? '' : $coverImageTrick;
-
-                    $nameTrickSluger = $slugger->slug($nameTrickField);
+                $nameTrickSluger = $slugger->slug($nameTrickField);
     
-            
-    
-                            $figure->setName($nameTrickField);
-                            $figure->setSlug($nameTrickSluger);
-                            $figure->setDescription($descriptionfield);
-                            $figure->setCoverImage($coverImageTrick);
-                            $figure->setFigureGroup($figureGroupSelect);
-                            $this->entityManager->persist($figure);
-                            $this->entityManager->flush();
-
-                } else {
-                    $this->messageError  = " Attention ce nom existe déjà ! Veuillez changer l'intitulé";
-                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $this->messageError ,'error' => false ]);
-                } 
+                $figure->setName($nameTrickField);
+                $figure->setSlug($nameTrickSluger);
+                $figure->setDescription($descriptionfield);
+                $figure->setCoverImage($coverImageTrick);
+                $figure->setFigureGroup($figureGroupSelect);
+                $this->entityManager->persist($figure);
+                $this->entityManager->flush();
 
             }catch(Exception $e){
         
@@ -436,7 +424,9 @@ class FigureController extends AbstractController
                 exit;
             }
 
-            return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+            $newSlug = $figure->getSlug();
+
+            return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
 
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $this->messageError ,'error' => false ]);
@@ -545,11 +535,18 @@ class FigureController extends AbstractController
  
         }
 
-            //delete coverImage
-            $fileNameCoverImage = $currentTrick->getCoverImage();
+
+        //delete coverImage
+
+        $fileNameCoverImage = $currentTrick->getCoverImage();
+
+        if($fileNameCoverImage !== 'defaultCoverImage' ) {
+
             $pathCoverImage = $this->getParameter('images_directory');
             $filePath = $pathCoverImage.'\\'. $fileNameCoverImage ;
             unlink($filePath);
+        }
+
 
 
 
