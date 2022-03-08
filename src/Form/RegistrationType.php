@@ -23,12 +23,11 @@ class RegistrationType extends AbstractType
      * @param array $options
      * @return array
      */
-    private function getConfiguration($label, $placeholder, $type, $options = []) {
+    private function getConfiguration($label, $placeholder, $options = []) {
         return array_merge([
             'label' => $label,
             'attr' => [
                 'placeholder' => $placeholder,
-                'type' => $type
                 
             ],
             'required' => false
@@ -38,9 +37,9 @@ class RegistrationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "votre pseudo", "text"))
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse email", ""))
-            ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe", "password"))
+            ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "votre pseudo"))
+            ->add('email', TextType::class, $this->getConfiguration("Email", "Votre adresse email"))
+            ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe"))
             ->add('urlPhoto', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',

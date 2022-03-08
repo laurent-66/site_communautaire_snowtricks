@@ -8,6 +8,7 @@ use App\Form\IllustrationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AddMediasTrickType extends AbstractType
@@ -22,7 +23,8 @@ class AddMediasTrickType extends AbstractType
                     'entry_type' => IllustrationType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                ]
+                    'label' =>false,
+                ] 
             )
             ->add(
                 'videos',
@@ -31,10 +33,9 @@ class AddMediasTrickType extends AbstractType
                     'entry_type' => VideoType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
+                    'label' =>false
                 ]
             )
-
-
 
         ;
     }

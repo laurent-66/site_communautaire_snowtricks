@@ -203,7 +203,6 @@ class SecurityController extends AbstractController
             }
 
             return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
-
         }
         
             return $this->redirectToRoute('homePage');
@@ -253,26 +252,39 @@ class SecurityController extends AbstractController
 
                 // Move the file to the directory where images are stored
                 try {
+
+                    //deletion of the stored image
+                    $currentUrlPhoto = $user->getUrlPhoto();
+                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
+                    $filePath = $pathUrlPhoto."/".$currentUrlPhoto; 
+                    unlink($filePath);
+
+                    //Adding the image to store
                     $profilImage->move(
                         $this->getParameter('images_profil_directory'),
                         $newFilename
                     );
+
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
 
                 $profil->setUrlPhoto($newFilename);
             }
-
             //Persister l'utilisateur
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             //Redirection
             return $this->redirectToRoute('homePage');
-        }else{
-            $error = "Veuillez renseigner tout les champs";
         }
 
-        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user, 'error'=> $error]);
+        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user]);
     }
 }
+
+
+
+
+
+
+

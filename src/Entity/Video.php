@@ -4,6 +4,7 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
@@ -23,9 +24,13 @@ class Video
     /**
      * @var string
      * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide."
+     * )
+     * 
      * @ORM\Column(type="string")
      */
-    protected $url_video;
+    protected $urlVideo;
 
     /**
      * @var boolean
@@ -87,15 +92,15 @@ class Video
      */
     public function getUrlVideo(): string
     {
-        return $this->url_video;
+        return $this->urlVideo;
     }
 
     /**
      * @param string $url_video
      */
-    public function setUrlVideo(string $url_video): void
+    public function setUrlVideo(string $urlVideo): void
     {
-        $this->url_video = $url_video;
+        $this->urlVideo = $urlVideo;
     }
 
     /**
@@ -103,7 +108,7 @@ class Video
      */
     public function getEmbed(): bool
     {
-        return $this->url_video;
+        return $this->urlVideo;
     }
 
     /**

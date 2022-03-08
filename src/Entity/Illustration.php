@@ -3,6 +3,8 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IllustrationRepository")
@@ -38,15 +40,15 @@ class Illustration
     protected $alternativeAttribute;
 
 
-
     /**
-     * @Assert\File(
-     *     maxSize = "1024k",
-     *     mimeTypes = {"application/jpeg", "application/jpg", "application/png"},
-     *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
-     * )
-     */
+    * @Assert\Image(
+    *     maxSize = "1024k",
+    *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
+    *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
+    * )
+    */
     protected $fileIllustration;
+
 
     /**
      * @var Datetime 
