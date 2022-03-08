@@ -12,6 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
+//* @UniqueEntity("name")
+
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
