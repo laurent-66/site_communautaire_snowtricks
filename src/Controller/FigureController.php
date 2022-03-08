@@ -399,9 +399,7 @@ class FigureController extends AbstractController
             try{
         
                 $descriptionTrick = $formDescriptionTrick->getData();
-
                 $nameTrickField = $descriptionTrick->getName();
-
                 $descriptionfield = $descriptionTrick->getDescription();
                 $figureGroupSelect = $descriptionTrick->getFigureGroup();
                 $coverImageTrick = $descriptionTrick->getCoverImage();
@@ -415,8 +413,6 @@ class FigureController extends AbstractController
                 $figure->setDescription($descriptionfield);
                 $figure->setCoverImage($coverImageTrick);
                 $figure->setFigureGroup($figureGroupSelect);
-                // dump($figure);
-                // exit;
                 $this->entityManager->persist($figure);
                 $this->entityManager->flush();
 
@@ -426,7 +422,9 @@ class FigureController extends AbstractController
                 exit;
             }
 
-            return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
+            $newSlug = $figure->getSlug();
+
+            return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
 
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $this->messageError ,'error' => false ]);
