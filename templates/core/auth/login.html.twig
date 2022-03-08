@@ -1,35 +1,20 @@
-{% extends 'base.html.twig' %}
+{% extends "base.html.twig" %}
+{% block title %}Se connecter{% endblock %}
 
-{% block title %}Bienvenue{% endblock %}
-
-{% block body %}
-
-<div class="container-fluid container-body">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <div class="card rounded shadow p-3 mb-5">
-                <div class="card-body">
-                    {% if error %}
-                        <div>Identifiants Invalides</div>
-                    {% endif %}
-                    <h2 class="text-center">Connexion</h2>
-                    <form action="{{ path('login') }}" method="post">
-                        <div class="form-group">
-                            <label for="username">Email:</label>
-                            <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}"/>
-                        </div>        
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" class="form-control"  id="password" name="_password"/>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
-                    </form>
-                    <br>
-                    <a  href="{{path('loginLink')}}"><span> Mot de passe oublié ?</span></a>
+{% block body %} 
+<div class="container-fluid mx-0 my-0 px-0 mx-0" id="register">
+    <div class="container-fluid container-body">
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="container card rounded shadow p-3 mb-5">
+                    <h2 class="text-center">Se connecter</h2>
+                    {{form_start(formLogin)}}
+                    {{form_widget(formLogin)}}
+                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
+                    {{form_end(formLogin)}}
                 </div>
             </div>
-        </div>
+        </div>       
     </div>
 </div>
-
-{% endblock %}
+{% endblock %} 
