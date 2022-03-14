@@ -252,6 +252,7 @@ class FigureController extends AbstractController
         // dump($figure);
         // exit;
 
+
         //Je récupère tous les commentaires lié à la figure
         $comments = $commentRepository->findBy(['figure' => $figure]);
         
