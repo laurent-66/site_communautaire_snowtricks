@@ -29,8 +29,8 @@ class UpdateProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo', TextType::class, ['label'=> 'pseudo'])
-            ->add('email', EmailType::class, ["label"=>"Email"])
+            ->add('pseudo', TextType::class, ['label'=> 'Pseudo','required' => false])
+            ->add('email', TextType::class, ["label"=>"Email",'required' => false])
             ->add('url_photo', FileType::class, [
 
                 'label' => 'Image de profil (jpeg,jpg ou png)',
@@ -56,6 +56,7 @@ class UpdateProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => ['updateMail','base']
         ]);
     }
 }
