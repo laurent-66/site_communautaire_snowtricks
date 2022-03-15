@@ -22,7 +22,6 @@ use App\Repository\IllustrationRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\String\Slugger\SluggerInterface;
@@ -251,7 +250,6 @@ class FigureController extends AbstractController
         $figure = $figureRepository->findOneBySlug($slug);
         // dump($figure);
         // exit;
-
 
         //Je récupère tous les commentaires lié à la figure
         $comments = $commentRepository->findBy(['figure' => $figure]);
@@ -606,7 +604,7 @@ class FigureController extends AbstractController
             $imagesCollection = $formAddMediasTrick->get('illustrations')->getData();
             $videosCollection = $formAddMediasTrick->get('videos')->getData();
 
-            if ($imagesCollection) {
+            if ($imagesCollection) { 
 
                 //préparation des urls images pour la base de données 
                 foreach( $imagesCollection as $objectIllustration ) {

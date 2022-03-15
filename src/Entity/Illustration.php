@@ -24,6 +24,7 @@ class Illustration
     /**
      * @var string
      * 
+     * 
      * @ORM\Column(type="string")
      */
     protected $urlIllustration;
