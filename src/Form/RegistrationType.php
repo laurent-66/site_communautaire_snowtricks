@@ -52,16 +52,6 @@ class RegistrationType extends AbstractType
                 'required' => false,
             ])
 
-
-
-
-
-
-            // ->add('url_photo', UrlType::class,[
-            //     'label'=>'Photo de profil',
-            //     'attr'=> ['placholder' =>'Url de votre avatar', 'type' =>'text'],
-            //     'required' => false 
-            //     ])
         ;
     }
 
@@ -69,6 +59,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => ['updateMail','base']
         ]);
     }
 } 
