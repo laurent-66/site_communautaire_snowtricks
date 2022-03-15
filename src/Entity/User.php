@@ -6,12 +6,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\Validator\Constraints as SecurityAssert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @UniqueEntity("email", message = "L'email déjà existant", groups="updateMail")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -26,33 +28,40 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string
+     * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide."
+     * message = "La valeur ne peut être vide.",
+     * groups="base"
      * )
+     * 
+     * 
      * @ORM\Column(type="string")
      */
     protected $pseudo;
 
     /**
      * @var string
+     * 
      * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide."
+     * message = "La valeur ne peut être vide.",
+     * groups="base"
      * )
      * @Assert\Email(
-     * message = "l'email '{{ value }}' n'est pas un email valide."
+     * message = "l'email '{{ value }}' n'est pas un email valide.", groups="base"
      * )
      * 
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255)
      */
     protected $email;
 
     /**
      * @var string
      * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide."
+     * message = "La valeur ne peut être vide.",
+     * groups="base"
      * )
      * 
-     * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères !")
+     * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères !", groups="base")
      * 
      * 
      * @ORM\Column(type="string")

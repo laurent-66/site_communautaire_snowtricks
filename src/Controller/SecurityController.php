@@ -240,11 +240,12 @@ class SecurityController extends AbstractController
 
             $profil = $form->getData();
 
-            $profilImage = $form->get('url_photo')->getData();
+            $profilImage = $profil->getUrlPhoto();
 
             // upload and register the image profil
 
-            if ($profilImage) {
+            if ($profilImage !== "defaultProfil.jpg") {
+
                 $originalFilename = pathinfo($profilImage->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
@@ -270,7 +271,9 @@ class SecurityController extends AbstractController
                 }
 
                 $profil->setUrlPhoto($newFilename);
+
             }
+
             //Persister l'utilisateur
             $this->entityManager->persist($user);
             $this->entityManager->flush();
