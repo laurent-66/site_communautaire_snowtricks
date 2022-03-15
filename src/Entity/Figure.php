@@ -34,6 +34,12 @@ class Figure
     /**
      * @var string
      * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * )
+     * 
+     * 
+     * 
      * @ORM\Column(type="string")
      */
     private $name;
@@ -45,6 +51,11 @@ class Figure
 
     /**
      * @var string
+     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * )
+     * 
      * 
      * @ORM\Column(type="string")
      */
@@ -58,6 +69,10 @@ class Figure
     /**
      *
      * @var string
+     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * )
      * 
      * @ORM\Column(type="string", length=255)
      * 

@@ -11,6 +11,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class NewTrickType extends AbstractType
@@ -18,9 +19,9 @@ class NewTrickType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('description')
-            ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class])
+            ->add('name', TextType::class, ['label'=> 'Nom de la figure', 'required'=>false])
+            ->add('description', TextareaType::class,['label'=> 'Description','required'=>false])
+            ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class, 'label'=>'Groupe de figure'])
             ->add('coverImage', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
@@ -56,7 +57,7 @@ class NewTrickType extends AbstractType
             )
             ->add( 'alternativeAttribute', TextType::class , [
 
-                'label'=> 'Entrez le nom de l\'image',
+                'label'=> 'Décrivez l\'image en un mot',
                 'required' => false
             ])
         ;
