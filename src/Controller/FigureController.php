@@ -447,12 +447,15 @@ class FigureController extends AbstractController
         if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
 
             $updateTrick = $formAddMediasTrick->getData();
+
+            dump($updateTrick);
+            exit;
+
             $imagesCollection = $formAddMediasTrick->get('illustrations')->getData();
             $videosCollection = $formAddMediasTrick->get('videos')->getData();
 
             if ($imagesCollection) { 
 
-                //préparation des urls images pour la base de données 
                 foreach( $imagesCollection as $objectIllustration ) {
 
                     $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
@@ -696,7 +699,6 @@ class FigureController extends AbstractController
         $this->entityManager->persist($figure);
         $this->entityManager->flush();
 
-        //Redirection
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
     }
 
