@@ -447,8 +447,10 @@ class FigureController extends AbstractController
         if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
 
             $updateTrick = $formAddMediasTrick->getData();
+
             dump($updateTrick);
             exit;
+
             $imagesCollection = $formAddMediasTrick->get('illustrations')->getData();
             $videosCollection = $formAddMediasTrick->get('videos')->getData();
 
