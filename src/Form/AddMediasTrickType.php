@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Video;
 use App\Entity\Figure;
 use App\Form\VideoType;
+use App\Entity\Illustration;
 use App\Form\IllustrationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -43,7 +45,7 @@ class AddMediasTrickType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Figure::class,
+            'data_class' => Figure::class, 
         ]);
     }
 }

@@ -2,17 +2,18 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+use App\Entity\Video;
 use App\Entity\Figure;
 use App\Entity\FigureGroup;
+use App\Entity\Illustration;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class NewTrickType extends AbstractType
 {
@@ -25,7 +26,7 @@ class NewTrickType extends AbstractType
             ->add('coverImage', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
-    
+
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
     
@@ -67,6 +68,9 @@ class NewTrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
+            // 'data_class' => Illustration::class,
+            // 'data_class' => Video::class
+
         ]);
     }
 }

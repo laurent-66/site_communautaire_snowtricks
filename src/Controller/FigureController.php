@@ -13,17 +13,13 @@ use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
 use App\Form\EditOneIllustrationType;
 use App\Repository\CommentRepository;
-use App\Form\EditIllustrationTrickType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\FigureGroupRepository;
 use App\Repository\IllustrationRepository;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -443,6 +439,8 @@ class FigureController extends AbstractController
         $codeYoutube = '';
         $formAddMediasTrick = $this->createForm(AddMediasTrickType::class);
         $formAddMediasTrick->handleRequest($request); 
+        // dump($formAddMediasTrick);
+        // exit;
 
         if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
 

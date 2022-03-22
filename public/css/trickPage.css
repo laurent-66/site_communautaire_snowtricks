@@ -97,4 +97,29 @@
     {
         display: none;
     }
+    .carrousel-desktop{
+        display: none;
+    }
+
+    .manageImageHero{
+        flex-wrap: nowrap;
+        position:absolute;
+        top: 2%; left: 65%;
+
+    }
+    .manageImageHero .btn-info
+    {
+        margin-right: 10px;
+    }
+    .container-figures{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+    .container-figures h4 {
+        display:block;
+
+    }
 }
