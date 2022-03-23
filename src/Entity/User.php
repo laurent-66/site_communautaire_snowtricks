@@ -71,7 +71,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\Column(type="string")
      */
     protected $urlPhoto;
 
@@ -82,6 +82,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank( 
      * message = "La valeur ne peut être vide.", groups="base"
      * )
+
+     * @Assert\NotNull
+
      * 
      * @ORM\Column(type="string", length=255)
      * 

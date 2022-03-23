@@ -67,9 +67,7 @@ class NewTrickType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Figure::class,
-            // 'data_class' => Illustration::class,
-            // 'data_class' => Video::class
+            'data_class' => Figure::class
 
         ]);
     }
