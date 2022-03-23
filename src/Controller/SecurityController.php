@@ -214,7 +214,7 @@ class SecurityController extends AbstractController
 
         $user = $this->getUser();
 
-        $form = $this->createForm(UpdateProfilType::class, $user);
+        $form = $this->createForm(UpdateProfilType::class, $user );
 
         $form->handleRequest($request);
 
@@ -224,12 +224,12 @@ class SecurityController extends AbstractController
 
             $profilImage = $profil->getUrlPhoto();
 
-            if ($profilImage !== "defaultProfil.jpg") {
 
                 $originalFilename = pathinfo($profilImage->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$profilImage->guessExtension();
 
+                //delete and add physical storage image
                 try {
 
                     $currentUrlPhoto = $user->getUrlPhoto();
@@ -242,21 +242,21 @@ class SecurityController extends AbstractController
                         $newFilename
                     );
 
+
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
 
-                $profil->setUrlPhoto($newFilename);
-
-            }
-
+            $user->setUrlPhoto($newFilename);
+            dump($user);
+            exit;
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('homePage');
         }
 
-        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user]);
+        return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user'=> $user]);
     }
 }
 
