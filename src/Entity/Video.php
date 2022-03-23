@@ -33,13 +33,6 @@ class Video
     protected $urlVideo;
 
     /**
-     * @var boolean
-     * 
-     * @ORM\Column(type="boolean")
-     */
-    protected $embed;
-
-    /**
      * @var Datetime 
      * 
      * @ORM\column(type="datetime")

@@ -58,9 +58,9 @@ class SecurityController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if(strlen(trim($urlPhotoRegister)) === 0 ) {
-                $user->setUrlPhoto('defaultProfil.jpg');
-            }
+            // if(strlen(trim($urlPhotoRegister)) === 0 ) {
+            //     $user->setUrlPhoto('defaultProfil.jpg');
+            // }  
  
             $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($passwordHashed);
