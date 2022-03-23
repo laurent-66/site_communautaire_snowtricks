@@ -42,7 +42,7 @@ class RegistrationType extends AbstractType
             ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe"))
             ->add('urlPhoto', FileType::class, [
 
-                'label' => 'Image de couverture (jpeg,jpg ou png)',
+                'label' => 'image de l\'avatar (jpeg,jpg ou png)',
     
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -50,6 +50,12 @@ class RegistrationType extends AbstractType
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
                 'required' => false,
+            ])
+
+            ->add( 'alternativeAttribute', TextType::class , [
+
+                'label'=> 'Décrivez l\'image en un mot',
+                'required' => false
             ])
 
         ;

@@ -80,11 +80,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="base"
+     * message = "La valeur ne peut être vide.", groups="uploadFile"
      * )
-
-     * @Assert\NotNull
-
      * 
      * @ORM\Column(type="string", length=255)
      * 
@@ -122,15 +119,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     * 
-     * @ORM\column(type="string", nullable=true)
-     */
-    protected $lastPasswordToken;
 
 
     /* getter and setter */
