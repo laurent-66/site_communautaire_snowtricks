@@ -61,7 +61,8 @@ class SecurityController extends AbstractController
             // if(strlen(trim($urlPhotoRegister)) === 0 ) {
             //     $user->setUrlPhoto('defaultProfil.jpg');
             // }  
- 
+            dump($form->getData());
+            exit;
             $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
             $user->setPassword($passwordHashed);
             $this->entityManager->persist($user);
