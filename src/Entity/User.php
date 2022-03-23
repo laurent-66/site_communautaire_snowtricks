@@ -75,6 +75,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     protected $urlPhoto;
 
+    /**
+     *
+     * @var string
+     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.", groups="base"
+     * )
+     * 
+     * @ORM\Column(type="string", length=255)
+     * 
+     */
+    protected $alternativeAttribute;
+
 
     public function __construct()
     {
@@ -200,7 +213,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->urlPhoto = $urlPhoto;
     }
-        /**
+
+
+    public function getAlternativeAttribute(): ?string
+    {
+        return $this->alternativeAttribute;
+    }
+
+    public function setAlternativeAttribute(string $alternativeAttribute): void
+    {
+        $this->alternativeAttribute = $alternativeAttribute;
+
+    }
+
+
+    /**
      * @return Datetime 
      */
     public function getCreatedAt(): Datetime
