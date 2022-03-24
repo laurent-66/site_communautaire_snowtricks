@@ -80,9 +80,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="base"
+     * message = "La valeur ne peut être vide.", groups="uploadFile"
      * )
-     * @Assert\NotNull
      * 
      * @ORM\Column(type="string", length=255)
      * 
@@ -120,15 +119,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     * 
-     * @ORM\column(type="string", nullable=true)
-     */
-    protected $lastPasswordToken;
 
 
     /* getter and setter */
@@ -202,7 +192,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string 
      */
-    public function getUrlPhoto(): ?string
+    public function getUrlPhoto(): ?string 
     {
         return $this->urlPhoto;
     }
@@ -221,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->alternativeAttribute;
     }
 
-    public function setAlternativeAttribute(string $alternativeAttribute): void
+    public function setAlternativeAttribute( ?string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 
