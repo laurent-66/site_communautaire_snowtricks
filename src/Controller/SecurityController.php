@@ -251,37 +251,56 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $profil = $form->getData();
+            $updateUser = $form->getData();
+            $updatePseudoUser = $updateUser->getPseudo();
+            $updateEmailUser = $updateUser->getEmail();
+            $updateAttributeUser = $updateUser->getAlternativeAttribute();
 
-            $profilImage = $profil->getUrlPhoto();
+            $urlPhoto = $updateUser->getUrlPhoto();
 
+            $objectUploadedFile = $form->get('urlPhoto')->getData();
+            $fileNameUpload = $objectUploadedFile->getClientOriginalName();
+            $extensionFile = $objectUploadedFile->guessExtension();
 
-                $originalFilename = pathinfo($profilImage->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$profilImage->guessExtension();
+            $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
+            $safeFilename = $slugger->slug($originalFilename);
+            $newFilename = $safeFilename.'-'.uniqid().'.'.$extensionFile;
 
                 //delete and add physical storage image
                 try {
 
                     $currentUrlPhoto = $user->getUrlPhoto();
+
+                    if ( $fileNameUpload && ($currentUrlPhoto !== "defaultProfil.jpg") ) {
+
                     $pathUrlPhoto = $this->getParameter('images_profil_directory');
-                    $filePath = $pathUrlPhoto."/".$currentUrlPhoto; 
+                    $filePath = $pathUrlPhoto."\\".$currentUrlPhoto; 
                     unlink($filePath);
 
-                    $profilImage->move(
+                    $urlPhoto->move(
                         $this->getParameter('images_profil_directory'),
                         $newFilename
                     );
 
+                    $updateUser->setUrlPhoto($newFilename);
+                    $this->entityManager->persist($updateUser);
+
+                    } else if (!$fileNameUpload) {
+    
+                        $updateUser->setUrlPhoto($currentUrlPhoto); 
+                        $this->entityManager->persist($updateUser);
+                    }
 
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+                    dump($e);
+       
+                }    
 
-            $user->setUrlPhoto($newFilename);
-            dump($user);
-            exit;
-            $this->entityManager->persist($user);
+            $updateUser->setPseudo($updatePseudoUser);
+            $updateUser->setEmail($updateEmailUser);
+            $updateUser->setAlternativeAttribute($updateAttributeUser);
+
+            $this->entityManager->persist($updateUser);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('homePage');
