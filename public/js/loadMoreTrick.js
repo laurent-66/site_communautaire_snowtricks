@@ -30,8 +30,8 @@
 
 
 
-		if(totalItemsTrick.length > 12) {
-			arrowUp.style.display='block';	
-		}else {
-			arrowUp.style.display='none';	
-		}
+		// if(totalItemsTrick.length > 12) {
+		// 	arrowUp.style.display='block';	
+		// }else {
+		// 	arrowUp.style.display='none';	
+		// }
