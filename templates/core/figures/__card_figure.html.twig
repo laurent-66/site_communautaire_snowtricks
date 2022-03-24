@@ -30,5 +30,15 @@
 			{% endif %}
 		</div>
 	</div>
-
 </div>
+{% block javascripts %}
+	<script type="text/javascript">
+		let totalItemsTrick = document.querySelectorAll("card-body");
+		console.log("results:"+totalItemsTrick.length);
+		if(totalItemsTrick.length > 12) {
+			arrowUp.style.display='block';	
+		}else {
+			arrowUp.style.display='none';	
+		}
+	</script>
+{% endblock %}
