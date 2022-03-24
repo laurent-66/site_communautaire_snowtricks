@@ -49,6 +49,12 @@ class UpdateProfilType extends AbstractType
                 'required' => false
             ]) 
 
+            ->add( 'alternativeAttribute', TextType::class , [
+
+                'label'=> 'Décrivez l\'image en un mot',
+                'required' => false
+            ])
+
             ->add('save', SubmitType::class,[
                 "label"=>"Modifier le profil",
                 "attr" => [
