@@ -79,6 +79,7 @@ class SecurityController extends AbstractController
                 $newUser->setAlternativeAttribute($alternativeAttribute);
                 $this->entityManager->persist($newUser);
 
+
             } else if (is_null($urlPhotoRegister)) {
 
                 $newUser->setUrlPhoto('defaultProfil.jpg'); 
@@ -94,6 +95,7 @@ class SecurityController extends AbstractController
             $newUser->setEmail($emailRegister);
 
             $this->entityManager->persist($newUser);
+
             $this->entityManager->flush();
 
             return $this->redirectToRoute('homePage');
