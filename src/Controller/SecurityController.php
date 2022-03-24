@@ -47,24 +47,55 @@ class SecurityController extends AbstractController
   */
     public function register(Request $request)
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+
+        $form = $this->createForm(RegistrationType::class);
         $form->handleRequest($request);
-        $registerData = $form->getData();
-        $pseudoRegister = $registerData->getPseudo();
-        $emailRegister = $registerData->getEmail();
-        $passwordRegister = $registerData->getPassword();
-        $urlPhotoRegister = $registerData->getUrlPhoto();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newUser = $form->getData();
 
-            // if(strlen(trim($urlPhotoRegister)) === 0 ) {
-            //     $user->setUrlPhoto('defaultProfil.jpg');
-            // }  
- 
-            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($passwordHashed);
-            $this->entityManager->persist($user);
+            $pseudoRegister = $newUser->getPseudo();
+            $emailRegister = $newUser->getEmail();
+            $urlPhotoRegister = $newUser->getUrlPhoto();
+            $alternativeAttribute = $newUser->getAlternativeAttribute();
+
+            if ($urlPhotoRegister) {
+                $originalFilename = pathinfo($urlPhotoRegister->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $this->slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$urlPhotoRegister->guessExtension();
+
+                //add image in physical storage 
+                try {
+                    $urlPhotoRegister->move(
+                        $this->getParameter('images_profil_directory'),
+                        $newFilename
+                    );
+
+                } catch (FileException $e) {
+                    dump($e);
+                }
+
+                $newUser->setUrlPhoto($newFilename);
+                $newUser->setAlternativeAttribute($alternativeAttribute);
+                $this->entityManager->persist($newUser);
+
+
+            } else if (is_null($urlPhotoRegister)) {
+
+                $newUser->setUrlPhoto('defaultProfil.jpg'); 
+                $newUser->setAlternativeAttribute('Avatar par defaut');
+                $this->entityManager->persist($newUser);
+            }
+
+
+            $passwordHashed = $this->passwordHasher->hashPassword($newUser, $newUser->getPassword());
+            $newUser->setPassword($passwordHashed);
+
+            $newUser->setPseudo($pseudoRegister);
+            $newUser->setEmail($emailRegister);
+
+            $this->entityManager->persist($newUser);
+
             $this->entityManager->flush();
 
             return $this->redirectToRoute('homePage');

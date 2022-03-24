@@ -192,7 +192,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string 
      */
-    public function getUrlPhoto(): ?string
+    public function getUrlPhoto(): ?string 
     {
         return $this->urlPhoto;
     }
@@ -211,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->alternativeAttribute;
     }
 
-    public function setAlternativeAttribute(string $alternativeAttribute): void
+    public function setAlternativeAttribute( ?string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 

@@ -137,7 +137,6 @@ class FigureController extends AbstractController
                             $codeYoutube = substr($attrSrc, 6, 11);
                             $objectVideo->setUrlVideo($codeYoutube);
                             $objectVideo->setFigure($newTrick);
-                            $objectVideo->setEmbed(true);
                             $this->entityManager->persist($objectVideo);
                             $newTrick ->addVideo($objectVideo);
 
@@ -153,7 +152,6 @@ class FigureController extends AbstractController
                             $codeYoutube = substr($urlVideo, -11);
                             $objectVideo->setUrlVideo($codeYoutube);
                             $objectVideo->setFigure($newTrick);
-                            $objectVideo->setEmbed(true);
                             $this->entityManager->persist($objectVideo);
                             $newTrick ->addVideo($objectVideo);    
 
