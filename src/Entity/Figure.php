@@ -67,6 +67,16 @@ class Figure
     private $coverImage;
 
     /**
+     * Undocumented variable
+     *
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * ) 
+     * 
+     */
+    private $coverImageFile;
+
+    /**
      *
      * @var string
      * 
@@ -248,6 +258,27 @@ class Figure
     public function setCoverImage(string $coverImage): void
     {
         $this->coverImage = $coverImage;
+
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getCoverImageFile(): string 
+    {
+        return $this->coverImageFile;
+    }
+
+
+    /**
+     *
+     * @param string $coverImageFile
+     * 
+     */
+    public function setCoverImageFile(string $coverImageFile): void
+    {
+        $this->coverImageFile = $coverImageFile;
 
     }
 
