@@ -41,6 +41,11 @@ class NewTrickType extends AbstractType
                     'label'=> false,   
                 ],
             )
+            ->add( 'alternativeAttribute', TextType::class , [
+
+                'label'=> 'Décrivez l\'image en un mot',
+                'required' => false
+            ])
             ->add(
                 'videos',
                 CollectionType::class,
@@ -51,11 +56,6 @@ class NewTrickType extends AbstractType
                     'label'=> false
                 ]
             )
-            ->add( 'alternativeAttribute', TextType::class , [
-
-                'label'=> 'Décrivez l\'image en un mot',
-                'required' => false
-            ])
         ;
     }
 
