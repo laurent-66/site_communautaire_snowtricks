@@ -71,9 +71,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\Column(type="string")
      */
     protected $urlPhoto;
+
+    /**
+     *
+     * @var string
+     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.", groups="uploadFile"
+     * )
+
+     * @Assert\NotNull
+
+     * 
+     * @ORM\Column(type="string", length=255)
+     * 
+     */
+    protected $alternativeAttribute;
 
 
     public function __construct()
@@ -106,15 +122,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     * 
-     * @ORM\column(type="string", nullable=true)
-     */
-    protected $lastPasswordToken;
 
 
     /* getter and setter */
@@ -188,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string 
      */
-    public function getUrlPhoto(): ?string
+    public function getUrlPhoto(): ?string 
     {
         return $this->urlPhoto;
     }
@@ -200,7 +207,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->urlPhoto = $urlPhoto;
     }
-        /**
+
+
+    public function getAlternativeAttribute(): ?string
+    {
+        return $this->alternativeAttribute;
+    }
+
+    public function setAlternativeAttribute( ?string $alternativeAttribute): void
+    {
+        $this->alternativeAttribute = $alternativeAttribute;
+
+    }
+
+
+    /**
      * @return Datetime 
      */
     public function getCreatedAt(): Datetime

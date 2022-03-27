@@ -135,7 +135,7 @@ class Figure
      * @var Collection
      * 
      * 
-     * 
+     * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
      * 
      */
@@ -145,6 +145,7 @@ class Figure
     /**
      * @var Collection
      * 
+     * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure", cascade={"ALL"})
      * 
      */
@@ -395,5 +396,13 @@ class Figure
             $this->videos->add($video);
         }
     }
-  
+
+    public function removeVideo(Video $video)
+    {
+        if($this->videos->contains($video))
+        {
+            $this->videos->remove($video);
+        }
+    }
+
 }
