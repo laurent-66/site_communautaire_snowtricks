@@ -65,6 +65,10 @@
         position:absolute;
         top: 90%; left: 95%;
     }
+    .arrow-up {
+        display: none;
+        margin-right:3%;
+    }
 
     .menu-smartphone
     {

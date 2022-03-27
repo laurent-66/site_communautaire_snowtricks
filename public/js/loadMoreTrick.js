@@ -1,6 +1,8 @@
     const element = document.querySelector('#load-more');
     const containerfigures = document.querySelector('#container-figures');
     const loader = document.querySelector('.loading');
+    const arrowUp = document.querySelector(".arrow-up");
+
 
     element.addEventListener('click', async (e) => { 
     loader.style.display='block';	
@@ -24,3 +26,12 @@
     }
 
     });
+
+
+
+
+		// if(totalItemsTrick.length > 12) {
+		// 	arrowUp.style.display='block';	
+		// }else {
+		// 	arrowUp.style.display='none';	
+		// }
