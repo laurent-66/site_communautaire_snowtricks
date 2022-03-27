@@ -1,4 +1,4 @@
-<div class="col-sm-12 col-md-12 col-lg-3">
+<div class="container-card col-sm-12 col-md-12 col-lg-3">
 
 	<div class="card px-0 mx-0 bg-light rounded-3">
 	{% if figure.coverImage == "defaultCoverImage" %}
@@ -33,8 +33,7 @@
 </div>
 {% block javascripts %}
 	<script type="text/javascript">
-		let totalItemsTrick = document.querySelectorAll("card-body");
-		console.log("results:"+totalItemsTrick.length);
+		const totalItemsTrick = document.querySelectorAll("container-card");
 		if(totalItemsTrick.length > 12) {
 			arrowUp.style.display='block';	
 		}else {
