@@ -65,10 +65,22 @@
         position:absolute;
         top: 90%; left: 95%;
     }
+
     .arrow-up {
-        display: none;
         margin-right:3%;
     }
+
+    .arrow-up a {
+        text-decoration: none;
+    }
+
+    .linkEnabled {
+        display: none;
+    }
+    .linkDisabled {
+        display: block;
+    }
+
 
     .menu-smartphone
     {
