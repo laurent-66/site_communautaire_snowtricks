@@ -82,9 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\NotBlank( 
      * message = "La valeur ne peut être vide.", groups="uploadFile"
      * )
-
-     * @Assert\NotNull
-
      * 
      * @ORM\Column(type="string", length=255)
      * 

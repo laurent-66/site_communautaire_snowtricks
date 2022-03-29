@@ -53,7 +53,7 @@ class UpdateProfilType extends AbstractType
 
                 'label'=> 'Décrivez l\'image en un mot',
                 'required' => false
-            ])
+            ]) 
 
             ->add('save', SubmitType::class,[
                 "label"=>"Modifier le profil",
