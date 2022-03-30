@@ -26,9 +26,7 @@ class NewTrickType extends AbstractType
             ->add('coverImageFile', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
-    
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
+                'mapped' => false,
                 'required' => false, 
             ])
             ->add(

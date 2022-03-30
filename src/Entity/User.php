@@ -30,8 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.",
-     * groups="base"
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
      * 
      * 
@@ -42,10 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide.",
-     * groups="base"
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
+     * 
      * @Assert\Email(
      * message = "l'email '{{ value }}' n'est pas un email valide.", groups="base"
      * )
@@ -75,12 +74,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     protected $urlPhoto;
 
+
+    /**
+     * Undocumented variable
+     *
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * groups="uploadFile"
+     * ) 
+     * 
+     */
+    protected $urlPhotoFile;
+
     /**
      *
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="uploadFile"
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
      * 
      * @ORM\Column(type="string", length=255)
@@ -129,14 +140,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**
@@ -203,6 +206,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUrlPhoto(string $urlPhoto): void
     {
         $this->urlPhoto = $urlPhoto;
+    }
+
+
+
+    public function getUrlPhotoFile(): ?string 
+    {
+        return $this->urlPhotoFile;
+    }
+
+
+    public function setUrlPhotoFile(string $urlPhotoFile): void
+    {
+        $this->urlPhotoFile = $urlPhotoFile;
     }
 
 
