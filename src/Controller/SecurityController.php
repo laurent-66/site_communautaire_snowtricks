@@ -138,8 +138,6 @@ class SecurityController extends AbstractController
         return $this->render('core/security/login_link.html.twig');
     }
 
-
-
     /**
     * 
     * Connection link authenticator
@@ -220,54 +218,63 @@ class SecurityController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
+            $objectUploadedFile = $form->get('urlPhotoFile')->getData();
             $updateUser = $form->getData();
             $updatePseudoUser = $updateUser->getPseudo();
             $updateEmailUser = $updateUser->getEmail();
+            $urlPhotoUser = $updateUser->getUrlPhoto();
             $updateAttributeUser = $updateUser->getAlternativeAttribute();
 
-            $urlPhoto = $updateUser->getUrlPhoto();
+            if( $objectUploadedFile ) {
 
-            $objectUploadedFile = $form->get('urlPhoto')->getData();
-            $fileNameUpload = $objectUploadedFile->getClientOriginalName();
-            $extensionFile = $objectUploadedFile->guessExtension();
+                $fileNameUpload = $objectUploadedFile->getClientOriginalName();
+                $extensionFile = $objectUploadedFile->guessExtension();
 
-            $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
-            $safeFilename = $slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$extensionFile;
+                $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$extensionFile;
 
-                //delete and add physical storage image
                 try {
+  
+                    if ( $urlPhotoUser !== "defaultProfil.jpg") {
 
-                    $currentUrlPhoto = $user->getUrlPhoto();
+                        $pathUrlPhoto = $this->getParameter('images_profil_directory');
+                        $filePath = $pathUrlPhoto."\\".$urlPhotoUser; 
+                        unlink($filePath);
 
-                    if ( $fileNameUpload && ($currentUrlPhoto !== "defaultProfil.jpg") ) {
+                        $objectUploadedFile->move(
+                            $this->getParameter('images_profil_directory'),
+                            $newFilename
+                        );
 
-                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
-                    $filePath = $pathUrlPhoto."\\".$currentUrlPhoto; 
-                    unlink($filePath);
+                    } else if ($urlPhotoUser === "defaultProfil.jpg") {
 
-                    $urlPhoto->move(
-                        $this->getParameter('images_profil_directory'),
-                        $newFilename
-                    );
+                        $objectUploadedFile->move(
+                            $this->getParameter('images_profil_directory'),
+                            $newFilename
+                        );
+
+                    }
 
                     $updateUser->setUrlPhoto($newFilename);
+                    $updateUser->setAlternativeAttribute($updateAttributeUser);
                     $this->entityManager->persist($updateUser);
-
-                    } else if (!$fileNameUpload) {
-    
-                        $updateUser->setUrlPhoto($currentUrlPhoto); 
-                        $this->entityManager->persist($updateUser);
-                    }
 
                 } catch (FileException $e) {
                     dump($e);
        
-                }    
+                }  
+
+            } else {
+
+                $updateUser->setUrlPhoto('defaultProfil.jpg');
+                $updateUser->setAlternativeAttribute('Avatar par defaut');
+                $this->entityManager->persist($updateUser); 
+
+            }
 
             $updateUser->setPseudo($updatePseudoUser);
             $updateUser->setEmail($updateEmailUser);
-            $updateUser->setAlternativeAttribute($updateAttributeUser);
 
             $this->entityManager->persist($updateUser);
             $this->entityManager->flush();

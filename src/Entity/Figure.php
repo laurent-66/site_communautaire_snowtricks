@@ -74,7 +74,7 @@ class Figure
      * ) 
      * 
      */
-    private $coverImageFile;
+    private $coverImageFile; 
 
     /**
      *
