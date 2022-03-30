@@ -31,15 +31,9 @@ class UpdateProfilType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, ['label'=> 'Pseudo','required' => false])
             ->add('email', TextType::class, ["label"=>"Email",'required' => false])
-            ->add('urlPhoto', FileType::class, [
+            ->add('urlPhotoFile', FileType::class, [
 
                 'label' => 'Image de profil (jpeg,jpg ou png)',
-    
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-    
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
             ]) 
 
@@ -48,12 +42,6 @@ class UpdateProfilType extends AbstractType
                 'label'=> 'Décrivez l\'image en un mot',
                 'required' => false
             ]) 
-
-            ->add( 'alternativeAttribute', TextType::class , [
-
-                'label'=> 'Décrivez l\'image en un mot',
-                'required' => false
-            ])
 
             ->add('save', SubmitType::class,[
                 "label"=>"Modifier le profil",

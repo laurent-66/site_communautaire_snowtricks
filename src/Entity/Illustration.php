@@ -47,6 +47,9 @@ class Illustration
     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
     *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
     * )
+    * @Assert\NotBlank( 
+    * message = "La valeur ne peut être vide.",
+    * ) 
     */
     protected $fileIllustration;
 

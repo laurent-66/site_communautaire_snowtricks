@@ -8,9 +8,7 @@
                 <div class="container card rounded shadow p-4 my-5 d-flex flex-column">
                     <h2 class="text-center mt-3">Mon profil</h2>
                     <div class="container-picture-profil mt-3">
-                        {% if user.urlPhoto == null %}
-                            <div><img src="/images/default/defaultProfil.jpg" alt="defaultProfil" class="rounded-circle d-block"></div>
-                        {% elseif user.urlPhoto == "defaultProfil.jpg" %}    
+                        {% if user.urlPhoto == "defaultProfil.jpg" %}
                             <div><img src="/images/default/defaultProfil.jpg" alt="defaultProfil" class="rounded-circle d-block"></div>
                         {% else %}
                             <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo avatar utilisateur" class="rounded-circle d-block"></div>
@@ -19,7 +17,7 @@
                     {{form_start(form)}}
                     {{form_row(form.pseudo)}}
                     {{form_row(form.email)}}
-                    {{form_row(form.urlPhoto)}}
+                    {{form_row(form.urlPhotoFile)}}
                     {{form_row(form.alternativeAttribute)}}
                     {{form_row(form.save)}}
                     {{form_end(form)}}
