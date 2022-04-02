@@ -153,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $pseudo
      */
-    public function setPseudo(string $pseudo): void
+    public function setPseudo(?string $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
@@ -169,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }

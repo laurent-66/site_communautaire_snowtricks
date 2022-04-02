@@ -39,7 +39,7 @@ class UpdateProfilType extends AbstractType
 
             ->add( 'alternativeAttribute', TextType::class , [
 
-                'label'=> 'Décrivez l\'image en un mot',
+                'label'=> 'Décrivez l\'image en un mot', 
                 'required' => false
             ]) 
 
