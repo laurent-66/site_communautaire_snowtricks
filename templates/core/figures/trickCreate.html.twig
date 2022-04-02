@@ -10,53 +10,24 @@
                     <h2 class="text-center">Création d'une figure</h2>
                     {{form_start(formTrick)}}
                         {{form_row(formTrick.name)}}
-                        {{form_row(formTrick.coverImage)}}
+                        {{form_row(formTrick.coverImageFile)}}
                         {{form_row(formTrick.alternativeAttribute)}}
                         {{form_row(formTrick.description)}}
                         {{form_row(formTrick.figureGroup)}}
-                    <ul class="illustrations" data-index="{{ formTrick.illustrations|length > 0 ? formTrick.illustrations|last.vars.illustrations + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
+                    <ul class="illustrations" data-index="{{ formTrick.illustrations|length > 0 ? formTrick.illustrations|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
                     <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
-                    <ul class="videos" data-index="{{ formTrick.videos|length > 0 ? formTrick.videos|last.vars.videos + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
+                    <ul class="videos" data-index="{{ formTrick.videos|length > 0 ? formTrick.videos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
                     <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
                     <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
-                    {{form_end(formTrick)}}
+                    {{form_end(formTrick)}} 
                 </div>
             </div>
         </div>       
     </div>
 </div>
 {% endblock %} 
-{% block javascripts %}
-<script>
 
-    const addFormToCollection = (e) => {
-    const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
-
-    const item = document.createElement('li');
-
-    item.innerHTML = collectionHolder
-        .dataset
-        .prototype
-        .replace(
-        /__name__/g,
-        collectionHolder.dataset.index
-        );
-
-    collectionHolder.appendChild(item);
-
-    collectionHolder.dataset.index++;
-
-    };
-
-
-    document.querySelectorAll('.add_item_link_image')
-    .forEach(btn => btn.addEventListener("click", addFormToCollection));
-
-    document.querySelectorAll('.add_item_link_video')
-    .forEach(btn => btn.addEventListener("click", addFormToCollection));
-
-
-
-
-</script>
-{% endblock %}
+	{% block javascripts %}
+		<script type="text/javascript" src="/js/addformTocollection.js"></script>
+		<script type="text/javascript" src="/js/deleteformTocollection.js"></script>
+	{% endblock %}

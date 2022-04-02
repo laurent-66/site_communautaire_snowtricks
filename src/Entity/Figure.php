@@ -67,6 +67,16 @@ class Figure
     private $coverImage;
 
     /**
+     * Undocumented variable
+     *
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * ) 
+     * 
+     */
+    private $coverImageFile; 
+
+    /**
      *
      * @var string
      * 
@@ -251,6 +261,27 @@ class Figure
 
     }
 
+    /**
+     *
+     * @return string
+     */
+    public function getCoverImageFile(): string 
+    {
+        return $this->coverImageFile;
+    }
+
+
+    /**
+     *
+     * @param string $coverImageFile
+     * 
+     */
+    public function setCoverImageFile(string $coverImageFile): void
+    {
+        $this->coverImageFile = $coverImageFile;
+
+    }
+
 
     /**
      *
@@ -375,7 +406,7 @@ class Figure
     {
         if($this->illustrations->contains($illustration))
         {
-            $this->illustrations->remove($illustration);
+            $this->illustrations->removeElement($illustration);
         }
     }
 
@@ -396,5 +427,13 @@ class Figure
             $this->videos->add($video);
         }
     }
-  
+
+    public function removeVideo(Video $video)
+    {
+        if($this->videos->contains($video))
+        {
+            $this->videos->removeElement($video);
+        }
+    }
+ 
 }

@@ -30,8 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.",
-     * groups="base"
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
      * 
      * 
@@ -42,10 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide.",
-     * groups="base"
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
+     * 
      * @Assert\Email(
      * message = "l'email '{{ value }}' n'est pas un email valide.", groups="base"
      * )
@@ -71,9 +70,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @ORM\Column(type="string",nullable=true)
+     * @ORM\Column(type="string")
      */
     protected $urlPhoto;
+
+
+    /**
+     * Undocumented variable
+     *
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * groups="uploadFile"
+     * ) 
+     * 
+     */
+    protected $urlPhotoFile;
+
+    /**
+     *
+     * @var string
+     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.", groups="base"
+     * )
+     * 
+     * @ORM\Column(type="string", length=255)
+     * 
+     */
+    protected $alternativeAttribute;
 
 
     public function __construct()
@@ -107,15 +131,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     protected $updatedAt;
 
-    /**
-     * Undocumented variable
-     *
-     * @var string
-     * 
-     * @ORM\column(type="string", nullable=true)
-     */
-    protected $lastPasswordToken;
-
 
     /* getter and setter */
 
@@ -125,14 +140,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): int
     {
         return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
     }
 
     /**
@@ -146,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $pseudo
      */
-    public function setPseudo(string $pseudo): void
+    public function setPseudo(?string $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
@@ -162,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
@@ -188,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return string 
      */
-    public function getUrlPhoto(): ?string
+    public function getUrlPhoto(): ?string 
     {
         return $this->urlPhoto;
     }
@@ -200,7 +207,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->urlPhoto = $urlPhoto;
     }
-        /**
+
+
+
+    public function getUrlPhotoFile(): ?string 
+    {
+        return $this->urlPhotoFile;
+    }
+
+
+    public function setUrlPhotoFile(string $urlPhotoFile): void
+    {
+        $this->urlPhotoFile = $urlPhotoFile;
+    }
+
+
+    public function getAlternativeAttribute(): ?string
+    {
+        return $this->alternativeAttribute;
+    }
+
+    public function setAlternativeAttribute( ?string $alternativeAttribute): void
+    {
+        $this->alternativeAttribute = $alternativeAttribute;
+
+    }
+
+
+    /**
      * @return Datetime 
      */
     public function getCreatedAt(): Datetime

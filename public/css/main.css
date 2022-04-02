@@ -66,6 +66,22 @@
         top: 90%; left: 95%;
     }
 
+    .arrow-up {
+        margin-right:3%;
+    }
+
+    .arrow-up a {
+        text-decoration: none;
+    }
+
+    .linkEnabled {
+        display: none;
+    }
+    .linkDisabled {
+        display: block;
+    }
+
+
     .menu-smartphone
     {
         display: none;
@@ -85,6 +101,17 @@
         width: 95%;
         margin: 0px auto;
         padding: auto;
+    }
+
+    /*general*/
+    
+    .container-body
+    {
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
     }
 
     /* .carousel-control-prev
@@ -112,6 +139,7 @@
 
     .navbar {
         display:none;
+
     }
 
     .imageHero h1 {
@@ -137,9 +165,20 @@
 
     }
 
+    .dropdown-menu {
+        display:block;
+        width: 350px;
+        margin-left: -55px;
+        padding:0px;
+
+    }
+
     .dropdown-menu li {
         list-style: none;
         background-color: #5A6268;
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 10px 0px;
 
     }
     
