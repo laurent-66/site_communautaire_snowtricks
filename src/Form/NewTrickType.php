@@ -26,19 +26,18 @@ class NewTrickType extends AbstractType
             ->add('coverImageFile', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
-    
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false, 
             ])
             ->add(
                 'illustrations',
-                CollectionType::class,
+                CollectionType::class, 
                 [
                     'entry_type' => IllustrationType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                    'label'=> false,   
+                    'allow_delete' => true, 
+                    'label'=> false, 
+                     
                 ],
             )
             ->add( 'alternativeAttribute', TextType::class , [
@@ -53,6 +52,7 @@ class NewTrickType extends AbstractType
                     'entry_type' => VideoType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
+                    'allow_delete' => true, 
                     'label'=> false
                 ]
             )

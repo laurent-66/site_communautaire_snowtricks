@@ -70,9 +70,9 @@ class FigureController extends AbstractController
 
             $newTrick = $formTrick->getData();
             $newTrick->setAuthor($this->getUser());
-            $coverImage = $formTrick->get('coverImage')->getData();
+            $coverImage = $formTrick->get('coverImageFile')->getData();
 
-            if ($coverImage) {
+            if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $this->slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImage->guessExtension();

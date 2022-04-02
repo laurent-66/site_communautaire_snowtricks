@@ -74,7 +74,7 @@ class Figure
      * ) 
      * 
      */
-    private $coverImageFile;
+    private $coverImageFile; 
 
     /**
      *
@@ -406,7 +406,7 @@ class Figure
     {
         if($this->illustrations->contains($illustration))
         {
-            $this->illustrations->remove($illustration);
+            $this->illustrations->removeElement($illustration);
         }
     }
 
@@ -432,8 +432,8 @@ class Figure
     {
         if($this->videos->contains($video))
         {
-            $this->videos->remove($video);
+            $this->videos->removeElement($video);
         }
     }
-
+ 
 }
