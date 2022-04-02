@@ -4,7 +4,6 @@
     const arrowUpLinkEnabled = document.querySelector(".linkEnabled");
     const arrowUpLinkDisabled = document.querySelector(".linkDisabled");
 
-
     element.addEventListener('click', async (e) => { 
     loader.style.display='block';	
     const totalPage = e.target.dataset.totalPage;

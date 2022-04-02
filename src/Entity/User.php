@@ -30,8 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.",
-     * groups="base"
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
      * 
      * 
@@ -42,10 +41,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string
      * 
-     * @Assert\NotBlank(
-     * message = "La valeur ne peut être vide.",
-     * groups="base"
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
+     * 
      * @Assert\Email(
      * message = "l'email '{{ value }}' n'est pas un email valide.", groups="base"
      * )
@@ -75,16 +74,25 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     protected $urlPhoto;
 
+
+    /**
+     * Undocumented variable
+     *
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * groups="uploadFile"
+     * ) 
+     * 
+     */
+    protected $urlPhotoFile;
+
     /**
      *
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="uploadFile"
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
-
-     * @Assert\NotNull
-
      * 
      * @ORM\Column(type="string", length=255)
      * 
@@ -135,14 +143,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string 
      */
     public function getPseudo(): ?string
@@ -153,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $pseudo
      */
-    public function setPseudo(string $pseudo): void
+    public function setPseudo(?string $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
@@ -169,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }
@@ -206,6 +206,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUrlPhoto(string $urlPhoto): void
     {
         $this->urlPhoto = $urlPhoto;
+    }
+
+
+
+    public function getUrlPhotoFile(): ?string 
+    {
+        return $this->urlPhotoFile;
+    }
+
+
+    public function setUrlPhotoFile(string $urlPhotoFile): void
+    {
+        $this->urlPhotoFile = $urlPhotoFile;
     }
 
 
