@@ -25,9 +25,10 @@
                 <a href="{{ path('trickEditPage', {'slug': figure.slug} )}}" class="btn btn-info">
                     <i class="fas fa-edit"></i>
                 </a>
-                <a href="{{ path('trickDeletePage', {'slug': figure.slug} ) }}" class="btn btn-danger">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+  					<i class="fas fa-trash-alt"></i>
+				</button>
+				{% include "core/modal/confirmDeleteElement.html.twig" %}
             </div> 
             {% endif %}
             
