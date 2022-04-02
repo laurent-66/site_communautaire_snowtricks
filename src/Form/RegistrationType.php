@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -26,8 +27,10 @@ class RegistrationType extends AbstractType
         return array_merge([
             'label' => $label,
             'attr' => [
-                'placeholder' => $placeholder
-            ]
+                'placeholder' => $placeholder,
+                
+            ],
+            'required' => false
         ], $options);
     }
 
@@ -35,13 +38,8 @@ class RegistrationType extends AbstractType
     {
         $builder
             ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "votre pseudo"))
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse email"))
+            ->add('email', TextType::class, $this->getConfiguration("Email", "Votre adresse email"))
             ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe"))
-            ->add('url_photo', UrlType::class,[
-                'label'=>'Photo de profil',
-                'attr'=> ['placholder' =>'Url de votre avatar'],
-                'required' => false 
-                ])
         ;
     }
 
@@ -49,6 +47,7 @@ class RegistrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'validation_groups' => ['updateMail','base']
         ]);
     }
-}
+} 

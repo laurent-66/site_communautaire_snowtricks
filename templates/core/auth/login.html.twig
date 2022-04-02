@@ -10,7 +10,7 @@
             <div class="card rounded shadow p-3 mb-5">
                 <div class="card-body">
                     {% if error %}
-                        <div>Identifiants Invalides</div>
+                        <div class="alert alert-danger" role="alert">Identifiants Invalides</div>
                     {% endif %}
                     <h2 class="text-center">Connexion</h2>
                     <form action="{{ path('login') }}" method="post">
@@ -24,6 +24,8 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Envoyer</button>
                     </form>
+                    <br>
+                    <a  href="{{path('loginLink')}}"><span> Mot de passe oublié ?</span></a>
                 </div>
             </div>
         </div>

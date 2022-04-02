@@ -8,11 +8,15 @@ use App\Entity\Illustration;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
+ * @UniqueEntity("name", message = "Le nom de la figure déjà existant")
+ * 
  */
 class Figure 
 {
@@ -30,6 +34,12 @@ class Figure
     /**
      * @var string
      * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * )
+     * 
+     * 
+     * 
      * @ORM\Column(type="string")
      */
     private $name;
@@ -42,6 +52,11 @@ class Figure
     /**
      * @var string
      * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * )
+     * 
+     * 
      * @ORM\Column(type="string")
      */
     private $description;
@@ -50,6 +65,29 @@ class Figure
      * @ORM\Column(type="string", length=255)
      */
     private $coverImage;
+
+    /**
+     * Undocumented variable
+     *
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * ) 
+     * 
+     */
+    private $coverImageFile; 
+
+    /**
+     *
+     * @var string
+     * 
+     * @Assert\NotBlank( 
+     * message = "La valeur ne peut être vide.",
+     * )
+     * 
+     * @ORM\Column(type="string", length=255)
+     * 
+     */
+    private $alternativeAttribute;
 
     /**
      * @var Datetime 
@@ -82,6 +120,18 @@ class Figure
      */
     private $author;
 
+
+    /**
+     * Relation Figure OneToMany Comment
+     * 
+     * @var Comment
+     * 
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="figure", cascade={"ALL"})
+     * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
+     */
+    private $comment;
+
+
     /**
      * @var FigureGroup
      * 
@@ -94,7 +144,9 @@ class Figure
     /**
      * @var Collection
      * 
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade="ALL")
+     * 
+     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
      * 
      */
     protected $illustrations;
@@ -103,7 +155,8 @@ class Figure
     /**
      * @var Collection
      * 
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure")
+     * @Assert\Valid()
+     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure", cascade={"ALL"})
      * 
      */
     private $videos;
@@ -192,7 +245,7 @@ class Figure
      *
      * @return string
      */
-    public function getCoverImage(): string
+    public function getCoverImage(): string 
     {
         return $this->coverImage;
     }
@@ -205,6 +258,48 @@ class Figure
     public function setCoverImage(string $coverImage): void
     {
         $this->coverImage = $coverImage;
+
+    }
+
+    /**
+     *
+     * @return string
+     */
+    public function getCoverImageFile(): string 
+    {
+        return $this->coverImageFile;
+    }
+
+
+    /**
+     *
+     * @param string $coverImageFile
+     * 
+     */
+    public function setCoverImageFile(string $coverImageFile): void
+    {
+        $this->coverImageFile = $coverImageFile;
+
+    }
+
+
+    /**
+     *
+     * @return string
+     */
+    public function getAlternativeAttribute(): string
+    {
+        return $this->alternativeAttribute;
+    }
+
+    /**
+     *
+     * @param string $alternativeAttribute
+     * 
+     */
+    public function setAlternativeAttribute(string $alternativeAttribute): void
+    {
+        $this->alternativeAttribute = $alternativeAttribute;
 
     }
 
@@ -256,6 +351,23 @@ class Figure
         $this->author = $author;
     }
 
+
+    /**
+     * @return Comment 
+     */
+    public function getComment(): ?Comment
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function setComment(Comment $comment): void
+    {
+        $this->comment = $comment;
+    }
+
     /**
      * @return FigureGroup 
      */
@@ -282,7 +394,6 @@ class Figure
         return $this->illustrations;
     }
 
-
     public function addIllustration(Illustration $illustration)
     {
         if(!$this->illustrations->contains($illustration))
@@ -295,10 +406,9 @@ class Figure
     {
         if($this->illustrations->contains($illustration))
         {
-            $this->illustrations->remove($illustration);
+            $this->illustrations->removeElement($illustration);
         }
     }
-
 
     /**
      * Action sur le tableau des videos
@@ -322,8 +432,8 @@ class Figure
     {
         if($this->videos->contains($video))
         {
-            $this->videos->remove($video);
+            $this->videos->removeElement($video);
         }
     }
-
+ 
 }

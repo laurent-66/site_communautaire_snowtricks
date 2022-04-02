@@ -1,67 +1,54 @@
-.main-container
-{
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-}
+@media screen and (min-width: 768px) {
 
-.imgHeroTrick
-{
-    min-height:200px;
-    background-size: cover;
-    margin: 0px;
-    padding: 0px;
-} 
+    .manageImageHero {
+        position:absolute;
+        top: 15px; left: 89%;
+    }
 
-.manageImageHero {
-    position:absolute;
-    top: 15px; left: 89%;
-}
+    #comment_content{
+        height:48px;
+    }
 
-.item-carousel
-{
-    width: 125px;
-    height: 125px;
-    margin: 30px 0px;
-    padding: 0px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
+    .authorPictureComment , .borderImageProfil{
+        width:64px;
+        height:64px;
+        border-radius: 32px;
+        box-shadow: 2px 2px 10px grey;
+    }
 
-.img-carousel
-{
-    display: block;
-    width: 125px;
-    height: 125px;
-    margin: 0px auto;
-    padding: 0px auto;
-}
+    .avatar-image
+    {
+        margin: 0px;
+        padding: 0px;
 
-#comment_content{
-    height:48px;
-}
+    }
+    .btn-add-media
+    {
+        margin-top: -30px;
+        margin-bottom: 30px;
+    }
 
-.authorPictureComment , .borderImageProfil{
-    width:64px;
-    height:64px;
-    border-radius: 32px;
-    box-shadow: 2px 2px 10px grey;
-}
+    .see-media
+    {
+        display: block;
+        margin: 0px;
+        padding: 0px;
+    }
 
-.avatar-image
-{
-    margin: 0px;
-    padding: 0px;
+    .btn-see-media
+    {
+        display: none;
+    }
 
-}
+    .btn-hidden-media
+    {
+        display: none;
+    }
 
-.see-media
-{
-    display: none;
+    .medias-list-smartphone
+    {
+        display: none;
+    }
 }
 
 /*  inférieur à 768px  */
@@ -88,9 +75,51 @@
         display: none;
 
     }
-    .see-media
+
+    .container-see-media
     {
-        display: contents flex;
+        display: flex;
+        flex-direction: column;
         justify-content: center;
+        align-items: center;
+    }   
+    .btn-see-media
+    {
+        display: block;
+    }
+
+    .btn-hidden-media
+    {
+        display: none;
+    }
+
+    .medias-list-smartphone
+    {
+        display: none;
+    }
+    .carrousel-desktop{
+        display: none;
+    }
+
+    .manageImageHero{
+        flex-wrap: nowrap;
+        position:absolute;
+        top: 2%; left: 65%;
+
+    }
+    .manageImageHero .btn-info
+    {
+        margin-right: 10px;
+    }
+    .container-figures{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+    }
+    .container-figures h4 {
+        display:block;
+
     }
 }

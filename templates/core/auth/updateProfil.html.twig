@@ -6,20 +6,20 @@
         <div class="row">
             <div class="col-sm-12 col-md-8 col-lg-6 mx-auto my-auto">
                 <div class="container card rounded shadow p-4 my-5 d-flex flex-column">
-                    {# {% if error %}
-                    <div class="alert alert-danger" role="alert">
-                        {{ error }}
-                    </div>
-                    {% endif %} #}
                     <h2 class="text-center mt-3">Mon profil</h2>
                     <div class="container-picture-profil mt-3">
-                        {% if user.urlphoto %}
-                            <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo laurent" class="rounded-circle d-block"></div>
+                        {% if user.urlPhoto == "defaultProfil.jpg" %}
+                            <div><img src="/images/default/defaultProfil.jpg" alt="defaultProfil" class="rounded-circle d-block"></div>
                         {% else %}
-                            <div><img src="/images/defaultProfil.png" alt="defaultProfil" class="rounded-circle d-block"></div>
+                            <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo avatar utilisateur" class="rounded-circle d-block"></div>
                         {% endif %}    
                     </div>
                     {{form_start(form)}}
+                    {{form_row(form.pseudo)}}
+                    {{form_row(form.email)}}
+                    {{form_row(form.urlPhotoFile)}}
+                    {{form_row(form.alternativeAttribute)}}
+                    {{form_row(form.save)}}
                     {{form_end(form)}}
                     <p>Vous souhaitez supprimer votre profil ? Veuillez cliquer sur supprimer. Attention cette opération est irréversible ! </p>
                     <a class="btn btn-lg btn-danger d-block my-4 mx-auto" href="#">Supprimer</a>

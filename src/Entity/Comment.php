@@ -58,7 +58,7 @@ class Comment
     /**
      * @var Figure
      * 
-     * @ORM\ManyToOne(targetEntity="App\Entity\Figure")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Figure" , inversedBy="comment")
      * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
      */
     protected $figure;
@@ -121,7 +121,6 @@ class Comment
     {
         $this->updatedAt = $updatedAt;
     }
-
 
     /**
      * @return User 

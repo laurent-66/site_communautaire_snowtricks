@@ -1,114 +1,212 @@
 {% extends 'base.html.twig' %}
-{% block title %}editer trick{% endblock %}
+{% block title %}trick{% endblock %}
 {% block body %}
     <div class="imageHero px-0">
-		<div class="arrow-down">
-			<a href="#Tricks-list">
-				<i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
-			</a>
-		</div>
-	</div>
-    <div class="mx-0 px-0 main-container">
-        <div class="container px-0 mx-0 trick-card">
-            <div class="row px-0 mx-0">
-                <div class="imgHeroTrick" style="background: no-repeat url('/uploads/coverImage/{{figure.coverImage}}'); background-size: cover;">
-                    <h1>{{figure.name}}</h1>
-                </div>
-            </div>
-            <div class="manageImageHero">
-                <a href="#" class="btn btn-info">
-			        <i class="fas fa-edit"></i>
-				</a>
-				<a href="#" class="btn btn-danger">
-					<i class="fas fa-trash-alt"></i>
-				</a>
-            </div>    
-        </div>
-
-		{# <div style="display:flex; justify-content:center;">
-			<button class="btn btn-primary my-3" id="add-media" data-total-page="" data-next-page="" data-figure-ajax="">Charger plus</button>
-		</div> #}
-
-        <div class="container bg bg-warning">
-
-                
-                <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                    {% if illustrations %}
-                        {{count(illustrations)}}
-                        <div class="carousel-item {% if loop.first %} active {% endif %}">
-                            <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                       
-                                    <div class="item-carousel col-sm-12 col-md-2 col-lg-2">
-                                        {% for i in 0..count(illustrations) %}
-
-                                        <img class="img-carousel" src="/uploads/illustrationsCollection/{{illustration[i]}}" alt="img">
-                                        {% endif %}
-
-                                    </div>
-                             
-                            </div>
-                        </div>
-
-                    {% else %}
-                        {# {% for video in videos %}
-                            <div class="carousel-item {% if loop.first %} active {% endif %}">
-                                <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                                    <div class="item-carousel col-sm-12 col-md-2 col-lg-2"><img class="img-carousel" src="{{video}}" alt="video"></div>
-                                    <div class="item-carousel col-sm-12 col-md-2 col-lg-2"><iframe width="560" height="315" src="https://www.youtube.com/embed/ofHoJ4QWVDk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-                                </div>
-                            </div>
-                        {% endfor %} #}
-                    {% endif %}
-                        
-                    </div>
-                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>
-
-
-
-
+        <div class="arrow-down">
+            <a href="#Tricks-list">
+                <i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
+            </a>
         </div>
     </div>
+    <div class="mx-0 px-0 main-container">
+        <div class="container mx-auto px-0 main-card card">
+
+            {% if figure.coverImage == "defaultCoverImage" %}
+            <div class="imgHeroTrick" style="background: url('/images/coverImageDisabled.png') no-repeat center center; background-size: cover; width:100%;">
+                <h1>{{figure.name}}</h1>
+            </div>
+            {% else %}
+            <div class="imgHeroTrick" style="background: url('/uploads/coverImage/{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
+                <h1>{{figure.name}}</h1>
+            </div>
+            {% endif %}
+
+            <div class="manageImageHero">
+
+                <a href="{{ path('trickUpdateCoverImage', {'slug': figure.slug} )}}" class="btn btn-info">
+                    <i class="fas fa-edit"></i>
+                </a>    
+                <a href="{{ path('trickDeleteCoverImage', {'slug': figure.slug } ) }}" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i>
+                </a>
+            </div> 
+            <div class="card-body">
+                <div class="container">
+                    <div class="row mt-5">
+                        {% if app.user %}
+                        <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
+                            <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn-add-media btn btn-success mx-auto mb-4 px-auto d-block">Ajouter un média</a>
+                        </div>
+                        <div class="container my-0">
+                            <div class="container-see-media">
+                                <div class="see-media">
+                                    <button class="btn-see-media btn btn-primary mb-4">Voir les medias</button>
+                                    <button class="btn-hidden-media btn btn-primary mb-4">Masquer les medias</button>
+                                </div>
+                            </div>
+                        </div> 
+                        {% endif %}
+                    </div>
+                </div> 
+                <div class="container">
+                    <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
+                        <div class="carousel-inner w-100 mx-0 px-0" role="listbox">
+
+                            {% for media in arrayMedias %}
+            
+                            <div class="carousel-item col-sm-2 col-md-2 col-lg-2 {% if loop.first %} active {% endif %}  mx-0 px-2">
+                                <div class="row">
+                                                    
+                                    {% if media.type == "img" %}
+
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                                            <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                                            <div class="card-body bg-light">
+                                                {% if app.user %}
+                                                    <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
+                                                        <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
+                                                            <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>	
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {% else %}
+
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="card px-0 mx-0 bg-light rounded-3">
+                                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            <div class="card-body">
+                                                {% if app.user %}
+                                                    <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
+                                                        <div class="col-md-4 col-lg-4 col-xl-4 mx-0 px-0 d-flex justify-content-end">
+                                                            <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
+                                                                <i class="fas fa-edit"></i>
+                                                            </a>
+                                                            <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
+                                                                <i class="fas fa-trash-alt"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>	
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}                                            
+                                </div>  
+                            </div>    
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="container">
+                    {% if error %}
+                        <div class="row alert alert-danger mx-0 px-0 py-0 border-0" role="alert">
+                            {{ messageError }}
+                        </div>
+                    {% endif %}
+
+                    {{form_start(formDescriptionTrick)}}
+
+                    <div class="row">
+                        <div class="col-12">
+                        {{form_row(formDescriptionTrick.name)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formDescriptionTrick.description)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formDescriptionTrick.figureGroup)}}
+                        </div>
+                    </div>
+                    <div class="row flex-wrap-reverse">
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                        <a href="{{ path('trickDeletePage', {'slug': figure.slug} ) }}" class="btn btn-lg btn-danger btn-block mb-3">Supprimer </a>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-6">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Enregistrer</button>
+                        </div>
+                    </div>
+                    {{form_end(formDescriptionTrick)}}
+                </div>   
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="medias-list-smartphone mx-0 my-0 px-0 py-0">
+            {% for media in arrayMedias %}
+                {% if media.type == "img" %}
+                    <div class="card px-0 mx-0 mb-3 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                        <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                        <div class="card-body bg-light">
+                            {% if app.user %}
+                                <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="card px-0 mx-0 mb-3 bg-light rounded-3">
+                        <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <div class="card-body">
+                            {% if app.user %}
+                                <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div> 
+
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript">
+        const btnSeeMedias = document.querySelector('.btn-see-media');
+        const btnHiddenMedias = document.querySelector('.btn-hidden-media');
+        const mediasList = document.querySelector('.medias-list-smartphone');
 
-{# {% block javascripts %}
-	<script type="text/javascript">
-		const element = document.querySelector('#add-media');
-        const containerAddMedias = document.querySelector('#container-add-medias');
-		const loader = document.querySelector('.loading');
-
-        element.addEventListener('click', async (e) => { 
-		loader.style.display='block';	
-        const totalPage = e.target.dataset.totalPage;
-        const nextPage = e.target.dataset.nextPage;
-        const urlToCallAjax = e.target.dataset.figureAjax;
-        //Asynchrone response ajax
-        const response = await fetch(`${urlToCallAjax}?page=${nextPage}`);
-        console.log(response);
-
-            if(response.ok) {
-                loader.style.display='none';
-                const data = await response.json();
-                // if all page display thon disabled button
-                if((Number(nextPage)) === Number(totalPage)) {
-                    element.disabled = true;
-                }
-                // else increment to one the attribute value "data-next-page" in tag button
-                element.dataset.nextPage = Number(nextPage) + 1;
-                //add figures bellow page
-                containerfigures.innerHTML += data.html;
-            }
-
+        btnSeeMedias.addEventListener('click', () => { 
+            mediasList.style.display = 'block';
+            btnSeeMedias.style.display ='none';
+            btnHiddenMedias.style.display = 'block';
         });
 
-	</script>
-{% endblock %} #}
+        btnHiddenMedias.addEventListener('click', () => { 
+            mediasList.style.display = 'none';
+            btnHiddenMedias.style.display = 'none';
+            btnSeeMedias.style.display ='block';
+        });
+
+    </script>
+{% endblock %}

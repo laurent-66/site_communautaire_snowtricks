@@ -2,178 +2,172 @@
 {% block title %}trick{% endblock %}
 {% block body %}
     <div class="imageHero px-0">
-		<div class="arrow-down">
-			<a href="#Tricks-list">
-				<i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
-			</a>
-		</div>
-	</div>
+        <div class="arrow-down">
+            <a href="#Tricks-list">
+                <i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
+            </a>
+        </div>
+    </div>
     <div class="mx-0 px-0 main-container">
-        <div class="container px-0 mx-0 trick-card">
-            <div class="row px-0 mx-0">
-                <div class="imgHeroTrick" style="background: no-repeat url('/uploads/coverImage/{{figure.coverImage}}');">
-                    <h1>{{figure.name}}</h1>
-                </div>
+        <div class="container mx-auto px-0 main-card card">
+            {% if figure.coverImage == "defaultCoverImage" %}
+            <div class="imgHeroTrick" style="background: url('/images/coverImageDisabled.png') no-repeat center center; background-size: cover; width:100%;">
+                <h1>{{figure.name}}</h1>
             </div>
+            {% else %}
+            <div class="imgHeroTrick" style="background: url('/uploads/coverImage/{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
+                <h1>{{figure.name}}</h1>
+            </div>
+            {% endif %}
+
+            {% if app.user %}
             <div class="manageImageHero">
                 <a href="{{ path('trickEditPage', {'slug': figure.slug} )}}" class="btn btn-info">
-			        <i class="fas fa-edit"></i>
-				</a>
-				<a href="#" class="btn btn-danger">
-					<i class="fas fa-trash-alt"></i>
-				</a>
-            </div>    
-        </div>
-
-          <div class="container bg bg-warning">
-            <div class="container-fluid">
-
-                <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
-
-                    <div class="carousel-inner row w-100 mx-auto" role="listbox">
-
-                        {% if medias %}
-                            <div class="carousel-item active">
-                                <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                                {{nbSlides}}
-                                  {% for i in 0 .. nbSlides %}
-                                    <div class="item-carousel col-sm-12 col-md-12 col-lg-12">
-
-                                          {% for j in 0..5 %}
-                                            <img class="img-carousel" src='/uploads/illustrationsCollection/{{arrayFirstLoop[j]}}' alt="img">
-                                          {% endfor %}
-                                    </div>
-
-                                        {# {% elseif loop.last %}
-                                          {% for j in arrayLastLoop %}
-                                            <img class="img-carousel" src='/uploads/illustrationsCollection/{{arrayLastLoop[j]}}' alt="img">
-                                          {% endfor %}
-                                        {% else %}
-                                          {% for j in arrayCurrentLoop %}
-                                            <img class="img-carousel" src='/uploads/illustrationsCollection/{{arrayCurrentLoop[j]}}' alt="img">
-                                          {% endfor %}
-                                        {% endif %} #}
-
-                                  {% endfor %}
+                    <i class="fas fa-edit"></i>
+                </a>
+                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+  					<i class="fas fa-trash-alt"></i>
+				</button>
+				{% include "core/modal/confirmDeleteElement.html.twig" %}
+            </div> 
+            {% endif %}
+            
+            <div class="card-body">
+                <div class="container">
+                    <div class="row mt-5">
+                        <div class="container my-0">
+                            <div class="container-see-media">
+                                <div class="see-media">
+                                    <button class="btn-see-media btn btn-primary mb-4">Voir les medias</button>
+                                    <button class="btn-hidden-media btn btn-primary mb-4">Masquer les medias</button>
                                 </div>
                             </div>
-
-                            <div class="carousel-item active">
-                                <div class="row mx-0 px-0 d-flex justify-content-evenly align-items-center">
-                                    <div class="item-carousel col-sm-12 col-md-12 col-lg-12">
-
-                                          {% for j in 5 .. 10 %}
-                                            <img class="img-carousel" src='/uploads/illustrationsCollection/{{arrayCurrentLoop[j]}}' alt="img">
-                                          {% endfor %}
-                                    </div>
-
-                                        {# {% elseif loop.last %}
-                                          {% for j in arrayLastLoop %}
-                                            <img class="img-carousel" src='/uploads/illustrationsCollection/{{arrayLastLoop[j]}}' alt="img">
-                                          {% endfor %}
-                                        {% else %}
-                                          {% for j in arrayCurrentLoop %}
-                                            <img class="img-carousel" src='/uploads/illustrationsCollection/{{arrayCurrentLoop[j]}}' alt="img">
-                                          {% endfor %}
-                                        {% endif %} #}
-
-
-                                </div>
-                            </div>
-
-
-
-
-
-
-
-                        {% endif %}
+                        </div> 
                     </div>
+                </div> 
+                <div class="container carrousel-desktop">
+                    <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
+                        <div class="carousel-inner w-100 mx-0 px-0" role="listbox">
 
-                    <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
-                        <i class="fa fa-chevron-left fa-lg text-muted"></i>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next text-faded" href="#carouselExample" role="button" data-slide="next">
-                        <i class="fa fa-chevron-right fa-lg text-muted"></i>
-                        <span class="sr-only">Next</span>
-                    </a>
-                </div>        
-            </div>
-          </div>
+                            {% for media in arrayMedias %}
+            
+                            <div class="carousel-item col-sm-2 col-md-2 col-lg-2 {% if loop.first %} active {% endif %}  mx-0 px-2">
+                                <div class="row">
+                                                    
+                                    {% if media.type == "img" %}
 
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                                            <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                                            <div class="card-body bg-light">
+                                            </div>
+                                        </div>
+                                    </div>
 
+                                    {% else %}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <div class="see-media">
-			        <button class="btn btn-primary my-3" id="media-button">See media</button>
-		        </div>
-
-                <div class="row mx-0 px-0 d-flex justify-content-center align-items-center">
-                    <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Trick créé le :  </strong>{{figure.createdAt|date("d/m/Y")}}</div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Groupe du trick : </strong>{{figure.figureGroup.name}}</div>
-                    <div class="col-sm-3 col-md-3 col-lg-3 label-info"><strong>Trick modifié le :  </strong>{{figure.updatedAt|date("d/m/Y")}}</div>
+                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                        <div class="card px-0 mx-0 bg-light rounded-3">
+                                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            <div class="card-body">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}                                            
+                                </div>  
+                            </div>    
+                            {% endfor %}
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
                 </div>
 
+                <div class="container mt-3 medias-list-smartphone mx-0 my-0 px-0 py-0">
+                    {% for media in arrayMedias %}
+                        {% if media.type == "img" %}
+                            <div class="card px-0 mx-0 mb-3 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                                <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                                <div class="card-body bg-light">
+                                    {% if app.user %}
+                                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href= "{{ path('trickDeleteIllustrationPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="card px-0 mx-0 mb-3 bg-light rounded-3">
+                                <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <div class="card-body">
+                                    {% if app.user %}
+                                        <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-info mr-2">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="{{ path('trickDeleteVideoPage', {'slug': figure.slug, 'id': media.id } ) }}?type=video" class="btn btn-danger">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+                <div class="row mx-0 px-0 my-5 d-flex justify-content-center align-items-center">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
+                            <strong>Trick créé le :  </strong>{{figure.createdAt|date("d/m/Y")}}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
+                            <strong>Groupe du trick : </strong>{{figure.figureGroup.name}}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="d-block bg-secondary text-white px-3 py-3 mx-auto mb-3 rounded">
+                            <strong>Trick modifié le :  </strong>{{figure.updatedAt|date("d/m/Y")}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mx-0 px-0">
+                    <p>{{figure.description}}</p>
+                </div>
                 <div class="separator"></div>
+
+                {% if app.user %}
                     {{form_start(formComment)}}
                     <div class="row">
-                            <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
-                                {{form_widget(formComment.content)}}
-                            </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4 mb-3 mx-auto">
-                                <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
-                            </div>
+                        <div class="col-sm-12 col-md-12 col-lg-8 mb-3 mx-auto">
+                            {{form_widget(formComment.content)}}
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 mb-3 mx-auto">
+                            <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Laisser un commentaire</button>
+                        </div>
                     </div>
                     {{form_end(formComment)}}
-                <div class="separator"></div>
+                    <div class="separator"></div>
+                {% endif %}
+
                 <div class="row" id="container-figures">
                     {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
-                </div> 
+                </div>
             </div>
-
+        </div>
     </div>
 {% endblock %}
-
 {% block javascripts %}
-<script>
-$('#carouselExample').on('slide.bs.carousel', function (e) {
-
-    var $e = $(e.relatedTarget);
-    var idx = $e.index();
-    var itemsPerSlide = 3;
-    var totalItems = $('.carousel-item').length;
-    
-    if (idx >= totalItems-(itemsPerSlide-1)) {
-        var it = itemsPerSlide - (totalItems - idx);
-        for (var i=0; i<it; i++) {
-            // append slides to end
-            if (e.direction=="left") {
-                $('.carousel-item').eq(i).appendTo('.carousel-inner');
-            }
-            else {
-                $('.carousel-item').eq(0).appendTo('.carousel-inner');
-            }
-        }
-    }
-});
-</script>
+    <script type="text/javascript" src="/js/seeMediaSmartphone.js"></script>
+    <script type="text/javascript" src="/js/customCarousel.js"></script>
 {% endblock %}

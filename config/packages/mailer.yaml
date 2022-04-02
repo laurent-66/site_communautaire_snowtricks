@@ -1,0 +1,7 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        envelope: 
+            sender: 'lesageduweb@gmail.com'
+        headers:
+            From: 'lesageduweb@gmail.com'
