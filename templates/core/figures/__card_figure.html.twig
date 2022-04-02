@@ -1,5 +1,4 @@
 <div class="container-card col-sm-12 col-md-12 col-lg-3">
-
 	<div class="card px-0 mx-0 bg-light rounded-3">
 	{% if figure.coverImage == "defaultCoverImage" %}
 		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
@@ -22,24 +21,13 @@
 						<a href="{{ path('trickEditPage', {'slug': figure.slug} ) }}" class="btn btn-info mr-2">
 							<i class="fas fa-edit"></i>
 						</a>
-						<a href="{{ path('trickDeletePage', {'slug': figure.slug} ) }}" class="btn btn-danger">
-							<i class="fas fa-trash-alt"></i>
-						</a>
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+  							<i class="fas fa-trash-alt"></i>
+						</button>
+						{% include "core/modal/confirmDeleteElement.html.twig" %}
 					</div>
 				</div>	
 			{% endif %}
 		</div>
 	</div>
 </div>
-{# {% block javascripts %}
-	<script type="text/javascript">
-
-		const totalItemsTrick = document.querySelectorAll("container-card");
-
-		if(totalItemsTrick.length > 12) {
-			arrowUp.style.display='block';	
-		}else {
-			arrowUp.style.display='none';	
-		}
-	</script>
-{% endblock %} #}
