@@ -399,11 +399,11 @@ class Figure
         }
     }
 
-    public function removeIllustration(Illustration $illustration)
+    public function removeIllustration(Illustration $illustration): void
     {
         if($this->illustrations->contains($illustration))
         {
-            $this->illustrations->removeElement($illustration);
+            $this->illustrations->removeElement($illustration); 
         }
     }
 
@@ -425,7 +425,7 @@ class Figure
         }
     }
 
-    public function removeVideo(Video $video)
+    public function removeVideo(Video $video): void
     {
         if($this->videos->contains($video))
         {

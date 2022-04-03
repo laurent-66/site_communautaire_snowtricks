@@ -57,7 +57,7 @@ class NewTrickType extends AbstractType
                 ]
             )
         ;
-    }
+    } 
 
     public function configureOptions(OptionsResolver $resolver): void
     {
