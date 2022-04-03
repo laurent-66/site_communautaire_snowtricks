@@ -52,9 +52,6 @@ class Figure
     /**
      * @var string
      * 
-     * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.",
-     * )
      * 
      * 
      * @ORM\Column(type="string")
@@ -192,7 +189,7 @@ class Figure
     /**
      * @return string 
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -200,7 +197,7 @@ class Figure
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(?string $name): void
     {
         $this->name = $name;
     }
@@ -228,7 +225,7 @@ class Figure
     /**
      * @return string 
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -236,7 +233,7 @@ class Figure
     /**
      * @param string $description
      */
-    public function setDescription(string $description): void
+    public function setDescription(?string $description): void
     {
         $this->description = $description;
     }
@@ -402,11 +399,11 @@ class Figure
         }
     }
 
-    public function removeIllustration(Illustration $illustration)
+    public function removeIllustration(Illustration $illustration): void
     {
         if($this->illustrations->contains($illustration))
         {
-            $this->illustrations->removeElement($illustration);
+            $this->illustrations->removeElement($illustration); 
         }
     }
 
@@ -428,7 +425,7 @@ class Figure
         }
     }
 
-    public function removeVideo(Video $video)
+    public function removeVideo(Video $video): void
     {
         if($this->videos->contains($video))
         {

@@ -1,12 +1,26 @@
-document
-    .querySelectorAll('add_item_link_image.tags li')
-    .forEach((illustration) => {
+const illustrations = document.querySelectorAll('ul.illustrations.li');
+const videos = document.querySelectorAll('ul.videos.li');
+
+if ( illustrations.length > 0 ) {
+
+    illustrations.forEach((illustration) => {
         addTagFormDeleteLink(illustration)
     })
 
-const addTagFormDeleteLink = (item) => {
+}
+
+if ( videos.length > 0 ) {
+
+    videos.forEach((video) => {
+        addTagFormDeleteLink(video)
+    })
+
+}
+
+function addTagFormDeleteLink(item) {
+
     const removeFormButton = document.createElement('button');
-    removeFormButton.innerText = 'Supprimer l\'illustration';
+    removeFormButton.innerText = 'Supprimer le media';
 
     item.append(removeFormButton);
 
