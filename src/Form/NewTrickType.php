@@ -37,6 +37,7 @@ class NewTrickType extends AbstractType
                     'allow_add' => true,
                     'allow_delete' => true, 
                     'label'=> false, 
+                    'by_reference'=> false,
                      
                 ],
             )
@@ -53,7 +54,8 @@ class NewTrickType extends AbstractType
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
                     'allow_delete' => true, 
-                    'label'=> false
+                    'label'=> false,
+                    'by_reference'=> false,
                 ]
             )
         ;
