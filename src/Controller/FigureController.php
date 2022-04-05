@@ -69,9 +69,12 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $newTrick = $formTrick->getData();
+            dump($newTrick);
             $newTrick->setAuthor($this->getUser());
             $coverImage = $newTrick->getCoverImageFile();
+
             $alternativeAttribute = $newTrick->getAlternativeAttribute();
+
 
             if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -113,7 +116,8 @@ class FigureController extends AbstractController
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-
+                    dump($newFilename);
+                    exit;
                     try {
                         $objectIllustration->getFileIllustration()->move(
                             $this->getParameter('illustrationsCollection_directory'),
