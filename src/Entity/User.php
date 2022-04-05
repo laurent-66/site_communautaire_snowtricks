@@ -91,10 +91,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="base"
+     * message = "La valeur ne peut être vide1.", groups="altAttrUploadFile"
      * )
      * 
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255) 
      * 
      */
     protected $alternativeAttribute;
