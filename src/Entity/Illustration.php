@@ -46,7 +46,7 @@ class Illustration
     * )
     */
     protected $fileIllustration;
-
+ 
 
     /**
      * @var Datetime 

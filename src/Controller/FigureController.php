@@ -69,8 +69,11 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $newTrick = $formTrick->getData();
+            dump($newTrick);
             $newTrick->setAuthor($this->getUser());
-            $coverImage = $formTrick->get('coverImageFile')->getData();
+            $coverImage = $newTrick->getCoverImageFile();
+            dump($coverImage);
+            exit;
 
             if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -92,18 +95,19 @@ class FigureController extends AbstractController
 
             }
 
-            $imagesCollection = $formTrick->get('illustrations')->getData();
-            $videosCollection = $formTrick->get('videos')->getData();
+            $imagesCollection = $newTrick->getIllustrations();
+            $videosCollection = $newTrick->getVideos();
 
             if ($imagesCollection) {
 
                 foreach( $imagesCollection as $objectIllustration ) {
 
-                    $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
-                    $originalFilename = pathinfo($image, PATHINFO_FILENAME);
+                    $image = $objectIllustration->getFileIllustration();
+                    $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-
+                    dump($newFilename);
+                    exit;
                     try {
                         $objectIllustration->getFileIllustration()->move(
                             $this->getParameter('illustrationsCollection_directory'),
@@ -447,8 +451,8 @@ class FigureController extends AbstractController
             dump($updateTrick);
             exit;
 
-            $imagesCollection = $formAddMediasTrick->get('illustrations')->getData();
-            $videosCollection = $formAddMediasTrick->get('videos')->getData();
+            $imagesCollection = $updateTrick->getIllustrations();
+            $videosCollection = $updateTrick->getVideos();
 
             if ($imagesCollection) { 
 

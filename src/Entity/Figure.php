@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -53,7 +54,6 @@ class Figure
      * @var string
      * 
      * 
-     * 
      * @ORM\Column(type="string")
      */
     private $description;
@@ -65,7 +65,7 @@ class Figure
 
     /**
      * Undocumented variable
-     *
+     * @var UploadedFile
      * @Assert\NotBlank( 
      * message = "La valeur ne peut être vide.",
      * ) 
@@ -260,9 +260,9 @@ class Figure
 
     /**
      *
-     * @return string
+     * @return UploadedFile
      */
-    public function getCoverImageFile(): string 
+    public function getCoverImageFile(): ?UploadedFile 
     {
         return $this->coverImageFile;
     }
@@ -386,7 +386,7 @@ class Figure
      *
      * @return ArrayCollection
      */
-    public function getIllustrations(): ArrayCollection
+    public function getIllustrations(): ?ArrayCollection
     {
         return $this->illustrations;
     }
