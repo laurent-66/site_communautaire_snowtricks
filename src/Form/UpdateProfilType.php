@@ -39,7 +39,7 @@ class UpdateProfilType extends AbstractType
 
             ->add( 'alternativeAttribute', TextType::class , [
 
-                'label'=> 'Décrivez l\'image en un mot',
+                'label'=> 'Décrivez l\'image en un mot', 
                 'required' => false
             ]) 
 
@@ -56,7 +56,7 @@ class UpdateProfilType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'validation_groups' => ['updateMail','base']
+            'validation_groups' => ['updateMail','base','uploadFile','altAttrUploadFile']
         ]);
     }
 }

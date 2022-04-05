@@ -91,10 +91,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="base"
+     * message = "La valeur ne peut être vide1.", groups="altAttrUploadFile"
      * )
      * 
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255) 
      * 
      */
     protected $alternativeAttribute;
@@ -153,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $pseudo
      */
-    public function setPseudo(string $pseudo): void
+    public function setPseudo(?string $pseudo): void
     {
         $this->pseudo = $pseudo;
     }
@@ -169,7 +169,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(?string $email): void
     {
         $this->email = $email;
     }

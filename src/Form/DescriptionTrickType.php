@@ -19,13 +19,13 @@ class DescriptionTrickType extends AbstractType
         $builder
             ->add('name', TextType::class,[
                 'label'=>'Modifier le nom de la figure',
-
                 'required' => false
             ])
 
             ->add('description', TextareaType::class, [
                     'label'=>'Modifier la description de la figure',
-                    'required' => false
+                    'required' => false,
+                    'attr' => ['rows'=>'5'],
                 ])
                 
             ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class])

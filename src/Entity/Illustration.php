@@ -32,9 +32,6 @@ class Illustration
     /**
      * @var string
      * 
-     * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide."
-     * )
      * 
      * @ORM\Column(type="string")
      */
@@ -47,9 +44,6 @@ class Illustration
     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
     *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
     * )
-    * @Assert\NotBlank( 
-    * message = "La valeur ne peut être vide.",
-    * ) 
     */
     protected $fileIllustration;
 
@@ -159,7 +153,7 @@ class Illustration
     /**
      * @return 
      */
-    public function getFileIllustration()
+    public function getFileIllustration(): ?string
     {
         return $this->fileIllustration;
     }
@@ -167,7 +161,7 @@ class Illustration
     /**
      * @param 
      */
-    public function setFileIllustration($fileIllustration): void
+    public function setFileIllustration(?string $fileIllustration): void
     {
         $this->fileIllustration = $fileIllustration;
     }
@@ -175,7 +169,7 @@ class Illustration
     /**
      * @return 
      */
-    public function getAlternativeAttribute()
+    public function getAlternativeAttribute(): ?string
     {
         return $this->alternativeAttribute;
     }
@@ -183,9 +177,9 @@ class Illustration
     /**
      * @param 
      */
-    public function setAlternativeAttribute($alternativeAttribute): void
+    public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
-        $this->alternativeAttribute = $alternativeAttribute;
+        $this->alternativeAttribute = $alternativeAttribute; 
     }
 
 

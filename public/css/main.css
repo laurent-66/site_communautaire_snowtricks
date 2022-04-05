@@ -103,6 +103,18 @@
         padding: auto;
     }
 
+    /* page EditTrick*/
+
+    .editTrickBtnAction  {
+        padding: 6px 12px;
+        margin: 0px 15px 15px 0px;
+    }
+
+    #description_trick_description{
+        overflow-y:scroll;
+    }
+
+
     /*general*/
     
     .container-body
