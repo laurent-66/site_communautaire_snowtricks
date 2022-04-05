@@ -23,7 +23,7 @@ class NewTrickType extends AbstractType
             ->add('name', TextType::class, ['label'=> 'Nom de la figure', 'required'=>false])
             ->add('description', TextareaType::class,['label'=> 'Description','required'=>false])
             ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class, 'label'=>'Groupe de figure'])
-            ->add('coverImageFile', FileType::class, [
+            ->add('coverImageFile', FileType::class, [ 
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
                 'required' => false, 
@@ -32,18 +32,19 @@ class NewTrickType extends AbstractType
                 'illustrations',
                 CollectionType::class, 
                 [
-                    'entry_type' => IllustrationType::class,
+                    'entry_type' => IllustrationType::class, 
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
                     'allow_delete' => true, 
                     'label'=> false, 
+                    'by_reference'=> false,
                      
                 ],
             )
             ->add( 'alternativeAttribute', TextType::class , [
 
-                'label'=> 'Décrivez l\'image en un mot',
-                'required' => false
+                'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
+                'required' => false,
             ])
             ->add(
                 'videos',
@@ -53,7 +54,8 @@ class NewTrickType extends AbstractType
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
                     'allow_delete' => true, 
-                    'label'=> false
+                    'label'=> false,
+                    'by_reference'=> false,
                 ]
             )
         ;

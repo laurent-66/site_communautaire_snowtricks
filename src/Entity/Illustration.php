@@ -3,6 +3,7 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -46,7 +47,7 @@ class Illustration
     * )
     */
     protected $fileIllustration;
-
+ 
 
     /**
      * @var Datetime 
@@ -151,9 +152,10 @@ class Illustration
     }
 
     /**
-     * @return 
+     * 
+     * @return UploadedFile|null
      */
-    public function getFileIllustration(): ?string
+    public function getFileIllustration(): ?UploadedFile
     {
         return $this->fileIllustration;
     }
@@ -161,7 +163,7 @@ class Illustration
     /**
      * @param 
      */
-    public function setFileIllustration(?string $fileIllustration): void
+    public function setFileIllustration($fileIllustration): void
     {
         $this->fileIllustration = $fileIllustration;
     }

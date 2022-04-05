@@ -10,6 +10,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
@@ -53,8 +54,7 @@ class Figure
      * @var string
      * 
      * 
-     * 
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable="true")
      */
     private $description;
 
@@ -65,10 +65,11 @@ class Figure
 
     /**
      * Undocumented variable
-     *
-     * @Assert\NotBlank( 
+     * @var UploadedFile
+     * @Assert\NotNull( 
      * message = "La valeur ne peut être vide.",
      * ) 
+     * 
      * 
      */
     private $coverImageFile; 
@@ -80,6 +81,7 @@ class Figure
      * @Assert\NotBlank( 
      * message = "La valeur ne peut être vide.",
      * )
+     * 
      * 
      * @ORM\Column(type="string", length=255)
      * 
@@ -242,7 +244,7 @@ class Figure
      *
      * @return string
      */
-    public function getCoverImage(): string 
+    public function getCoverImage(): ?string 
     {
         return $this->coverImage;
     }
@@ -252,7 +254,7 @@ class Figure
      * @param string $coverImage
      * 
      */
-    public function setCoverImage(string $coverImage): void
+    public function setCoverImage(?string $coverImage): void
     {
         $this->coverImage = $coverImage;
 
@@ -260,9 +262,9 @@ class Figure
 
     /**
      *
-     * @return string
+     * @return UploadedFile
      */
-    public function getCoverImageFile(): string 
+    public function getCoverImageFile(): ?UploadedFile 
     {
         return $this->coverImageFile;
     }
@@ -273,7 +275,7 @@ class Figure
      * @param string $coverImageFile
      * 
      */
-    public function setCoverImageFile(string $coverImageFile): void
+    public function setCoverImageFile($coverImageFile): void
     {
         $this->coverImageFile = $coverImageFile;
 
@@ -284,7 +286,7 @@ class Figure
      *
      * @return string
      */
-    public function getAlternativeAttribute(): string
+    public function getAlternativeAttribute(): ?string
     {
         return $this->alternativeAttribute;
     }
@@ -294,7 +296,7 @@ class Figure
      * @param string $alternativeAttribute
      * 
      */
-    public function setAlternativeAttribute(string $alternativeAttribute): void
+    public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 
@@ -386,7 +388,7 @@ class Figure
      *
      * @return ArrayCollection
      */
-    public function getIllustrations(): ArrayCollection
+    public function getIllustrations(): ?ArrayCollection
     {
         return $this->illustrations;
     }
