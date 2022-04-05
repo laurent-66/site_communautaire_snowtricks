@@ -3,6 +3,7 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -32,9 +33,6 @@ class Illustration
     /**
      * @var string
      * 
-     * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide."
-     * )
      * 
      * @ORM\Column(type="string")
      */
@@ -47,12 +45,9 @@ class Illustration
     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
     *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
     * )
-    * @Assert\NotBlank( 
-    * message = "La valeur ne peut être vide.",
-    * ) 
     */
     protected $fileIllustration;
-
+ 
 
     /**
      * @var Datetime 
@@ -157,9 +152,10 @@ class Illustration
     }
 
     /**
-     * @return 
+     * 
+     * @return UploadedFile|null
      */
-    public function getFileIllustration()
+    public function getFileIllustration(): ?UploadedFile
     {
         return $this->fileIllustration;
     }
@@ -175,7 +171,7 @@ class Illustration
     /**
      * @return 
      */
-    public function getAlternativeAttribute()
+    public function getAlternativeAttribute(): ?string
     {
         return $this->alternativeAttribute;
     }
@@ -183,9 +179,9 @@ class Illustration
     /**
      * @param 
      */
-    public function setAlternativeAttribute($alternativeAttribute): void
+    public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
-        $this->alternativeAttribute = $alternativeAttribute;
+        $this->alternativeAttribute = $alternativeAttribute; 
     }
 
 

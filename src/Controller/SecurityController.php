@@ -158,7 +158,6 @@ class SecurityController extends AbstractController
             'user' => $username,
             'hash' => $hash,
         ]);
-
     }
 
 
@@ -284,6 +283,23 @@ class SecurityController extends AbstractController
 
         return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user'=> $user]);
     }
+
+
+    /**
+     * delete user
+     *
+     * @param Request $request
+     * @return void
+     * 
+     * @Route("/account/deleteProfile", name="deleteProfile")
+     */
+    function deleteProfile(Request $request) {
+        $userCurrent = $this->getUser();
+        $this->entityManager->remove($userCurrent);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('homePage');
+    }
+
 }
 
 
