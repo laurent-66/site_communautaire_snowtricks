@@ -69,11 +69,9 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $newTrick = $formTrick->getData();
-            dump($newTrick);
             $newTrick->setAuthor($this->getUser());
             $coverImage = $newTrick->getCoverImageFile();
-            dump($coverImage);
-            exit;
+            $alternativeAttribute = $newTrick->getAlternativeAttribute();
 
             if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -91,8 +89,17 @@ class FigureController extends AbstractController
                 }
 
                 $newTrick->setCoverImage($newFilename);
-                $this->entityManager->persist($newTrick);
 
+                if ($alternativeAttribute) {
+                    $newTrick->setAlternativeAttribute($alternativeAttribute);
+                } else {
+                    $newTrick->setAlternativeAttribute($originalFilename);
+                }
+
+            } else {
+
+                $newTrick->setCoverImage('defaultCoverImage');
+                $newTrick->setAlternativeAttribute('Image de couverture par défaut');
             }
 
             $imagesCollection = $newTrick->getIllustrations();
@@ -106,8 +113,7 @@ class FigureController extends AbstractController
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-                    dump($newFilename);
-                    exit;
+
                     try {
                         $objectIllustration->getFileIllustration()->move(
                             $this->getParameter('illustrationsCollection_directory'),
@@ -165,6 +171,9 @@ class FigureController extends AbstractController
                         }
                     }
                 }
+
+
+
 
             $this->entityManager->persist($newTrick);
             $this->entityManager->flush();
