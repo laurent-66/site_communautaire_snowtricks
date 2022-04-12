@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use Exception;
+use App\Entity\Figure;
 use App\Form\CommentType;
 use App\Form\NewTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
+use App\DataFixtures\DatasDefault;
 use App\Form\DescriptionTrickType;
 use App\Form\UpdateCoverImageType;
 use App\Repository\VideoRepository;
@@ -20,10 +22,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
-use App\DataFixtures\DatasDefault;
 
 class FigureController extends AbstractController
 {
@@ -303,26 +304,52 @@ class FigureController extends AbstractController
          
         }  
 
-        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$figure);
+        // TODO generate an object current figure without collection illustrations
+
+
+        $nameTrick = $figure->getName();
+        $coverTrick = $figure->getCoverImage();
+        $altAttrTrick = $figure->getAlternativeAttribute();
+        $descriptionTrick = $figure->getDescription();
+        $nameSlugTrick = $this->slugger->slug($nameTrick);
+        $figureGroupTrick = $figure->getFigureGroup();
+
+        $partialFigure = new Figure();
+
+        $partialFigure->setName($nameTrick);
+        $partialFigure->setSlug($nameSlugTrick);
+        $partialFigure->setCoverImage($coverTrick);
+        $partialFigure->setAlternativeAttribute($altAttrTrick);
+        $partialFigure->setDescription($descriptionTrick);
+        $partialFigure->setFigureGroup($figureGroupTrick);
+
+        
+        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$partialFigure);
         $formDescriptionTrick->handleRequest($request);
         $messageError = '';
 
         if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
             try{
         
-                $descriptionTrick = $formDescriptionTrick->getData();
-                $nameTrickField = $descriptionTrick->getName();
-                $descriptionfield = $descriptionTrick->getDescription();
-                $figureGroupSelect = $descriptionTrick->getFigureGroup();
-                $coverImageTrick = $descriptionTrick->getCoverImage();
+                $updateTrick = $formDescriptionTrick->getData();
+
+                $nameTrickField = $updateTrick->getName();
+                $coverImageFile = $updateTrick->getCoverImageFile();
+                $alternativeAttribute = $updateTrick->getAlternativeAttribute();
+                $descriptionfield = $updateTrick->getDescription();
+                $figureGroupSelect = $updateTrick->getFigureGroup();
+                $coverImageTrick = $updateTrick->getCoverImage();
                 $coverImageTrick == null ? 'defaultCoverImage' : $coverImageTrick;
                 $nameTrickSluger = $this->slugger->slug($nameTrickField);
     
                 $figure->setName($nameTrickField);
                 $figure->setSlug($nameTrickSluger);
-                $figure->setDescription($descriptionfield);
+                $figure->setCoverImageFile($coverImageFile);
+                $figure->setAlternativeAttribute($alternativeAttribute);
                 $figure->setCoverImage($coverImageTrick);
+                $figure->setDescription($descriptionfield);
                 $figure->setFigureGroup($figureGroupSelect);
+
                 $this->entityManager->persist($figure);
                 $this->entityManager->flush();
 
