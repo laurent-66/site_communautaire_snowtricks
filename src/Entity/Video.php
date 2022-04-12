@@ -33,13 +33,6 @@ class Video
     protected $urlVideo;
 
     /**
-     * @var boolean
-     * 
-     * @ORM\Column(type="boolean")
-     */
-    protected $embed;
-
-    /**
      * @var Datetime 
      * 
      * @ORM\column(type="datetime")
@@ -80,17 +73,9 @@ class Video
     }
 
     /**
-     * @param int $id
-     */
-    public function setId(int $id): void
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string 
      */
-    public function getUrlVideo(): string
+    public function getUrlVideo(): ?string
     {
         return $this->urlVideo;
     }
@@ -98,26 +83,11 @@ class Video
     /**
      * @param string $url_video
      */
-    public function setUrlVideo(string $urlVideo): void
+    public function setUrlVideo(?string $urlVideo): void
     {
         $this->urlVideo = $urlVideo;
     }
 
-    /**
-     * @return boolean 
-     */
-    public function getEmbed(): bool
-    {
-        return $this->urlVideo;
-    }
-
-    /**
-     * @param boolean $embed
-     */
-    public function setEmbed(bool $embed): void
-    {
-        $this->embed = $embed;
-    }
 
     /**
      * @return Datetime 

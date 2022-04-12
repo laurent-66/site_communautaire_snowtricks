@@ -26,7 +26,7 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
             $urlIllustration = json_decode($listPictures, true)[$i]["download_url"];
             $illustration->setUrlIllustration($urlIllustration);
             $illustration->setFigure($figure);
-
+            $illustration->setAlternativeAttribute('image');
             $manager->persist($illustration);
         }
 
