@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use Exception;
+use App\Entity\Figure;
 use App\Form\CommentType;
 use App\Form\NewTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
+use App\DataFixtures\DatasDefault;
 use App\Form\DescriptionTrickType;
 use App\Form\UpdateCoverImageType;
 use App\Repository\VideoRepository;
@@ -20,10 +22,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-
-use App\DataFixtures\DatasDefault;
 
 class FigureController extends AbstractController
 {
@@ -304,9 +305,26 @@ class FigureController extends AbstractController
         }  
 
         // TODO generate an object current figure without collection illustrations
-        
 
-        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$figure);
+
+        $nameTrick = $figure->getName();
+        $coverTrick = $figure->getCoverImage();
+        $altAttrTrick = $figure->getAlternativeAttribute();
+        $descriptionTrick = $figure->getDescription();
+        $nameSlugTrick = $this->slugger->slug($nameTrick);
+        $figureGroupTrick = $figure->getFigureGroup();
+
+        $partialFigure = new Figure();
+
+        $partialFigure->setName($nameTrick);
+        $partialFigure->setSlug($nameSlugTrick);
+        $partialFigure->setCoverImage($coverTrick);
+        $partialFigure->setAlternativeAttribute($altAttrTrick);
+        $partialFigure->setDescription($descriptionTrick);
+        $partialFigure->setFigureGroup($figureGroupTrick);
+
+        
+        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$partialFigure);
         $formDescriptionTrick->handleRequest($request);
         $messageError = '';
 

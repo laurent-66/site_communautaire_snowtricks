@@ -34,9 +34,9 @@
                 <div class="container">
                     <div class="row mt-5">
                         {% if app.user %}
-                        <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
+                        {# <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
                             <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn-add-media btn btn-success mx-auto mb-4 px-auto d-block">Ajouter un média</a>
-                        </div>
+                        </div> #}
                         <div class="container my-0">
                             <div class="container-see-media">
                                 <div class="see-media">
@@ -183,25 +183,9 @@
         </div>
     </div> 
 
-{% endblock %}
+{% endblock %} 
 
 {% block javascripts %}
-    <script type="text/javascript">
-        const btnSeeMedias = document.querySelector('.btn-see-media');
-        const btnHiddenMedias = document.querySelector('.btn-hidden-media');
-        const mediasList = document.querySelector('.medias-list-smartphone');
-
-        btnSeeMedias.addEventListener('click', () => { 
-            mediasList.style.display = 'block';
-            btnSeeMedias.style.display ='none';
-            btnHiddenMedias.style.display = 'block';
-        });
-
-        btnHiddenMedias.addEventListener('click', () => { 
-            mediasList.style.display = 'none';
-            btnHiddenMedias.style.display = 'none';
-            btnSeeMedias.style.display ='block';
-        });
-
-    </script>
+	<script type="text/javascript" src="/js/addformTocollection.js"></script>
 {% endblock %}
+
