@@ -123,22 +123,18 @@
                     {% endif %}
 
                     {{form_start(formDescriptionTrick)}}
-
-                    <div class="row">
-                        <div class="col-12">
                         {{form_row(formDescriptionTrick.name)}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            {{form_row(formDescriptionTrick.description)}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            {{form_row(formDescriptionTrick.figureGroup)}}
-                        </div>
-                    </div>
+                        {{form_row(formDescriptionTrick.coverImageFile)}}
+                        {{form_row(formDescriptionTrick.alternativeAttribute)}}
+                        {{form_row(formDescriptionTrick.description)}}
+                        {{form_row(formDescriptionTrick.figureGroup)}}
+
+                        <ul class="illustrations" data-index="{{ formDescriptionTrick.illustrations|length > 0 ? formDescriptionTrick.illustrations|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formDescriptionTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
+                        <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
+                        <ul class="videos" data-index="{{ formDescriptionTrick.videos|length > 0 ? formDescriptionTrick.videos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formDescriptionTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
+                        <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
+
+
                     <div class="row flex-wrap-reverse d-flex justify-content-end pl-3 mt-3">
                         <button type="button" class=" btn btn-danger editTrickBtnAction" data-toggle="modal" data-target="#staticBackdrop">
                             Supprimer

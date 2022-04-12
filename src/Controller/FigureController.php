@@ -303,6 +303,9 @@ class FigureController extends AbstractController
          
         }  
 
+        // TODO generate an object current figure without collection illustrations
+        
+
         $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$figure);
         $formDescriptionTrick->handleRequest($request);
         $messageError = '';
@@ -310,19 +313,25 @@ class FigureController extends AbstractController
         if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
             try{
         
-                $descriptionTrick = $formDescriptionTrick->getData();
-                $nameTrickField = $descriptionTrick->getName();
-                $descriptionfield = $descriptionTrick->getDescription();
-                $figureGroupSelect = $descriptionTrick->getFigureGroup();
-                $coverImageTrick = $descriptionTrick->getCoverImage();
+                $updateTrick = $formDescriptionTrick->getData();
+
+                $nameTrickField = $updateTrick->getName();
+                $coverImageFile = $updateTrick->getCoverImageFile();
+                $alternativeAttribute = $updateTrick->getAlternativeAttribute();
+                $descriptionfield = $updateTrick->getDescription();
+                $figureGroupSelect = $updateTrick->getFigureGroup();
+                $coverImageTrick = $updateTrick->getCoverImage();
                 $coverImageTrick == null ? 'defaultCoverImage' : $coverImageTrick;
                 $nameTrickSluger = $this->slugger->slug($nameTrickField);
     
                 $figure->setName($nameTrickField);
                 $figure->setSlug($nameTrickSluger);
-                $figure->setDescription($descriptionfield);
+                $figure->setCoverImageFile($coverImageFile);
+                $figure->setAlternativeAttribute($alternativeAttribute);
                 $figure->setCoverImage($coverImageTrick);
+                $figure->setDescription($descriptionfield);
                 $figure->setFigureGroup($figureGroupSelect);
+
                 $this->entityManager->persist($figure);
                 $this->entityManager->flush();
 
