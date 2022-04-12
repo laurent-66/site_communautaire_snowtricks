@@ -23,6 +23,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+use App\DataFixtures\DatasDefault;
+
 class FigureController extends AbstractController
 {
 
@@ -69,7 +71,6 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $newTrick = $formTrick->getData();
-            dump($newTrick);
             $newTrick->setAuthor($this->getUser());
             $coverImage = $newTrick->getCoverImageFile();
 
@@ -204,7 +205,7 @@ class FigureController extends AbstractController
      * 
      */
     public function trickView( $slug, Request $request) {
- 
+
         $figure = $this->figureRepository->findOneBySlug($slug);
         $comments = $this->commentRepository->findBy(['figure' => $figure]);
                 

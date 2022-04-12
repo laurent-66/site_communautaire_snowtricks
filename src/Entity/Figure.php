@@ -83,7 +83,7 @@ class Figure
      * )
      * 
      * 
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable="true")
      * 
      */
     private $alternativeAttribute;
@@ -91,7 +91,7 @@ class Figure
     /**
      * @var Datetime 
      * 
-     * @ORM\column(type="datetime")
+     * @ORM\column(type="datetime", nullable="true")
      */
     private $createdAt;
 
