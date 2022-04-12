@@ -335,12 +335,12 @@ class SecurityController extends AbstractController
      * 
      * @Route("/account/deleteProfile", name="deleteProfile")
      */
-    function deleteProfile(Request $request) {
-        $userCurrent = $this->getUser();
-        $this->entityManager->remove($userCurrent);
-        $this->entityManager->flush();
-        return $this->redirectToRoute('homePage');
-    }
+    // function deleteProfile(Request $request) {
+    //     $userCurrent = $this->getUser();
+    //     $this->entityManager->remove($userCurrent);
+    //     $this->entityManager->flush();
+    //     return $this->redirectToRoute('homePage');
+    // }
 
 }
 
