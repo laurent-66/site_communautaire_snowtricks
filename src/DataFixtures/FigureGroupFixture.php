@@ -21,10 +21,13 @@ class FigureGroupFixture extends Fixture
             $figureGroup->setName($itemGroup);
 
             $manager->persist($figureGroup);
+
+            $this->addReference(self::FIG_GRP_REF.$itemGroup, $figureGroup);
         }
 
         $manager->flush();
-        $this->addReference(self::FIG_GRP_REF, $figureGroup);
+
+
     }
 
 }

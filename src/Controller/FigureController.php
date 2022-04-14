@@ -118,8 +118,7 @@ class FigureController extends AbstractController
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-                    dump($newFilename);
-                    exit;
+
                     try {
                         $objectIllustration->getFileIllustration()->move(
                             $this->getParameter('illustrationsCollection_directory'),
@@ -174,9 +173,9 @@ class FigureController extends AbstractController
                             }catch (FileException $e) {
                                 dump($e);
                             }
-                        }
                     }
                 }
+            }
 
 
 
@@ -341,16 +340,45 @@ class FigureController extends AbstractController
                 $coverImageTrick = $updateTrick->getCoverImage();
                 $coverImageTrick == null ? 'defaultCoverImage' : $coverImageTrick;
                 $nameTrickSluger = $this->slugger->slug($nameTrickField);
-    
-                $figure->setName($nameTrickField);
-                $figure->setSlug($nameTrickSluger);
-                $figure->setCoverImageFile($coverImageFile);
-                $figure->setAlternativeAttribute($alternativeAttribute);
-                $figure->setCoverImage($coverImageTrick);
-                $figure->setDescription($descriptionfield);
-                $figure->setFigureGroup($figureGroupSelect);
 
-                $this->entityManager->persist($figure);
+
+
+                if ($coverImageFile) { 
+                    $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $this->slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImageFile->guessExtension();
+                    
+                    dump($newFilename);
+   
+
+                    try {
+                        $coverImageFile->move(
+                            $this->getParameter('images_directory'),
+                            $newFilename
+                        );
+    
+                    } catch (FileException $e) {
+                        dump($e);
+                    }
+    
+                    $updateTrick->setCoverImage($newFilename);
+
+
+    
+                    if ($alternativeAttribute) {
+                        $updateTrick->setAlternativeAttribute($alternativeAttribute);
+                    } else {
+                        $updateTrick->setAlternativeAttribute($originalFilename);
+                    }
+                }
+
+                $updateTrick->setName($nameTrickField);
+                $updateTrick->setSlug($nameTrickSluger);
+                $updateTrick->setAlternativeAttribute($alternativeAttribute);
+                $updateTrick->setDescription($descriptionfield);
+                $updateTrick->setFigureGroup($figureGroupSelect);
+
+                $this->entityManager->persist($updateTrick);
                 $this->entityManager->flush();
 
             }catch(Exception $e){
@@ -359,7 +387,7 @@ class FigureController extends AbstractController
                 exit;
             }
 
-            $newSlug = $figure->getSlug();
+            $newSlug = $updateTrick->getSlug();
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
