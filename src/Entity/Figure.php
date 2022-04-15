@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("name", message = "Le nom de la figure déjà existant")
+ * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createTrick")
  * 
  */
 class Figure 
@@ -36,7 +36,7 @@ class Figure
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.",
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
      * 
      * 
@@ -67,7 +67,7 @@ class Figure
      * Undocumented variable
      * @var UploadedFile
      * @Assert\NotNull( 
-     * message = "La valeur ne peut être vide.",
+     * message = "La valeur ne peut être vide.", groups="createTrick"
      * ) 
      * 
      * 
@@ -79,7 +79,7 @@ class Figure
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.",
+     * message = "La valeur ne peut être vide.", groups="createTrick"
      * )
      * 
      * 
