@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -302,7 +303,9 @@ class FigureController extends AbstractController
          
         }  
 
+
         // generate an object current figure without collection illustrations
+
 
 
         $nameTrick = $figure->getName();
@@ -320,6 +323,8 @@ class FigureController extends AbstractController
         $partialFigure->setAlternativeAttribute($altAttrTrick);
         $partialFigure->setDescription($descriptionTrick);
         $partialFigure->setFigureGroup($figureGroupTrick);
+
+
         
         $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$partialFigure);
         $formDescriptionTrick->handleRequest($request);
@@ -357,6 +362,7 @@ class FigureController extends AbstractController
     
                     $updateTrick->setCoverImage($newFilename);
     
+
                     if ($alternativeAttribute) {
                         $updateTrick->setAlternativeAttribute($alternativeAttribute);
                     } else {
@@ -444,6 +450,7 @@ class FigureController extends AbstractController
                 $updateTrick->setFigureGroup($figureGroupSelect);
 
                 $this->entityManager->persist($updateTrick);
+
                 $this->entityManager->flush();
 
             }catch(Exception $e){
