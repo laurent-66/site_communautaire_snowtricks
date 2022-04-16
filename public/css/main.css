@@ -149,6 +149,18 @@
 
 @media screen and (max-width: 767px) {
 
+
+    .container-body
+    {
+        display:flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        height: 100vh;
+    }
+
+
+
     .navbar {
         display:none;
 
@@ -164,18 +176,6 @@
         font-size: 1rem;
     }
 
-    .menu-smartphone
-    {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-        align-items: center;
-        background-color: #E2E6EA;
-        padding: 5px;
-        position: sticky;
-        bottom: 0px;
-
-    }
 
     .dropdown-menu {
         display:block;
@@ -204,4 +204,6 @@
     .navbar-brand i {
         color: black;
     };
+
+
   }
