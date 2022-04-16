@@ -45,6 +45,12 @@
         background-repeat: no-repeat;
         height: calc(100vh - 80px);
         filter: grayscale(40%);
+        width:100%;
+    }
+
+    .imageHeroSmartphone
+    {
+        display:none;
     }
 
     .imageHero h1 {
@@ -157,53 +163,69 @@
         justify-content: start;
         align-items: center;
         height: 100vh;
+        margin: 0px;
+        padding:0px;
     }
-
-
 
     .navbar {
         display:none;
 
     }
 
-    .imageHero h1 {
+
+    .imageHero
+    {
+        display: none;
+
+    }
+
+    .imageHeroSmartphone
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image:url("/images/snowboarding_smartphone767x800.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        /* height: 800px; */
+        width: 100%;
+        filter: grayscale(40%);
+    }
+
+    .imageHeroSmartphone h1 {
+        color: white;
         font-size: 3rem;
     }
-    .imageHero h2 {
+
+    .imageHeroSmartphone h2 {
+        color: white;
         font-size: 1.5rem;
     }
-    .imageHero p {
+    .imageHeroSmartphone p {
+        color: white;
+        margin-top:25px;
         font-size: 1rem;
     }
 
-
-    .dropdown-menu {
-        display:block;
-        width: 350px;
-        margin-left: -55px;
-        padding:0px;
-
+    .arrow-down {
+        position:absolute;
+        top: 30%; left: 95%;
     }
 
-    .dropdown-menu li {
-        list-style: none;
-        background-color: #5A6268;
-        text-align: center;
-        font-size: 1.5rem;
-        padding: 10px 0px;
-
-    }
-    
-    .dropdown-menu a {
-        color: white;
-        font-weight:600;
-        padding: 0px;
-        margin: 0px 7.5px;
+    .arrow-up {
+        margin-right:3%;
     }
 
-    .navbar-brand i {
-        color: black;
-    };
+    .arrow-up a {
+        text-decoration: none;
+    }
 
+    .linkEnabled {
+        display: none;
+    }
+    .linkDisabled {
+        display: block;
+    }
 
   }

@@ -5,7 +5,7 @@
 
 {% block body %}
 <div class="container-fluid mx-0 my-0 px-0 mx-0" id="home">
-    <div class="container-fluid container-body">
+    <div class="container-fluid mx-0 my-0 px-0 mx-0 container-body">
 		<div class="imageHero px-0">
 			<h1>SNOWTRICKS</h1>
 			<div class="accroche">
@@ -20,12 +20,31 @@
 				</a>
 			</div>
 		</div>
+
+		<div class="imageHeroSmartphone px-0">
+			<h1>SNOWTRICKS</h1>
+			<div class="accroche">
+				<h2>Devient un pro du snow !</h2>
+			</div>
+			<p>
+				<strong>Bienvenue sur notre site collaboratif.</strong>
+			</p>
+			<div class="arrow-down">
+				<a href="#Tricks-list">
+					<i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
+				</a>
+			</div>
+		</div>
+
 		<h2 class="my-5 text-center" id="Tricks-list">Liste des figures</h2>
 
 		<div class="container-fluid container-list-tricks">
 			{% if app.user %}
-				<a href="{{ path('newtrickPage')}}" class="btn btn-success mb-5 mx-auto">Ajouter une figure</a>
+				<div class="d-flex flex-row justify-content-center">
+					<a href="{{ path('newtrickPage')}}" class="btn btn-success mb-5 mx-auto d-block">Ajouter une figure</a>
+				</div>
 			{% endif %}
+
 			<div class="container-fluid mx-0 px-0" id="container-figures">
 				{% include "core/figures/__list_figures.html.twig" with {'figures': figures} %}
 			</div>
