@@ -24,7 +24,6 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
 
             $video = new Video();
             $video->setUrlVideo($urlVideo);
-            $video->setEmbed(0);
             $video->setFigure($figure);
 
             $manager->persist($video);

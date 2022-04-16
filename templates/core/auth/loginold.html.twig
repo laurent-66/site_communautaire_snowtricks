@@ -1,5 +1,6 @@
-{% extends "base.html.twig" %}
-{% block title %}Se connecter{% endblock %}
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue{% endblock %}
 
 {% block body %}
 
@@ -9,7 +10,7 @@
             <div class="card rounded shadow p-3 mb-5">
                 <div class="card-body">
                     {% if error %}
-                        <div class="alert alert-danger" role="alert">Identifiants Invalides</div>
+                        <div>Identifiants Invalides</div>
                     {% endif %}
                     <h2 class="text-center">Connexion</h2>
                     <form action="{{ path('login') }}" method="post">
@@ -27,11 +28,8 @@
                     <a  href="{{path('loginLink')}}"><span> Mot de passe oublié ?</span></a>
                 </div>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
-<<<<<<< HEAD
-{% endblock %} 
-=======
-{% endblock %} 
->>>>>>> master
+
+{% endblock %}

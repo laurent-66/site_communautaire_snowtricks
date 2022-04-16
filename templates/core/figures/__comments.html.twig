@@ -9,7 +9,7 @@
         <div class="row mx-auto">
             <div class="col-sm-1 col-md-1 col-lg-1 avatar-image">
                 {% if comment.author.urlPhoto == "defaultProfil.jpg" %}
-                    <div class="borderImageProfil"><img class="authorPictureComment" src="/images/defaultProfil.jpg" alt="author image default"></div>
+                    <div><img class="authorPictureComment" src="/images/default/defaultProfil.jpg" alt="author image default"></div>
                 {% else %}
                    <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
                 {% endif %} 
