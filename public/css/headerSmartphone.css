@@ -10,7 +10,7 @@
         background-color: #E2E6EA;
         padding: 5px;
         position: sticky;
-        bottom: 60px;
+        bottom: 0px;
         width:100%;
         height:60px;
   
@@ -92,5 +92,5 @@
 
       }
 
-}
+} 
 
