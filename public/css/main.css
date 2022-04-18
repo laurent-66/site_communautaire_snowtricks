@@ -156,7 +156,9 @@
 @media screen and (max-width: 767px) {
 
 
+
     /* .container-body
+
     {
         display:flex;
         flex-direction: column;
@@ -165,7 +167,9 @@
         height: 100vh;
         margin: 0px;
         padding:0px;
+
     } */
+
 
     .navbar {
         display:none;
@@ -180,6 +184,7 @@
     }
 
 
+
     .menu-smartphone
     {
         display: flex;
@@ -190,9 +195,12 @@
         padding: 5px;
         position: sticky;
         bottom: 0px;
-
     }
 
+    .imageHeroSmartphone h1 {
+        color: white;
+        font-size: 3rem;
+    }
 
 
     .imageHeroSmartphone
@@ -235,6 +243,7 @@
     .arrow-up a {
         text-decoration: none;
     }
+
 
     .linkEnabled {
         display: none;
