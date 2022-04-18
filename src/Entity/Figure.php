@@ -91,7 +91,7 @@ class Figure
     /**
      * @var Datetime 
      * 
-     * @ORM\column(type="datetime")
+     * @ORM\column(type="datetime", nullable="true")
      */
     private $createdAt;
 

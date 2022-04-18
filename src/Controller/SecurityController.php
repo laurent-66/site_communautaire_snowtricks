@@ -74,12 +74,54 @@ class SecurityController extends AbstractController
     } 
 
     /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return Response
+     * 
+     * @Route("/account/login", name="login")
+     */
+    public function login( Request $request, EntityManagerInterface $entityManager, AuthenticationUtils $authenticationUtils)
+    {
+        $this->entityManager = $entityManager;
+
+        $user = new User();
+        $formLogin = $this->createForm(LoginType::class, $user);
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formLogin->handleRequest($request);
+        $loginData = $formLogin->getData();
+        $emailLogin = $loginData->getEmail();
+        $passwordLogin = $loginData->getPassword();
+
+
+        if ($formLogin->isSubmitted() && $formLogin->isValid()) {
+
+            // get the login error if there is one
+            $error = $authenticationUtils->getLastAuthenticationError();
+
+            // last username entered by the user
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            return $this->render('core/auth/login.html.twig', [
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]);
+
+        }
+        
+        return $this->render('core/auth/login.html.twig', ['formLogin' => $formLogin->createView()]);
+    } 
+
+
+    /**
      * 
      * @return Response
      * 
      * @Route("/account/login", name="login")
      */
-     function login(AuthenticationUtils $authenticationUtils): Response
+     function loginold(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -293,12 +335,12 @@ class SecurityController extends AbstractController
      * 
      * @Route("/account/deleteProfile", name="deleteProfile")
      */
-    function deleteProfile(Request $request) {
-        $userCurrent = $this->getUser();
-        $this->entityManager->remove($userCurrent);
-        $this->entityManager->flush();
-        return $this->redirectToRoute('homePage');
-    }
+    // function deleteProfile(Request $request) {
+    //     $userCurrent = $this->getUser();
+    //     $this->entityManager->remove($userCurrent);
+    //     $this->entityManager->flush();
+    //     return $this->redirectToRoute('homePage');
+    // }
 
 }
 

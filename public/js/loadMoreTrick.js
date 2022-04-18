@@ -32,7 +32,7 @@
             quantityCards += cardsByrow;
         }
 
-        if( quantityCards > 10) {
+        if( quantityCards > 12) {
             arrowUpLinkEnabled.style.display='block';
             arrowUpLinkDisabled.style.display='none';
         } 

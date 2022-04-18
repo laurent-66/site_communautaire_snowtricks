@@ -34,9 +34,9 @@
                 <div class="container">
                     <div class="row mt-5">
                         {% if app.user %}
-                        <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
+                        {# <div class="col-sm-12 col-md-12 col-lg-12 d-flex justify-content-around">
                             <a href="{{ path('trickCreateMediasPage', {'slug': figure.slug} )}}" class="btn-add-media btn btn-success mx-auto mb-4 px-auto d-block">Ajouter un média</a>
-                        </div>
+                        </div> #}
                         <div class="container my-0">
                             <div class="container-see-media">
                                 <div class="see-media">
@@ -123,22 +123,18 @@
                     {% endif %}
 
                     {{form_start(formDescriptionTrick)}}
-
-                    <div class="row">
-                        <div class="col-12">
                         {{form_row(formDescriptionTrick.name)}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            {{form_row(formDescriptionTrick.description)}}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            {{form_row(formDescriptionTrick.figureGroup)}}
-                        </div>
-                    </div>
+                        {{form_row(formDescriptionTrick.coverImageFile)}}
+                        {{form_row(formDescriptionTrick.alternativeAttribute)}}
+                        {{form_row(formDescriptionTrick.description)}}
+                        {{form_row(formDescriptionTrick.figureGroup)}}
+
+                        <ul class="illustrations" data-index="{{ formDescriptionTrick.illustrations|length > 0 ? formDescriptionTrick.illustrations|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formDescriptionTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
+                        <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
+                        <ul class="videos" data-index="{{ formDescriptionTrick.videos|length > 0 ? formDescriptionTrick.videos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formDescriptionTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
+                        <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
+
+
                     <div class="row flex-wrap-reverse d-flex justify-content-end pl-3 mt-3">
                         <button type="button" class=" btn btn-danger editTrickBtnAction" data-toggle="modal" data-target="#staticBackdrop">
                             Supprimer
@@ -187,25 +183,9 @@
         </div>
     </div> 
 
-{% endblock %}
+{% endblock %} 
 
 {% block javascripts %}
-    <script type="text/javascript">
-        const btnSeeMedias = document.querySelector('.btn-see-media');
-        const btnHiddenMedias = document.querySelector('.btn-hidden-media');
-        const mediasList = document.querySelector('.medias-list-smartphone');
-
-        btnSeeMedias.addEventListener('click', () => { 
-            mediasList.style.display = 'block';
-            btnSeeMedias.style.display ='none';
-            btnHiddenMedias.style.display = 'block';
-        });
-
-        btnHiddenMedias.addEventListener('click', () => { 
-            mediasList.style.display = 'none';
-            btnHiddenMedias.style.display = 'none';
-            btnSeeMedias.style.display ='block';
-        });
-
-    </script>
+	<script type="text/javascript" src="/js/addformTocollection.js"></script>
 {% endblock %}
+
