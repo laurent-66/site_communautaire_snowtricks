@@ -123,14 +123,14 @@
 
     /*general*/
     
-    .container-body
+    /* .container-body
     {
         display:flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         height: 100vh;
-    }
+    } */
 
     /* .carousel-control-prev
     {
@@ -156,7 +156,9 @@
 @media screen and (max-width: 767px) {
 
 
-    .container-body
+
+    /* .container-body
+
     {
         display:flex;
         flex-direction: column;
@@ -165,7 +167,9 @@
         height: 100vh;
         margin: 0px;
         padding:0px;
-    }
+
+    } */
+
 
     .navbar {
         display:none;
@@ -179,6 +183,26 @@
 
     }
 
+
+
+    .menu-smartphone
+    {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #E2E6EA;
+        padding: 5px;
+        position: sticky;
+        bottom: 0px;
+    }
+
+    .imageHeroSmartphone h1 {
+        color: white;
+        font-size: 3rem;
+    }
+
+
     .imageHeroSmartphone
     {
         display: flex;
@@ -188,8 +212,7 @@
         background-image:url("/images/snowboarding_smartphone767x800.png");
         background-repeat: no-repeat;
         background-size: cover;
-        /* height: 800px; */
-        width: 100%;
+        height: 420px;
         filter: grayscale(40%);
     }
 
@@ -220,6 +243,7 @@
     .arrow-up a {
         text-decoration: none;
     }
+
 
     .linkEnabled {
         display: none;
