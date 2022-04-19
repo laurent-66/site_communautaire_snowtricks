@@ -192,9 +192,6 @@ class FigureController extends AbstractController
 
 
 
-
-
-    
     /**
      * consulter une figure
      *
@@ -258,7 +255,8 @@ class FigureController extends AbstractController
             }
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
-        }
+        } 
+
  
         return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
     }
