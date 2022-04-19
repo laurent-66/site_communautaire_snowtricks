@@ -4,42 +4,64 @@
 {% endblock %}
 
 {% block body %}
+<div class="container-fluid mx-0 my-0 px-0 mx-0" id="home">
+    <div class="container-fluid mx-0 my-0 px-0 mx-0 container-bodySmartphone">
+		<div class="imageHero px-0">
+			<h1>SNOWTRICKS</h1>
+			<div class="accroche">
+				<h2>Devient un pro du snow !</h2>
+			</div>
+			<p>
+				<strong>Bienvenue sur notre site collaboratif.</strong>
+			</p>
+			<div class="arrow-down">
+				<a href="#Tricks-list">
+					<i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
+				</a>
+			</div>
+		</div>
 
-	<div class="imageHero px-0">
-		<h1>SNOWTRICKS</h1>
-		<div class="accroche">
-			<h2>Devient un pro du snow !</h2>
+		<div class="imageHeroSmartphone px-0">
+			<h1>SNOWTRICKS</h1>
+			<div class="accroche">
+				<h2>Devient un pro du snow !</h2>
+			</div>
+			<p>
+				<strong>Bienvenue sur notre site collaboratif.</strong>
+			</p>
+			<div class="arrow-down">
+				<a href="#Tricks-list">
+					<i class="fas fa-arrow-down fa-3x" style="color:red;"></i>
+				</a>
+			</div>
 		</div>
-		<p>
-			<strong>Bienvenue sur notre site collaboratif.</strong>
-		</p>
-		<div class="arrow-down">
-			<a href="#Tricks-list">
-				<i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
-			</a>
-		</div>
-	</div>
-	<h2 class="my-5 text-center" id="Tricks-list">Liste des figures</h2>
 
-	<div class="container-fluid container-list-tricks">
-		{% if app.user %}
-			<a href="{{ path('newtrickPage')}}" class="btn btn-success mb-5 mx-auto">Ajouter une figure</a>
-		{% endif %}
-		<div class="container-fluid mx-0 px-0" id="container-figures">
-			{% include "core/figures/__list_figures.html.twig" with {'figures': figures} %}
+		<h2 class="my-5 text-center" id="Tricks-list">Liste des figures</h2>
+
+		<div class="container-fluid container-list-tricks">
+			{% if app.user %}
+				<div class="d-flex flex-row justify-content-center">
+					<a href="{{ path('newtrickPage')}}" class="btn btn-success mb-5 mx-auto d-block">Ajouter une figure</a>
+				</div>
+			{% endif %}
+
+			<div class="container-fluid mx-0 px-0" id="container-figures">
+				{% include "core/figures/__list_figures.html.twig" with {'figures': figures} %}
+			</div>
 		</div>
-	</div>
-	<div class="container-arrowUp d-flex flex-row justify-content-end">
-		<div class="d-block arrow-up">
-			<a href="#Tricks-list">
-				<i class="fas fa-arrow-up fa-3x linkEnabled" style="color:grey;"></i>
-			</a>
-			<i class="fas fa-arrow-up fa-3x linkDisabled" style="color:grey;"></i>
+		<div class="container-arrowUp d-flex flex-row justify-content-end">
+			<div class="d-block arrow-up">
+				<a href="#Tricks-list">
+					<i class="fas fa-arrow-up fa-3x linkEnabled" style="color:grey;"></i>
+				</a>
+				<i class="fas fa-arrow-up fa-3x linkDisabled" style="color:grey;"></i>
+			</div>
 		</div>
-	</div>
-	<div style="display:flex; justify-content:center;">
-		<button class="btn btn-primary my-3" id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ page + 1 }}" data-figure-ajax="{{ path('get_figure_ajax')}}">Charger plus</button>
-	</div>
+		<div style="display:flex; justify-content:center;">
+			<button class="btn btn-primary my-3" id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ page + 1 }}" data-figure-ajax="{{ path('get_figure_ajax')}}">Charger plus</button>
+		</div>
+	</div>		
+</div>		
 
 {% endblock %}
 {% block javascripts %}

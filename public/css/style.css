@@ -2,11 +2,11 @@
 @import "./loader.css";
 @import "./trickPage.css";
 @import "./main-card-trick.css";
-@import "./registerPage.css";
-@import "./loginPage.css";
+@import "./register.css";
+@import "./login.css";
 @import "./profil.css";
 @import "./trickcreatePage.css";
 @import "./tricks-list.css";
 @import "./customCarousel.css";
 @import "./formCard.css";
-@import "./headerSmartphone.css";
+@import "./headerSmartphone.css"; 

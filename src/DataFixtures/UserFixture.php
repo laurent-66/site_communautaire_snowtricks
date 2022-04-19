@@ -13,7 +13,7 @@ class UserFixture extends Fixture
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr-FR');
-        // create 20 products! Bam!
+
         for ($i = 0; $i < 20; $i++) {
 
             $pseudo = $faker->name;
