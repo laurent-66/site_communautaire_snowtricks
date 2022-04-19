@@ -123,15 +123,6 @@
 
     /*general*/
     
-    /* .container-body
-    {
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    } */
-
     /* .carousel-control-prev
     {
         margin: 0px;
@@ -155,34 +146,16 @@
 
 @media screen and (max-width: 767px) {
 
-
-
-    /* .container-body
-
-    {
-        display:flex;
-        flex-direction: column;
-        justify-content: start;
-        align-items: center;
-        height: 100vh;
-        margin: 0px;
-        padding:0px;
-
-    } */
-
-
     .navbar {
         display:none;
 
     }
-
 
     .imageHero
     {
         display: none;
 
     }
-
 
 
     .menu-smartphone
@@ -231,9 +204,10 @@
         font-size: 1rem;
     }
 
-    .arrow-down {
+    .imageHeroSmartphone .arrow-down {
         position:absolute;
-        top: 30%; left: 95%;
+        top: 50%; left: 50%;
+        z-index: 1;
     }
 
     .arrow-up {
