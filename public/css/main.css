@@ -144,7 +144,21 @@
 
 }
 
+
+@media screen and (max-width: 767px) and (min-height: 793px) {
+
+    .container-bodySmartphone{
+
+        height: calc(100vh - 60px);
+        margin: 0px;
+        padding:0px;
+    }
+
+}
+
+
 @media screen and (max-width: 767px) {
+
 
     .navbar {
         display:none;
