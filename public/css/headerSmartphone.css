@@ -26,10 +26,7 @@
       display: none;
       position: relative;
       bottom: 0px;
-      /* left:350px; */
       background-color: #f1f1f1;
-      /* width: 767px; */
-      /* margin-left: -363.5px; */
       z-index: 1;
     }
     
@@ -96,7 +93,6 @@
 
     .dropup-content {
         width: 100%;
-        /* margin-left: -144px; */
         padding: 0px;
         z-index: 1;
 
@@ -109,11 +105,9 @@
 
     .dropup-content {
         width: 100%;
-        /* margin-left: -162px; */
         padding: 0px;
         z-index: 1;
 
       }
 
 } 
-
