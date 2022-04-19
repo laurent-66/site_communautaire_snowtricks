@@ -30,12 +30,15 @@
         </ul>
     </div>
     <nav class="container-fluid menu-smartphone">
+
             <a class="navbar-brand d-block"  href="{{ path('homePage') }}"><i class="fas fa-home fa-2x"></i></a>
+
             <div class="icon-menu-barre">
                 <div class="barre"></div>
                 <div class="barre"></div>
                 <div class="barre"></div>
             </div>
+
         {% if not app.user %}
             <a class="navbar-brand d-block"  href="{{ path('login') }}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
         {% else %}
