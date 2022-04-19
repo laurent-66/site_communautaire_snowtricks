@@ -1,5 +1,55 @@
+/* min-width 767px */
+@media screen and (min-width: 767px) {
+
+  .dropup-content {
+    display: none;
+  }
+
+}
+
 /* max-width 767px */
 @media screen and (max-width: 767px) {
+
+    .group-menu-smartphone{
+      display: flex;
+      flex-direction: column;
+      justify-content:flex-end;
+      align-items: center;
+      width:100%;
+      margin: 0px;
+      padding: 0px;
+      position:sticky;
+      bottom: 0px;
+    }
+
+    .dropup-content {
+      display: none;
+      position: relative;
+      bottom: 0px;
+      /* left:350px; */
+      background-color: #f1f1f1;
+      /* width: 767px; */
+      /* margin-left: -363.5px; */
+      z-index: 1;
+    }
+    
+    .dropup-content li {
+      list-style: none;
+      background-color: #E2E6EA;
+      color: #5A6268;
+      text-align: center;
+      font-size: 1.5rem;
+      padding: 0px;
+  
+    }
+  
+    .dropup-content a {
+      color: black;
+      padding: 2px 0px;
+      text-decoration: none;
+      display: inline-block;
+  
+    }
 
     .menu-smartphone
     {
@@ -34,36 +84,6 @@
         border-radius: 2.5px;
     }
 
-    /* Dropup content (Hidden by Default) */
-  .dropup-content {
-    display: none;
-    position: relative;
-    bottom: 105px;
-    left:135px;
-    background-color: #f1f1f1;
-    width: 767px;
-    margin-left: -363.5px;
-    z-index: 1;
-  }
-  
-  .dropup-content li {
-    list-style: none;
-    background-color: #E2E6EA;
-    color: #5A6268;
-    text-align: center;
-    font-size: 1.5rem;
-    padding: 0px;
-
-  }
-
-  .dropup-content a {
-    color: black;
-    padding: 2px 0px;
-    text-decoration: none;
-    display: inline-block;
-
-  }
-
   .fa-home, .fa-sign-in-alt, .fa-sign-out-alt {
       color: black;
   }
@@ -74,8 +94,8 @@
 @media screen and (max-width: 320px) {
 
     .dropup-content {
-        width: 320px;
-        margin-left: -144px;
+        width: 100%;
+        /* margin-left: -144px; */
         padding: 0px;
         z-index: 1;
 
@@ -87,8 +107,8 @@
 @media screen and (max-width: 360px) {
 
     .dropup-content {
-        width: 360px;
-        margin-left: -162px;
+        width: 100%;
+        /* margin-left: -162px; */
         padding: 0px;
         z-index: 1;
 

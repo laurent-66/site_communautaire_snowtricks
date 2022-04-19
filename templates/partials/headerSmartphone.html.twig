@@ -1,47 +1,49 @@
+<div class="group-menu-smartphone">
+    <div class="container-fluid px-0 dropup-content">
+        <ul class="mx-0 px-0 py-0 my-0 d-block"> 
+            <li class="menu-item">
+                <a class="item nav-link" href="{{ path('homePage') }}">Acceuil</a>
+            </li>
+
+            <li class="menu-item">
+                <a class="item nav-link" href="{{ path('homePage') }}#Tricks-list">Tricks</a>
+            </li>
+
+            {% if not app.user %}
+            <li class="menu-item">
+                <a class="item nav-link" href="{{ path('login') }}">connexion</a>
+            </li>
+
+            <li class="menu-item">
+                <a class="item nav-link" href="{{ path('registerPage') }}">s'enregistrer</a>
+            </li>
+
+            {% else %}
+            <li class="menu-item">
+                <a class="item nav-link" href="{{ path('app_logout') }}">se déconnecter</a>
+            </li>
+
+            <li class="menu-item">
+                <a class="item nav-link" href="{{ path('updatProfilPage') }}">Gérer mon profil</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
     <nav class="container-fluid menu-smartphone">
-        <div><a class="navbar-brand d-block"  href="{{ path('homePage') }}"><i class="fas fa-home fa-2x"></i></a></div>
-        {# <div class="dropup"> #}
+            <a class="navbar-brand d-block"  href="{{ path('homePage') }}"><i class="fas fa-home fa-2x"></i></a>
             <div class="icon-menu-barre">
                 <div class="barre"></div>
                 <div class="barre"></div>
                 <div class="barre"></div>
             </div>
-
-            <div class="dropup-content">
-                <ul class="mx-0 px-0 py-0 my-0 d-block"> 
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('homePage') }}">Acceuil</a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('homePage') }}#Tricks-list">Tricks</a>
-                    </li>
-                    {% if not app.user %}
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('login') }}">connexion</a>
-                    </li>
-
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('registerPage') }}">s'enregistrer</a>
-                    </li>
-
-                    {% else %}
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('app_logout') }}">se déconnecter</a>
-                    </li>
-
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('updatProfilPage') }}">Gérer mon profil</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </div>
-        {# </div> #}
         {% if not app.user %}
-            <div><a class="navbar-brand d-block"  href="{{ path('login') }}"><i class="fas fa-sign-in-alt fa-2x"></i></a></div>
+            <a class="navbar-brand d-block"  href="{{ path('login') }}"><i class="fas fa-sign-in-alt fa-2x"></i></a>
         {% else %}
-            <div><a class="navbar-brand d-block"  href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt fa-2x"></i></a></div>
+            <a class="navbar-brand d-block"  href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt fa-2x"></i></a>
         {% endif %}
     </nav>
+</div>   
+
 {% block javascripts %}
 	<script type="text/javascript" src="/js/toggleButtonMenuSmartphone.js"></script>
 {% endblock %}
