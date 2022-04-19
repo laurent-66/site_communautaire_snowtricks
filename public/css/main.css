@@ -167,8 +167,13 @@
         padding: 5px;
         position: sticky;
         bottom: 0px;
-
     }
+
+    .imageHeroSmartphone h1 {
+        color: white;
+        font-size: 3rem;
+    }
+
 
     .imageHeroSmartphone
     {
@@ -211,6 +216,7 @@
     .arrow-up a {
         text-decoration: none;
     }
+
 
     .linkEnabled {
         display: none;
