@@ -192,9 +192,6 @@ class FigureController extends AbstractController
 
 
 
-
-
-    
     /**
      * consulter une figure
      *
@@ -209,6 +206,11 @@ class FigureController extends AbstractController
 
         $figure = $this->figureRepository->findOneBySlug($slug);
         $comments = $this->commentRepository->findBy(['figure' => $figure]);
+        // $comments = $this->commentRepository->findBy(['figure' => $figure], $figure->getComment());
+        // public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+        // $comments = $this->commentRepository->findCommentsByFigureDesc(['figure' => $figure]);
+
+        
                 
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayMedias = [];
@@ -258,7 +260,8 @@ class FigureController extends AbstractController
             }
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
-        }
+        } 
+
  
         return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
     }
