@@ -4,6 +4,10 @@
 		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
 			<img src="/images/coverImageDisabled.png" alt="{{figure.alternativeAttribute}}" style="width:100%; display: block;">
 		</a>
+	{% elseif figure.fixture == 1 %}
+		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
+			<img src="{{figure.coverImage}}" alt="{{figure.alternativeAttribute}}" style="width:100%; display: block;">
+		</a>
 	{% else %}
 		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
 			<img src="uploads/coverImage/{{figure.coverImage}}" alt="{{figure.alternativeAttribute}}" style="width:100%; display: block;">

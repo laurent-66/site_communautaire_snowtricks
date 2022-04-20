@@ -8,17 +8,25 @@
             </a>
         </div>
     </div>
-    <div class="mx-0 px-0 main-container">
+    <div class="mx-0 px-0 main-container"> 
         <div class="container mx-auto px-0 main-card card">
             {% if figure.coverImage == "defaultCoverImage" %}
             <div class="imgHeroTrick" style="background: url('/images/coverImageDisabled.png') no-repeat center center; background-size: cover; width:100%;">
                 <h1>{{figure.name}}</h1>
             </div>
+
+	        {% elseif figure.fixture == 1 %}
+
+            <div class="imgHeroTrick" style="background: url('{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
+                <h1>{{figure.name}}</h1>
+            </div>
+
             {% else %}
             <div class="imgHeroTrick" style="background: url('/uploads/coverImage/{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
                 <h1>{{figure.name}}</h1>
             </div>
             {% endif %}
+
 
             {% if app.user %}
             <div class="manageImageHero">
@@ -55,6 +63,7 @@
                                 <div class="row">
                                                     
                                     {% if media.type == "img" %}
+                                    
 
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">

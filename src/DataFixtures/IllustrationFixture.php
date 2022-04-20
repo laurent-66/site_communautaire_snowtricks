@@ -20,13 +20,18 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
         // create 20 products! Bam!
         for ($i = 0; $i < 20; $i++) {
 
+            // $urlIllustration = $faker->imageUrl(1000,350);
+            $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
+
             // $urlIllustration = $faker->imageUrl(500, 250);
             $illustration = new Illustration();
+
             $listPictures = file_get_contents('https://picsum.photos/v2/list');
             $urlIllustration = json_decode($listPictures, true)[$i]["download_url"];
+
             $illustration->setUrlIllustration($urlIllustration);
             $illustration->setFigure($figure);
-            $illustration->setAlternativeAttribute('image');
+            $illustration->setAlternativeAttribute($alternativeAttribute);
             $manager->persist($illustration);
         }
 

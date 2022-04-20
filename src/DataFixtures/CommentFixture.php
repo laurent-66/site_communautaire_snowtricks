@@ -24,16 +24,13 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
         // this reference returns the FigureGroup object created in FigureGroupFixture
         $figure = $this->getReference(FigureFixture::FIG_REF);
 
-        // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 6; $i++) {
 
             $content = $faker->sentence($nbWords = 30, $variableNbWords = true);
-
             $comment = new Comment();
             $comment->setContent($content);
             $comment->setAuthor($author);
             $comment->setFigure($figure);
-
             $manager->persist($comment);
         }
 
