@@ -34,7 +34,7 @@ class Illustration
      * @var string
      * 
      * 
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string")
      */
     protected $alternativeAttribute;
 
@@ -171,7 +171,7 @@ class Illustration
     /**
      * @return 
      */
-    public function getAlternativeAttribute(): ?string
+    public function getAlternativeAttribute(): string
     {
         return $this->alternativeAttribute;
     }
@@ -179,7 +179,7 @@ class Illustration
     /**
      * @param 
      */
-    public function setAlternativeAttribute(?string $alternativeAttribute): void
+    public function setAlternativeAttribute(string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute; 
     }
