@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Figure;
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -65,4 +66,34 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+
+
+    
+
+    // public function findCommentsByFigureDesc($value): ?array
+    // {
+    //     $query = $this->createQuery('SELECT c FROM Comment c Join c.Figure f ORDER BY c.updateAt DESC');
+    //     $comments = $query->getResult(); // array of Comment objects
+    //     return $comments;
+    // }
+
+
+    // /**
+    // * @return Comment[] Returns an array of Comment objects
+    // */
+    // public function findByExampleField($value)
+    // {
+    //     return $this->createQueryBuilder('a')
+    //         ->andWhere('a.exampleField = :val')
+    //         ->setParameter('val', $value)
+    //         ->orderBy('a.id', 'ASC')
+    //         ->setMaxResults(10)
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    // }
+
+
 }
