@@ -27,7 +27,6 @@
             </div>
             {% endif %}
 
-
             {% if app.user %}
             <div class="manageImageHero">
                 <a href="{{ path('trickEditPage', {'slug': figure.slug} )}}" class="btn btn-info">
@@ -53,39 +52,56 @@
                         </div> 
                     </div>
                 </div> 
+
                 <div class="container carrousel-desktop">
                     <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
                         <div class="carousel-inner w-100 mx-0 px-0" role="listbox">
 
-                            {% for media in arrayMedias %}
-            
-                            <div class="carousel-item col-sm-2 col-md-2 col-lg-2 {% if loop.first %} active {% endif %}  mx-0 px-2">
-                                <div class="row">
-                                                    
-                                    {% if media.type == "img" %}
-                                    
+                                        {% for media in arrayMedias %}
 
-                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-                                            <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
-                                            <div class="card-body bg-light">
-                                            </div>
-                                        </div>
-                                    </div>
+                                                <div class="carousel-item col-sm-2 col-md-2 col-lg-2 {% if loop.first %} active {% endif %}  mx-0 px-2">
+                                                    <div class="row"> 
 
-                                    {% else %}
+                                                        {% if media.type == "img" %}
+                                                            
+                                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                    <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
 
-                                    <div class="col-sm-12 col-md-12 col-lg-12">
-                                        <div class="card px-0 mx-0 bg-light rounded-3">
-                                            <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                            <div class="card-body">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}                                            
-                                </div>  
-                            </div>    
-                            {% endfor %}
+                                                                        {# {% if media.path %} #}
+
+                                                                            {# <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2"> #}
+                                                                            <img class="img-fluid mx-auto d-block" data-url="{{ pageTotal }}" data-fixtures-Illustrations-ajax="{{ path('get_figure_ajax')}} src="" style="height: 150px;" alt="slide 2">
+
+                                                                        {# {% else %} #}
+                                                                            {# {% for illustration in illustrations %}
+                                                                                <img class="img-fluid mx-auto d-block" src="{{illustration.urlIllustration}}" style="height: 150px;" alt="slide 2">  
+                                                                            {% endfor %}  #}
+                                                                        {# {% endif %} #}
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                        {% else %}
+
+                                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                                <div class="card px-0 mx-0 bg-light rounded-3">
+                                                                    <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                                    <div class="card-body">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        {% endif %}   
+
+                                                    </div>  
+                                                </div>  
+
+
+
+                                        {% endfor %}
+
+
                         </div>
                         <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
@@ -97,6 +113,11 @@
                         </a>
                     </div>
                 </div>
+
+
+
+
+
 
                 <div class="container mt-3 medias-list-smartphone mx-0 my-0 px-0 py-0">
                     {% for media in arrayMedias %}
