@@ -23,6 +23,9 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
             // $urlIllustration = $faker->imageUrl(1000,350);
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
 
+            // $urlIllustration = $faker->imageUrl(1000,350);
+            $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
+
             // $urlIllustration = $faker->imageUrl(500, 250);
             $illustration = new Illustration();
 
@@ -33,6 +36,7 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
             $illustration->setFigure($figure);
             $illustration->setAlternativeAttribute($alternativeAttribute);
             $illustration->setFixture(1);
+
             $manager->persist($illustration);
         }
 
