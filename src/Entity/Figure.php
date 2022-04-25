@@ -8,8 +8,10 @@ use App\Entity\Illustration;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\DBAL\Types\BooleanType;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Config\Definition\BooleanNode;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -101,6 +103,16 @@ class Figure
      * @ORM\column(type="datetime")
      */
     private $updatedAt;
+
+
+    /**
+     * @var Boolean 
+     * 
+     * @ORM\column(type="boolean")
+     */
+    private $fixture;
+
+
 
     public function __construct()
     {
@@ -286,7 +298,7 @@ class Figure
      *
      * @return string
      */
-    public function getAlternativeAttribute(): ?string
+    public function getAlternativeAttribute(): string
     {
         return $this->alternativeAttribute;
     }
@@ -296,7 +308,7 @@ class Figure
      * @param string $alternativeAttribute
      * 
      */
-    public function setAlternativeAttribute(?string $alternativeAttribute): void
+    public function setAlternativeAttribute(string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 
@@ -326,12 +338,36 @@ class Figure
         return $this->updatedAt;
     }
 
+
     /**
      * @param Datetime $updatedAt
      */
     public function setUpdatedAt(Datetime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getFixture()
+    {
+        return $this->fixture;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $fixture
+     * @return void
+     */
+    public function setFixture($fixture): void
+    {
+        $this->fixture = $fixture;
     }
 
     /**

@@ -222,12 +222,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
-    public function getAlternativeAttribute(): ?string
+    public function getAlternativeAttribute(): string
     {
         return $this->alternativeAttribute;
     }
 
-    public function setAlternativeAttribute( ?string $alternativeAttribute): void
+    public function setAlternativeAttribute( string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 
