@@ -18,7 +18,10 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
         $figure = $this->getReference(FigureFixture::FIG_REF);
 
         // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 15; $i++) {
+
+            // $urlIllustration = $faker->imageUrl(1000,350);
+            $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
 
             // $urlIllustration = $faker->imageUrl(1000,350);
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
@@ -32,6 +35,8 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
             $illustration->setUrlIllustration($urlIllustration);
             $illustration->setFigure($figure);
             $illustration->setAlternativeAttribute($alternativeAttribute);
+            $illustration->setFixture(1);
+
             $manager->persist($illustration);
         }
 

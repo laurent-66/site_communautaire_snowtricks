@@ -261,7 +261,7 @@ class FigureController extends AbstractController
         } 
 
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'illustrations' => $arrayIllustration]);
     }
 
 

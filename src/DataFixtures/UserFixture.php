@@ -16,7 +16,7 @@ class UserFixture extends Fixture
 
         for ($i = 0; $i < 6; $i++) {
 
-            $pseudo = $faker->name;
+            $pseudo = $faker->name();
             $email = $faker->regexify('[a-z]+@[a-z]+\.[a-z]{2,4}');
 
             // $listPictures = file_get_contents('https://picsum.photos/v2/list');
@@ -36,6 +36,7 @@ class UserFixture extends Fixture
             $user->setAlternativeAttribute($alternativeAttribute);
 
             $manager->persist($user);
+
         }
 
         $manager->flush();

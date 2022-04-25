@@ -63,6 +63,13 @@ class Illustration
      */
     protected $updatedAt;
 
+    /**
+     * @var Boolean 
+     * 
+     * @ORM\column(type="boolean")
+     */
+    private $fixture;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -133,6 +140,28 @@ class Illustration
     public function setUpdatedAt(Datetime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getFixture()
+    {
+        return $this->fixture;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $fixture
+     * @return void
+     */
+    public function setFixture($fixture): void
+    {
+        $this->fixture = $fixture;
     }
 
     /**
