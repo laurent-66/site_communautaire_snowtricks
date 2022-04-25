@@ -14,20 +14,29 @@ class UserFixture extends Fixture
     {
         $faker = Factory::create('fr-FR');
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 6; $i++) {
 
-            $pseudo = $faker->name;
+            $pseudo = $faker->name();
             $email = $faker->regexify('[a-z]+@[a-z]+\.[a-z]{2,4}');
-            $personImage = $faker->imageUrl(64, 64);
-            $password = $faker->numerify('Hello ###');
 
+            // $listPictures = file_get_contents('https://picsum.photos/v2/list');
+            // $personImage = json_decode($listPictures, true)[$i]["download_url"];
+
+            $personImage  = 'https://picsum.photos/seed/picsum/64/64';
+
+            // $personImage = $faker->imageUrl(64, 64);
+            $password = $faker->numerify('Hello ###');
+            $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
+            
             $user = new User();
             $user->setPseudo($pseudo);
             $user->setEmail($email);
             $user->setPassword($password);
             $user->setUrlPhoto($personImage);
+            $user->setAlternativeAttribute($alternativeAttribute);
 
             $manager->persist($user);
+
         }
 
         $manager->flush();

@@ -34,7 +34,7 @@ class Illustration
      * @var string
      * 
      * 
-     * @ORM\Column(type="string", nullable="true")
+     * @ORM\Column(type="string")
      */
     protected $alternativeAttribute;
 
@@ -62,6 +62,13 @@ class Illustration
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
+
+    /**
+     * @var Boolean 
+     * 
+     * @ORM\column(type="boolean")
+     */
+    private $fixture;
 
     public function __construct()
     {
@@ -136,6 +143,28 @@ class Illustration
     }
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getFixture()
+    {
+        return $this->fixture;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $fixture
+     * @return void
+     */
+    public function setFixture($fixture): void
+    {
+        $this->fixture = $fixture;
+    }
+
+    /**
      * @return Figure 
      */
     public function getFigure()
@@ -171,7 +200,7 @@ class Illustration
     /**
      * @return 
      */
-    public function getAlternativeAttribute(): ?string
+    public function getAlternativeAttribute(): string
     {
         return $this->alternativeAttribute;
     }
@@ -179,7 +208,7 @@ class Illustration
     /**
      * @param 
      */
-    public function setAlternativeAttribute(?string $alternativeAttribute): void
+    public function setAlternativeAttribute(string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute; 
     }

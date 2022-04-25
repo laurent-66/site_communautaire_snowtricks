@@ -72,8 +72,8 @@ class FigureController extends AbstractController
         if($formTrick->isSubmitted() && $formTrick->isValid()) {
 
             $newTrick = $formTrick->getData();
-            dump($newTrick);
             $newTrick->setAuthor($this->getUser());
+            $newTrick->setfixture(0);
             $coverImage = $newTrick->getCoverImageFile();
 
             $alternativeAttribute = $newTrick->getAlternativeAttribute();
@@ -154,7 +154,7 @@ class FigureController extends AbstractController
                             $objectVideo->setUrlVideo($codeYoutube);
                             $objectVideo->setFigure($newTrick);
                             $this->entityManager->persist($objectVideo);
-                            $newTrick ->addVideo($objectVideo);
+                            $newTrick->addVideo($objectVideo);
 
                         } catch (FileException $e) {
                             dump($e);
@@ -169,7 +169,7 @@ class FigureController extends AbstractController
                             $objectVideo->setUrlVideo($codeYoutube);
                             $objectVideo->setFigure($newTrick);
                             $this->entityManager->persist($objectVideo);
-                            $newTrick ->addVideo($objectVideo);    
+                            $newTrick->addVideo($objectVideo);    
 
                             }catch (FileException $e) {
                                 dump($e);
@@ -177,8 +177,6 @@ class FigureController extends AbstractController
                         }
                     }
                 }
-
-
 
 
             $this->entityManager->persist($newTrick);
@@ -210,7 +208,6 @@ class FigureController extends AbstractController
         // public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
         // $comments = $this->commentRepository->findCommentsByFigureDesc(['figure' => $figure]);
 
-        
                 
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayMedias = [];
@@ -263,7 +260,7 @@ class FigureController extends AbstractController
         } 
 
  
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias]);
+        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'illustrations' => $arrayIllustration]);
     }
 
 

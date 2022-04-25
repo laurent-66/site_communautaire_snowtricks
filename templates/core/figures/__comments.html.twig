@@ -10,6 +10,8 @@
             <div class="col-sm-1 col-md-1 col-lg-1 avatar-image">
                 {% if comment.author.urlPhoto == "defaultProfil.jpg" %}
                     <div><img class="authorPictureComment" src="/images/default/defaultProfil.jpg" alt="author image default"></div>
+                {% elseif figure.fixture == 1 %}
+                    <div><img class="authorPictureComment" src="{{comment.author.urlPhoto}}" alt="author image"></div>
                 {% else %}
                    <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
                 {% endif %} 
