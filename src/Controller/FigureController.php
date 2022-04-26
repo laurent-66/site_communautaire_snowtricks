@@ -203,11 +203,12 @@ class FigureController extends AbstractController
     public function trickView( $slug, Request $request) {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
-        $comments = $this->commentRepository->findBy(['figure' => $figure]);
-        // $comments = $this->commentRepository->findBy(['figure' => $figure], $figure->getComment());
-        // public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
-        // $comments = $this->commentRepository->findCommentsByFigureDesc(['figure' => $figure]);
 
+        $figureId = $figure->getId();
+        // $comments = $this->commentRepository->findBy(['figure' => $figure]);
+
+
+        $comments = $this->commentRepository->getCommentsPagination($figureId, $page = 1);
                 
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayMedias = [];

@@ -21,22 +21,21 @@ class CommentRepository extends ServiceEntityRepository
     }
 
 
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getCommentsPagination(int $figureId, int $page, int $limit = 5)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('c') 
+            ->innerJoin('c.figure', 'f')
+            ->where('f.id = :figureId')
+            ->setParameter('figureId', $figureId)
+            ->orderBy('c.updatedAt', 'DESC')
+            ->setFirstResult(($page -1) * $limit)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
+        
     }
-    */
+
+
 
     // /**
     //  * @return Comment[] Returns an array of Comment objects
@@ -66,34 +65,5 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
-
-
-
-
-    
-
-    // public function findCommentsByFigureDesc($value): ?array
-    // {
-    //     $query = $this->createQuery('SELECT c FROM Comment c Join c.Figure f ORDER BY c.updateAt DESC');
-    //     $comments = $query->getResult(); // array of Comment objects
-    //     return $comments;
-    // }
-
-
-    // /**
-    // * @return Comment[] Returns an array of Comment objects
-    // */
-    // public function findByExampleField($value)
-    // {
-    //     return $this->createQueryBuilder('a')
-    //         ->andWhere('a.exampleField = :val')
-    //         ->setParameter('val', $value)
-    //         ->orderBy('a.id', 'ASC')
-    //         ->setMaxResults(10)
-    //         ->getQuery()
-    //         ->getResult()
-    //     ;
-    // }
-
 
 }
