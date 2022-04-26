@@ -2,11 +2,6 @@
 {% block title %}trick{% endblock %}
 {% block body %}
     <div class="imageHero px-0">
-        <div class="arrow-down">
-            <a href="#Tricks-list">
-                <i class="fas fa-arrow-down fa-3x" style="color:white;"></i>
-            </a>
-        </div>
     </div>
     <div class="mx-0 px-0 main-container"> 
         <div class="container mx-auto px-0 main-card card">
@@ -105,11 +100,6 @@
                     </div>
                 </div>
 
-
-
-
-
-
                 <div class="container mt-3 medias-list-smartphone mx-0 my-0 px-0 py-0">
                     {% for media in arrayMedias %}
                         {% if media.type == "img" %}
@@ -184,6 +174,17 @@
                 <div class="row" id="container-figures">
                     {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
                 </div>
+                <div class="container-arrowUp d-flex flex-row justify-content-end">
+                    <div class="d-block arrow-up">
+                        <a href="#Tricks-list">
+                            <i class="fas fa-arrow-up fa-3x linkEnabled" style="color:grey;"></i>
+                        </a>
+                        <i class="fas fa-arrow-up fa-3x linkDisabled" style="color:grey;"></i>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:center;">
+		            <button class="btn btn-primary my-3" id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ page + 1 }}" data-comment-ajax="{{ path('get_comment_ajax')}}">Charger plus de commentaires</button>
+	            </div>
             </div>
         </div>
     </div>
@@ -191,4 +192,5 @@
 {% block javascripts %}
     <script type="text/javascript" src="/js/seeMediaSmartphone.js"></script>
     <script type="text/javascript" src="/js/customCarousel.js"></script>
-{% endblock %}
+	<script type="text/javascript" src="/js/loadMoreComments.js"></script>
+{% endblock %} 

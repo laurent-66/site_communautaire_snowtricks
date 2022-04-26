@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Figure;
 use App\Entity\Comment;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -32,9 +33,17 @@ class CommentRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
-        
     }
 
+    public function getCommentByLimit(int $page, int $limitPerPage)
+    {
+        $querybuilder = $this->createQueryBuilder('a')
+            ->setFirstResult(($page - 1) * $limitPerPage)
+            ->setMaxResults($limitPerPage)
+            ->orderBy('a.updatedAt','DESC');
+            
+        return new Paginator($querybuilder);
+    }
 
 
     // /**
