@@ -12,7 +12,8 @@
 
     //Asynchrone response ajax
     const response = await fetch(`${urlToCallAjax}?page=${nextPage}`);
-
+    console.log(response);
+    
     if(response.ok) {
         loader.style.display='none';
         const data = await response.json();

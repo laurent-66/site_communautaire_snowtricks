@@ -15,6 +15,11 @@
             <div class="imgHeroTrick" style="background: url('/images/coverImageDisabled.png') no-repeat center center; background-size: cover; width:100%;">
                 <h1>{{figure.name}}</h1>
             </div>
+	        {% elseif figure.fixture == 1 %}
+
+            <div class="imgHeroTrick" style="background: url('{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
+                <h1>{{figure.name}}</h1>
+            </div>
             {% else %}
             <div class="imgHeroTrick" style="background: url('/uploads/coverImage/{{figure.coverImage}}') no-repeat center center; background-size: cover; width:100%;">
                 <h1>{{figure.name}}</h1>
@@ -61,7 +66,7 @@
 
                                     <div class="col-sm-12 col-md-12 col-lg-12">
                                         <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-                                            <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                                            <img class="img-fluid mx-auto d-block" src="{{media.path}}" style="height: 150px;" alt="slide 2">
                                             <div class="card-body bg-light">
                                                 {% if app.user %}
                                                     <div class="row mx-0 px-0 d-flex flex-nowrap d-flex justify-content-end">
@@ -187,5 +192,6 @@
 
 {% block javascripts %}
 	<script type="text/javascript" src="/js/addformTocollection.js"></script>
+    <script type="text/javascript" src="/js/customCarousel.js"></script>
 {% endblock %}
 
