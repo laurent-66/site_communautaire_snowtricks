@@ -222,11 +222,24 @@ class FigureController extends AbstractController
         $arrayIllustrationLength = count($arrayIllustration);
                 
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
+
             $id = $arrayIllustration[$i]->getId();
-            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
             $tag = "img";
-            $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
-        
+
+            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $urlFixtureIllustration = stristr($uri_Illustration,"https");
+
+            if ( $urlFixtureIllustration ) {
+
+                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+
+            } else {
+
+                $url_illustration = "/uploads/illustrationsCollection/".$uri_Illustration;
+
+                $objectMedia = ["path"=>$url_illustration, "type" => $tag, "id" => $id ];
+            }
+
             array_push($arrayMedias, $objectMedia);
         
         }   
@@ -323,7 +336,20 @@ class FigureController extends AbstractController
                 $id = $arrayIllustration[$i]->getId();
                 $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
                 $tag = "img";
-                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+
+                $urlFixtureIllustration = stristr($uri_Illustration,"https");
+
+                if ( $urlFixtureIllustration ) {
+    
+                    $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+    
+                } else {
+    
+                    $url_illustration = "/uploads/illustrationsCollection/".$uri_Illustration;
+    
+                    $objectMedia = ["path"=>$url_illustration, "type" => $tag, "id" => $id ];
+                }
+
 
             array_push($arrayMedias, $objectMedia);
 

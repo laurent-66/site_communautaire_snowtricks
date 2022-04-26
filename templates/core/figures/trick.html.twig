@@ -58,18 +58,7 @@
                                         {% if media.type == "img" %}                  
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-
-                                                    {# {% if media.path %} #}
-
-                                                    <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
-                                                        {# <img class="img-fluid mx-auto d-block" data-url="{{ urlResult }}"  src="" style="height: 150px;" alt="slide 2"> #}
-
-                                                    {# {% else %} #}
-                                                        {# {% for illustration in illustrations %}
-                                                            <img class="img-fluid mx-auto d-block" src="{{illustration.urlIllustration}}" style="height: 150px;" alt="slide 2">  
-                                                        {% endfor %}  #}
-                                                    {# {% endif %} #}
-
+                                                    <img class="img-fluid mx-auto d-block" src="{{media.path}}" style="height: 150px;" alt="slide 2">
                                                 </div> 
                                             </div>
 
@@ -176,7 +165,7 @@
                 </div>
                 <div class="container-arrowUp d-flex flex-row justify-content-end">
                     <div class="d-block arrow-up">
-                        <a href="#Tricks-list">
+                        <a href="#container-figures">
                             <i class="fas fa-arrow-up fa-3x linkEnabled" style="color:grey;"></i>
                         </a>
                         <i class="fas fa-arrow-up fa-3x linkDisabled" style="color:grey;"></i>
