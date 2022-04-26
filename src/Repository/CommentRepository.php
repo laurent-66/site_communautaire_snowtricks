@@ -33,7 +33,6 @@ class CommentRepository extends ServiceEntityRepository
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
-        
     }
 
     public function getCommentByLimit(int $page, int $limitPerPage)
@@ -45,6 +44,7 @@ class CommentRepository extends ServiceEntityRepository
             
         return new Paginator($querybuilder);
     }
+
 
     // /**
     //  * @return Comment[] Returns an array of Comment objects

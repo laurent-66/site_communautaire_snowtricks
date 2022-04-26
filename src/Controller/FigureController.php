@@ -213,6 +213,7 @@ class FigureController extends AbstractController
         $comments = $this->commentRepository->getCommentsPagination($figureId, $page = 1);
 
         $paginator = $this->commentRepository->getCommentByLimit(1, Comment::LIMIT_PER_PAGE);
+
                 
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayMedias = [];
