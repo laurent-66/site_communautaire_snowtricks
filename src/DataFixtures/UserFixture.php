@@ -8,13 +8,17 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 
 class UserFixture extends Fixture
 {
+
+    // public const USER_REF = 'user-ref_%s';
     public const USER_REF = 'user-ref';
 
     public function load(ObjectManager $manager)
     {
+
+        
         $faker = Factory::create('fr-FR');
 
-        for ($i = 0; $i < 6; $i++) {
+        for ($i = 0; $i < 10; $i++) {
 
             $pseudo = $faker->name();
             $email = $faker->regexify('[a-z]+@[a-z]+\.[a-z]{2,4}');
@@ -25,7 +29,7 @@ class UserFixture extends Fixture
             $personImage  = 'https://picsum.photos/seed/picsum/64/64';
 
             // $personImage = $faker->imageUrl(64, 64);
-            $password = $faker->numerify('Hello ###');
+            $password = $faker->numerify('Hello###');
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
             
             $user = new User();
@@ -34,14 +38,15 @@ class UserFixture extends Fixture
             $user->setPassword($password);
             $user->setUrlPhoto($personImage);
             $user->setAlternativeAttribute($alternativeAttribute);
-
             $manager->persist($user);
+
+            // $this->addReference(sprintf(self::USER_REF, $i), $user);
+            $this->addReference(self::USER_REF, $user);
 
         }
 
         $manager->flush();
 
-        // other fixtures can get this object using the UserFixtures::ADMIN_USER_REFERENCE constant
-        $this->addReference(self::USER_REF, $user);
+
     }
 }

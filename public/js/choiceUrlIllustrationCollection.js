@@ -1,8 +1,4 @@
-
-
 window.onload = async (e) => { 
-
-const url = e.target.dataset.url;
 
     //Asynchrone response ajax
     const response = await fetch('https://picsum.photos/v2/list');
@@ -12,5 +8,12 @@ const url = e.target.dataset.url;
         console.log(data);
 
     }
+
+
+    const url = e.target.dataset.url;
+    //todo si url contient https
+    
+    //renvoi en string sur l'attribut src le lien d'illustartion fixture 
+
 
 }

@@ -204,7 +204,6 @@ class FigureController extends AbstractController
 
         $figure = $this->figureRepository->findOneBySlug($slug);
         $comments = $this->commentRepository->findBy(['figure' => $figure]);
-
         // $comments = $this->commentRepository->findBy(['figure' => $figure], $figure->getComment());
         // public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
         // $comments = $this->commentRepository->findCommentsByFigureDesc(['figure' => $figure]);
