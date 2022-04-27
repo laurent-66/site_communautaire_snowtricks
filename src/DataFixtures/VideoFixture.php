@@ -15,17 +15,16 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr-FR');
         // this reference returns the Figure object created in FigureFixture
-        $figure = $this->getReference(FigureFixture::FIG_REF);
+        // $figure = $this->getReference(FigureFixture::FIG_REF);
 
         // create 20 products! Bam!
         for ($i = 0; $i < 20; $i++) {
 
             $urlVideo = $faker->imageUrl(500, 250);
-
+            $figRandom = rand(0,9);
             $video = new Video();
             $video->setUrlVideo($urlVideo);
-            $video->setFigure($figure);
-
+            $video->setFigure($this->getReference('fig-ref_'.$figRandom ));
             $manager->persist($video);
         }
 

@@ -44,8 +44,7 @@ class UserFixture extends Fixture
 
         }
 
-        // $manager->flush();
-
+        // $manager->flush(); 
 
     }
 }
