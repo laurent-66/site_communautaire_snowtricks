@@ -78,6 +78,7 @@ class DescriptionTrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
+            'validation_groups' => ['base']
         ]);
     }
 }

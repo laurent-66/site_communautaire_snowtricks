@@ -9,6 +9,7 @@ use App\Form\NewTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
 use App\DataFixtures\DatasDefault;
+use App\Entity\Comment;
 use App\Form\DescriptionTrickType;
 use App\Form\UpdateCoverImageType;
 use App\Repository\VideoRepository;
@@ -21,8 +22,9 @@ use App\Repository\IllustrationRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -203,11 +205,14 @@ class FigureController extends AbstractController
     public function trickView( $slug, Request $request) {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
-        $comments = $this->commentRepository->findBy(['figure' => $figure]);
 
-        // $comments = $this->commentRepository->findBy(['figure' => $figure], $figure->getComment());
-        // public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
-        // $comments = $this->commentRepository->findCommentsByFigureDesc(['figure' => $figure]);
+        $figureId = $figure->getId();
+        // $comments = $this->commentRepository->findBy(['figure' => $figure]);
+
+
+        $comments = $this->commentRepository->getCommentsPagination($figureId, $page = 1);
+
+        $paginator = $this->commentRepository->getCommentByLimit(1, Comment::LIMIT_PER_PAGE);
 
                 
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
@@ -217,11 +222,24 @@ class FigureController extends AbstractController
         $arrayIllustrationLength = count($arrayIllustration);
                 
         for ($i = 0 ; $i < (int)$arrayIllustrationLength ; $i++) {
+
             $id = $arrayIllustration[$i]->getId();
-            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
             $tag = "img";
-            $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
-        
+
+            $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $urlFixtureIllustration = stristr($uri_Illustration,"https");
+
+            if ( $urlFixtureIllustration ) {
+
+                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+
+            } else {
+
+                $url_illustration = "/uploads/illustrationsCollection/".$uri_Illustration;
+
+                $objectMedia = ["path"=>$url_illustration, "type" => $tag, "id" => $id ];
+            }
+
             array_push($arrayMedias, $objectMedia);
         
         }   
@@ -244,7 +262,6 @@ class FigureController extends AbstractController
         if($formComment->isSubmitted() && $formComment->isValid()) {
 
             try{
-
                 $newComment = $formComment->getData();
                 $newComment->setFigure($figure);
                 $newComment->setAuthor($this->getUser());
@@ -260,10 +277,42 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $slug]);
         } 
 
- 
-        return $this->render('core/figures/trick.html.twig', ['figure' => $figure, 'comments' => $comments, 'formComment' => $formComment->createView(), 'arrayMedias' => $arrayMedias, 'illustrations' => $arrayIllustration]);
+        return $this->render('core/figures/trick.html.twig', [
+            'figure' => $figure,
+             'comments' => $comments, 
+             'formComment' => $formComment->createView(), 
+             'arrayMedias' => $arrayMedias, 
+             'illustrations' => $arrayIllustration,
+             'commentPaginator' => $paginator,
+             'page' => 1,
+             'pageTotal' => ceil(count($paginator) / Comment::LIMIT_PER_PAGE)
+        ]);
+
     }
 
+
+
+    /**
+     * response ajax for button loadMore comments
+     *
+     * @route("/ajax/comments", name="get_comment_ajax", methods={"get"})
+     * 
+     * @param Request $request
+     * 
+     */
+    public function getCommentsWithAjaxRequest(Request $request)
+    {
+        $pageTargeted = $request->query->getInt('page');
+
+        $comments = $this->commentRepository->getCommentByLimit($pageTargeted, Comment::LIMIT_PER_PAGE);
+        return new JsonResponse(
+            [
+                "html" => $this->renderView('core/figures/__comments.html.twig', ['comments' => $comments])
+            ]
+
+        );
+
+    }
 
 
     /**
@@ -287,7 +336,20 @@ class FigureController extends AbstractController
                 $id = $arrayIllustration[$i]->getId();
                 $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
                 $tag = "img";
-                $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+
+                $urlFixtureIllustration = stristr($uri_Illustration,"https");
+
+                if ( $urlFixtureIllustration ) {
+    
+                    $objectMedia = ["path"=>$uri_Illustration, "type" => $tag, "id" => $id ];
+    
+                } else {
+    
+                    $url_illustration = "/uploads/illustrationsCollection/".$uri_Illustration;
+    
+                    $objectMedia = ["path"=>$url_illustration, "type" => $tag, "id" => $id ];
+                }
+
 
             array_push($arrayMedias, $objectMedia);
 
