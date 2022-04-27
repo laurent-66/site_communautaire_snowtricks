@@ -35,9 +35,10 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
             $comment->setAuthor($this->getReference('user_'.$authorRefRandom ));
             $comment->setFigure($figure);
             $manager->persist($comment);
+            $manager->flush(); 
         }
 
-        $manager->flush();
+ 
     }
 
     public function getDependencies()

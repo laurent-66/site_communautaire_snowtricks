@@ -36,6 +36,7 @@ class UserFixture extends Fixture
             $user->setPassword($password);
             $user->setUrlPhoto($personImage);
             $user->setAlternativeAttribute($alternativeAttribute);
+            $user->setFixture(1);
             $manager->persist($user);
             $manager->flush();
             $this->addReference(sprintf(self::USER_REF, $i), $user);
