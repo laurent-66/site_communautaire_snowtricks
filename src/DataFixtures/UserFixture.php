@@ -9,13 +9,11 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 class UserFixture extends Fixture
 {
 
-    // public const USER_REF = 'user-ref_%s';
-    public const USER_REF = 'user-ref';
+    public const USER_REF = 'user_%s';
 
     public function load(ObjectManager $manager)
     {
 
-        
         $faker = Factory::create('fr-FR');
 
         for ($i = 0; $i < 10; $i++) {
@@ -26,9 +24,9 @@ class UserFixture extends Fixture
             // $listPictures = file_get_contents('https://picsum.photos/v2/list');
             // $personImage = json_decode($listPictures, true)[$i]["download_url"];
 
-            $personImage  = 'https://picsum.photos/seed/picsum/64/64';
-
+            $personImage  = 'https://picsum.photos/64/64';
             // $personImage = $faker->imageUrl(64, 64);
+
             $password = $faker->numerify('Hello###');
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
             
@@ -39,13 +37,13 @@ class UserFixture extends Fixture
             $user->setUrlPhoto($personImage);
             $user->setAlternativeAttribute($alternativeAttribute);
             $manager->persist($user);
+            $manager->flush();
+            $this->addReference(sprintf(self::USER_REF, $i), $user);
 
-            // $this->addReference(sprintf(self::USER_REF, $i), $user);
-            $this->addReference(self::USER_REF, $user);
 
         }
 
-        $manager->flush();
+        // $manager->flush();
 
 
     }
