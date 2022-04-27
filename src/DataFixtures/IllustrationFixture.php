@@ -11,13 +11,12 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 class IllustrationFixture extends Fixture implements DependentFixtureInterface
 {
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) 
     {
         $faker = Factory::create('fr-FR');
         // this reference returns the Figure object created in FigureFixture
         $figure = $this->getReference(FigureFixture::FIG_REF);
 
-        // create 20 products! Bam!
         for ($i = 0; $i < 15; $i++) {
 
             // $urlIllustration = $faker->imageUrl(1000,350);
