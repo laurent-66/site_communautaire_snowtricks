@@ -19,6 +19,7 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 10; $i++) {
 
+
             // $urlIllustration = $faker->imageUrl(1000,350);
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
 

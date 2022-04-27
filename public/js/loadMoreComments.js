@@ -12,12 +12,7 @@
 
     //Asynchrone response ajax
     const response = await fetch(`${urlToCallAjax}?page=${nextPage}`);
-<<<<<<< HEAD
-=======
-
-    console.log(response);
     
-
     if(response.ok) {
         loader.style.display='none';
         const data = await response.json();
@@ -27,7 +22,6 @@
         }
         // else increment to one the attribute value "data-next-page" in tag button
         element.dataset.nextPage = Number(nextPage) + 1;
->>>>>>> bc91491048b62b352c958bfbf5d467da57cac015
 
         if(response.ok) {
             loader.style.display='none';

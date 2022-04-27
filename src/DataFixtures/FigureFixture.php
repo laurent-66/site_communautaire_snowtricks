@@ -37,12 +37,9 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $slug = $slugger->slug($titleFigure);
             $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
-  
             $figure = new Figure();
-
             $figureGroupRefRandom = rand(0,8);
-            $random = rand(0,9);
-            
+            $random = rand(0,9);          
             $figure->setName($titleFigure);
             $figure->setSlug($slug);
             $figure->setDescription($description);
@@ -59,7 +56,6 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $manager->flush();
             $this->addReference(sprintf(self::FIG_REF, $i), $figure); 
         }
-
 
     }
 
