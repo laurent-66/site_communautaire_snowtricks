@@ -19,7 +19,7 @@ class FigureGroupFixture extends Fixture
         for($i = 0 ; $i < count($datasGroupTricks) ; $i++ ) {
 
             $figureGroup = new FigureGroup();
-            $figureGroup->setName($i);
+            $figureGroup->setName($datasGroupTricks[$i]);
             $manager->persist($figureGroup);
             $manager->flush();
             $this->addReference(sprintf(self::FIG_GRP_REF, $i), $figureGroup);
