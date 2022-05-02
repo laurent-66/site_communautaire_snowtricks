@@ -13,24 +13,65 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr-FR');
-        // this reference returns the Figure object created in FigureFixture
-        // $figure = $this->getReference(FigureFixture::FIG_REF);
 
-        // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
+        // Option to load a specialized fixture with a preselection of youtube video on the snowtrick
 
-            $urlVideo = $faker->imageUrl(500, 250);
-            $figRandom = rand(0,9);
+        // list link video
+
+        // https://youtu.be/Ey5elKTrUCk
+        // https://youtu.be/2RjS4-T7IdU
+        // https://youtu.be/SQyTWk7OxSI
+        // https://youtu.be/nHMjX8RL3Oc
+        // https://youtu.be/QMrelVooJR4
+        // https://youtu.be/de6DOa1C380 
+        // https://youtu.be/V9xuy-rVj9w 
+        // https://youtu.be/NQ1MERtpFLQ
+        // https://youtu.be/2vNVpnjVsYg
+        // https://youtu.be/gbHU6J6PRRw
+
+
+
+        $datasYoutube = [
+            'Ey5elKTrUCk',
+            '2RjS4-T7IdU',
+            'SQyTWk7OxSI',
+            'nHMjX8RL3Oc', 
+            'QMrelVooJR4', 
+            'de6DOa1C380', 
+            'V9xuy-rVj9w', 
+            'NQ1MERtpFLQ', 
+            '2vNVpnjVsYg',
+            'gbHU6J6PRRw'
+            ];
+
+        for($i = 0 ; $i < count($datasYoutube) ; $i++ ) {
             $video = new Video();
-            $video->setUrlVideo($urlVideo);
+            $figRandom = rand(0,9);
             $video->setFigure($this->getReference('fig-ref_'.$figRandom ));
+            $video->setUrlVideo($datasYoutube[$i]);
             $manager->persist($video);
+            $manager->flush();
         }
 
-        $manager->flush();
+
+        // Option to load a general purpose fixture
+
+        // $faker = Factory::create('fr-FR');
+
+        // for ($i = 0; $i < 10; $i++) {
+
+        //     $urlVideo = $faker->imageUrl(500, 250);
+        //     $figRandom = rand(0,9);
+        //     $video = new Video();
+        //     $video->setUrlVideo($urlVideo);
+        //     $video->setFigure($this->getReference('fig-ref_'.$figRandom ));
+        //     $manager->persist($video);
+        // }
+
+        // $manager->flush();
 
     }
+
 
     public function getDependencies()
     {
