@@ -21,14 +21,6 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr-FR');
 
-        // this reference returns the User object created in UserFixture
-        // $author = $this->getReference(UserFixture::USER_REF);
-
-        // this reference returns the FigureGroup object created in FigureGroupFixture
-        // $figureGroup = $this->getReference(FigureGroupFixture::FIG_GRP_REF);
-
-
-        //intance slugger
         $slugger = new AsciiSlugger();
 
         for ($i = 0; $i < 10; $i++) {
@@ -37,9 +29,10 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $slug = $slugger->slug($titleFigure);
             $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
+
             $figure = new Figure();
             $figureGroupRefRandom = rand(0,8);
-            $random = rand(0,9);          
+            $authorRandom = rand(0,9);          
             $figure->setName($titleFigure);
             $figure->setSlug($slug);
             $figure->setDescription($description);
@@ -50,7 +43,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $figure->setCoverImage($coverImage);
             $figure->setAlternativeAttribute($alternativeAttribute);
             $figure->setFixture(1);
-            $figure->setAuthor($this->getReference('user_'.$random ));
+            $figure->setAuthor($this->getReference('user_'.$authorRandom  ));
             $figure->setFigureGroup($this->getReference('fig-grp-ref_'.$figureGroupRefRandom));
             $manager->persist($figure); 
             $manager->flush();
