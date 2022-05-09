@@ -34,6 +34,7 @@
 				{% include "core/modal/confirmDeleteElement.html.twig" %}
             </div> 
             {% endif %}
+            
             <div class="card-body">
                 <div class="container">
                     <div class="row mt-5">
@@ -47,53 +48,44 @@
                         </div> 
                     </div>
                 </div> 
+
                 <div class="container carrousel-desktop">
                     <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
                         <div class="carousel-inner w-100 mx-0 px-0" role="listbox">
-                            <div class="row mx-0 px-0 border border-primary">
-                                {% for media in arrayMedias %}
-                                    <div class="carousel-item col-sm-2 col-md-2 col-lg-2 {% if loop.first %} active {% endif %}  mx-0 px-2">
-                                        <div class="row"> 
-                                            {% if media.type == "img" %}                  
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-                                                        <img class="img-fluid mx-auto d-block" src="{{media.path}}" style="height: 150px;" alt="slide 2">
-                                                    </div> 
-                                                </div>
-                                            {% else %}
-                                                <div class="col-sm-12 col-md-12 col-lg-12">
-                                                    <div class="card px-0 mx-0 bg-light rounded-3">
-                                                        <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                                                        <div class="card-body">
-                                                        </div>
+                            {% for media in arrayMedias %}
+                                <div class="carousel-item col-sm-2 col-md-2 col-lg-2 {% if loop.first %} active {% endif %}  mx-0 px-2">
+                                    <div class="row"> 
+                                        {% if media.type == "img" %}                  
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="card px-0 mx-0 bg-light rounded-3 d-block" style="width:100%; height: auto;">
+                                                    <img class="img-fluid mx-auto d-block" src="{{media.path}}" style="height: 150px;" alt="slide 2">
+                                                </div> 
+                                            </div>
+
+                                        {% else %}
+
+                                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                                <div class="card px-0 mx-0 bg-light rounded-3">
+                                                    <iframe width="100%" height="auto" src="https://www.youtube.com/embed/{{media.path}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                                    <div class="card-body">
                                                     </div>
                                                 </div>
-                                            {% endif %}   
-                                        </div>  
+                                            </div>
+
+                                        {% endif %}   
+
                                     </div>  
-                                {% endfor %}
-                            </div>
-                            <div class="row container-arrow-direction mx-0 px-0 border border-primary">
-                                <div class="container-arrowLeft col border border-warning">
-                                    <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
-                                    {# <a class="carousel-item-prev" href="#carouselExample" role="button" data-slide="prev"> #}
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <div class="arrowLeft mx-0 px-0">
-                                            {# {% include "core/figures/__arrowLeft.html.twig" %} #}
-                                        </div>
-                                    </a>
-                                </div>
-                                <div class="container-arrowRight col border border-warning">
-                                    <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
-                                    {# <a class="carousel-item-next" href="#carouselExample" role="button" data-slide="next"> #}
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <div class="arrowRight mx-0 px-0">
-                                            {% include "core/figures/__arrowRight.html.twig" %}
-                                        </div>
-                                    </a> 
-                                </div>
-                            </div>
+                                </div>  
+                            {% endfor %}
                         </div>
+                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
                     </div>
                 </div>
 
