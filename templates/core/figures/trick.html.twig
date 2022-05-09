@@ -78,14 +78,18 @@
                                 </div>  
                             {% endfor %}
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" style="color: #6C757D;" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+                        <div class="container-arrows-carousel">
+                            <div class="container-arrow-left">
+                                <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                                    {% include "core/figures/__arrowLeft.html.twig" %}
+                                </a>
+                            </div>
+                            <div class="container-arrow-right">
+                                <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                                    {% include "core/figures/__arrowRight.html.twig" %}
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
