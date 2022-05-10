@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createTrick")
+ * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createFigure")
  * 
  */
 class Figure 
@@ -67,7 +67,7 @@ class Figure
      * Undocumented variable
      * @var UploadedFile
      * @Assert\NotNull( 
-     * message = "La valeur ne peut être vide.", groups="createTrick"
+     * message = "La valeur ne peut être vide.", groups="createFigure"
      * ) 
      * 
      * 
@@ -79,11 +79,11 @@ class Figure
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="createTrick"
+     * message = "La valeur ne peut être vide.", groups="createFigure"
      * )
      * 
      * 
-     * @ORM\Column(type="string", length=255, nullable="true")
+     * @ORM\Column(type="string", length=255)
      * 
      */
     private $alternativeAttribute;
@@ -101,6 +101,16 @@ class Figure
      * @ORM\column(type="datetime")
      */
     private $updatedAt;
+
+
+    /**
+     * @var Boolean 
+     * 
+     * @ORM\column(type="boolean")
+     */
+    private $fixture;
+
+
 
     public function __construct()
     {
@@ -286,7 +296,7 @@ class Figure
      *
      * @return string
      */
-    public function getAlternativeAttribute(): ?string
+    public function getAlternativeAttribute(): string
     {
         return $this->alternativeAttribute;
     }
@@ -296,7 +306,7 @@ class Figure
      * @param string $alternativeAttribute
      * 
      */
-    public function setAlternativeAttribute(?string $alternativeAttribute): void
+    public function setAlternativeAttribute(string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 
@@ -326,12 +336,36 @@ class Figure
         return $this->updatedAt;
     }
 
+
     /**
      * @param Datetime $updatedAt
      */
     public function setUpdatedAt(Datetime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getFixture()
+    {
+        return $this->fixture;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $fixture
+     * @return void
+     */
+    public function setFixture($fixture): void
+    {
+        $this->fixture = $fixture;
     }
 
     /**

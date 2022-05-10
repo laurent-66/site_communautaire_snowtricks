@@ -1,28 +1,26 @@
 {% if comments|length > 0 %}
-<div class="container">
-<div class="row">
-    <h3 class="text-center mx-auto mb-3">Commentaires des snowboarders</h3>
-</div>
-
-    {% for comment in comments %}
-    <div class="container mb-3 mx-0 px-0">
-        <div class="row mx-auto">
-            <div class="col-sm-1 col-md-1 col-lg-1 avatar-image">
-                {% if comment.author.urlPhoto == "defaultProfil.jpg" %}
-                    <div><img class="authorPictureComment" src="/images/default/defaultProfil.jpg" alt="author image default"></div>
-                {% else %}
-                   <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
-                {% endif %} 
+    {# <div class="items-comment px-0 mx-0 py-0 my-0"> #}
+        {% for comment in comments %}
+            <div class="row mx-auto">
+                <div class="col-sm-1 col-md-1 col-lg-1 avatar-image">
+                    {% if comment.author.urlPhoto == "defaultProfil.jpg" %}
+                        <div><img class="authorPictureComment" src="/images/default/defaultProfil.jpg" alt="author image default"></div>
+                    {% elseif comment.author.fixture == 1 %}
+                        <div><img class="authorPictureComment" src="{{comment.author.urlPhoto}}" alt="author image"></div>
+                    {% else %} 
+                        <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
+                    {% endif %} 
+                </div>
+                <div class="col-sm-11 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3 content-comment">
+                    <strong>le : {{comment.updatedAt|date('d/m/Y', timezone="Europe/Paris")}} à {{comment.updatedAt|date('H:i', timezone="Europe/Paris")}}</strong><br>
+                    <strong>{{comment.author.pseudo}} a dit :</strong> 
+                    <blockquote> {{comment.content}}</blockquote> 
+                </div>
             </div>
-            <div class="col-sm-11 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3 content-comment">
-                <strong>{{comment.author.pseudo}}</strong> a dit :
-                <blockquote> {{comment.content}}</blockquote> 
-            </div>
-        </div>
-    </div>
-    {% endfor %}
+        {% endfor %}
+    {# </div> #}
 {% else %} 
-    <h4> Cette figure n'as pas encore reçu de commentaires ...</h4>
+    <h5><strong> Cette figure n'as pas encore reçu de commentaires ...</strong></h5>
 {% endif %}
 
 

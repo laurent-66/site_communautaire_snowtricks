@@ -1,0 +1,22 @@
+/* min-width 767px */
+@media screen and (min-width: 767px) {
+
+    .container-body-auth
+    {
+        height: calc(100vh - 140px);
+        margin: 0px;
+        padding:0px;
+    }
+
+}
+/* max-width 767px */
+@media screen and (max-width: 767px) {
+
+    .container-body-auth
+    {
+        height: 100vh;
+        margin: 0px;
+        padding:0px;
+    }
+
+}

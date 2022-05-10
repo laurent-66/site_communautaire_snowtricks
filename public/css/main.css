@@ -45,6 +45,12 @@
         background-repeat: no-repeat;
         height: calc(100vh - 80px);
         filter: grayscale(40%);
+        width:100%;
+    }
+
+    .imageHeroSmartphone
+    {
+        display:none;
     }
 
     .imageHero h1 {
@@ -114,55 +120,35 @@
         overflow-y:scroll;
     }
 
+}
 
-    /*general*/
-    
-    .container-body
-    {
-        display:flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
 
-    /* .carousel-control-prev
-    {
+@media screen and (max-width: 767px) and (min-height: 793px) {
+
+    .container-bodySmartphone{
+
+        height: calc(100vh - 60px);
         margin: 0px;
-        padding: 0px;
-        position: relative;
-        transform: translate(200%, 0);
-        color: #6C757D;
+        padding:0px;
     }
-
-    .carousel-control-next
-    {
-        margin: 0px;
-        padding: 0px;
-        position: relative;
-        transform: translate(0%, 0);
-        color: #6C757D;
-
-    } */
 
 }
 
+
 @media screen and (max-width: 767px) {
+
 
     .navbar {
         display:none;
 
     }
 
-    .imageHero h1 {
-        font-size: 3rem;
+    .imageHero
+    {
+        display: none;
+
     }
-    .imageHero h2 {
-        font-size: 1.5rem;
-    }
-    .imageHero p {
-        font-size: 1rem;
-    }
+
 
     .menu-smartphone
     {
@@ -174,34 +160,67 @@
         padding: 5px;
         position: sticky;
         bottom: 0px;
-
     }
 
-    .dropdown-menu {
-        display:block;
-        width: 350px;
-        margin-left: -55px;
-        padding:0px;
-
-    }
-
-    .dropdown-menu li {
-        list-style: none;
-        background-color: #5A6268;
-        text-align: center;
-        font-size: 1.5rem;
-        padding: 10px 0px;
-
-    }
-    
-    .dropdown-menu a {
+    .imageHeroSmartphone h1 {
         color: white;
-        font-weight:600;
-        padding: 0px;
-        margin: 0px 7.5px;
+        font-size: 3rem;
     }
 
-    .navbar-brand i {
-        color: black;
-    };
+
+    .imageHeroSmartphone
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-image:url("/images/snowboarding_smartphone767x800.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        height: 420px;
+        filter: grayscale(40%);
+    }
+
+    .imageHeroSmartphone h1 {
+        color: white;
+        font-size: 3rem;
+    }
+
+    .imageHeroSmartphone h2 {
+        color: white;
+        font-size: 1.5rem;
+    }
+    .imageHeroSmartphone p {
+        color: white;
+        margin-top:25px;
+        font-size: 1rem;
+    }
+
+    .imageHeroSmartphone .arrow-down {
+        position:absolute;
+        top: 50%; left: 50%;
+        z-index: 1;
+    }
+
+    .arrow-up {
+        margin-right:3%;
+    }
+
+    .arrow-up a {
+        text-decoration: none;
+    }
+
+
+    .linkEnabled {
+        display: none;
+    }
+    .linkDisabled {
+        display: block;
+    }
+
+
+    .carrousel-desktop {
+        display:none;
+    }
+
   }

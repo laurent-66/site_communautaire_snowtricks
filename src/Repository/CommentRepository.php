@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Figure;
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -20,22 +22,29 @@ class CommentRepository extends ServiceEntityRepository
     }
 
 
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getCommentsPagination(int $figureId, int $page, int $limit = 5)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('c') 
+            ->innerJoin('c.figure', 'f')
+            ->where('f.id = :figureId')
+            ->setParameter('figureId', $figureId)
+            ->orderBy('c.updatedAt', 'DESC')
+            ->setFirstResult(($page -1) * $limit)
+            ->setMaxResults($limit)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
+
+    public function getCommentByLimit(int $page, int $limitPerPage)
+    {
+        $querybuilder = $this->createQueryBuilder('a')
+            ->setFirstResult(($page - 1) * $limitPerPage)
+            ->setMaxResults($limitPerPage)
+            ->orderBy('a.updatedAt','DESC');
+            
+        return new Paginator($querybuilder);
+    }
+
 
     // /**
     //  * @return Comment[] Returns an array of Comment objects
@@ -65,4 +74,5 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
