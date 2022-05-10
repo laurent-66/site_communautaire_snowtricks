@@ -120,28 +120,6 @@
         overflow-y:scroll;
     }
 
-
-    /*general*/
-    
-    /* .carousel-control-prev
-    {
-        margin: 0px;
-        padding: 0px;
-        position: relative;
-        transform: translate(200%, 0);
-        color: #6C757D;
-    }
-
-    .carousel-control-next
-    {
-        margin: 0px;
-        padding: 0px;
-        position: relative;
-        transform: translate(0%, 0);
-        color: #6C757D;
-
-    } */
-
 }
 
 
@@ -238,6 +216,11 @@
     }
     .linkDisabled {
         display: block;
+    }
+
+
+    .carrousel-desktop {
+        display:none;
     }
 
   }
