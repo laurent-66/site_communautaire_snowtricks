@@ -19,8 +19,6 @@
     .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item + .carousel-item + .carousel-item, 
     .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item + .carousel-item + .carousel-item+ .carousel-item, 
     .carousel-inner .carousel-item.active:not(.carousel-item-right):not(.carousel-item-left) + .carousel-item + .carousel-item + .carousel-item + .carousel-item+ .carousel-item+ .carousel-item 
-    
-    
     {
         transition: none;
     }
@@ -112,7 +110,4 @@
         top:0px;
         left:0px;
     }
-
-
-
 }
