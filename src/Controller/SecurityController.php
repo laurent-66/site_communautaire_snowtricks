@@ -63,7 +63,7 @@ class SecurityController extends AbstractController
             $newUser->setEmail($emailRegister);
             $newUser->setUrlPhoto('defaultProfil.jpg');
             $newUser->setAlternativeAttribute('Avatar par defaut');
-
+            $newUser->setFixture(0);
             $this->entityManager->persist($newUser);
             $this->entityManager->flush();
 

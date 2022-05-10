@@ -21,11 +21,8 @@ class UserFixture extends Fixture
             $pseudo = $faker->name();
             $email = $faker->regexify('[a-z]+@[a-z]+\.[a-z]{2,4}');
 
-            // $listPictures = file_get_contents('https://picsum.photos/v2/list');
-            // $personImage = json_decode($listPictures, true)[$i]["download_url"];
-
-            $personImage  = 'https://picsum.photos/64/64';
-            // $personImage = $faker->imageUrl(64, 64);
+            $listPictures = file_get_contents('https://picsum.photos/v2/list');
+            $personImage = json_decode($listPictures, true)[$i]["download_url"];
 
             $password = $faker->numerify('Hello###');
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
@@ -41,10 +38,7 @@ class UserFixture extends Fixture
             $manager->flush();
             $this->addReference(sprintf(self::USER_REF, $i), $user);
 
-
         }
-
-        // $manager->flush(); 
 
     }
 }

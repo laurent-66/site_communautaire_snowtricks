@@ -14,16 +14,11 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager) 
     {
         $faker = Factory::create('fr-FR');
-        // this reference returns the Figure object created in FigureFixture
-        // $figure = $this->getReference(FigureFixture::FIG_REF);
 
         for ($i = 0; $i < 10; $i++) {
 
-
-            // $urlIllustration = $faker->imageUrl(1000,350);
             $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
 
-            // $urlIllustration = $faker->imageUrl(500, 250);
             $illustration = new Illustration();
 
             $figRandom = rand(0,9);

@@ -17,13 +17,8 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
     {
 
         $faker = Factory::create('fr-FR');
-        //datetime comment
-        $datetime = new DateTime();
-        // this reference returns the User object created in UserFixture
-        // $author = $this->getReference(UserFixture::USER_REF);
 
-        // this reference returns the FigureGroup object created in FigureGroupFixture
-        // $figure = $this->getReference(FigureFixture::FIG_REF);
+        $datetime = new DateTime();
 
         for ($i = 0; $i < 9; $i++) {
             $authorRefRandom = rand(0,9);

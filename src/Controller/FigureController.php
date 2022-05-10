@@ -129,6 +129,7 @@ class FigureController extends AbstractController
                         );
                         $objectIllustration->setUrlIllustration($newFilename);
                         $objectIllustration->setFigure($newTrick);
+                        $objectIllustration->setFixture(0);
                         $this->entityManager->persist($objectIllustration);
                         $newTrick->addIllustration($objectIllustration);
 
@@ -180,7 +181,7 @@ class FigureController extends AbstractController
                     }
                 }
 
-
+            $newTrick->setFixture(0);
             $this->entityManager->persist($newTrick);
             $this->entityManager->flush();
 
@@ -283,7 +284,6 @@ class FigureController extends AbstractController
              'formComment' => $formComment->createView(), 
              'arrayMedias' => $arrayMedias, 
              'illustrations' => $arrayIllustration,
-             'commentPaginator' => $paginator,
              'page' => 1,
              'pageTotal' => ceil(count($paginator) / Comment::LIMIT_PER_PAGE)
         ]);

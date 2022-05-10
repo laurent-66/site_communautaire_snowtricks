@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Comment 
 {
-    public const LIMIT_PER_PAGE = 5;
+    public const LIMIT_PER_PAGE = 4;
 
     /**
      * @var int
