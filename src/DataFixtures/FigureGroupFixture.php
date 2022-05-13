@@ -24,8 +24,5 @@ class FigureGroupFixture extends Fixture
             $manager->flush();
             $this->addReference(sprintf(self::FIG_GRP_REF, $i), $figureGroup);
         }
-
-
     }
-
 }

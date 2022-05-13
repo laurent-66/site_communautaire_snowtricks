@@ -122,16 +122,16 @@
                         </div>
                     {% endif %}
 
-                    {{form_start(formDescriptionTrick)}}
-                        {{form_row(formDescriptionTrick.name)}}
-                        {{form_row(formDescriptionTrick.coverImageFile)}}
-                        {{form_row(formDescriptionTrick.alternativeAttribute)}}
-                        {{form_row(formDescriptionTrick.description)}}
-                        {{form_row(formDescriptionTrick.figureGroup)}}
+                    {{form_start(formEditTrick)}}
+                        {{form_row(formEditTrick.name)}}
+                        {{form_row(formEditTrick.coverImageFile)}}
+                        {{form_row(formEditTrick.alternativeAttribute)}}
+                        {{form_row(formEditTrick.description)}}
+                        {{form_row(formEditTrick.figureGroup)}}
 
-                        <ul class="illustrations" data-index="{{ formDescriptionTrick.illustrations|length > 0 ? formDescriptionTrick.illustrations|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formDescriptionTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
+                        <ul class="illustrations" data-index="{{ formEditTrick.illustrations|length > 0 ? formEditTrick.illustrations|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formEditTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
                         <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
-                        <ul class="videos" data-index="{{ formDescriptionTrick.videos|length > 0 ? formDescriptionTrick.videos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formDescriptionTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
+                        <ul class="videos" data-index="{{ formEditTrick.videos|length > 0 ? formEditTrick.videos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formEditTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
                         <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
 
 
@@ -142,7 +142,7 @@
                         {% include "core/modal/confirmDeleteElement.html.twig" %}
                         <button type="submit" class="btn btn-primary editTrickBtnAction" >Enregistrer</button>
                     </div>
-                    {{form_end(formDescriptionTrick)}}
+                    {{form_end(formEditTrick)}}
                 </div>   
             </div>
         </div>
@@ -152,7 +152,13 @@
             {% for media in arrayMedias %}
                 {% if media.type == "img" %}
                     <div class="card px-0 mx-0 mb-3 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-                        <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+
+                        {% if media.fixture == 0 %} 
+                            <img class="img-fluid mx-auto d-block" src="/uploads/illustrationsCollection/{{media.path}}" style="height: 150px;" alt="slide 2">
+                        {% else %}
+                            <img class="img-fluid mx-auto d-block" src="{{media.path}}" style="height: 150px;" alt="slide 2">                        
+                        {% endif %}
+
                         <div class="card-body bg-light">
                             {% if app.user %}
                                 <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">
