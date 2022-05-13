@@ -198,15 +198,15 @@ class Illustration
     }
 
     /**
-     * @return 
+     * @return string
      */
-    public function getAlternativeAttribute(): string
+    public function getAlternativeAttribute(): ?string
     {
         return $this->alternativeAttribute;
     }
 
     /**
-     * @param 
+     * @param srting
      */
     public function setAlternativeAttribute(string $alternativeAttribute): void
     {

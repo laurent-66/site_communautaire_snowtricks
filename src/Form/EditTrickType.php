@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class DescriptionTrickType extends AbstractType
+class EditTrickType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -56,7 +56,7 @@ class DescriptionTrickType extends AbstractType
                     'label'=> false, 
                     'by_reference'=> false,
                      
-                ],
+                ], 
             )
 
             ->add(
@@ -78,7 +78,7 @@ class DescriptionTrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
-            'validation_groups' => ['base']
+            'validation_groups' => ['base','editFigure']
         ]);
     }
 }
