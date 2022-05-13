@@ -78,10 +78,6 @@ class Figure
      *
      * @var string
      * 
-     * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide.", groups="createFigure"
-     * )
-     * 
      * 
      * @ORM\Column(type="string", length=255)
      * 
@@ -158,7 +154,7 @@ class Figure
      * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
      * 
      */
-    protected $illustrations;
+    private $illustrations;
 
 
     /**
@@ -296,7 +292,7 @@ class Figure
      *
      * @return string
      */
-    public function getAlternativeAttribute(): string
+    public function getAlternativeAttribute(): ?string
     {
         return $this->alternativeAttribute;
     }
@@ -306,7 +302,7 @@ class Figure
      * @param string $alternativeAttribute
      * 
      */
-    public function setAlternativeAttribute(string $alternativeAttribute): void
+    public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
 

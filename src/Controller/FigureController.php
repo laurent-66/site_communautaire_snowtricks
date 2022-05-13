@@ -4,13 +4,12 @@ namespace App\Controller;
 
 use Exception;
 use App\Entity\Figure;
+use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Form\NewTrickType;
+use App\Form\EditTrickType;
 use App\Form\EditOneVideoType;
 use App\Form\AddMediasTrickType;
-use App\DataFixtures\DatasDefault;
-use App\Entity\Comment;
-use App\Form\DescriptionTrickType;
 use App\Form\UpdateCoverImageType;
 use App\Repository\VideoRepository;
 use App\Repository\FigureRepository;
@@ -23,7 +22,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -66,7 +64,7 @@ class FigureController extends AbstractController
  */
     public function create(Request $request) {
 
-        $codeYoutube = '';
+        $codeYoutube = ''; 
         $groupTricks = $this->figureGroupRepository->findAll();
         $formTrick = $this->createForm(NewTrickType::class);
         $formTrick->handleRequest($request);
@@ -79,7 +77,6 @@ class FigureController extends AbstractController
             $coverImage = $newTrick->getCoverImageFile();
 
             $alternativeAttribute = $newTrick->getAlternativeAttribute();
-
 
             if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
@@ -206,7 +203,6 @@ class FigureController extends AbstractController
     public function trickView( $slug, Request $request) {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
-
         $figureId = $figure->getId();
         // $comments = $this->commentRepository->findBy(['figure' => $figure]);
 
@@ -327,12 +323,13 @@ class FigureController extends AbstractController
         $comments = $this->commentRepository->findBy(['figure' => $figure]);
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
 
+        $arrayImages = [];
+        $arrayVideos = [];
         $arrayMedias = [];
-        $objectMedia = [];
-
 
         //Get multiple properties per media object
         //create a array of media objects
+        //persist and flush on figure entity
 
         $arrayIllustrationLength = count($arrayIllustration);
         
@@ -345,17 +342,17 @@ class FigureController extends AbstractController
 
                 if ( $urlFixtureIllustration ) {
     
-                    $objectMedia = ["path"=> $uri_Illustration, "type" => $tag, "fixture" => "true", "id" => $id ];
+                    $objectImage = ["path"=> $uri_Illustration, "type" => $tag, "fixture" => "true", "id" => $id ];
     
                 } else {
     
                     $url_illustration = "/uploads/illustrationsCollection/".$uri_Illustration;
     
-                    $objectMedia = ["path"=>$url_illustration, "type" => $tag, "fixture" => "false", "id" => $id ];
+                    $objectImage = ["path"=>$url_illustration, "type" => $tag, "fixture" => "false", "id" => $id ];
                 }
 
 
-            array_push($arrayMedias, $objectMedia);
+            array_push($arrayImages, $objectImage);
 
         }   
 
@@ -368,17 +365,18 @@ class FigureController extends AbstractController
             $id = $arrayVideo[$i]->getId();
             $url_video = $arrayVideo[$i]->getUrlVideo();
             $tag = "iframe";
-            $objectMedia = ["path"=>$url_video, "type"=> $tag , "id"=>$id];
-            array_push($arrayMedias, $objectMedia);
+            $objectVideo = ["path"=>$url_video, "type"=> $tag , "id"=>$id];
+            array_push($arrayVideos, $objectVideo);
          
         }  
 
+        $arrayMedias = array_merge($arrayImages,$arrayVideos);
 
         // generate an object current figure without collection illustrations
 
         $nameTrick = $figure->getName();
         $coverTrick = $figure->getCoverImage();
-        $altAttrTrick = $figure->getAlternativeAttribute();
+        $altAttr = $figure->getAlternativeAttribute();
         $descriptionTrick = $figure->getDescription();
         $nameSlugTrick = $this->slugger->slug($nameTrick);
         $figureGroupTrick = $figure->getFigureGroup();
@@ -388,34 +386,34 @@ class FigureController extends AbstractController
         $partialFigure->setName($nameTrick);
         $partialFigure->setSlug($nameSlugTrick);
         $partialFigure->setCoverImage($coverTrick);
-        $partialFigure->setAlternativeAttribute($altAttrTrick);
+        $partialFigure->setAlternativeAttribute($altAttr);
         $partialFigure->setDescription($descriptionTrick);
         $partialFigure->setFigureGroup($figureGroupTrick);
 
-        $formDescriptionTrick = $this->createForm(DescriptionTrickType::class,$partialFigure);
-        $formDescriptionTrick->handleRequest($request);
+        $formEditTrick = $this->createForm(EditTrickType::class, $partialFigure);
+        $formEditTrick->handleRequest($request); 
         $messageError = '';
 
-        if($formDescriptionTrick->isSubmitted() && $formDescriptionTrick->isValid()) {
+        if($formEditTrick->isSubmitted() && $formEditTrick->isValid()) { 
 
             try{
         
-                $updateTrick = $formDescriptionTrick->getData();
+                $formTrick = $formEditTrick->getData();
 
-                $nameTrickField = $updateTrick->getName();
-                $coverImageFile = $updateTrick->getCoverImageFile();
-                $alternativeAttribute = $updateTrick->getAlternativeAttribute();
-                $descriptionfield = $updateTrick->getDescription();
-                $figureGroupSelect = $updateTrick->getFigureGroup();
-                $coverImageTrick = $updateTrick->getCoverImage();
-                $coverImageTrick == null ? 'defaultCoverImage' : $coverImageTrick;
+                $nameTrickField = $formTrick->getName();
                 $nameTrickSluger = $this->slugger->slug($nameTrickField);
+                $coverImageFile = $formTrick->getCoverImageFile();
+                $coverImageTrick = $formTrick->getCoverImage();
+                $alternativeAttribute = $formTrick->getAlternativeAttribute();
+                $descriptionfield = $formTrick->getDescription();
+                $figureGroupSelect = $formTrick->getFigureGroup();
+ 
 
                 if ($coverImageFile) { 
                     $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImageFile->guessExtension();
-                    
+
                     try {
                         $coverImageFile->move(
                             $this->getParameter('images_directory'),
@@ -425,106 +423,117 @@ class FigureController extends AbstractController
                     } catch (FileException $e) {
                         dump($e);
                         exit;
-                    }
+                    } 
     
-                    $updateTrick->setCoverImage($newFilename);
-    
-
-                    if ($alternativeAttribute) {
-                        $updateTrick->setAlternativeAttribute($alternativeAttribute);
-                    } else {
-                        $updateTrick->setAlternativeAttribute($originalFilename);
-                    }
-                }
-
-
-                $imagesCollection = $updateTrick->getIllustrations();
-                $videosCollection = $updateTrick->getVideos();
-
-                if ($imagesCollection) {
-
-                    foreach( $imagesCollection as $objectIllustration ) {
-    
-                        $image = $objectIllustration->getFileIllustration();
-                        $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                        $safeFilename = $this->slugger->slug($originalFilename);
-                        $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-                        
-                        try {
-                            $objectIllustration->getFileIllustration()->move(
-                                $this->getParameter('illustrationsCollection_directory'),
-                                $newFilename
-                            );
-                            $objectIllustration->setUrlIllustration($newFilename);
-                            $objectIllustration->setFigure($updateTrick);
-                            $objectIllustration->setFixture(0);
-                            $this->entityManager->persist($objectIllustration);
-                            $updateTrick->addIllustration($objectIllustration);
-    
-    
-                        } catch (FileException $e) {
-                            dump($e);
-                            exit;
-                        }
-    
-                    }
+                    $figure->setCoverImage($newFilename);
+                    $figure->setAlternativeAttribute($originalFilename);
+                    $figure->setFixture(0);
     
                 }
 
+                    $codeYoutube = '';
+                    $imagesCollection = $formTrick->getIllustrations();
+                    $videosCollection = $formTrick->getVideos();
+                    $arrayObjectIllustration = [];
 
-                if ($videosCollection) {
+                    if ($imagesCollection) {
 
-                    foreach( $videosCollection as $objectVideo ) {
-    
-                        $urlVideo = $objectVideo->getUrlVideo();
-    
-                        if ( stristr($urlVideo,"embed") ) {
-    
+                        foreach( $imagesCollection as $objectIllustration ) {
+        
+                            $image = $objectIllustration->getFileIllustration();
+                            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                            $safeFilename = $this->slugger->slug($originalFilename);
+                            $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+                            // dump($objectIllustration);
+                            // exit;
+                            $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
+                            $alternativeAttribute === null ? '' :  $alternativeAttribute;
+
+
                             try {
-    
-                                $attrSrc = stristr($urlVideo, 'embed/');
-                                $codeYoutube = substr($attrSrc, 6, 11);
-                                $objectVideo->setUrlVideo($codeYoutube);
-                                $objectVideo->setFigure($updateTrick);
-                                $this->entityManager->persist($objectVideo);
-                                $updateTrick ->addVideo($objectVideo);
-    
+                                $objectIllustration->getFileIllustration()->move(
+                                    $this->getParameter('illustrationsCollection_directory'),
+                                    $newFilename
+                                );
+
+                                $objectIllustration->setUrlIllustration($newFilename);
+                                $objectIllustration->setAlternativeAttribute($alternativeAttribute);
+                                $objectIllustration->setFigure($figure);
+                                $objectIllustration->setFixture(0);
+                                $this->entityManager->persist($objectIllustration);
+                                //test
+                                $figure->addIllustration($objectIllustration);
+
+                                array_push($arrayObjectIllustration, $objectIllustration);
+        
                             } catch (FileException $e) {
                                 dump($e);
                                 exit;
                             }
-    
-    
-                        }else{
-    
-                            try {
-    
-                                $codeYoutube = substr($urlVideo, -11);
-                                $objectVideo->setUrlVideo($codeYoutube);
-                                $objectVideo->setFigure($updateTrick);
-                                $this->entityManager->persist($objectVideo);
-                                $updateTrick ->addVideo($objectVideo);    
-    
-                                }catch (FileException $e) {
+                          
+                        }
+
+                    }
+
+                    $arrayObjectVideo = [];
+
+                    if ($videosCollection) {
+
+                        foreach( $videosCollection as $objectVideo ) {
+        
+                            $urlVideo = $objectVideo->getUrlVideo();
+        
+                            if ( stristr($urlVideo,"embed") ) {
+        
+                                try {
+        
+                                    $attrSrc = stristr($urlVideo, 'embed/');
+                                    $codeYoutube = substr($attrSrc, 6, 11);
+                                    $objectVideo->setUrlVideo($codeYoutube);
+                                    $objectVideo->setFigure($figure);
+                                    $this->entityManager->persist($objectVideo);
+                                    $figure->addVideo($objectVideo);
+                                    array_push($arrayObjectVideo, $objectVideo);
+        
+                                } catch (FileException $e) {
                                     dump($e);
                                     exit;
                                 }
+        
+        
+                            }else{
+        
+                                try {
+        
+                                    $codeYoutube = substr($urlVideo, -11);
+                                    $objectVideo->setUrlVideo($codeYoutube);
+                                    $objectVideo->setFigure($figure);
+                                    $this->entityManager->persist($objectVideo);
+                                    $figure->addVideo($objectVideo);
+                                    array_push($arrayObjectVideo, $objectVideo);
+
+                                    }catch (FileException $e) {
+                                        dump($e);
+                                        exit;
+                                    }
+                            }
                         }
                     }
-                }
+
+          
 
                 $fixtureDefinition = $figure->getFixture();
 
-                $updateTrick->setName($nameTrickField);
-                $updateTrick->setSlug($nameTrickSluger);
-                $updateTrick->setAlternativeAttribute($alternativeAttribute);
-                $updateTrick->setDescription($descriptionfield);
-                $updateTrick->setFigureGroup($figureGroupSelect);
-                $updateTrick->setFixture($fixtureDefinition);
+                $figure->setName($nameTrickField);
+                $figure->setSlug($nameTrickSluger);
+                $figure->setDescription($descriptionfield);
+                $figure->setFigureGroup($figureGroupSelect);
+                $figure->setFixture($fixtureDefinition);
 
-                $this->entityManager->persist($updateTrick);
+                $this->entityManager->persist($figure);
 
                 $this->entityManager->flush();
+
 
             }catch(Exception $e){
         
@@ -532,12 +541,12 @@ class FigureController extends AbstractController
                 exit; 
             }
 
-            $newSlug = $updateTrick->getSlug();
+            $newSlug = $figure->getSlug();
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
 
-        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formDescriptionTrick' => $formDescriptionTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
+        return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
     }
 
 
