@@ -560,7 +560,7 @@ class FigureController extends AbstractController
     ){
 
         $figure = $this->figureRepository->findOneBySlug($slug);
-        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class, $figure);
+        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class); 
         $formUpdateCoverImage->handleRequest($request);
     
         if($formUpdateCoverImage->isSubmitted() && $formUpdateCoverImage->isValid()) {
