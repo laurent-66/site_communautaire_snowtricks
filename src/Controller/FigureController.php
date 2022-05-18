@@ -205,10 +205,12 @@ class FigureController extends AbstractController
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayImagesWithPropreties = IllustrationsProperties::generateProperties($arrayIllustration);
 
+
         $arrayVideo = $this->videoRepository->findBy(['figure' => $figure]); 
         $arrayVideosWithProperties = VideosProperties::generateProperties($arrayVideo);
 
         $arrayMedias = array_merge($arrayImagesWithPropreties,$arrayVideosWithProperties);
+
 
 
         $formComment = $this->createForm(CommentType::class);
@@ -553,102 +555,6 @@ class FigureController extends AbstractController
 
     }
 
-    /** CRUD média trick */
-
-
-    /**
-     * Creating a media of a trick
-     * 
-     * @Route("/tricks/{slug}/create/medias", name="trickCreateMediasPage")
-     */
-
-    // public function trickCreateMedias($slug, Request $request){
-
-    //     $currentfigure = $this->figureRepository->findOneBySlug($slug);
-    //     $codeYoutube = '';
-    //     $formAddMediasTrick = $this->createForm(AddMediasTrickType::class);
-    //     $formAddMediasTrick->handleRequest($request); 
-
-    //     if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
-
-    //         $updateTrick = $formAddMediasTrick->getData();
-    //         $imagesCollection = $updateTrick->getIllustrations();
-    //         $videosCollection = $updateTrick->getVideos();
-
-    //         if ($imagesCollection) { 
-
-    //             foreach( $imagesCollection as $objectIllustration ) {
-
-    //                 $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
-    //                 $originalFilename = pathinfo($image, PATHINFO_FILENAME);
-    //                 $safeFilename = $this->slugger->slug($originalFilename);
-    //                 $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-    //                 $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
-
-    //                 try {
-    //                     $objectIllustration->getFileIllustration()->move(
-    //                         $this->getParameter('illustrationsCollection_directory'),
-    //                         $newFilename
-    //                     );
-
-    //                     $objectIllustration->setUrlIllustration($newFilename);
-    //                     $objectIllustration->setAlternativeAttribute($alternativeAttribute);
-    //                     $objectIllustration->setFigure($currentfigure);
-    //                     $this->entityManager->persist($objectIllustration);
-    //                     $currentfigure->addIllustration($objectIllustration);
-
-    //                 } catch (FileException $e) {
-    //                     dump($e);
-    //                 }
-    //             }
-    //         }
-
-    //         if ($videosCollection) {
-    //             foreach( $videosCollection as $objectVideo ) {
-    //                 $urlVideo = $objectVideo->getUrlVideo();
-    //                 if ( stristr($urlVideo,"embed") ) {
-
-    //                     try {
-
-    //                         $attrSrc = stristr($urlVideo, 'embed/');
-    //                         $codeYoutube = substr($attrSrc, 6, 11);
-    //                         $objectVideo->setUrlVideo($codeYoutube);
-    //                         $objectVideo->setFigure($currentfigure);
-    //                         $this->entityManager->persist($objectVideo);
-    //                         $currentfigure->addVideo($objectVideo);
-
-    //                     } catch (FileException $e) {
-    //                         dump($e);
-    //                     }
-
-
-    //                 }else{
-
-    //                     try {
-    //                         $codeYoutube = substr($urlVideo, -11);
-    //                         $objectVideo->setUrlVideo($codeYoutube);
-    //                         $objectVideo->setFigure($currentfigure);
-    //                         $this->entityManager->persist($objectVideo);
-    //                         $currentfigure->addVideo($objectVideo);    
-
-    //                         } catch (FileException $e) {
-    //                             dump($e);
-    //                         }
-    //                     }
-    //                 }
-    //             }
-
-    //             $this->entityManager->persist($currentfigure);
-    //             $this->entityManager->flush();
-    //             return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
-
-    //     }    
-
-    //     return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $codeYoutube]);
-    // }
-
-
-
     /**
      * Updating a media of a trick
      * 
@@ -711,17 +617,7 @@ class FigureController extends AbstractController
 
                         try {
 
-                            if ( stristr($urlVideo,"embed") ) {
-
-                                $attrSrc = stristr($urlVideo, 'embed/'); 
-                                $codeYoutube = substr($attrSrc, 6, 11);
-
-                            }else{
-
-                                $codeYoutube = substr($urlVideo, -11);
-
-                            }
-
+                            $codeYoutube = Youtube::typeUrl($urlVideo);
                             $currentVideo->setUrlVideo($codeYoutube);
                             $currentVideo->setFigure($currentfigure);
                             $currentVideo->setEmbed(true);
@@ -737,6 +633,7 @@ class FigureController extends AbstractController
                         } catch (FileException $e) {
                             dump($e);
                         }
+
 
                     return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);    
 
