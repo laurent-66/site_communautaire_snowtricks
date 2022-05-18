@@ -205,10 +205,12 @@ class FigureController extends AbstractController
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayImagesWithPropreties = IllustrationsProperties::generateProperties($arrayIllustration);
 
+
         $arrayVideo = $this->videoRepository->findBy(['figure' => $figure]); 
         $arrayVideosWithProperties = VideosProperties::generateProperties($arrayVideo);
 
         $arrayMedias = array_merge($arrayImagesWithPropreties,$arrayVideosWithProperties);
+
 
 
         $formComment = $this->createForm(CommentType::class);
@@ -553,7 +555,6 @@ class FigureController extends AbstractController
 
     }
 
-
     /**
      * Updating a media of a trick
      * 
@@ -632,6 +633,7 @@ class FigureController extends AbstractController
                         } catch (FileException $e) {
                             dump($e);
                         }
+
 
                     return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);    
 
