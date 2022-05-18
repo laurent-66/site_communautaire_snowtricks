@@ -25,6 +25,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use UniqueIdImage;
+use RegisterFileUploaded;
 
 class FigureController extends AbstractController
 {
@@ -80,8 +82,12 @@ class FigureController extends AbstractController
 
             if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
+
                 $safeFilename = $this->slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImage->guessExtension();
+
+
+                // $newFilename = UniqueIdImage::generateUniqIdFileName($coverImage);
 
                 try {
                     $coverImage->move(
@@ -92,6 +98,8 @@ class FigureController extends AbstractController
                 } catch (FileException $e) {
                     dump($e);
                 }
+
+                // RegisterFileUploaded::registerFile($coverImage,$newFilename);
 
                 $newTrick->setCoverImage($newFilename);
 
@@ -115,7 +123,9 @@ class FigureController extends AbstractController
                 foreach( $imagesCollection as $objectIllustration ) {
 
                     $image = $objectIllustration->getFileIllustration();
+
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
 
@@ -145,36 +155,29 @@ class FigureController extends AbstractController
 
                     $urlVideo = $objectVideo->getUrlVideo();
 
-                    if ( stristr($urlVideo,"embed") ) {
+                    try {
 
-                        try {
+                        if ( stristr($urlVideo,"embed") ) {
 
                             $attrSrc = stristr($urlVideo, 'embed/');
                             $codeYoutube = substr($attrSrc, 6, 11);
-                            $objectVideo->setUrlVideo($codeYoutube);
-                            $objectVideo->setFigure($newTrick);
-                            $this->entityManager->persist($objectVideo);
-                            $newTrick->addVideo($objectVideo);
 
-                        } catch (FileException $e) {
-                            dump($e);
-                        }
-
-
-                    }else{
-
-                        try {
+                        }else{
 
                             $codeYoutube = substr($urlVideo, -11);
-                            $objectVideo->setUrlVideo($codeYoutube);
-                            $objectVideo->setFigure($newTrick);
-                            $this->entityManager->persist($objectVideo);
-                            $newTrick->addVideo($objectVideo);    
 
-                            }catch (FileException $e) {
-                                dump($e);
-                            }
+                        }
+
+                        $objectVideo->setUrlVideo($codeYoutube);
+                        $objectVideo->setFigure($newTrick);
+                        $this->entityManager->persist($objectVideo);
+                        $newTrick->addVideo($objectVideo);  
+
+                    } catch (FileException $e) {
+                        dump($e);
                     }
+
+
                 }
             }
 
@@ -397,7 +400,6 @@ class FigureController extends AbstractController
             try{
         
                 $formTrick = $formEditTrick->getData();
-
                 $nameTrickField = $formTrick->getName();
                 $nameTrickSluger = $this->slugger->slug($nameTrickField);
                 $coverImageFile = $formTrick->getCoverImageFile();
@@ -409,6 +411,8 @@ class FigureController extends AbstractController
 
                 if ($coverImageFile) { 
                     $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImageFile->guessExtension();
 
@@ -423,6 +427,7 @@ class FigureController extends AbstractController
                         exit;
                     } 
     
+
                     $figure->setCoverImage($newFilename);
                     $figure->setAlternativeAttribute($originalFilename);
                     $figure->setFixture(0);
@@ -655,90 +660,92 @@ class FigureController extends AbstractController
      * @Route("/tricks/{slug}/create/medias", name="trickCreateMediasPage")
      */
 
-    public function trickCreateMedias($slug, Request $request){
+    // public function trickCreateMedias($slug, Request $request){
 
-        $currentfigure = $this->figureRepository->findOneBySlug($slug);
-        $codeYoutube = '';
-        $formAddMediasTrick = $this->createForm(AddMediasTrickType::class);
-        $formAddMediasTrick->handleRequest($request); 
+    //     $currentfigure = $this->figureRepository->findOneBySlug($slug);
+    //     $codeYoutube = '';
+    //     $formAddMediasTrick = $this->createForm(AddMediasTrickType::class);
+    //     $formAddMediasTrick->handleRequest($request); 
 
-        if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
+    //     if($formAddMediasTrick->isSubmitted() && $formAddMediasTrick->isValid()) {
 
-            $updateTrick = $formAddMediasTrick->getData();
-            $imagesCollection = $updateTrick->getIllustrations();
-            $videosCollection = $updateTrick->getVideos();
+    //         $updateTrick = $formAddMediasTrick->getData();
+    //         $imagesCollection = $updateTrick->getIllustrations();
+    //         $videosCollection = $updateTrick->getVideos();
 
-            if ($imagesCollection) { 
+    //         if ($imagesCollection) { 
 
-                foreach( $imagesCollection as $objectIllustration ) {
+    //             foreach( $imagesCollection as $objectIllustration ) {
 
-                    $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
-                    $originalFilename = pathinfo($image, PATHINFO_FILENAME);
-                    $safeFilename = $this->slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-                    $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
+    //                 $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
+    //                 $originalFilename = pathinfo($image, PATHINFO_FILENAME);
+    //                 $safeFilename = $this->slugger->slug($originalFilename);
+    //                 $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+    //                 $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
 
-                    try {
-                        $objectIllustration->getFileIllustration()->move(
-                            $this->getParameter('illustrationsCollection_directory'),
-                            $newFilename
-                        );
+    //                 try {
+    //                     $objectIllustration->getFileIllustration()->move(
+    //                         $this->getParameter('illustrationsCollection_directory'),
+    //                         $newFilename
+    //                     );
 
-                        $objectIllustration->setUrlIllustration($newFilename);
-                        $objectIllustration->setAlternativeAttribute($alternativeAttribute);
-                        $objectIllustration->setFigure($currentfigure);
-                        $this->entityManager->persist($objectIllustration);
-                        $currentfigure->addIllustration($objectIllustration);
+    //                     $objectIllustration->setUrlIllustration($newFilename);
+    //                     $objectIllustration->setAlternativeAttribute($alternativeAttribute);
+    //                     $objectIllustration->setFigure($currentfigure);
+    //                     $this->entityManager->persist($objectIllustration);
+    //                     $currentfigure->addIllustration($objectIllustration);
 
-                    } catch (FileException $e) {
-                        dump($e);
-                    }
-                }
-            }
+    //                 } catch (FileException $e) {
+    //                     dump($e);
+    //                 }
+    //             }
+    //         }
 
-            if ($videosCollection) {
-                foreach( $videosCollection as $objectVideo ) {
-                    $urlVideo = $objectVideo->getUrlVideo();
-                    if ( stristr($urlVideo,"embed") ) {
+    //         if ($videosCollection) {
+    //             foreach( $videosCollection as $objectVideo ) {
+    //                 $urlVideo = $objectVideo->getUrlVideo();
+    //                 if ( stristr($urlVideo,"embed") ) {
 
-                        try {
+    //                     try {
 
-                            $attrSrc = stristr($urlVideo, 'embed/');
-                            $codeYoutube = substr($attrSrc, 6, 11);
-                            $objectVideo->setUrlVideo($codeYoutube);
-                            $objectVideo->setFigure($currentfigure);
-                            $this->entityManager->persist($objectVideo);
-                            $currentfigure->addVideo($objectVideo);
+    //                         $attrSrc = stristr($urlVideo, 'embed/');
+    //                         $codeYoutube = substr($attrSrc, 6, 11);
+    //                         $objectVideo->setUrlVideo($codeYoutube);
+    //                         $objectVideo->setFigure($currentfigure);
+    //                         $this->entityManager->persist($objectVideo);
+    //                         $currentfigure->addVideo($objectVideo);
 
-                        } catch (FileException $e) {
-                            dump($e);
-                        }
+    //                     } catch (FileException $e) {
+    //                         dump($e);
+    //                     }
 
 
-                    }else{
+    //                 }else{
 
-                        try {
-                            $codeYoutube = substr($urlVideo, -11);
-                            $objectVideo->setUrlVideo($codeYoutube);
-                            $objectVideo->setFigure($currentfigure);
-                            $this->entityManager->persist($objectVideo);
-                            $currentfigure->addVideo($objectVideo);    
+    //                     try {
+    //                         $codeYoutube = substr($urlVideo, -11);
+    //                         $objectVideo->setUrlVideo($codeYoutube);
+    //                         $objectVideo->setFigure($currentfigure);
+    //                         $this->entityManager->persist($objectVideo);
+    //                         $currentfigure->addVideo($objectVideo);    
 
-                            } catch (FileException $e) {
-                                dump($e);
-                            }
-                        }
-                    }
-                }
+    //                         } catch (FileException $e) {
+    //                             dump($e);
+    //                         }
+    //                     }
+    //                 }
+    //             }
 
-                $this->entityManager->persist($currentfigure);
-                $this->entityManager->flush();
-                return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
+    //             $this->entityManager->persist($currentfigure);
+    //             $this->entityManager->flush();
+    //             return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
 
-        }    
+    //     }    
 
-        return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $codeYoutube]);
-    }
+    //     return $this->render('core/figures/trickAddMedia.html.twig', ['formAddMediasTrick' => $formAddMediasTrick->createView(),'currentfigure' => $currentfigure, 'codeYoutube' => $codeYoutube]);
+    // }
+
+
 
     /**
      * Updating a media of a trick
@@ -800,45 +807,32 @@ class FigureController extends AbstractController
                     $objectVideo = $formEditMediasTrick->getData();
                     $urlVideo = $objectVideo->getUrlVideo();
 
-                    if ( stristr($urlVideo,"embed") ) {
-
                         try {
 
-                            $attrSrc = stristr($urlVideo, 'embed/'); 
-                            $codeYoutube = substr($attrSrc, 6, 11);
+                            if ( stristr($urlVideo,"embed") ) {
+
+                                $attrSrc = stristr($urlVideo, 'embed/'); 
+                                $codeYoutube = substr($attrSrc, 6, 11);
+
+                            }else{
+
+                                $codeYoutube = substr($urlVideo, -11);
+
+                            }
+
                             $currentVideo->setUrlVideo($codeYoutube);
                             $currentVideo->setFigure($currentfigure);
                             $currentVideo->setEmbed(true);
                             $this->entityManager->persist($currentVideo);
                             $this->entityManager->flush($currentVideo);
-
-                            $currentfigure->addVideo($currentVideo);   
-                            $this->entityManager->persist($currentfigure);
-                            $this->entityManager->flush($currentfigure);
-
-                        } catch (FileException $e) {
-                            dump($e);
-                        }
-
-                    }else{
-
-                        try {
-
-                            $codeYoutube = substr($urlVideo, -11);
-                            $currentVideo->setUrlVideo($codeYoutube);
-                            $currentVideo->setFigure($currentfigure);
-                            $currentVideo->setEmbed(true);
-                            $this->entityManager->persist($currentVideo);
-                            $this->entityManager->flush($currentVideo);
-
                             $currentfigure->addVideo($currentVideo);
                             $this->entityManager->persist($currentfigure);
                             $this->entityManager->flush($currentfigure);
 
-                            }catch (FileException $e) {
-                                dump($e);
-                            }
-                    }
+
+                        } catch (FileException $e) {
+                            dump($e);
+                        }
 
                     return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);    
 
@@ -893,7 +887,7 @@ class FigureController extends AbstractController
     }
 
     /**
-     * trick delete video
+     * trick delete cover image
      * 
      * @Route("/tricks/{slug}/edit/deleteCoverImage", name="trickDeleteCoverImage")
      */
