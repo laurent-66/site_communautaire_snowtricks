@@ -208,7 +208,7 @@ class Illustration
     /**
      * @param srting
      */
-    public function setAlternativeAttribute(string $alternativeAttribute): void
+    public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute; 
     }

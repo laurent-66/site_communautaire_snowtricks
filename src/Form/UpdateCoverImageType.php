@@ -27,7 +27,7 @@ class UpdateCoverImageType extends AbstractType
         ])
         ->add( 'alternativeAttribute', TextType::class , [
 
-            'label'=> 'Entrez le nom de l\'image',
+            'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
             'required' => false
         ])
         ;
