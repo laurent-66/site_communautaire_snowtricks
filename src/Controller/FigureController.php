@@ -376,7 +376,6 @@ class FigureController extends AbstractController
 
         $nameTrick = $figure->getName();
         $coverTrick = $figure->getCoverImage();
-        $altAttr = $figure->getAlternativeAttribute();
         $descriptionTrick = $figure->getDescription();
         $nameSlugTrick = $this->slugger->slug($nameTrick);
         $figureGroupTrick = $figure->getFigureGroup();
@@ -386,7 +385,6 @@ class FigureController extends AbstractController
         $partialFigure->setName($nameTrick);
         $partialFigure->setSlug($nameSlugTrick);
         $partialFigure->setCoverImage($coverTrick);
-        $partialFigure->setAlternativeAttribute($altAttr);
         $partialFigure->setDescription($descriptionTrick);
         $partialFigure->setFigureGroup($figureGroupTrick);
 
@@ -444,33 +442,41 @@ class FigureController extends AbstractController
                             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                             $safeFilename = $this->slugger->slug($originalFilename);
                             $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
-                            // dump($objectIllustration);
-                            // exit;
+
                             $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
-                            $alternativeAttribute === null ? '' :  $alternativeAttribute;
 
+                                try {
 
-                            try {
-                                $objectIllustration->getFileIllustration()->move(
-                                    $this->getParameter('illustrationsCollection_directory'),
-                                    $newFilename
-                                );
+                                    $objectIllustration->getFileIllustration()->move(
+                                        $this->getParameter('illustrationsCollection_directory'),
+                                        $newFilename
+                                    );
 
-                                $objectIllustration->setUrlIllustration($newFilename);
-                                $objectIllustration->setAlternativeAttribute($alternativeAttribute);
-                                $objectIllustration->setFigure($figure);
-                                $objectIllustration->setFixture(0);
-                                $this->entityManager->persist($objectIllustration);
-                                //test
+                                    $objectIllustration->setUrlIllustration($newFilename);
+                                    $objectIllustration->setFigure($figure);
+                                    $objectIllustration->setFixture(0);
+
+                                    if( $alternativeAttribute !== null) {
+
+                                        $objectIllustration->setAlternativeAttribute($alternativeAttribute);
+  
+                                    } else {
+
+                                        $objectIllustration->setAlternativeAttribute($originalFilename);
+  
+                                    }
+
+                                    $this->entityManager->persist($objectIllustration);
+
+                                } catch (FileException $e) {
+                                    dump($e);
+                                    exit; 
+                                }
+
                                 $figure->addIllustration($objectIllustration);
 
                                 array_push($arrayObjectIllustration, $objectIllustration);
-        
-                            } catch (FileException $e) {
-                                dump($e);
-                                exit;
-                            }
-                          
+
                         }
 
                     }
@@ -483,44 +489,36 @@ class FigureController extends AbstractController
         
                             $urlVideo = $objectVideo->getUrlVideo();
         
-                            if ( stristr($urlVideo,"embed") ) {
-        
+
                                 try {
-        
-                                    $attrSrc = stristr($urlVideo, 'embed/');
-                                    $codeYoutube = substr($attrSrc, 6, 11);
+
+                                    if ( stristr($urlVideo,"embed") ) {
+
+                                        $attrSrc = stristr($urlVideo, 'embed/');
+                                        $codeYoutube = substr($attrSrc, 6, 11);
+
+                                    }else{
+
+                                        $codeYoutube = substr($urlVideo, -11);
+
+                                    }
+
+
                                     $objectVideo->setUrlVideo($codeYoutube);
                                     $objectVideo->setFigure($figure);
                                     $this->entityManager->persist($objectVideo);
                                     $figure->addVideo($objectVideo);
                                     array_push($arrayObjectVideo, $objectVideo);
-        
+
                                 } catch (FileException $e) {
                                     dump($e);
                                     exit;
                                 }
-        
-        
-                            }else{
-        
-                                try {
-        
-                                    $codeYoutube = substr($urlVideo, -11);
-                                    $objectVideo->setUrlVideo($codeYoutube);
-                                    $objectVideo->setFigure($figure);
-                                    $this->entityManager->persist($objectVideo);
-                                    $figure->addVideo($objectVideo);
-                                    array_push($arrayObjectVideo, $objectVideo);
-
-                                    }catch (FileException $e) {
-                                        dump($e);
-                                        exit;
-                                    }
-                            }
                         }
                     }
 
-          
+                $arrayMedias = array_merge( $arrayObjectIllustration, $arrayObjectVideo);
+
 
                 $fixtureDefinition = $figure->getFixture();
 
@@ -536,10 +534,11 @@ class FigureController extends AbstractController
 
 
             }catch(Exception $e){
-        
                 dump($e);
                 exit; 
             }
+
+
 
             $newSlug = $figure->getSlug();
 
@@ -563,7 +562,7 @@ class FigureController extends AbstractController
     ){
 
         $figure = $this->figureRepository->findOneBySlug($slug);
-        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class, $figure);
+        $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class); 
         $formUpdateCoverImage->handleRequest($request);
     
         if($formUpdateCoverImage->isSubmitted() && $formUpdateCoverImage->isValid()) {
