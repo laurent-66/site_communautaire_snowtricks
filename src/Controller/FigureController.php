@@ -476,6 +476,7 @@ class FigureController extends AbstractController
                                 $figure->addIllustration($objectIllustration);
 
                                 array_push($arrayObjectIllustration, $objectIllustration);
+
                         }
 
                     }
@@ -488,6 +489,7 @@ class FigureController extends AbstractController
         
                             $urlVideo = $objectVideo->getUrlVideo();
         
+
                                 try {
 
                                     if ( stristr($urlVideo,"embed") ) {
@@ -501,22 +503,22 @@ class FigureController extends AbstractController
 
                                     }
 
+
                                     $objectVideo->setUrlVideo($codeYoutube);
                                     $objectVideo->setFigure($figure);
                                     $this->entityManager->persist($objectVideo);
                                     $figure->addVideo($objectVideo);
                                     array_push($arrayObjectVideo, $objectVideo);
 
-
                                 } catch (FileException $e) {
                                     dump($e);
                                     exit;
                                 }
-        
                         }
                     }
 
                 $arrayMedias = array_merge( $arrayObjectIllustration, $arrayObjectVideo);
+
 
                 $fixtureDefinition = $figure->getFixture();
 
