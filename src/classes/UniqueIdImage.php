@@ -1,18 +1,35 @@
 <?php 
 
-use Slugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class UniqueIdImage {
 
-    public static function generateUniqIdFileName($coverImage) {
 
-        $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
+    public static function uniqIdCoverImage($coverImage, $originalFilename, SluggerInterface $slugger ) {
 
-        $safeFilename = Slugger::generateSlug($originalFilename);
-
+        $safeFilename = $slugger->slug($originalFilename);
         $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImage->guessExtension();
 
         return $newFilename;
     } 
+
+
+    public static function uniqIdIllustration($illustration, $originalFilename, SluggerInterface $slugger ) {
+
+        $safeFilename = $slugger->slug($originalFilename);
+        $newFilename = $safeFilename.'-'.uniqid().'.'.$illustration->getFileIllustration()->guessExtension();
+
+        return $newFilename;
+    } 
+
+
+
+
+
+
+
+
+
+
 
 }

@@ -3,14 +3,22 @@
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
+
 class RegisterFileUploaded extends AbstractController
 {
 
-    public static function registerFile($coverImage, $newFilename) {
+    public function __construct()
+    {
         
+    }
+    
+    public function registerFile($coverImage, $newFilename) {
+
+        $fileobject = new RegisterFileUploaded ;
+
         try {
             $coverImage->move(
-                AbstractController::getParameter('images_directory'),
+                $this->getParameter('images_directory'),
                 $newFilename
             );
 
