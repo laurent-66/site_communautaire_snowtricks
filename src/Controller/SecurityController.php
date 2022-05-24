@@ -121,19 +121,21 @@ class SecurityController extends AbstractController
      * 
      * @Route("/account/login", name="login")
      */
-     function loginold(AuthenticationUtils $authenticationUtils): Response
-    {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+    //  function loginold(AuthenticationUtils $authenticationUtils): Response
+    // {
+    //     // get the login error if there is one
+    //     $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+    //     // last username entered by the user
+    //     $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('core/auth/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ]);
-    }
+    //     return $this->render('core/auth/login.html.twig', [
+    //         'last_username' => $lastUsername,
+    //         'error'         => $error,
+    //     ]);
+    // }
+
+    
 
     /**
      * form password forget: request mail + Generation of the link url of connection + sending message by mail

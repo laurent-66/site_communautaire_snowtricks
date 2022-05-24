@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use Youtube;
 use Exception;
+use UniqueIdImage;
 use VideosProperties;
 use App\Entity\Figure;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use RegisterFileUploaded;
 use App\Form\NewTrickType;
 use App\Form\EditTrickType;
 use IllustrationsProperties;
@@ -42,7 +44,8 @@ class FigureController extends AbstractController
         CommentRepository $commentRepository,
         IllustrationRepository $illustrationRepository,
         VideoRepository $videoRepository,
-        FigureGroupRepository $figureGroupRepository  
+        FigureGroupRepository $figureGroupRepository
+
     )
     {
 
@@ -83,23 +86,26 @@ class FigureController extends AbstractController
             if ($coverImage) { 
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
 
-                $safeFilename = $this->slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImage->guessExtension();
+                // $safeFilename = $this->slugger->slug($originalFilename);
+                // $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImage->guessExtension(); 
 
 
-                // $newFilename = UniqueIdImage::generateUniqIdFileName($coverImage);
+                $newFilename = UniqueIdImage::generateUniqIdFileName($coverImage, $this->slugger);
 
-                try {
-                    $coverImage->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
 
-                } catch (FileException $e) {
-                    dump($e);
-                }
+                // try {
+                //     $coverImage->move(
+                //         $this->getParameter('images_directory'),
+                //         $newFilename
+                //     );
 
-                // RegisterFileUploaded::registerFile($coverImage,$newFilename);
+                // } catch (FileException $e) {
+                //     dump($e);
+                // }
+
+                $imagesDirectory = $this->getParameter('images_directory');
+
+                RegisterFileUploaded::registerFile($coverImage, $newFilename, $imagesDirectory);
 
                 $newTrick->setCoverImage($newFilename);
 
@@ -126,8 +132,26 @@ class FigureController extends AbstractController
 
                     $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
 
-                    $safeFilename = $this->slugger->slug($originalFilename);
-                    $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+                    //To optimize
+
+                    // $safeFilename = $this->slugger->slug($originalFilename);
+                    // $newFilename = $safeFilename.'-'.uniqid().'.'.$image->guessExtension();
+                    ///
+
+                    $newFilename = UniqueIdImage::generateUniqIdFileName($image, $this->slugger);
+
+                    $objectIllustration->setUrlIllustration($newFilename);
+
+                    $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
+
+                    if ($altAttrIllustration) {
+                        $objectIllustration->setAlternativeAttribute($altAttrIllustration);
+                    } else {
+                        $objectIllustration->setAlternativeAttribute($originalFilename);
+                    }
+
+
+
 
                     try {
                         $objectIllustration->getFileIllustration()->move(
@@ -327,9 +351,10 @@ class FigureController extends AbstractController
                 if ($coverImageFile) { 
                     $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
 
-
+                    // to do optimize
                     $safeFilename = $this->slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'-'.uniqid().'.'.$coverImageFile->guessExtension();
+                    ///
 
                     try {
                         $coverImageFile->move(
@@ -360,8 +385,11 @@ class FigureController extends AbstractController
         
                             $image = $objectIllustration->getFileIllustration();
                             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+
+                            //To do optimize
                             $safeFilename = $this->slugger->slug($originalFilename);
                             $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+                            ///
 
                             $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
 
