@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Controller;
+use UniqueIdImage;
 use App\Entity\User;
+use DeleteImageStored;
+use RegisterFileUploaded;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\UpdateProfilType;
@@ -276,39 +279,33 @@ class SecurityController extends AbstractController
                 $extensionFile = $objectUploadedFile->guessExtension();
 
                 $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$extensionFile;
+                $newFilename = UniqueIdImage::generateUniqIdFileName($objectUploadedFile, $slugger);
 
                 try {
-  
+                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
+
                     if ( $urlPhotoUser !== "defaultProfil.jpg") {
 
-                        $pathUrlPhoto = $this->getParameter('images_profil_directory');
-                        $filePath = $pathUrlPhoto."\\".$urlPhotoUser; 
-                        unlink($filePath);
+                        DeleteImageStored::deleteImage($urlPhotoUser, $pathUrlPhoto);
+            
+                        RegisterFileUploaded::registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
 
-                        $objectUploadedFile->move(
-                            $this->getParameter('images_profil_directory'),
-                            $newFilename
-                        );
 
                     } else if ($urlPhotoUser === "defaultProfil.jpg") {
 
-                        $objectUploadedFile->move(
-                            $this->getParameter('images_profil_directory'),
-                            $newFilename
-                        );
+                        RegisterFileUploaded::registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
 
                     }
-
-                    $updateUser->setUrlPhoto($newFilename);
-                    $updateUser->setAlternativeAttribute($updateAttributeUser);
-                    $this->entityManager->persist($updateUser);
 
                 } catch (FileException $e) {
                     dump($e);
        
                 }  
+
+                $updateUser->setUrlPhoto($newFilename);
+                $updateUser->setAlternativeAttribute($updateAttributeUser);
+                $this->entityManager->persist($updateUser);
+
 
             } else {
 
