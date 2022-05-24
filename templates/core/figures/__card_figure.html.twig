@@ -1,13 +1,16 @@
-<div class="col-sm-12 col-md-12 col-lg-3">
-
+<div class="container-card col-sm-12 col-md-12 col-lg-3">
 	<div class="card px-0 mx-0 bg-light rounded-3">
 	{% if figure.coverImage == "defaultCoverImage" %}
 		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
-			<img src="/images/coverImageDisabled.png" alt="Image de la figure par defaut" style="width:100%; display: block;">
+			<img src="/images/coverImageDisabled.png" alt="{{figure.alternativeAttribute}}" style="width:100%; display: block;">
+		</a>
+	{% elseif figure.fixture == 1 %}
+		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
+			<img src="{{figure.coverImage}}" alt="{{figure.alternativeAttribute}}" style="width:100%; display: block;">
 		</a>
 	{% else %}
 		<a href="{{ path('trickViewPage', {'slug': figure.slug} )}}" class="px-0 py-0">
-			<img src="uploads/coverImage/{{figure.coverImage}}" alt="Image de la figure" style="width:100%; display: block;">
+			<img src="uploads/coverImage/{{figure.coverImage}}" alt="{{figure.alternativeAttribute}}" style="width:100%; display: block;">
 		</a>
 	{% endif %}
 		<div class="card-body">
@@ -22,13 +25,13 @@
 						<a href="{{ path('trickEditPage', {'slug': figure.slug} ) }}" class="btn btn-info mr-2">
 							<i class="fas fa-edit"></i>
 						</a>
-						<a href="{{ path('trickDeletePage', {'slug': figure.slug} ) }}" class="btn btn-danger">
-							<i class="fas fa-trash-alt"></i>
-						</a>
+						<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#staticBackdrop">
+  							<i class="fas fa-trash-alt"></i>
+						</button>
+						{% include "core/modal/confirmDeleteElement.html.twig" %}
 					</div>
 				</div>	
 			{% endif %}
 		</div>
 	</div>
-
 </div>

@@ -2,19 +2,21 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %} 
-<div class="container-fluid mx-0 my-0 px-0 mx-0" id="register">
-    <div class="container-fluid container-body">
-        <div class="row">
-            <div class="col-sm-12 col-md-12 col-lg-12">
-                <div class="container card rounded shadow p-3 mb-5">
-                    <h2 class="text-center">Inscription</h2>
-                    {{form_start(form)}}
-                    {{form_widget(form)}}
-                    <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Valider</button>
-                    {{form_end(form)}}
+<div class="container-fluid container-body-auth" id="register">
+    <div class="container-body">
+        <div class="container-fluid">
+            <div class="row d-flex justify-content-center">
+                <div class="col-sm-12 col-md-12 col-lg-4">
+                    <div class="card rounded shadow p-3 mt-3 mb-5">
+                        <h2 class="text-center">Inscription</h2>
+                        {{form_start(form)}}
+                        {{form_widget(form)}}
+                        <button class="btn btn-lg btn-primary btn-block mb-3" type="submit">Créer un compte</button>
+                        {{form_end(form)}}
+                    </div>
                 </div>
-            </div>
-        </div>       
+            </div>       
+        </div>
     </div>
 </div>
 {% endblock %} 

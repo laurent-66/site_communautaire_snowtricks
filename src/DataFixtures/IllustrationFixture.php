@@ -11,26 +11,31 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 class IllustrationFixture extends Fixture implements DependentFixtureInterface
 {
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager) 
     {
         $faker = Factory::create('fr-FR');
-        // this reference returns the Figure object created in FigureFixture
-        $figure = $this->getReference(FigureFixture::FIG_REF);
 
-        // create 20 products! Bam!
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 10; $i++) {
 
-            // $urlIllustration = $faker->imageUrl(500, 250);
+            $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
+
             $illustration = new Illustration();
+
+            $figRandom = rand(0,9);
+
             $listPictures = file_get_contents('https://picsum.photos/v2/list');
             $urlIllustration = json_decode($listPictures, true)[$i]["download_url"];
-            $illustration->setUrlIllustration($urlIllustration);
-            $illustration->setFigure($figure);
 
+            $illustration->setUrlIllustration($urlIllustration);
+
+            $illustration->setFigure($this->getReference('fig-ref_'.$figRandom ));
+            $illustration->setAlternativeAttribute($alternativeAttribute);
+            $illustration->setFixture(1);
             $manager->persist($illustration);
+            $manager->flush();
+
         }
 
-        $manager->flush();
 
     }
 

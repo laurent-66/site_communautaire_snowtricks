@@ -47,24 +47,24 @@ class SecurityController extends AbstractController
   */
     public function register(Request $request)
     {
-        $user = new User();
-        $form = $this->createForm(RegistrationType::class, $user);
+
+        $form = $this->createForm(RegistrationType::class);
         $form->handleRequest($request);
-        $registerData = $form->getData();
-        $pseudoRegister = $registerData->getPseudo();
-        $emailRegister = $registerData->getEmail();
-        $passwordRegister = $registerData->getPassword();
-        $urlPhotoRegister = $registerData->getUrlPhoto();
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $newUser = $form->getData();
 
-            if(strlen(trim($urlPhotoRegister)) === 0 ) {
-                $user->setUrlPhoto('defaultProfil.jpg');
-            }
- 
-            $passwordHashed = $this->passwordHasher->hashPassword($user, $user->getPassword());
-            $user->setPassword($passwordHashed);
-            $this->entityManager->persist($user);
+            $pseudoRegister = $newUser->getPseudo();
+            $emailRegister = $newUser->getEmail();
+
+            $passwordHashed = $this->passwordHasher->hashPassword($newUser, $newUser->getPassword());
+            $newUser->setPassword($passwordHashed);
+            $newUser->setPseudo($pseudoRegister);
+            $newUser->setEmail($emailRegister);
+            $newUser->setUrlPhoto('defaultProfil.jpg');
+            $newUser->setAlternativeAttribute('Avatar par defaut');
+            $newUser->setFixture(0);
+            $this->entityManager->persist($newUser);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('homePage');
@@ -74,12 +74,54 @@ class SecurityController extends AbstractController
     } 
 
     /**
+     * Undocumented function
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return Response
+     * 
+     * @Route("/account/login", name="login")
+     */
+    public function login( Request $request, EntityManagerInterface $entityManager, AuthenticationUtils $authenticationUtils)
+    {
+        $this->entityManager = $entityManager;
+
+        $user = new User();
+        $formLogin = $this->createForm(LoginType::class, $user);
+        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
+        $formLogin->handleRequest($request);
+        $loginData = $formLogin->getData();
+        $emailLogin = $loginData->getEmail();
+        $passwordLogin = $loginData->getPassword();
+
+
+        if ($formLogin->isSubmitted() && $formLogin->isValid()) {
+
+            // get the login error if there is one
+            $error = $authenticationUtils->getLastAuthenticationError();
+
+            // last username entered by the user
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            return $this->render('core/auth/login.html.twig', [
+                'last_username' => $lastUsername,
+                'error'         => $error,
+            ]);
+
+        }
+        
+        return $this->render('core/auth/login.html.twig', ['formLogin' => $formLogin->createView()]);
+    } 
+
+
+    /**
      * 
      * @return Response
      * 
      * @Route("/account/login", name="login")
      */
-     function login(AuthenticationUtils $authenticationUtils): Response
+     function loginold(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -160,7 +202,6 @@ class SecurityController extends AbstractController
             'user' => $username,
             'hash' => $hash,
         ]);
-
     }
 
 
@@ -214,50 +255,95 @@ class SecurityController extends AbstractController
 
         $user = $this->getUser();
 
-        $form = $this->createForm(UpdateProfilType::class, $user);
+        $form = $this->createForm(UpdateProfilType::class, $user );
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
-            $profil = $form->getData();
+            $objectUploadedFile = $form->get('urlPhotoFile')->getData();
+            $updateUser = $form->getData();
+            $updatePseudoUser = $updateUser->getPseudo();
+            $updateEmailUser = $updateUser->getEmail();
+            $urlPhotoUser = $updateUser->getUrlPhoto();
+            $updateAttributeUser = $updateUser->getAlternativeAttribute();
 
-            $profilImage = $profil->getUrlPhoto();
+            if( $objectUploadedFile ) {
 
-            if ($profilImage !== "defaultProfil.jpg") {
+                $fileNameUpload = $objectUploadedFile->getClientOriginalName();
+                $extensionFile = $objectUploadedFile->guessExtension();
 
-                $originalFilename = pathinfo($profilImage->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$profilImage->guessExtension();
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$extensionFile;
 
                 try {
+  
+                    if ( $urlPhotoUser !== "defaultProfil.jpg") {
 
-                    $currentUrlPhoto = $user->getUrlPhoto();
-                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
-                    $filePath = $pathUrlPhoto."/".$currentUrlPhoto; 
-                    unlink($filePath);
+                        $pathUrlPhoto = $this->getParameter('images_profil_directory');
+                        $filePath = $pathUrlPhoto."\\".$urlPhotoUser; 
+                        unlink($filePath);
 
-                    $profilImage->move(
-                        $this->getParameter('images_profil_directory'),
-                        $newFilename
-                    );
+                        $objectUploadedFile->move(
+                            $this->getParameter('images_profil_directory'),
+                            $newFilename
+                        );
+
+                    } else if ($urlPhotoUser === "defaultProfil.jpg") {
+
+                        $objectUploadedFile->move(
+                            $this->getParameter('images_profil_directory'),
+                            $newFilename
+                        );
+
+                    }
+
+                    $updateUser->setUrlPhoto($newFilename);
+                    $updateUser->setAlternativeAttribute($updateAttributeUser);
+                    $this->entityManager->persist($updateUser);
 
                 } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+                    dump($e);
+       
+                }  
 
-                $profil->setUrlPhoto($newFilename);
+            } else {
+
+                $updateUser->setUrlPhoto('defaultProfil.jpg');
+                $updateUser->setAlternativeAttribute('Avatar par defaut');
+                $this->entityManager->persist($updateUser); 
 
             }
 
-            $this->entityManager->persist($user);
+            $updateUser->setPseudo($updatePseudoUser);
+            $updateUser->setEmail($updateEmailUser);
+
+            $this->entityManager->persist($updateUser);
             $this->entityManager->flush();
 
             return $this->redirectToRoute('homePage');
         }
 
-        return $this->render('core/auth/updateProfil.html.twig', ['form' => $form->createView(), 'user'=> $user]);
+        return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user'=> $user]);
     }
+
+
+    /**
+     * delete user
+     *
+     * @param Request $request
+     * @return void
+     * 
+     * @Route("/account/deleteProfile", name="deleteProfile")
+     */
+    // function deleteProfile(Request $request) {
+    //     $userCurrent = $this->getUser();
+    //     $this->entityManager->remove($userCurrent);
+    //     $this->entityManager->flush();
+    //     return $this->redirectToRoute('homePage');
+    // }
+
 }
 
 

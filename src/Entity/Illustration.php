@@ -3,6 +3,7 @@ namespace App\Entity;
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
@@ -32,9 +33,6 @@ class Illustration
     /**
      * @var string
      * 
-     * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide."
-     * )
      * 
      * @ORM\Column(type="string")
      */
@@ -49,7 +47,7 @@ class Illustration
     * )
     */
     protected $fileIllustration;
-
+ 
 
     /**
      * @var Datetime 
@@ -64,6 +62,13 @@ class Illustration
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
+
+    /**
+     * @var Boolean 
+     * 
+     * @ORM\column(type="boolean")
+     */
+    private $fixture;
 
     public function __construct()
     {
@@ -138,6 +143,28 @@ class Illustration
     }
 
     /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function getFixture()
+    {
+        return $this->fixture;
+    }
+
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $fixture
+     * @return void
+     */
+    public function setFixture($fixture): void
+    {
+        $this->fixture = $fixture;
+    }
+
+    /**
      * @return Figure 
      */
     public function getFigure()
@@ -154,9 +181,10 @@ class Illustration
     }
 
     /**
-     * @return 
+     * 
+     * @return UploadedFile|null
      */
-    public function getFileIllustration()
+    public function getFileIllustration(): ?UploadedFile
     {
         return $this->fileIllustration;
     }
@@ -170,19 +198,19 @@ class Illustration
     }
 
     /**
-     * @return 
+     * @return string
      */
-    public function getAlternativeAttribute()
+    public function getAlternativeAttribute(): ?string
     {
         return $this->alternativeAttribute;
     }
 
     /**
-     * @param 
+     * @param srting
      */
-    public function setAlternativeAttribute($alternativeAttribute): void
+    public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
-        $this->alternativeAttribute = $alternativeAttribute;
+        $this->alternativeAttribute = $alternativeAttribute; 
     }
 
 

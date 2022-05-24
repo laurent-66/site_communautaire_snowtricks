@@ -8,10 +8,8 @@
                 <div class="container card rounded shadow p-4 my-5 d-flex flex-column">
                     <h2 class="text-center mt-3">Mon profil</h2>
                     <div class="container-picture-profil mt-3">
-                        {% if user.urlPhoto == null %}
-                            <div><img src="/images/defaultProfil.jpg" alt="defaultProfil" class="rounded-circle d-block"></div>
-                        {% elseif user.urlPhoto == "defaultProfil.jpg" %}    
-                            <div><img src="/images/defaultProfil.jpg" alt="defaultProfil" class="rounded-circle d-block"></div>
+                        {% if user.urlPhoto == "defaultProfil.jpg" %}
+                            <div><img src="/images/default/defaultProfil.jpg" alt="defaultProfil" class="rounded-circle d-block"></div>
                         {% else %}
                             <div><img src="/uploads/profilImage/{{user.urlphoto}}" alt="photo avatar utilisateur" class="rounded-circle d-block"></div>
                         {% endif %}    
@@ -19,14 +17,13 @@
                     {{form_start(form)}}
                     {{form_row(form.pseudo)}}
                     {{form_row(form.email)}}
-                    {{form_row(form.url_photo)}}
+                    {{form_row(form.urlPhotoFile)}}
+                    {{form_row(form.alternativeAttribute)}}
                     {{form_row(form.save)}}
                     {{form_end(form)}}
-                    <p>Vous souhaitez supprimer votre profil ? Veuillez cliquer sur supprimer. Attention cette opération est irréversible ! </p>
-                    <a class="btn btn-lg btn-danger d-block my-4 mx-auto" href="#">Supprimer</a>
                 </div>
             </div>
         </div>       
     </div>
 </div>
-{% endblock %} 
+{% endblock %}   
