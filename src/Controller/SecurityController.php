@@ -180,6 +180,8 @@ class SecurityController extends AbstractController
         return $this->render('core/security/login_link.html.twig');
     }
 
+
+
     /**
     * 
     * Connection link authenticator
