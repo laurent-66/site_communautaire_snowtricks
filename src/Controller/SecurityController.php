@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Controller;
+use UniqueIdImage;
 use App\Entity\User;
+use DeleteImageStored;
+use App\Form\LoginType;
+use RegisterFileUploaded;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\UpdateProfilType;
@@ -73,47 +77,6 @@ class SecurityController extends AbstractController
         return $this->render('core/auth/register.html.twig', ['form' => $form->createView()]);
     } 
 
-    /**
-     * Undocumented function
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordHasherInterface $passwordHasher
-     * @return Response
-     * 
-     * @Route("/account/login", name="login")
-     */
-    public function login( Request $request, EntityManagerInterface $entityManager, AuthenticationUtils $authenticationUtils)
-    {
-        $this->entityManager = $entityManager;
-
-        $user = new User();
-        $formLogin = $this->createForm(LoginType::class, $user);
-        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
-        $formLogin->handleRequest($request);
-        $loginData = $formLogin->getData();
-        $emailLogin = $loginData->getEmail();
-        $passwordLogin = $loginData->getPassword();
-
-
-        if ($formLogin->isSubmitted() && $formLogin->isValid()) {
-
-            // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
-
-            // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
-
-            return $this->render('core/auth/login.html.twig', [
-                'last_username' => $lastUsername,
-                'error'         => $error,
-            ]);
-
-        }
-        
-        return $this->render('core/auth/login.html.twig', ['formLogin' => $formLogin->createView()]);
-    } 
-
 
     /**
      * 
@@ -121,7 +84,7 @@ class SecurityController extends AbstractController
      * 
      * @Route("/account/login", name="login")
      */
-     function loginold(AuthenticationUtils $authenticationUtils): Response
+     function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -133,7 +96,11 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error'         => $error,
         ]);
+
+        return $this->render('core/auth/login.html.twig');
     }
+
+    
 
     /**
      * form password forget: request mail + Generation of the link url of connection + sending message by mail
@@ -274,39 +241,33 @@ class SecurityController extends AbstractController
                 $extensionFile = $objectUploadedFile->guessExtension();
 
                 $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$extensionFile;
+                $newFilename = UniqueIdImage::generateUniqIdFileName($objectUploadedFile, $slugger);
 
                 try {
-  
+                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
+
                     if ( $urlPhotoUser !== "defaultProfil.jpg") {
 
-                        $pathUrlPhoto = $this->getParameter('images_profil_directory');
-                        $filePath = $pathUrlPhoto."\\".$urlPhotoUser; 
-                        unlink($filePath);
+                        DeleteImageStored::deleteImage($urlPhotoUser, $pathUrlPhoto);
+            
+                        RegisterFileUploaded::registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
 
-                        $objectUploadedFile->move(
-                            $this->getParameter('images_profil_directory'),
-                            $newFilename
-                        );
 
                     } else if ($urlPhotoUser === "defaultProfil.jpg") {
 
-                        $objectUploadedFile->move(
-                            $this->getParameter('images_profil_directory'),
-                            $newFilename
-                        );
+                        RegisterFileUploaded::registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
 
                     }
-
-                    $updateUser->setUrlPhoto($newFilename);
-                    $updateUser->setAlternativeAttribute($updateAttributeUser);
-                    $this->entityManager->persist($updateUser);
 
                 } catch (FileException $e) {
                     dump($e);
        
                 }  
+
+                $updateUser->setUrlPhoto($newFilename);
+                $updateUser->setAlternativeAttribute($updateAttributeUser);
+                $this->entityManager->persist($updateUser);
+
 
             } else {
 
