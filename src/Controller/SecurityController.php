@@ -4,6 +4,7 @@ namespace App\Controller;
 use UniqueIdImage;
 use App\Entity\User;
 use DeleteImageStored;
+use App\Form\LoginType;
 use RegisterFileUploaded;
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
@@ -76,67 +77,28 @@ class SecurityController extends AbstractController
         return $this->render('core/auth/register.html.twig', ['form' => $form->createView()]);
     } 
 
+
     /**
-     * Undocumented function
-     *
-     * @param Request $request
-     * @param EntityManagerInterface $entityManager
-     * @param UserPasswordHasherInterface $passwordHasher
+     * 
      * @return Response
      * 
      * @Route("/account/login", name="login")
      */
-    public function login( Request $request, EntityManagerInterface $entityManager, AuthenticationUtils $authenticationUtils)
+     function login(AuthenticationUtils $authenticationUtils): Response
     {
-        $this->entityManager = $entityManager;
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        $user = new User();
-        $formLogin = $this->createForm(LoginType::class, $user);
-        //renseigne l'instance $user des informations entrée dans le formulaire et envoyé dans la requête
-        $formLogin->handleRequest($request);
-        $loginData = $formLogin->getData();
-        $emailLogin = $loginData->getEmail();
-        $passwordLogin = $loginData->getPassword();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
+        return $this->render('core/auth/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ]);
 
-        if ($formLogin->isSubmitted() && $formLogin->isValid()) {
-
-            // get the login error if there is one
-            $error = $authenticationUtils->getLastAuthenticationError();
-
-            // last username entered by the user
-            $lastUsername = $authenticationUtils->getLastUsername();
-
-            return $this->render('core/auth/login.html.twig', [
-                'last_username' => $lastUsername,
-                'error'         => $error,
-            ]);
-
-        }
-        
-        return $this->render('core/auth/login.html.twig', ['formLogin' => $formLogin->createView()]);
-    } 
-
-
-    /**
-     * 
-     * @return Response
-     * 
-     * @Route("/account/login", name="login")
-     */
-    //  function loginold(AuthenticationUtils $authenticationUtils): Response
-    // {
-    //     // get the login error if there is one
-    //     $error = $authenticationUtils->getLastAuthenticationError();
-
-    //     // last username entered by the user
-    //     $lastUsername = $authenticationUtils->getLastUsername();
-
-    //     return $this->render('core/auth/login.html.twig', [
-    //         'last_username' => $lastUsername,
-    //         'error'         => $error,
-    //     ]);
-    // }
+        return $this->render('core/auth/login.html.twig');
+    }
 
     
 
