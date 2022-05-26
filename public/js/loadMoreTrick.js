@@ -9,7 +9,6 @@
     const totalPage = e.target.dataset.totalPage;
     const nextPage = e.target.dataset.nextPage;
     const urlToCallAjax = e.target.dataset.figureAjax;
-
     //Asynchrone response ajax
     const response = await fetch(`${urlToCallAjax}?page=${nextPage}`);
 
