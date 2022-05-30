@@ -336,6 +336,7 @@ class FigureController extends AbstractController
 
                 // }
 
+
                 if ($coverImageFile) { 
                     $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
 
@@ -371,6 +372,7 @@ class FigureController extends AbstractController
                             $fileIllustration = $objectIllustration->getFileIllustration();
                             $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
 
+
                             $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
 
 
@@ -383,6 +385,7 @@ class FigureController extends AbstractController
                                 $figure->addIllustration($objectIllustration);
 
                                 array_push($arrayObjectIllustration, $objectIllustration);
+
                         }
 
                     }
@@ -395,6 +398,7 @@ class FigureController extends AbstractController
         
                             $urlVideo = $objectVideo->getUrlVideo();
         
+
 
                                 try {
 
