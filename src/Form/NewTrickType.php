@@ -63,7 +63,7 @@ class NewTrickType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
-            'validation_groups' => ['createFigure','base']
+            'validation_groups' => ['base','createFigure']
         ]);
     }
 }
