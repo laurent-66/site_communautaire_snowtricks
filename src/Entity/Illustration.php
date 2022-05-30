@@ -40,6 +40,8 @@ class Illustration
 
 
     /**
+    * 
+    * @var UploadedFile
     * @Assert\Image(
     *     maxSize = "1024k",
     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
