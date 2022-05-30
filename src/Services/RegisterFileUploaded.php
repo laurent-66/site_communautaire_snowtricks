@@ -1,15 +1,23 @@
 <?php 
 
+namespace App\Services;
+
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
+
 
 class RegisterFileUploaded 
 {
 
-    public static function registerFile($coverImage, $newFilename, $abstractController) {
+    public function __construct()
+    {
+        
+    }
+    public function registerFile($imageUploaded, string $newFilename, string $imagesDirectory) {
         
         try {
-            $coverImage->move(
-                $abstractController,
+            $imageUploaded->move(
+                $imagesDirectory,
                 $newFilename
             );
 
@@ -19,4 +27,4 @@ class RegisterFileUploaded
 
     } 
 
-}
+} 

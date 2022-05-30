@@ -1,5 +1,7 @@
 <?php 
 
+namespace App\Services;
+
 // This class allows to recognize the type of Youtube url and to select only its identification code
 
 class Youtube

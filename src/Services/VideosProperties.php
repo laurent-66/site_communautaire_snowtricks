@@ -1,5 +1,7 @@
 <?php 
 
+namespace App\Services;
+
 // Generates filter properties for each video in the table 
 
 class VideosProperties

@@ -116,14 +116,11 @@
                     </div>
                 </div>
                 <div class="container">
-                    {% if error %}
-                        <div class="row alert alert-danger mx-0 px-0 py-0 border-0" role="alert">
-                            {{ messageError }}
-                        </div>
-                    {% endif %}
-
                     {{form_start(formEditTrick)}}
                         {{form_row(formEditTrick.name)}}
+                        {% if error %}
+                            <div class="error-message">{{ messageError }}</div>
+                        {% endif %}
                         {{form_row(formEditTrick.coverImageFile)}}
                         {{form_row(formEditTrick.alternativeAttribute)}}
                         {{form_row(formEditTrick.description)}}
