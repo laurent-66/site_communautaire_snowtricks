@@ -22,7 +22,7 @@ class EditTrickType extends AbstractType
         $builder
             ->add('name', TextType::class,[
                 'label'=>'Modifier le nom de la figure',
-                'required' => false
+                'required' => false,
             ])
 
             ->add('coverImageFile', FileType::class, [ 

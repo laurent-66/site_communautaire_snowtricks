@@ -120,6 +120,12 @@
         overflow-y:scroll;
     }
 
+    .error-message {
+        color: red;
+        font-weight: bold;
+        margin-top: -15px;
+    }
+
 }
 
 
@@ -167,6 +173,22 @@
         font-size: 3rem;
     }
 
+    .dropdown-menu {
+        display:block;
+        width: 350px;
+        margin-left: -55px;
+        padding:0px;
+
+    }
+
+    .dropdown-menu li {
+        list-style: none;
+        background-color: #5A6268;
+        text-align: center;
+        font-size: 1.5rem;
+        padding: 10px 0px;
+
+    }
 
     .imageHeroSmartphone
     {

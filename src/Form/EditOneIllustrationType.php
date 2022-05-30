@@ -15,7 +15,7 @@ class EditOneIllustrationType extends AbstractType
     {
         $builder
 
-            ->add('urlIllustration', FileType::class, [
+            ->add('fileIllustration', FileType::class, [
 
                 'label' => 'Sélectionner la nouvelle image (jpeg,jpg ou png)',
     
@@ -25,10 +25,11 @@ class EditOneIllustrationType extends AbstractType
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
                 'required' => false,
-            ])
+            ]) 
+
             ->add( 'alternativeAttribute', TextType::class , [
 
-                'label'=> 'Entrez le nom de l\'image',
+                'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
                 'required' => false
             ]
             )

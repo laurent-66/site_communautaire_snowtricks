@@ -1,5 +1,7 @@
 <?php 
 
+namespace App\Services;
+
 // Generates filtering properties for each illustration in the table 
 
 class IllustrationsProperties
