@@ -354,6 +354,7 @@ class FigureController extends AbstractController
         
                             $image = $objectIllustration->getFileIllustration();
                             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+<<<<<<< HEAD
 
                             $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
                             $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
@@ -363,6 +364,10 @@ class FigureController extends AbstractController
                             $objectIllustration->setUrlIllustration($newFilename);
                             $fileIllustration = $objectIllustration->getFileIllustration();
                             $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
+=======
+                            $safeFilename = $this->slugger->slug($originalFilename);
+                            $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+>>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
 
                             $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
 
@@ -376,6 +381,10 @@ class FigureController extends AbstractController
                                 $figure->addIllustration($objectIllustration);
 
                                 array_push($arrayObjectIllustration, $objectIllustration);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
                         }
 
                     }
@@ -388,10 +397,28 @@ class FigureController extends AbstractController
         
                             $urlVideo = $objectVideo->getUrlVideo();
         
+<<<<<<< HEAD
+=======
 
                                 try {
 
+                                    if ( stristr($urlVideo,"embed") ) {
+
+                                        $attrSrc = stristr($urlVideo, 'embed/');
+                                        $codeYoutube = substr($attrSrc, 6, 11);
+
+                                    }else{
+
+                                        $codeYoutube = substr($urlVideo, -11);
+>>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
+
+                                try {
+
+<<<<<<< HEAD
                                     $codeYoutube = Youtube::typeUrl($urlVideo);
+=======
+
+>>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
                                     $objectVideo->setUrlVideo($codeYoutube);
                                     $objectVideo->setFigure($figure);
                                     $this->entityManager->persist($objectVideo);
@@ -406,6 +433,10 @@ class FigureController extends AbstractController
                     }
 
                 $arrayMedias = array_merge( $arrayObjectIllustration, $arrayObjectVideo);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
 
                 $fixtureDefinition = $figure->getFixture();
 
