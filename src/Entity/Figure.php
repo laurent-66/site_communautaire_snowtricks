@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createFigure")
+ * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createFigure") 
  * 
  */
 class Figure 

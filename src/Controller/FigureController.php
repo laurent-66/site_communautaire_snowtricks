@@ -306,27 +306,35 @@ class FigureController extends AbstractController
         if($formEditTrick->isSubmitted() && $formEditTrick->isValid()) { 
 
             try{
-        
+                $nameTrick = $figure->getName();
                 $formTrick = $formEditTrick->getData();
-                $nameTrickField = $formTrick->getName();
-                $nameTrickSluger = $this->slugger->slug($nameTrickField);
+                $updateNameTrickField = $formTrick->getName();
+                $nameTrickSluger = $this->slugger->slug($updateNameTrickField);
                 $coverImageFile = $formTrick->getCoverImageFile();
                 $coverImageTrick = $formTrick->getCoverImage();
                 $alternativeAttribute = $formTrick->getAlternativeAttribute();
                 $descriptionfield = $formTrick->getDescription();
                 $figureGroupSelect = $formTrick->getFigureGroup();
  
-                $arrayListNameTricks = [];
-                $arrayTricks = $this->figureRepository->findAll();
-                foreach($arrayTricks as $trick) {
-                    array_push($arrayListNameTricks, $trick->getName());
-                }
+                // $arrayListNameTricks = [];
+                // $arrayTricks = $this->figureRepository->findAll();
+                // foreach($arrayTricks as $trick) {
+                //     array_push($arrayListNameTricks, $trick->getName());
+                // }
 
-                if(in_array($nameTrickField, $arrayListNameTricks)) {
-                    $messageError = 'Le nom de la figure est déjà existant';
+                // if(in_array($updateNameTrickField, $arrayListNameTricks)) {
+                //     $messageError = 'Le nom de la figure est déjà existant';
 
-                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => true ]);
-                }
+                //     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => true ]);
+                // } 
+                
+                // if ($nameTrick === $updateNameTrickField) {
+
+                //     $error = "error";
+                //     dump($error);
+                //     exit;
+
+                // }
 
 
                 if ($coverImageFile) { 
@@ -354,7 +362,6 @@ class FigureController extends AbstractController
         
                             $image = $objectIllustration->getFileIllustration();
                             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-<<<<<<< HEAD
 
                             $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
                             $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
@@ -364,10 +371,7 @@ class FigureController extends AbstractController
                             $objectIllustration->setUrlIllustration($newFilename);
                             $fileIllustration = $objectIllustration->getFileIllustration();
                             $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
-=======
-                            $safeFilename = $this->slugger->slug($originalFilename);
-                            $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
->>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
+
 
                             $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
 
@@ -381,10 +385,7 @@ class FigureController extends AbstractController
                                 $figure->addIllustration($objectIllustration);
 
                                 array_push($arrayObjectIllustration, $objectIllustration);
-<<<<<<< HEAD
-=======
 
->>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
                         }
 
                     }
@@ -397,28 +398,11 @@ class FigureController extends AbstractController
         
                             $urlVideo = $objectVideo->getUrlVideo();
         
-<<<<<<< HEAD
-=======
+
 
                                 try {
 
-                                    if ( stristr($urlVideo,"embed") ) {
-
-                                        $attrSrc = stristr($urlVideo, 'embed/');
-                                        $codeYoutube = substr($attrSrc, 6, 11);
-
-                                    }else{
-
-                                        $codeYoutube = substr($urlVideo, -11);
->>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
-
-                                try {
-
-<<<<<<< HEAD
                                     $codeYoutube = Youtube::typeUrl($urlVideo);
-=======
-
->>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
                                     $objectVideo->setUrlVideo($codeYoutube);
                                     $objectVideo->setFigure($figure);
                                     $this->entityManager->persist($objectVideo);
@@ -433,14 +417,11 @@ class FigureController extends AbstractController
                     }
 
                 $arrayMedias = array_merge( $arrayObjectIllustration, $arrayObjectVideo);
-<<<<<<< HEAD
-=======
-
->>>>>>> 0b46f9005ac4e70894cfe3cfce3e0e15d3707bba
 
                 $fixtureDefinition = $figure->getFixture();
 
-                $figure->setName($nameTrickField);
+                $figure->setName($updateNameTrickField);
+
                 $figure->setSlug($nameTrickSluger);
                 $figure->setDescription($descriptionfield);
                 $figure->setFigureGroup($figureGroupSelect);
@@ -460,6 +441,9 @@ class FigureController extends AbstractController
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
+
+
+
 
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
     }
