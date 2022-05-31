@@ -31,7 +31,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FigureController extends AbstractController
 {
@@ -317,26 +316,6 @@ class FigureController extends AbstractController
                 $descriptionfield = $formTrick->getDescription();
                 $figureGroupSelect = $formTrick->getFigureGroup();
  
-                // $arrayListNameTricks = [];
-                // $arrayTricks = $this->figureRepository->findAll();
-                // foreach($arrayTricks as $trick) {
-                //     array_push($arrayListNameTricks, $trick->getName());
-                // }
-
-                // if(in_array($updateNameTrickField, $arrayListNameTricks)) {
-                //     $messageError = 'Le nom de la figure est déjà existant';
-
-                //     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => true ]);
-                // } 
-                
-                // if ($nameTrick === $updateNameTrickField) {
-
-                //     $error = "error";
-                //     dump($error);
-                //     exit;
-
-                // }
-
 
                 if ($coverImageFile) { 
                     $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -456,11 +435,7 @@ class FigureController extends AbstractController
      * @Route("/tricks/{slug}/edit/updateCoverImage", name="trickUpdateCoverImage")
      */
 
-    public function trickUdapteCoverImage(
-
-        $slug,
-        Request $request
-    ){
+    public function trickUdapteCoverImage($slug, Request $request) {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
         $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class); 
@@ -563,23 +538,14 @@ class FigureController extends AbstractController
 
 
                 if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) { 
-                    // code à revoir //
+
                     $formData = $formEditMediasTrick->getData();
                     $illustration = $formData->getFileIllustration();
 
                     $originalFilename = pathinfo($illustration, PATHINFO_FILENAME);
-
-                    $objectIllustration = $formEditMediasTrick->getData();
-      
-                    // $imageUploaded =  $objectIllustration->getFileIllustration();
                     $imageUploaded  = $formEditMediasTrick->get('fileIllustration')->getData();
-
                     $originalFilename = pathinfo($imageUploaded->getClientOriginalName(), PATHINFO_FILENAME);
-
                     $newFilename = $this->uniqueIdImage->generateUniqIdFileName($imageUploaded); 
-
-                    $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
-
                     $illustrationsCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
 
                     $this->registerFileUploaded->registerFile($imageUploaded, $newFilename, $illustrationsCollectionDirectory);
