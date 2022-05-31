@@ -6,7 +6,6 @@ use Faker\Factory;
 use App\Entity\Comment;
 use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
-use App\DataFixtures\FigureGroupFixture;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 

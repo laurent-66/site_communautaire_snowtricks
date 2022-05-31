@@ -12,7 +12,6 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
 {
     public const FIG_REF = 'fig-ref_%s';
 
-
     private $slugger;
 
     public function __construct(SluggerInterface $slugger)
@@ -53,7 +52,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             [
                 'name'=>'Stalefish grab',
                 'description'=>'Description stalefish',
-                'Cover_image'=>'Tricks-Stalefish-Grab-620x393.jpg',
+                'Cover_image'=>'Stalefish-Grab.jpg',
                 'alternative_attribute'=>'stalefish-grab',
                 'figure_group'=> 6,
                 'pseudo_id'=> 2,
@@ -76,11 +75,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $figure->setDescription($dataSnowTrickCollection[$i]['description']);
             $figure->setCoverImage($dataSnowTrickCollection[$i]['Cover_image']);
             $figure->setAlternativeAttribute($dataSnowTrickCollection[$i]['alternative_attribute']);
-            
-            // $figure->setFigureGroup($dataSnowTrickCollection[$i]['figure_group']);
-
             $figure->setFigureGroup($this->getReference('fig-grp-ref_'.$dataSnowTrickCollection[$i]['figure_group']));
-
             $figure->setAuthor($this->getReference('user_'.$userRandom));
             $figure->setCreatedAt(new \Datetime($dataSnowTrickCollection[$i]['created_at']));
             $figure->setCreatedAt(new \Datetime($dataSnowTrickCollection[$i]['updated_at']));

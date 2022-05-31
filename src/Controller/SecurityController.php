@@ -1,16 +1,15 @@
 <?php
 
 namespace App\Controller;
-use UniqueIdImage;
-use App\Entity\User;
-use DeleteImageStored;
-use App\Form\LoginType;
-use RegisterFileUploaded;
+
 use App\Entity\PasswordUpdate;
 use App\Form\RegistrationType;
 use App\Form\UpdateProfilType;
+use App\Services\UniqueIdImage;
 use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
+use App\Services\DeleteImageStored;
+use App\Services\RegisterFileUploaded;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,7 +28,7 @@ class SecurityController extends AbstractController
 {
 
     private $entityManager;
-    private $passwordhasher;
+    private $passwordHasher;
 
     public function __construct(
 
@@ -217,7 +216,12 @@ class SecurityController extends AbstractController
      * 
      * @Route("/account/updateProfil", name="updatProfilPage")
      */
-     function updateProfil( Request $request, SluggerInterface $slugger)
+     function updateProfil( 
+         Request $request, 
+         SluggerInterface $slugger,
+         RegisterFileUploaded $registerFileUploaded,
+         UniqueIdImage $uniqueIdImage
+         )
     {
 
         $user = $this->getUser();
@@ -237,11 +241,7 @@ class SecurityController extends AbstractController
 
             if( $objectUploadedFile ) {
 
-                $fileNameUpload = $objectUploadedFile->getClientOriginalName();
-                $extensionFile = $objectUploadedFile->guessExtension();
-
-                $originalFilename = pathinfo($fileNameUpload, PATHINFO_FILENAME);
-                $newFilename = UniqueIdImage::generateUniqIdFileName($objectUploadedFile, $slugger);
+                $newFilename = $uniqueIdImage->generateUniqIdFileName($objectUploadedFile, $slugger);
 
                 try {
                     $pathUrlPhoto = $this->getParameter('images_profil_directory');
@@ -249,13 +249,13 @@ class SecurityController extends AbstractController
                     if ( $urlPhotoUser !== "defaultProfil.jpg") {
 
                         DeleteImageStored::deleteImage($urlPhotoUser, $pathUrlPhoto);
-            
-                        RegisterFileUploaded::registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
+
+                        $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
 
 
                     } else if ($urlPhotoUser === "defaultProfil.jpg") {
 
-                        RegisterFileUploaded::registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
+                        $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
 
                     }
 
@@ -288,21 +288,5 @@ class SecurityController extends AbstractController
 
         return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user'=> $user]);
     }
-
-
-    /**
-     * delete user
-     *
-     * @param Request $request
-     * @return void
-     * 
-     * @Route("/account/deleteProfile", name="deleteProfile")
-     */
-    // function deleteProfile(Request $request) {
-    //     $userCurrent = $this->getUser();
-    //     $this->entityManager->remove($userCurrent);
-    //     $this->entityManager->flush();
-    //     return $this->redirectToRoute('homePage');
-    // }
 
 }

@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 use App\Entity\FigureGroup;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\Validator\Constraints\Length;
 
 class FigureGroupFixture extends Fixture
 {

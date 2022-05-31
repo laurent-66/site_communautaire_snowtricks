@@ -20,8 +20,9 @@ class UserFixture extends Fixture
                         'password'=>'Hello611',
                         'url_photo'=>'https://picsum.photos/id/0/5616/3744',
                         'alternative_attribute'=>'photo_Alexis',
-                        'created_at',
-                        'updated_at',
+                        'created_at'=> '2022-05-11 10:53:43',
+                        'updated_at'=> '2022-05-11 10:53:43',
+
                         'fixture'=> 1
                     ],
                     [
@@ -30,8 +31,8 @@ class UserFixture extends Fixture
                         'password'=>'Hello657',
                         'url_photo'=>'https://picsum.photos/id/1000/5626/3635',
                         'alternative_attribute'=>'photo_Elinore',
-                        'created_at',
-                        'updated_at',
+                        'created_at'=> '2022-05-11 10:53:43',
+                        'updated_at'=> '2022-05-11 10:53:43',
                         'fixture'=> 1
                     ],
                     [
@@ -40,10 +41,8 @@ class UserFixture extends Fixture
                         'password'=>'Hello724',
                         'url_photo'=>'https://picsum.photos/id/1005/5760/3840',
                         'alternative_attribute'=>'photo_Casandra',
-                        'created_at',
-                        'updated_at',
-                        // 'created_at'=> '2022-05-11 10:53:43',
-                        // 'updated_at'=> '2022-05-11 10:53:43',
+                        'created_at'=> '2022-05-11 10:53:43',
+                        'updated_at'=> '2022-05-11 10:53:43',
                         'fixture'=> 1
                     ],
         
@@ -58,10 +57,10 @@ class UserFixture extends Fixture
                     $user->setPassword($dataAuthors[$i]['password']);
                     $user->setUrlPhoto($dataAuthors[$i]['url_photo']);
                     $user->setAlternativeAttribute($dataAuthors[$i]['alternative_attribute']);
-                    // $user->setCreatedAt($dataAuthors[$i]['created_at']);
-                    // $user->setUpdatedAt($dataAuthors[$i]['updated_at']);
+                    $user->setCreatedAt(new \Datetime($dataAuthors[$i]['created_at']));
+                    $user->setUpdatedAt(new \Datetime($dataAuthors[$i]['updated_at']));
                     $user->setFixture(1);
-        
+                    
                     $manager->persist($user); 
                     $manager->flush();
                     $this->addReference(sprintf(self::USER_REF , $i), $user); 
