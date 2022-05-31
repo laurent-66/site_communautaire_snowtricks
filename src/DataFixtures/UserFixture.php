@@ -22,6 +22,7 @@ class UserFixture extends Fixture
                         'alternative_attribute'=>'photo_Alexis',
                         'created_at'=> '2022-05-11 10:53:43',
                         'updated_at'=> '2022-05-11 10:53:43',
+
                         'fixture'=> 1
                     ],
                     [
