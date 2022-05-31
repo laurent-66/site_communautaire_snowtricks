@@ -566,8 +566,6 @@ class FigureController extends AbstractController
                     // code à revoir //
                     $formData = $formEditMediasTrick->getData();
                     $illustration = $formData->getFileIllustration();
-                    dump($illustration);
-     
 
                     $originalFilename = pathinfo($illustration, PATHINFO_FILENAME);
 
