@@ -21,7 +21,7 @@ class IllustrationFixture extends Fixture implements DependentFixtureInterface
 
             $illustration = new Illustration();
 
-            $figRandom = rand(0,9);
+            $figRandom = rand(0,2);
 
             $listPictures = file_get_contents('https://picsum.photos/v2/list');
             $urlIllustration = json_decode($listPictures, true)[$i]["download_url"];

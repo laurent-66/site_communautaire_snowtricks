@@ -87,10 +87,10 @@ class FigureController extends AbstractController
             $newTrick->setAuthor($this->getUser());
             $newTrick->setfixture(0);
             $coverImage = $newTrick->getCoverImageFile();
-
             $alternativeAttribute = $newTrick->getAlternativeAttribute();
 
             if ($coverImage) { 
+
                 $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
 
                 $newFilename = $this->uniqueIdImage->generateUniqIdFileName($coverImage);
@@ -202,6 +202,7 @@ class FigureController extends AbstractController
         $arrayVideosWithProperties = VideosProperties::generateProperties($arrayVideo);
 
         $arrayMedias = array_merge($arrayImagesWithPropreties,$arrayVideosWithProperties);
+
 
 
         $formComment = $this->createForm(CommentType::class);
@@ -562,6 +563,11 @@ class FigureController extends AbstractController
 
 
                 if($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) { 
+                    // code à revoir //
+                    $formData = $formEditMediasTrick->getData();
+                    $illustration = $formData->getFileIllustration();
+
+                    $originalFilename = pathinfo($illustration, PATHINFO_FILENAME);
 
                     $objectIllustration = $formEditMediasTrick->getData();
       

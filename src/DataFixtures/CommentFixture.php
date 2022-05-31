@@ -21,8 +21,8 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
         $datetime = new DateTime();
 
         for ($i = 0; $i < 9; $i++) {
-            $authorRefRandom = rand(0,9);
-            $figRandom = rand(0,9);
+            $authorRefRandom = rand(0,2);
+            $figRandom = rand(0,2);
             $content = $faker->sentence($nbWords = 30, $variableNbWords = true);
             $datetime = $faker->datetime();
             $comment = new Comment();

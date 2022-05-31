@@ -1,57 +1,97 @@
 <?php
 namespace App\DataFixtures;
 
-use Faker\Factory;
 use App\Entity\Figure;
-use App\Entity\Comment;
-use App\DataFixtures\UserFixture;
 use Doctrine\Persistence\ObjectManager;
 use App\DataFixtures\FigureGroupFixture;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
-
 
 class FigureFixture extends Fixture implements DependentFixtureInterface
 {
     public const FIG_REF = 'fig-ref_%s';
 
+
+    private $slugger;
+
+    public function __construct(SluggerInterface $slugger)
+    {
+        $this->slugger = $slugger;
+    }
+
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr-FR');
 
-        $slugger = new AsciiSlugger();
+        //fixtures Figures
 
-        for ($i = 0; $i < 10; $i++) {
+        $dataSnowTrickCollection = [
+            [
+                'name'=>'Indy grab',
+                'description'=>'Description Indy grab',
+                'Cover_image'=>'Indy-grab.JPG',
+                'alternative_attribute'=>'Indy-grab',
+                'figure_group'=> 0,
+                'pseudo_id'=> 0,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43',
+                'fixture'=> 1
+            
+            ],
+            [
+                'name'=>'Mute grab',
+                'description'=>'Description mute grab',
+                'Cover_image'=>'mutegrab.jpg',
+                'alternative_attribute'=>'mute-grab',
+                'figure_group'=> 2,
+                'pseudo_id'=> 1,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43', 
+                'fixture'=> 1
+            
+            ],
+            [
+                'name'=>'Stalefish grab',
+                'description'=>'Description stalefish',
+                'Cover_image'=>'Tricks-Stalefish-Grab-620x393.jpg',
+                'alternative_attribute'=>'stalefish-grab',
+                'figure_group'=> 6,
+                'pseudo_id'=> 2,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43',
+                'fixture'=> 1
+            
+            ]
+            ];
 
-            $titleFigure = $faker->sentence($nbWords = 3, $variableNbWords = true);
-            $slug = $slugger->slug($titleFigure);
-            $description = $faker->sentence($nbWords = 20, $variableNbWords = true);
-            $alternativeAttribute = $faker->sentence($nbWords = 2, $variableNbWords = true);
+        for($i = 0 ; $i < count($dataSnowTrickCollection) ; $i++ ) {
+
+            $figGroupRandom = rand(0,9);
+            $userRandom = rand(0,2);
 
             $figure = new Figure();
-            $figureGroupRefRandom = rand(0,8);
-            $authorRandom = rand(0,9);          
-            $figure->setName($titleFigure);
-            $figure->setSlug($slug);
-            $figure->setDescription($description);
 
-            $listPictures = file_get_contents('https://picsum.photos/v2/list');
-            $coverImage = json_decode($listPictures, true)[$i]["download_url"];
+            $figure->setName($dataSnowTrickCollection[$i]['name']);
+            $figure->setSlug($this->slugger->slug($dataSnowTrickCollection[$i]['name']));
+            $figure->setDescription($dataSnowTrickCollection[$i]['description']);
+            $figure->setCoverImage($dataSnowTrickCollection[$i]['Cover_image']);
+            $figure->setAlternativeAttribute($dataSnowTrickCollection[$i]['alternative_attribute']);
             
-            $figure->setCoverImage($coverImage);
-            $figure->setAlternativeAttribute($alternativeAttribute);
+            // $figure->setFigureGroup($dataSnowTrickCollection[$i]['figure_group']);
+
+            $figure->setFigureGroup($this->getReference('fig-grp-ref_'.$dataSnowTrickCollection[$i]['figure_group']));
+
+            $figure->setAuthor($this->getReference('user_'.$userRandom));
+            $figure->setCreatedAt(new \Datetime($dataSnowTrickCollection[$i]['created_at']));
+            $figure->setCreatedAt(new \Datetime($dataSnowTrickCollection[$i]['updated_at']));
             $figure->setFixture(1);
-            $figure->setAuthor($this->getReference('user_'.$authorRandom  ));
-            $figure->setFigureGroup($this->getReference('fig-grp-ref_'.$figureGroupRefRandom));
+
             $manager->persist($figure); 
             $manager->flush();
             $this->addReference(sprintf(self::FIG_REF, $i), $figure); 
         }
 
     }
-
 
     public function getDependencies()
     {
