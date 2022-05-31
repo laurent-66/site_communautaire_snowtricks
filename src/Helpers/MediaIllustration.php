@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Entity\Figure;
 use App\Repository\FigureRepository;
 use App\Repository\IllustrationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -73,6 +72,4 @@ class MediaIllustrations extends AbstractController
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
 
     }
-
-
 }
