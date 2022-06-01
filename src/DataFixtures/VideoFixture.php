@@ -45,7 +45,7 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
 
         for($i = 0 ; $i < count($datasYoutube) ; $i++ ) {
             $video = new Video();
-            $figRandom = rand(0,2);
+            $figRandom = rand(0,9);
             $video->setFigure($this->getReference('fig-ref_'.$figRandom ));
             $video->setUrlVideo($datasYoutube[$i]);
             $manager->persist($video);

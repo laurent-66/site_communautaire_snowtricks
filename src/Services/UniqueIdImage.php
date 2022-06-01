@@ -4,6 +4,8 @@ namespace App\Services;
 
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+//Creation of a unique identity for the image name
+
 class UniqueIdImage {
 
     private $slugger;
