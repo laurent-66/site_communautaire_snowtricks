@@ -13,7 +13,7 @@ class FigureGroupFixture extends Fixture
     public function load(ObjectManager $manager)
     {
 
-        $datasGroupTricks = ['Indy', 'Japan','Mute', 'Nose grab', 'Sad', 'Seat belt', 'stalefish', 'tail grab', 'Truck driver'];
+        $datasGroupTricks = ['Indy', 'Japan','Mute', 'Nose grab', 'Sad/melancholie', 'Seat belt', 'stalefish', 'tail grab', 'Truck driver'];
 
         for($i = 0 ; $i < count($datasGroupTricks) ; $i++ ) {
 

@@ -27,7 +27,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
         $dataSnowTrickCollection = [
             [
                 'name'=>'Indy grab',
-                'description'=>'Description Indy grab',
+                'description'=>'saisie de la carre frontside de la planche, entre les deux pieds, avec la main arrière ',
                 'Cover_image'=>'Indy-grab.JPG',
                 'alternative_attribute'=>'Indy-grab',
                 'figure_group'=> 0,
@@ -35,37 +35,110 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'created_at'=> '2022-05-11 10:53:43',
                 'updated_at'=> '2022-05-11 10:53:43',
                 'fixture'=> 1
-            
+            ],
+            [
+                'name'=>'Japan air grab',
+                'description'=>'saisie de l\'avant de la planche, avec la main avant, du côté de la carre frontside.',
+                'Cover_image'=>'Japan-air-grab.jpg',
+                'alternative_attribute'=>'Japan air grab',
+                'figure_group'=> 1,
+                'pseudo_id'=> 0,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43',
+                'fixture'=> 1
             ],
             [
                 'name'=>'Mute grab',
-                'description'=>'Description mute grab',
-                'Cover_image'=>'mutegrab.jpg',
-                'alternative_attribute'=>'mute-grab',
+                'description'=>'saisie de la carre frontside de la planche entre les deux pieds avec la main avant',
+                'Cover_image'=>'mute-grab.jpg',
+                'alternative_attribute'=>'mute grab',
                 'figure_group'=> 2,
                 'pseudo_id'=> 1,
                 'created_at'=> '2022-05-11 10:53:43',
                 'updated_at'=> '2022-05-11 10:53:43', 
                 'fixture'=> 1
-            
             ],
             [
-                'name'=>'Stalefish grab',
-                'description'=>'Description stalefish',
-                'Cover_image'=>'Stalefish-Grab.jpg',
-                'alternative_attribute'=>'stalefish-grab',
+                'name'=>'Nose grab',
+                'description'=>'saisie de la partie avant de la planche, avec la main avant',
+                'Cover_image'=>'Nose-grab.jpg',
+                'alternative_attribute'=>'nose grab',
+                'figure_group'=> 3,
+                'pseudo_id'=> 2,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43', 
+                'fixture'=> 1
+            ],
+            [
+                'name'=>'Sad ou melancholie',
+                'description'=>'saisie de la carre backside de la planche, entre les deux pieds, avec la main avant. Le rider est en position goofy.',
+                'Cover_image'=>'Sad-melancholie.jpg',
+                'alternative_attribute'=>'sad ou melancholie',
+                'figure_group'=> 4,
+                'pseudo_id'=> 1,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43', 
+                'fixture'=> 1
+            ],
+            [
+                'name'=>'Seat belt',
+                'description'=>'saisie du carre frontside à l\'arrière avec la main avant',
+                'Cover_image'=>'Seatbelt.jpg',
+                'alternative_attribute'=>'Seat belt',
+                'figure_group'=> 5,
+                'pseudo_id'=> 1,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43', 
+                'fixture'=> 1
+            ],
+            [
+                'name'=>'Stalefish',
+                'description'=>'saisie de la carre backside de la planche entre les deux pieds avec la main arrière, sur cette image le rider est en position regular (son pied gauche est à l\'avant).',
+                'Cover_image'=>'stalefish.jpg',
+                'alternative_attribute'=>'stalefish',
                 'figure_group'=> 6,
                 'pseudo_id'=> 2,
                 'created_at'=> '2022-05-11 10:53:43',
                 'updated_at'=> '2022-05-11 10:53:43',
                 'fixture'=> 1
-            
-            ]
+            ],
+            [
+                'name'=>'Tail grab',
+                'description'=>'saisie de la partie arrière de la planche, avec la main arrière. Le rider est ici en position goofy.',
+                'Cover_image'=>'tail-grab.jpg',
+                'alternative_attribute'=>'tail grab',
+                'figure_group'=> 7,
+                'pseudo_id'=> 0,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43',
+                'fixture'=> 1
+            ],
+            [
+                'name'=>'Truck driver',
+                'description'=>'saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)',
+                'Cover_image'=>'truck-driver.jpg',
+                'alternative_attribute'=>'Truck driver',
+                'figure_group'=> 8,
+                'pseudo_id'=> 1,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43',
+                'fixture'=> 1
+            ],
+            [
+                'name'=>'Tail grab avec front flip',
+                'description'=>'Le rider en position regular, effectue un front flip en saisissant la partie arrière de la planche, avec la main arrière.',
+                'Cover_image'=>'front flip.jpg',
+                'alternative_attribute'=>'Tail grab avec front flip',
+                'figure_group'=> 7,
+                'pseudo_id'=> 2,
+                'created_at'=> '2022-05-11 10:53:43',
+                'updated_at'=> '2022-05-11 10:53:43',
+                'fixture'=> 1
+            ],
             ];
 
         for($i = 0 ; $i < count($dataSnowTrickCollection) ; $i++ ) {
 
-            $figGroupRandom = rand(0,9);
             $userRandom = rand(0,2);
 
             $figure = new Figure();

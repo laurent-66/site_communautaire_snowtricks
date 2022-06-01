@@ -1,35 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light py-0 " style="height:80px;">
     <div class="container-fluid px-0">
         <div class="menu px-0">
-            <div class="block-logo"><a class="navbar-brand"  href="{{ path('homePage') }}"><i class="fas fa-snowboarding fa-2x"></i><strong> SNOWTRICKS</strong></a></div>
-                <ul class="block-item-menu">
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('homePage') }}">Accueil |</a>
-                    </li>
-                    <li class="menu-item">
-                        <a class="item nav-link" href="{{ path('homePage') }}#Tricks-list">Tricks |</a>
-                    </li>
+        <div class="block-logo"><a class="navbar-brand"  href="{{ path('homePage') }}"><i class="fas fa-snowboarding fa-2x"></i><strong> SNOWTRICKS</strong></a></div>
+            <ul class="block-item-menu">
+                <li class="menu-item">
+                    <a class="item nav-link" href="{{ path('homePage') }}">Accueil |</a>
+                </li>
+                <li class="menu-item">
+                    <a class="item nav-link" href="{{ path('homePage') }}#Tricks-list">Tricks |</a>
+                </li>
                     
-                    {% if not app.user %}
+                {% if not app.user %}
                     <li class="menu-item">
                         <a class="item nav-link" href="{{ path('login') }}">connexion |</a>
                     </li>
-
                     <li class="menu-item">
                         <a class="item nav-link" href="{{ path('registerPage') }}">s'enregistrer</a>
                     </li>
-
                     {% else %}
                     <li class="menu-item">
                         <a class="item nav-link" href="{{ path('app_logout') }}">se déconnecter |</a>
                     </li>
-
                     <li class="menu-item">
                         <a class="item nav-link" href="{{ path('updatProfilPage') }}">Gérer mon profil</a>
                     </li>
-                    {% endif %}
-                </ul>
-         
+                {% endif %}
+            </ul>
         </div>
     </div>
 </nav> 
