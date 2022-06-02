@@ -15,7 +15,7 @@ class VideoType extends AbstractType
         $builder
             ->add('url_video', TextType::class, [
 
-                'label' => 'Inserer le lien de la video dans la collection',
+                'label' => 'Inserer le lien youtube (obligatoire) de la video dans la collection',
                 'required' => false,
             ])
         ;
