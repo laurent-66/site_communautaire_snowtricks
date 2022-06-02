@@ -96,6 +96,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description'=>'saisie de la carre backside de la planche entre les deux pieds avec la main arrière, sur cette image le rider est en position regular (son pied gauche est à l\'avant).',
                 'Cover_image'=>'stalefish.jpg',
                 'alternative_attribute'=>'stalefish',
+
                 'figure_group'=> 6,
                 'pseudo_id'=> 2,
                 'created_at'=> '2022-05-11 10:53:43',
