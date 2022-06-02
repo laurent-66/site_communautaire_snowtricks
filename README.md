@@ -71,7 +71,15 @@ MAILER_DSN=gmail+smtp://USERNAME:PASSWORD@default
 
 Enregistrez le fichier .env
 
-### Jouer les migrations pour générer la base de données
+### création de la base de donnée
+
+Dans votre terminal
+```bash
+symfony console doctrine:database:create
+```
+Cette commande va créer la base de donnée en récupérant le nom que nous avons donnés dans le fichier .env
+
+### Jouer les migrations pour alimenter la base de données
 
 1-Lancer l'application Xampp démarrer les modules Apach et MySQL
 
