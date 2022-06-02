@@ -422,9 +422,6 @@ class FigureController extends AbstractController
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
 
-
-
-
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
     }
 
@@ -438,36 +435,30 @@ class FigureController extends AbstractController
     public function trickUdapteCoverImage($slug, Request $request) {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
+
         $formUpdateCoverImage = $this->createForm(UpdateCoverImageType::class); 
         $formUpdateCoverImage->handleRequest($request);
-    
-        if($formUpdateCoverImage->isSubmitted() && $formUpdateCoverImage->isValid()) {
+
+        if($formUpdateCoverImage->isSubmitted() && $formUpdateCoverImage->isValid()) { 
 
             try{
 
-                $coverImage = $formUpdateCoverImage->get('coverImage')->getData();
+                $coverImageFile = $formUpdateCoverImage->get('coverImage')->getData();
+                $originalFilename = pathinfo($coverImageFile->getClientOriginalName(), PATHINFO_FILENAME);
 
-                if ($coverImage) {
+                $newFilename = $this->uniqueIdImage->generateUniqIdFileName($coverImageFile);
+                $imagesDirectory = $this->getParameter('images_directory');
 
-                    $originalFilename = pathinfo($coverImage->getClientOriginalName(), PATHINFO_FILENAME);
-                    $newFilename = $this->uniqueIdImage->generateUniqIdFileName($coverImage);
-                    $imagesDirectory = $this->getParameter('images_directory');
+                $this->registerFileUploaded->registerFile($coverImageFile, $newFilename, $imagesDirectory);
 
-                    $this->registerFileUploaded->registerFile($coverImage, $newFilename, $imagesDirectory);
+                $figure->setCoverImage($newFilename);
+                $figure->setAlternativeAttribute($originalFilename);
+                $figure->setFixture(0);
 
-                    $alternativeAttribute = $formUpdateCoverImage->get('alternativeAttribute')->getData();
-                    $figure->setCoverImage($newFilename);
-                    $figure->setAlternativeAttribute($alternativeAttribute);
-                    $this->entityManager->persist($figure);
-                    $this->entityManager->flush();
+                $this->entityManager->persist($figure);
 
-                } else {
+                $this->entityManager->flush();
 
-                    $figure->setCoverImage("image-solid.svg");
-                    $figure->setAlternativeAttribute('default-image');
-                    $this->entityManager->persist($figure);
-                    $this->entityManager->flush();
-                }
 
             }catch(Exception $e){
                 dump($e);
@@ -475,6 +466,7 @@ class FigureController extends AbstractController
             }
             return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
         }
+
         return $this->render('core/figures/updateCoverImage.html.twig', ['slug'=> $slug, 'formUpdateCoverImage' => $formUpdateCoverImage->createView()]);
     }
 
@@ -663,16 +655,19 @@ class FigureController extends AbstractController
         $figure = $this->figureRepository->findOneBySlug($slug);
         $currentCoverImage = $figure->getCoverImage();
 
-        $pathCoverImage = $this->getParameter('images_directory');
+        if($figure->getFixture() === false) {
+    
+            $pathCoverImage = $this->getParameter('images_directory');
 
-        DeleteImageStored::deleteImage($currentCoverImage, $pathCoverImage);
+            DeleteImageStored::deleteImage($currentCoverImage, $pathCoverImage);
+        } 
 
         $figure->setCoverImage('defaultCoverImage');
         $figure->setAlternativeAttribute('image par defaut');
         $this->entityManager->persist($figure);
         $this->entityManager->flush();
-
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
+
     }
 
 }
