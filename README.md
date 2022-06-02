@@ -49,10 +49,10 @@ php composer.phar update
 ### Paramétrer les variables d'environnement
 
 Dans l'aborescence du projet rendez vous dans le fichier .env 
-Les réglages qui vont y être fait seront pour une configuration en local:
+les réglages qui vont y être fait seront pour une configuration en local:
 * Utilisation de xampp comme serveur pour la base de donnée en SQL avec utilisation de phpmyadmin
 * L'adresse de l'application sera http://127.0.0.1:8000
-* l'adresse du serveur apache pour la base de données http://127.0.0.1:3306
+* l'adresse du serveur pour la base de données http://127.0.0.1:3306
 
 Dans le fichier .env penser à commenté la ligne concernant le pgresql et décommenté la ligne SQL
 
