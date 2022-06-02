@@ -27,12 +27,14 @@ Snowtricks est un site collaboratif pour faire connaître le sport du snowboard 
 
 ## Installation projet
 
+### Cloner le dépôt git distant en local
 Dans votre terminal, positionnez vous dans le bon répertoire est cloner le dépot git en local 
 
 ```bash
 git clone https://github.com/laurent-66/site_communautaire_snowtricks.git
 ```
 
+### Installer les dépendances
 Installer les dépendances avec composer à partir du fichier composer.lock
 
 ```bash
@@ -71,8 +73,38 @@ Enregistrez le fichier .env
 
 ### Jouer les migrations pour générer la base de données
 
+1-Lancer l'application Xampp démarrer les modules Apach et MySQL
+
+2-Tapez la commande dans votre terminal
+```bash
+symfony console doctrine:migrations:migrate
+```
+
 ### Charger les fixtures
-### Lancer le serveur
+
+Dans votre terminal
+
+```bash
+symfony console doctrine:fixtures:load
+```
+### Chargement de l'application
+
+1-Lancer le serveur
+
+Dans votre terminal
+
+```bash
+symfony server:start
+```
+2- tapez dans la barre d'url de votre navigateur
+
+http://127.0.0.1:8000 ou localhost:8000
+
+3- Pour arrêter le serveur
+
+```bash
+symfony server:stop
+```
 
 
 
