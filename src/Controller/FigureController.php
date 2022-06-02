@@ -489,7 +489,7 @@ class FigureController extends AbstractController
 
             $stateFixtureIllustration = $objectIllustration->getFixture();
 
-            //Delete illustration which aren't fixtures
+            //Delete the illustration image file stored on the server
 
             if($stateFixtureIllustration === false) {
 
@@ -500,21 +500,13 @@ class FigureController extends AbstractController
             } 
         }
 
-        //delete cover image
-
-        // $fileNameCoverImage = $currentTrick->getCoverImage();
-
-        // if($fileNameCoverImage !== 'defaultCoverImage' ) {
-
-        //     $pathCoverImage = $this->getParameter('images_directory');
-
-        //     DeleteImageStored::deleteImage($fileNameCoverImage, $pathCoverImage);
-
-        // }
+        //Delete the cover image file stored on the server
 
         $fileNameCoverImage = $currentTrick->getCoverImage();
 
-        if($currentTrick->getFixture() === false) {
+        $stateFixtureCurrentTrick = $currentTrick->getFixture();
+
+        if($stateFixtureCurrentTrick === false && $fileNameCoverImage !=="defaultCoverImage" ) {
 
             $pathCoverImage = $this->getParameter('images_directory');
 
@@ -686,6 +678,7 @@ class FigureController extends AbstractController
 
         $figure->setCoverImage('defaultCoverImage');
         $figure->setAlternativeAttribute('image par defaut');
+        $figure->setFixture(0);
         $this->entityManager->persist($figure);
         $this->entityManager->flush();
         return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
