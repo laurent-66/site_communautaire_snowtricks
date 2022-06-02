@@ -44,7 +44,7 @@ Mise à jour des dépendances vers leurs dernières versions (optionnel)
 php composer.phar update
 ```
 
-Paramétrer les variables d'environnement
+### Paramétrer les variables d'environnement
 
 Dans l'aborescence du projet rendez vous dans le fichier .env 
 Les réglages qui vont y être fait seront pour ce type de configuration :
@@ -66,6 +66,13 @@ sur la ligne mailer
 MAILER_DSN=gmail+smtp://USERNAME:PASSWORD@default
 * USERNAME : adresse mail
 * PASSWORD@default: le mot de passe suivie de @default sans espace
+
+Enregistrez le fichier .env
+
+### Jouer les migrations pour générer la base de données
+
+### Charger les fixtures
+### Lancer le serveur
 
 
 
