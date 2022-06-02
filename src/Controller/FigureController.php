@@ -487,15 +487,34 @@ class FigureController extends AbstractController
 
             $fileName = $objectIllustration->getUrlIllustration();
 
+            $stateFixtureIllustration = $objectIllustration->getFixture();
+
+            //Delete illustration which aren't fixtures
+
+            if($stateFixtureIllustration === false) {
+
             $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
 
             DeleteImageStored::deleteImage($fileName, $pathIllustrationsCollection);
- 
+
+            } 
         }
+
+        //delete cover image
+
+        // $fileNameCoverImage = $currentTrick->getCoverImage();
+
+        // if($fileNameCoverImage !== 'defaultCoverImage' ) {
+
+        //     $pathCoverImage = $this->getParameter('images_directory');
+
+        //     DeleteImageStored::deleteImage($fileNameCoverImage, $pathCoverImage);
+
+        // }
 
         $fileNameCoverImage = $currentTrick->getCoverImage();
 
-        if($fileNameCoverImage !== 'defaultCoverImage' ) {
+        if($currentTrick->getFixture() === false) {
 
             $pathCoverImage = $this->getParameter('images_directory');
 
@@ -503,11 +522,14 @@ class FigureController extends AbstractController
 
         }
 
+
         $this->entityManager->remove($currentTrick);
         $this->entityManager->flush();
         return $this->redirectToRoute('homePage');
 
     }
+
+
 
     /**
      * Updating a media of a trick
