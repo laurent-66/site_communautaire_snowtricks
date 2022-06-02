@@ -58,14 +58,14 @@ Sur la ligne SQL rentré les information de la manière suivante
 
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7"
 
-db_user : entrée un identifiant pour l'accés à la base de donnée
-db_password : entrée mot de passe
-db_name : entrée le nom de la base de donnée par exemple snowTricksProject
+* db_user : entrée un identifiant pour l'accés à la base de donnée
+* db_password : entrée mot de passe
+* db_name : entrée le nom de la base de donnée par exemple snowTricksProject
 
 sur la ligne mailer
 MAILER_DSN=gmail+smtp://USERNAME:PASSWORD@default
-USERNAME : adresse mail
-PASSWORD@default: le mot de passe suivie de @default sans espace
+* USERNAME : adresse mail
+* PASSWORD@default: le mot de passe suivie de @default sans espace
 
 
 
