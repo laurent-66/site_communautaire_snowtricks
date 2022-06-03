@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Figure;
-use App\Form\VideoType;
 use App\Form\IllustrationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

@@ -1,7 +1,6 @@
 <?php
 namespace App\DataFixtures;
 
-use Faker\Factory;
 use App\Entity\Video;
 use App\DataFixtures\FigureFixture;
 use Doctrine\Persistence\ObjectManager;
@@ -52,23 +51,6 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
             $manager->persist($video);
             $manager->flush();
         }
-
-
-        // Option to load a general purpose fixture
-
-        // $faker = Factory::create('fr-FR');
-
-        // for ($i = 0; $i < 10; $i++) {
-
-        //     $urlVideo = $faker->imageUrl(500, 250);
-        //     $figRandom = rand(0,9);
-        //     $video = new Video();
-        //     $video->setUrlVideo($urlVideo);
-        //     $video->setFigure($this->getReference('fig-ref_'.$figRandom ));
-        //     $manager->persist($video);
-        // }
-
-        // $manager->flush();
 
     }
 
