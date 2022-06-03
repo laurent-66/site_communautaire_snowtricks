@@ -137,7 +137,6 @@ class FigureController extends AbstractController
                     $this->entityManager->persist($objectIllustration);
                     $newTrick->addIllustration($objectIllustration);
 
-
                 }
 
             }
@@ -344,6 +343,10 @@ class FigureController extends AbstractController
 
                     unset($arrayListNameTricks[$indexUpdateName]);
 
+
+                if(isset($indexUpdateName)) {
+
+                    unset($arrayListNameTricks[$indexUpdateName]);
                 }
 
                 if( ($updateNameTrickField === $nameTrick && in_array($updateNameTrickField, $arrayListNameTricks) === false) ||
@@ -374,7 +377,6 @@ class FigureController extends AbstractController
             
                             $image = $objectIllustration->getFileIllustration();
                             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-    
                             $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
                             $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
     
@@ -383,9 +385,7 @@ class FigureController extends AbstractController
                             $objectIllustration->setUrlIllustration($newFilename);
                             $fileIllustration = $objectIllustration->getFileIllustration();
                             $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
-    
                             $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
-    
     
                             $objectIllustration->setUrlIllustration($newFilename);
                             $objectIllustration->setFigure($figure);
@@ -396,6 +396,7 @@ class FigureController extends AbstractController
                             $figure->addIllustration($objectIllustration);
     
                             array_push($arrayObjectIllustration, $objectIllustration);
+
                         }
     
                     }
@@ -438,6 +439,7 @@ class FigureController extends AbstractController
     
                     $this->entityManager->flush();
 
+
                 } else {
 
                     $messageError = 'Le nom de la figure est déjà existant';
@@ -455,6 +457,9 @@ class FigureController extends AbstractController
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
+
+
+
 
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
     }
