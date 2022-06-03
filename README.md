@@ -38,7 +38,7 @@ git clone https://github.com/laurent-66/site_communautaire_snowtricks.git
 Installer les dépendances avec composer à partir du fichier composer.lock
 
 ```bash
-php composer.phar install
+composer install
 ```
 Mise à jour des dépendances vers leurs dernières versions (optionnel)
 
