@@ -317,6 +317,7 @@ class FigureController extends AbstractController
                 $alternativeAttribute = $formTrick->getAlternativeAttribute();
                 $descriptionfield = $formTrick->getDescription();
                 $figureGroupSelect = $formTrick->getFigureGroup();
+<<<<<<< HEAD
                 
                 //Define a unique entity for the name field in the figure edit form
                 //The name of the figure can also be its own, but cannot be identical to another figure.
@@ -339,10 +340,26 @@ class FigureController extends AbstractController
                 }
 
                 //generate array without the update name trick
+=======
+ 
+                // $arrayListNameTricks = [];
+                // $arrayTricks = $this->figureRepository->findAll();
+                // foreach($arrayTricks as $trick) {
+                //     array_push($arrayListNameTricks, $trick->getName());
+                // }
+
+                // if(in_array($updateNameTrickField, $arrayListNameTricks)) {
+                //     $messageError = 'Le nom de la figure est déjà existant';
+>>>>>>> 447e33dc67c32aa7be49c0a78c44e5fd1c92b4c8
 
                 if(isset($indexUpdateName)) {
 
+<<<<<<< HEAD
                     unset($arrayListNameTricks[$indexUpdateName]);
+=======
+                // }
+
+>>>>>>> 447e33dc67c32aa7be49c0a78c44e5fd1c92b4c8
 
                 }
 
@@ -374,7 +391,11 @@ class FigureController extends AbstractController
             
                             $image = $objectIllustration->getFileIllustration();
                             $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 447e33dc67c32aa7be49c0a78c44e5fd1c92b4c8
                             $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
                             $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
     
@@ -383,6 +404,7 @@ class FigureController extends AbstractController
                             $objectIllustration->setUrlIllustration($newFilename);
                             $fileIllustration = $objectIllustration->getFileIllustration();
                             $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
+<<<<<<< HEAD
     
                             $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
     
@@ -396,6 +418,23 @@ class FigureController extends AbstractController
                             $figure->addIllustration($objectIllustration);
     
                             array_push($arrayObjectIllustration, $objectIllustration);
+=======
+
+
+                            $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
+
+
+                                $objectIllustration->setUrlIllustration($newFilename);
+                                $objectIllustration->setFigure($figure);
+                                $objectIllustration->setFixture(0);
+
+                                $this->entityManager->persist($objectIllustration);
+
+                                $figure->addIllustration($objectIllustration);
+
+                                array_push($arrayObjectIllustration, $objectIllustration);
+
+>>>>>>> 447e33dc67c32aa7be49c0a78c44e5fd1c92b4c8
                         }
     
                     }
@@ -407,6 +446,7 @@ class FigureController extends AbstractController
                         foreach( $videosCollection as $objectVideo ) {
             
                             $urlVideo = $objectVideo->getUrlVideo();
+<<<<<<< HEAD
             
                             try {
                                 $codeYoutube = Youtube::typeUrl($urlVideo);
@@ -420,6 +460,24 @@ class FigureController extends AbstractController
                                 dump($e);
                                 exit;
                             }
+=======
+        
+
+
+                                try {
+
+                                    $codeYoutube = Youtube::typeUrl($urlVideo);
+                                    $objectVideo->setUrlVideo($codeYoutube);
+                                    $objectVideo->setFigure($figure);
+                                    $this->entityManager->persist($objectVideo);
+                                    $figure->addVideo($objectVideo);
+                                    array_push($arrayObjectVideo, $objectVideo);
+
+                                } catch (FileException $e) {
+                                    dump($e);
+                                    exit;
+                                }
+>>>>>>> 447e33dc67c32aa7be49c0a78c44e5fd1c92b4c8
                         }
                     }
     
@@ -438,7 +496,13 @@ class FigureController extends AbstractController
     
                     $this->entityManager->flush();
 
+<<<<<<< HEAD
                 } else {
+=======
+                $arrayMedias = array_merge( $arrayObjectIllustration, $arrayObjectVideo);
+
+                $fixtureDefinition = $figure->getFixture();
+>>>>>>> 447e33dc67c32aa7be49c0a78c44e5fd1c92b4c8
 
                     $messageError = 'Le nom de la figure est déjà existant';
 
