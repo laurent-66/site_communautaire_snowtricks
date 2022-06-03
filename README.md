@@ -6,6 +6,11 @@
 
 Snowtricks est un site collaboratif pour faire connaître le sport du snowboard auprès du grand public et aider à l'apprentissage des figures.
 
+## Versions utilisées
+* Version utilisé avec symfony pour ce projet PHP 7.4.9
+* Version de symfony 5.3
+* Symfony CLI version v4.26.8
+
 ## Mise en place de l'environnement de travail
 
 * Installez le gestionnaire de versions de fichiers GIT  https://git-scm.com/downloads
@@ -13,7 +18,6 @@ Snowtricks est un site collaboratif pour faire connaître le sport du snowboard 
 * Installez le gestionnaire de dépendances de PHP : composer https://getcomposer.org/download/
 * Installez NodeJS et NPM https://nodejs.org/en/
 * Installez l'interpréteur de commandes symfony (CLI Symfony)
-* Version minimale de PHP 7.4.9
 
 ### Testez votre configuration
 
