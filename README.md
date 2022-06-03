@@ -122,6 +122,8 @@ http://127.0.0.1:8000 ou localhost:8000
 ```bash
 symfony server:stop
 ```
+### Rappel
 
+Avant le lancement de l'application n'oublié pas au préalable de lancer les modules de xampp.
 
 
