@@ -31,7 +31,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FigureController extends AbstractController
 {
@@ -342,11 +341,6 @@ class FigureController extends AbstractController
                 if(isset($indexUpdateName)) {
 
                     unset($arrayListNameTricks[$indexUpdateName]);
-
-
-                if(isset($indexUpdateName)) {
-
-                    unset($arrayListNameTricks[$indexUpdateName]);
                 }
 
                 if( ($updateNameTrickField === $nameTrick && in_array($updateNameTrickField, $arrayListNameTricks) === false) ||
@@ -448,7 +442,8 @@ class FigureController extends AbstractController
 
                 }
             
-            }catch(Exception $e){
+
+            } catch(Exception $e) {
                 dump($e);
                 exit;  
             }
@@ -457,9 +452,6 @@ class FigureController extends AbstractController
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
-
-
-
 
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
     }
