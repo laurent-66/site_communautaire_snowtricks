@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
-
+//Save the image file on the server
 
 class RegisterFileUploaded 
 {

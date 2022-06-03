@@ -6,7 +6,6 @@ use App\Entity\Video;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class VideoType extends AbstractType
@@ -16,7 +15,7 @@ class VideoType extends AbstractType
         $builder
             ->add('url_video', TextType::class, [
 
-                'label' => 'Inserer le lien de la video dans la collection',
+                'label' => 'Inserer le lien youtube (obligatoire) de la video dans la collection',
                 'required' => false,
             ])
         ;

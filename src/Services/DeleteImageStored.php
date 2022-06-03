@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-//Autocomplete image attribute when this field is not completed
+//Deleting the image file stored on the server
 
 class DeleteImageStored
 {

@@ -2,15 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Video;
 use App\Entity\Figure;
 use App\Form\VideoType;
-use App\Entity\Illustration;
 use App\Form\IllustrationType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AddMediasTrickType extends AbstractType
