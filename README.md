@@ -61,7 +61,7 @@ composer update
 
 Dans le fichier .env.local penser à commenté la ligne concernant le postgresql et décommenté la ligne mysql au dessus
 
-Sur la ligne SQL rentré les information de la manière suivante
+Sur la ligne MySQL rentrer les informations de la manière suivante
 
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7"
 
