@@ -416,9 +416,9 @@ class Figure
     /**
      * Action sur le tableau des illustrations
      *
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getIllustrations(): ?ArrayCollection
+    public function getIllustrations(): ?Collection
     {
         return $this->illustrations;
     }
@@ -442,9 +442,9 @@ class Figure
     /**
      * Action sur le tableau des videos
      *
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getVideos(): ArrayCollection
+    public function getVideos(): ?Collection
     {
         return $this->videos;
     }

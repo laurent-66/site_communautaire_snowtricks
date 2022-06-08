@@ -31,7 +31,6 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FigureController extends AbstractController
 {
@@ -302,6 +301,7 @@ class FigureController extends AbstractController
         $formEditTrick = $this->createForm(EditTrickType::class, $partialFigure);
         $formEditTrick->handleRequest($request); 
         $messageError = '';
+        $errorUploadMessage = '';
 
         if($formEditTrick->isSubmitted() && $formEditTrick->isValid()) { 
 
@@ -342,11 +342,6 @@ class FigureController extends AbstractController
                 if(isset($indexUpdateName)) {
 
                     unset($arrayListNameTricks[$indexUpdateName]);
-
-
-                if(isset($indexUpdateName)) {
-
-                    unset($arrayListNameTricks[$indexUpdateName]);
                 }
 
                 if( ($updateNameTrickField === $nameTrick && in_array($updateNameTrickField, $arrayListNameTricks) === false) ||
@@ -374,28 +369,38 @@ class FigureController extends AbstractController
                     if ($imagesCollection) {
     
                         foreach( $imagesCollection as $objectIllustration ) {
-            
+
                             $image = $objectIllustration->getFileIllustration();
-                            $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                            $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
-                            $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
-    
-                            AlternativeAttribute::autoCompleteAttribute($objectIllustration, $originalFilename, $altAttrIllustration);
-    
-                            $objectIllustration->setUrlIllustration($newFilename);
-                            $fileIllustration = $objectIllustration->getFileIllustration();
-                            $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
-                            $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
-    
-                            $objectIllustration->setUrlIllustration($newFilename);
-                            $objectIllustration->setFigure($figure);
-                            $objectIllustration->setFixture(0);
-    
-                            $this->entityManager->persist($objectIllustration);
-    
-                            $figure->addIllustration($objectIllustration);
-    
-                            array_push($arrayObjectIllustration, $objectIllustration);
+
+                            // if($image === null) {
+
+                            //     $errorUploadMessage = "le chargement de l'image ne peut être vide";
+                            //     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError , 'errorUploadMessage'=> $errorUploadMessage, 'error' => true ]);
+
+                            // } else {
+
+                                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+                                $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
+                                $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
+        
+                                AlternativeAttribute::autoCompleteAttribute($objectIllustration, $originalFilename, $altAttrIllustration);
+        
+                                $objectIllustration->setUrlIllustration($newFilename);
+                                $fileIllustration = $objectIllustration->getFileIllustration();
+                                $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
+                                $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
+        
+                                $objectIllustration->setUrlIllustration($newFilename);
+                                $objectIllustration->setFigure($figure);
+                                $objectIllustration->setFixture(0);
+        
+                                $this->entityManager->persist($objectIllustration);
+        
+                                $figure->addIllustration($objectIllustration);
+        
+                                array_push($arrayObjectIllustration, $objectIllustration);
+
+                            // }
 
                         }
     
@@ -444,11 +449,12 @@ class FigureController extends AbstractController
 
                     $messageError = 'Le nom de la figure est déjà existant';
 
-                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => true ]);
+                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError , 'errorUploadMessage'=> $errorUploadMessage, 'error' => true ]);
 
                 }
             
-            }catch(Exception $e){
+
+            } catch(Exception $e) {
                 dump($e);
                 exit;  
             }
@@ -457,9 +463,6 @@ class FigureController extends AbstractController
 
             return $this->redirectToRoute('trickViewPage', ['slug'=> $newSlug]);
         }
-
-
-
 
         return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError ,'error' => false ]);
     }

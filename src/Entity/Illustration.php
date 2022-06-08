@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Entity;
+
 use DateTime;
 use App\Entity\Figure;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,11 +44,18 @@ class Illustration
     /**
     * 
     * @var UploadedFile
+    *
+    * @Assert\NotNull( 
+    * message = "La valeur ne peut être vide."
+    * ) 
+    *
+    *
     * @Assert\Image(
     *     maxSize = "1024k",
     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
     *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
     * )
+    *
     */
     protected $fileIllustration;
  
