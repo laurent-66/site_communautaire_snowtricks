@@ -17,9 +17,6 @@ class IllustrationType extends AbstractType
             ->add('fileIllustration', FileType::class, [
 
                 'label' => 'Inserer un image dans la collection (jpeg,jpg ou png)',
-    
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
                 'required' => false,
             ])
             ->add( 'alternativeAttribute', TextType::class , [

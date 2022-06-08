@@ -126,11 +126,31 @@
                         {{form_row(formEditTrick.description)}}
                         {{form_row(formEditTrick.figureGroup)}}
 
-                        <ul class="illustrations" data-index="{{ formEditTrick.illustrations|length > 0 ? formEditTrick.illustrations|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formEditTrick.illustrations.vars.prototype)|e('html_attr') }}"></ul>
-                        <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
-                        <ul class="videos" data-index="{{ formEditTrick.videos|length > 0 ? formEditTrick.videos|last.vars.name + 1 : 0 }}" data-prototype="{{ form_widget(formEditTrick.videos.vars.prototype)|e('html_attr') }}"></ul>
-                        <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
+                        <ul class="illustrations" 
+                            data-index="{{ formEditTrick.illustrations|length > 0 ? formEditTrick.illustrations|last.vars.name + 1 : 0 }}"
+                            data-prototype="{{ form_widget(formEditTrick.illustrations.vars.prototype)|e('html_attr') }}"
+                        >
+                        {% for illustration in formEditTrick.illustrations %}
+                                {{ formEditTrick.illustration }}
+                                {# {{ form_row(illustration.fileIllustration)}} #}
+                                {# {% if errorUploadMessage != "" %} #} 
+                                    {# <div class="error-message">{{ errorUploadMessage }}</div> #}
+                                {# {% endif %} #}
+                                {# {{ form_row(illustration.alternativeAttribute)}} #}
+                        {% endfor %} 
+                        </ul>
 
+                        <button type="button" class="add_item_link_image btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="illustrations">Ajouter une image</button>
+
+                        <ul class="videos"
+                            data-index="{{ formEditTrick.videos|length > 0 ? formEditTrick.videos|last.vars.name + 1 : 0 }}" 
+                            data-prototype="{{ form_widget(formEditTrick.videos.vars.prototype)|e('html_attr') }}"
+                        >
+                        
+                            {{ form_row(formEditTrick.videos)}}
+                        </ul>
+
+                        <button type="button" class="add_item_link_video btn btn-lg btn-secondary btn-block mb-3" data-collection-holder-class="videos">Ajouter une vidéo</button>
 
                     <div class="row flex-wrap-reverse d-flex justify-content-end pl-3 mt-3">
                         <button type="button" class=" btn btn-danger editTrickBtnAction" data-toggle="modal" data-target="#staticBackdrop">
