@@ -52,8 +52,9 @@ composer update
 
 ### Paramétrer les variables d'environnement
 
-Dans l'aborescence du projet rendez vous dans le fichier .env 
-les réglages qui vont y être fait seront pour une configuration en local:
+* Dupliquer le fichier .env et renomé le .env.local
+* Dans l'aborescence du projet rendez vous dans le fichier .env.local
+* les réglages qui vont y être fait seront pour une configuration en local:
 * Utilisation de xampp comme serveur pour la base de donnée en SQL avec utilisation de phpmyadmin
 * L'adresse de l'application sera http://127.0.0.1:8000
 * l'adresse du serveur pour la base de données http://127.0.0.1:3306
