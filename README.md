@@ -59,7 +59,7 @@ composer update
 * L'adresse de l'application sera http://127.0.0.1:8000
 * l'adresse du serveur pour la base de données http://127.0.0.1:3306
 
-Dans le fichier .env penser à commenté la ligne concernant le postgresql et décommenté la ligne mysql au dessus
+Dans le fichier .env.local penser à commenté la ligne concernant le postgresql et décommenté la ligne mysql au dessus
 
 Sur la ligne SQL rentré les information de la manière suivante
 
@@ -74,7 +74,7 @@ MAILER_DSN=gmail+smtp://USERNAME:PASSWORD@default
 * USERNAME : adresse mail
 * PASSWORD@default: le mot de passe suivie de @default sans espace
 
-Enregistrez le fichier .env
+Enregistrez le fichier .env.local
 
 ### création de la base de donnée
 
