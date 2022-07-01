@@ -341,7 +341,7 @@ class FigureController extends AbstractController
 
                 if(isset($indexUpdateName)) {
 
-                    unset($arrayListNameTricks[$indexUpdateName]);
+                    unset($arrayListNameTricks[$indexUpdateName]); 
                 }
 
                 if( ($updateNameTrickField === $nameTrick && in_array($updateNameTrickField, $arrayListNameTricks) === false) ||
@@ -372,13 +372,6 @@ class FigureController extends AbstractController
 
                             $image = $objectIllustration->getFileIllustration();
 
-                            // if($image === null) {
-
-                            //     $errorUploadMessage = "le chargement de l'image ne peut être vide";
-                            //     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError , 'errorUploadMessage'=> $errorUploadMessage, 'error' => true ]);
-
-                            // } else {
-
                                 $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
                                 $newFilename = $this->uniqueIdImage->generateUniqIdFileName($image);
                                 $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
@@ -399,8 +392,6 @@ class FigureController extends AbstractController
                                 $figure->addIllustration($objectIllustration);
         
                                 array_push($arrayObjectIllustration, $objectIllustration);
-
-                            // }
 
                         }
     
@@ -448,9 +439,7 @@ class FigureController extends AbstractController
                 } else {
 
                     $messageError = 'Le nom de la figure est déjà existant';
-
-                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError , 'errorUploadMessage'=> $errorUploadMessage, 'error' => true ]);
-
+                    return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError , 'error' => true ]);
                 }
             
 

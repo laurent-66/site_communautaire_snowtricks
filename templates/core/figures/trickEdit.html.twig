@@ -131,12 +131,7 @@
                             data-prototype="{{ form_widget(formEditTrick.illustrations.vars.prototype)|e('html_attr') }}"
                         >
                         {% for illustration in formEditTrick.illustrations %}
-                                {{ formEditTrick.illustration }}
-                                {# {{ form_row(illustration.fileIllustration)}} #}
-                                {# {% if errorUploadMessage != "" %} #} 
-                                    {# <div class="error-message">{{ errorUploadMessage }}</div> #}
-                                {# {% endif %} #}
-                                {# {{ form_row(illustration.alternativeAttribute)}} #}
+                                <li>{{ form_row(illustration) }}</li>
                         {% endfor %} 
                         </ul>
 

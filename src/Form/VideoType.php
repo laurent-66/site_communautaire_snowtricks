@@ -25,6 +25,7 @@ class VideoType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Video::class,
+            'validation_groups' => ['base']
         ]);
     }
 }
