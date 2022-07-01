@@ -25,7 +25,7 @@ class Video
      * @var string
      * 
      * @Assert\NotBlank( 
-     * message = "La valeur ne peut être vide."
+     * message = "La valeur ne peut être vide.", groups="base"
      * )
      * 
      * @ORM\Column(type="string")

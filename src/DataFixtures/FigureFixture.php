@@ -142,10 +142,10 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
 
             $userRandom = rand(0,2);
 
-            $figure = new Figure();
+            $figure = new Figure(); 
 
             $figure->setName($dataSnowTrickCollection[$i]['name']);
-            $figure->setSlug($this->slugger->slug($dataSnowTrickCollection[$i]['name']));
+            $figure->setSlug($this->slugger->slug($dataSnowTrickCollection[$i]['name'])->lower());
             $figure->setDescription($dataSnowTrickCollection[$i]['description']);
             $figure->setCoverImage($dataSnowTrickCollection[$i]['Cover_image']);
             $figure->setAlternativeAttribute($dataSnowTrickCollection[$i]['alternative_attribute']);

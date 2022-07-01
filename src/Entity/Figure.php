@@ -28,7 +28,7 @@ class Figure
      * 
      * @ORM\Id()
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="AUTO") 
      */
     private $id;
 
@@ -67,9 +67,14 @@ class Figure
      * Undocumented variable
      * @var UploadedFile
      * @Assert\NotNull( 
-     * message = "La valeur ne peut être vide.", groups="createFigure"
+     * message = "La valeur ne peut être vide.", groups="createFigure" 
      * ) 
      * 
+     * @Assert\Image(
+     * maxSize = "1024k",
+     * mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
+     * mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png", groups="base"
+     * )
      * 
      */
     private $coverImageFile; 
@@ -134,7 +139,7 @@ class Figure
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="figure", cascade={"ALL"})
      * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
      */
-    private $comment;
+    private $comment; 
 
 
     /**

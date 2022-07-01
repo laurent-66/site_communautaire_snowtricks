@@ -32,6 +32,7 @@ class IllustrationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Illustration::class,
+            'validation_groups' => ['base']
         ]);
     }
 }

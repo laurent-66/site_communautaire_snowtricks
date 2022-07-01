@@ -46,14 +46,14 @@ class Illustration
     * @var UploadedFile
     *
     * @Assert\NotNull( 
-    * message = "La valeur ne peut être vide."
+    * message = "La valeur ne peut être vide.", groups="base"  
     * ) 
     *
     *
     * @Assert\Image(
     *     maxSize = "1024k",
     *     mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
-    *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png"
+    *     mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png", groups="base"
     * )
     *
     */
@@ -213,7 +213,7 @@ class Illustration
      */
     public function getAlternativeAttribute(): ?string
     {
-        return $this->alternativeAttribute;
+        return $this->alternativeAttribute; 
     }
 
     /**
