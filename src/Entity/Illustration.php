@@ -223,6 +223,4 @@ class Illustration
     {
         $this->alternativeAttribute = $alternativeAttribute; 
     }
-
-
 }

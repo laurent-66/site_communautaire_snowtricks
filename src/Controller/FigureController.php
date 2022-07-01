@@ -301,6 +301,7 @@ class FigureController extends AbstractController
         $formEditTrick = $this->createForm(EditTrickType::class, $partialFigure);
         $formEditTrick->handleRequest($request); 
         $messageError = '';
+        $errorUploadMessage = '';
 
         if($formEditTrick->isSubmitted() && $formEditTrick->isValid()) { 
 
@@ -392,7 +393,6 @@ class FigureController extends AbstractController
         
                                 array_push($arrayObjectIllustration, $objectIllustration);
 
-
                         }
     
                     }
@@ -439,9 +439,7 @@ class FigureController extends AbstractController
                 } else {
 
                     $messageError = 'Le nom de la figure est déjà existant';
-
                     return $this->render('core/figures/trickEdit.html.twig', ['figure' => $figure, 'comments' => $comments, 'arrayMedias' => $arrayMedias, 'formEditTrick' => $formEditTrick->createView(),  'messageError' => $messageError , 'error' => true ]);
-
                 }
             
 

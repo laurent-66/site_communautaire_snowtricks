@@ -52,15 +52,16 @@ composer update
 
 ### Paramétrer les variables d'environnement
 
-Dans l'aborescence du projet rendez vous dans le fichier .env 
-les réglages qui vont y être fait seront pour une configuration en local:
+* Dupliquer le fichier .env et renomé le .env.local
+* Dans l'aborescence du projet rendez vous dans le fichier .env.local
+* les réglages qui vont y être fait seront pour une configuration en local:
 * Utilisation de xampp comme serveur pour la base de donnée en SQL avec utilisation de phpmyadmin
 * L'adresse de l'application sera http://127.0.0.1:8000
 * l'adresse du serveur pour la base de données http://127.0.0.1:3306
 
-Dans le fichier .env penser à commenté la ligne concernant le postgresql et décommenté la ligne mysql au dessus
+Dans le fichier .env.local penser à commenté la ligne concernant le postgresql et décommenté la ligne mysql au dessus
 
-Sur la ligne SQL rentré les information de la manière suivante
+Sur la ligne MySQL rentrer les informations de la manière suivante
 
 DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7"
 
@@ -73,7 +74,7 @@ MAILER_DSN=gmail+smtp://USERNAME:PASSWORD@default
 * USERNAME : adresse mail
 * PASSWORD@default: le mot de passe suivie de @default sans espace
 
-Enregistrez le fichier .env
+Enregistrez le fichier .env.local
 
 ### création de la base de donnée
 
