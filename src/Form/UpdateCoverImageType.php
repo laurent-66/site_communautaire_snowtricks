@@ -25,9 +25,9 @@ class UpdateCoverImageType extends AbstractType
             // every time you edit the Product details
             'required' => false,
         ])
-        ->add( 'alternativeAttribute', TextType::class , [
+        ->add('alternativeAttribute', TextType::class, [
 
-            'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
+            'label' => 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
             'required' => false
         ])
         ;

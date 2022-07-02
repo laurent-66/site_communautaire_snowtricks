@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use DateTime;
@@ -16,103 +17,89 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\FigureRepository")
  * @ORM\Table(name="figure")
  * @ORM\HasLifecycleCallbacks
- * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createFigure") 
- * 
+ * @UniqueEntity("name", message = "Le nom de la figure déjà existant", groups="createFigure")
+ *
  */
-class Figure 
+class Figure
 {
     public const LIMIT_PER_PAGE = 8;
-
-    /**
+/**
      * @var int
-     * 
+     *
      * @ORM\Id()
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO") 
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
+/**
      * @var string
-     * 
-     * @Assert\NotBlank( 
+     *
+     * @Assert\NotBlank(
      * message = "La valeur ne peut être vide.", groups="base"
      * )
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @ORM\Column(type="string")
      */
     private $name;
-
-    /**
+/**
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
-
-    /**
+/**
      * @var string
-     * 
-     * 
+     *
+     *
      * @ORM\Column(type="string", nullable="true")
      */
     private $description;
-
-    /**
+/**
      * @ORM\Column(type="string", length=255)
      */
     private $coverImage;
-
-    /**
+/**
      * Undocumented variable
      * @var UploadedFile
-     * @Assert\NotNull( 
-     * message = "La valeur ne peut être vide.", groups="createFigure" 
-     * ) 
-     * 
+     * @Assert\NotNull(
+     * message = "La valeur ne peut être vide.", groups="createFigure"
+     * )
+     *
      * @Assert\Image(
      * maxSize = "1024k",
      * mimeTypes = {"image/jpeg", "image/jpg", "image/png"},
      * mimeTypesMessage = "Veuillez charger un fichier jpeg/jpg ou png", groups="base"
      * )
-     * 
+     *
      */
-    private $coverImageFile; 
-
-    /**
+    private $coverImageFile;
+/**
      *
      * @var string
-     * 
-     * 
+     *
+     *
      * @ORM\Column(type="string", length=255)
-     * 
+     *
      */
     private $alternativeAttribute;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime", nullable="true")
      */
     private $createdAt;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     private $updatedAt;
-
-
-    /**
-     * @var Boolean 
-     * 
+/**
+     * @var Boolean
+     *
      * @ORM\column(type="boolean")
      */
     private $fixture;
-
-
-
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -124,50 +111,42 @@ class Figure
     /**
      * Relation bidirectionnelle Figure ManyToOne User et User ManyToOne Figure
      * @var User
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="figure")
      * @ORM\JoinColumn(name="pseudo_id", referencedColumnName="id")
      */
     private $author;
-
-
-    /**
+/**
      * Relation Figure OneToMany Comment
-     * 
+     *
      * @var Comment
-     * 
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="figure", cascade={"ALL"})
      * @ORM\JoinColumn(name="comment_id", referencedColumnName="id")
      */
-    private $comment; 
-
-
-    /**
+    private $comment;
+/**
      * @var FigureGroup
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\FigureGroup")
      * @ORM\JoinColumn(name="figure_group_id", referencedColumnName="id")
      */
     private $figureGroup;
-
-
-    /**
+/**
      * @var Collection
-     * 
-     * 
+     *
+     *
      * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="figure", cascade={"ALL"})
-     * 
+     *
      */
     private $illustrations;
-
-
-    /**
+/**
      * @var Collection
-     * 
+     *
      * @Assert\Valid()
      * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="figure", cascade={"ALL"})
-     * 
+     *
      */
     private $videos;
 
@@ -176,14 +155,15 @@ class Figure
 
     /**
      * Permet d'initialiser le slug ! (annotation cycle de vie orm doctrine)
-     * 
+     *
      * @ORM\PrePersist
      * @ORM\PreUpdate
      *
      * @return void
      */
-    public function initializeSlug() {
-        if(empty($this->slug)) {
+    public function initializeSlug()
+    {
+        if (empty($this->slug)) {
             $slugify = new Slugify();
             $this->slug = $slugify->slugify($this->name);
         }
@@ -192,7 +172,7 @@ class Figure
    /* getter and setter */
 
     /**
-     * @return int 
+     * @return int
      */
     public function getId(): int
     {
@@ -200,7 +180,7 @@ class Figure
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getName(): ?string
     {
@@ -227,16 +207,15 @@ class Figure
     /**
      *
      * @param string $slug
-     * 
+     *
      */
     public function setSlug(string $slug): void
     {
         $this->slug = $slug;
-
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getDescription(): ?string
     {
@@ -255,7 +234,7 @@ class Figure
      *
      * @return string
      */
-    public function getCoverImage(): ?string 
+    public function getCoverImage(): ?string
     {
         return $this->coverImage;
     }
@@ -263,19 +242,18 @@ class Figure
     /**
      *
      * @param string $coverImage
-     * 
+     *
      */
     public function setCoverImage(?string $coverImage): void
     {
         $this->coverImage = $coverImage;
-
     }
 
     /**
      *
      * @return UploadedFile
      */
-    public function getCoverImageFile(): ?UploadedFile 
+    public function getCoverImageFile(): ?UploadedFile
     {
         return $this->coverImageFile;
     }
@@ -284,12 +262,11 @@ class Figure
     /**
      *
      * @param string $coverImageFile
-     * 
+     *
      */
     public function setCoverImageFile($coverImageFile): void
     {
         $this->coverImageFile = $coverImageFile;
-
     }
 
 
@@ -305,16 +282,15 @@ class Figure
     /**
      *
      * @param string $alternativeAttribute
-     * 
+     *
      */
     public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
-
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getCreatedAt(): Datetime
     {
@@ -330,7 +306,7 @@ class Figure
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getUpdatedAt(): Datetime
     {
@@ -370,7 +346,7 @@ class Figure
     }
 
     /**
-     * @return User 
+     * @return User
      */
     public function getAuthor(): ?User
     {
@@ -387,7 +363,7 @@ class Figure
 
 
     /**
-     * @return Comment 
+     * @return Comment
      */
     public function getComment(): ?Comment
     {
@@ -403,7 +379,7 @@ class Figure
     }
 
     /**
-     * @return FigureGroup 
+     * @return FigureGroup
      */
     public function getFigureGroup(): ?FigureGroup
     {
@@ -430,17 +406,15 @@ class Figure
 
     public function addIllustration(Illustration $illustration)
     {
-        if(!$this->illustrations->contains($illustration))
-        {
+        if (!$this->illustrations->contains($illustration)) {
             $this->illustrations->add($illustration);
         }
     }
 
     public function removeIllustration(Illustration $illustration): void
     {
-        if($this->illustrations->contains($illustration))
-        {
-            $this->illustrations->removeElement($illustration); 
+        if ($this->illustrations->contains($illustration)) {
+            $this->illustrations->removeElement($illustration);
         }
     }
 
@@ -456,18 +430,15 @@ class Figure
 
     public function addVideo(Video $video)
     {
-        if(!$this->videos->contains($video))
-        {
+        if (!$this->videos->contains($video)) {
             $this->videos->add($video);
         }
     }
 
     public function removeVideo(Video $video): void
     {
-        if($this->videos->contains($video))
-        {
+        if ($this->videos->contains($video)) {
             $this->videos->removeElement($video);
         }
     }
- 
 }

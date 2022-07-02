@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 
-
 class AuthenticationSuccessHandler extends AbstractController implements AuthenticationSuccessHandlerInterface
 {
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
@@ -19,6 +18,5 @@ class AuthenticationSuccessHandler extends AbstractController implements Authent
         // return new JsonResponse(['apiToken' => $userApiToken]);
 
         return $this->redirectToRoute('resetPassword');
-
     }
 }

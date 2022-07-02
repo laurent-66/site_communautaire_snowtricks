@@ -20,12 +20,13 @@ class RegistrationType extends AbstractType
      * @param array $options
      * @return array
      */
-    private function getConfiguration($label, $placeholder, $options = []) {
+    private function getConfiguration($label, $placeholder, $options = [])
+    {
         return array_merge([
             'label' => $label,
             'attr' => [
                 'placeholder' => $placeholder,
-                
+
             ],
             'required' => false
         ], $options);
@@ -47,4 +48,4 @@ class RegistrationType extends AbstractType
             'validation_groups' => ['updateMail','base']
         ]);
     }
-} 
+}

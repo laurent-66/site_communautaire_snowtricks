@@ -14,7 +14,7 @@ class EditOneVideoType extends AbstractType
     {
         $builder
             ->add('url_video', TextType::class, [
-                'label'=>'insérer l\'url de la vidéo youtube',
+                'label' => 'insérer l\'url de la vidéo youtube',
                 'required' => false
             ])
 

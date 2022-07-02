@@ -19,13 +19,11 @@ class IllustrationType extends AbstractType
                 'label' => 'Inserer un image dans la collection (jpeg,jpg ou png)',
                 'required' => false,
             ])
-            ->add( 'alternativeAttribute', TextType::class , [
+            ->add('alternativeAttribute', TextType::class, [
 
-                'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
+                'label' => 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
                 'required' => false
-            ]
-            )
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

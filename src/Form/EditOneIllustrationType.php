@@ -18,22 +18,20 @@ class EditOneIllustrationType extends AbstractType
             ->add('fileIllustration', FileType::class, [
 
                 'label' => 'Sélectionner la nouvelle image (jpeg,jpg ou png)',
-    
+
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
-    
+
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
                 'required' => false,
-            ]) 
+            ])
 
-            ->add( 'alternativeAttribute', TextType::class , [
+            ->add('alternativeAttribute', TextType::class, [
 
-                'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
+                'label' => 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
                 'required' => false
-            ]
-            )
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

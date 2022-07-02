@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -6,12 +6,10 @@ namespace App\Services;
 
 class DeleteImageStored
 {
+    public static function deleteImage($fileName, $pathFile)
+    {
 
-    public static function deleteImage($fileName, $pathFile) {
-        
-        $filePath = $pathFile.'\\'.$fileName;
+        $filePath = $pathFile . '\\' . $fileName;
         unlink($filePath);
-
-    } 
-
+    }
 }

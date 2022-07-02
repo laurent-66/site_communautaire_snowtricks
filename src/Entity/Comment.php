@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Entity;
+
 use DateTime;
 use App\Entity\User;
 use App\Entity\Figure;
@@ -9,40 +11,35 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
  * @ORM\Table(name="comment")
  */
-class Comment 
+class Comment
 {
     public const LIMIT_PER_PAGE = 4;
-
-    /**
+/**
      * @var int
-     * 
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
+/**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string")
      */
     protected $content;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $createdAt;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -51,25 +48,22 @@ class Comment
 
     /**
      * @var User
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
      */
     protected $author;
-
-    /**
+/**
      * @var Figure
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure" , inversedBy="comment")
      * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
      */
     protected $figure;
-
-
-    /* getter and setter */
+/* getter and setter */
 
     /**
-     * @return int 
+     * @return int
      */
     public function getId(): int
     {
@@ -77,7 +71,7 @@ class Comment
     }
 
     /**
-     * @return text 
+     * @return text
      */
     public function getContent()
     {
@@ -93,7 +87,7 @@ class Comment
     }
 
         /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getCreatedAt(): Datetime
     {
@@ -109,7 +103,7 @@ class Comment
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getUpdatedAt(): Datetime
     {
@@ -125,7 +119,7 @@ class Comment
     }
 
     /**
-     * @return User 
+     * @return User
      */
     public function getAuthor(): User
     {
@@ -141,7 +135,7 @@ class Comment
     }
 
     /**
-     * @return Figure 
+     * @return Figure
      */
     public function getFigure()
     {

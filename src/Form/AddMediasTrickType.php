@@ -22,8 +22,8 @@ class AddMediasTrickType extends AbstractType
                     'entry_type' => IllustrationType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                    'label' =>false,
-                ] 
+                    'label' => false,
+                ]
             )
             ->add(
                 'videos',
@@ -32,7 +32,7 @@ class AddMediasTrickType extends AbstractType
                     'entry_type' => VideoType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                    'label' =>false
+                    'label' => false
                 ]
             )
 
@@ -42,7 +42,7 @@ class AddMediasTrickType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Figure::class, 
+            'data_class' => Figure::class,
         ]);
     }
 }
