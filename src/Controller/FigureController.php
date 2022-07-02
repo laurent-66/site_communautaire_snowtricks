@@ -112,12 +112,20 @@ class FigureController extends AbstractController
                     $objectIllustration->setUrlIllustration($newFilename);
                     $altAttrIllustration = $objectIllustration->getAlternativeAttribute();
 
-                    AlternativeAttribute::autoCompleteAttribute($objectIllustration, $originalFilename, $altAttrIllustration);
+                    AlternativeAttribute::autoCompleteAttribute(
+                        $objectIllustration,
+                        $originalFilename,
+                        $altAttrIllustration
+                    );
 
                     $fileIllustration = $objectIllustration->getFileIllustration();
                     $illustrationCollectionDirectory = $this->getParameter('illustrationsCollection_directory');
 
-                    $this->registerFileUploaded->registerFile($fileIllustration, $newFilename, $illustrationCollectionDirectory);
+                    $this->registerFileUploaded->registerFile(
+                        $fileIllustration,
+                        $newFilename,
+                        $illustrationCollectionDirectory
+                    );
 
                     $objectIllustration->setUrlIllustration($newFilename);
                     $objectIllustration->setFigure($newTrick);

@@ -37,7 +37,11 @@ class RegistrationType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "votre pseudo"))
             ->add('email', TextType::class, $this->getConfiguration("Email", "Votre adresse email"))
-            ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe"))
+            ->add(
+                'password',
+                PasswordType::class,
+                $this->getConfiguration("Mot de passe", "choisissez un mot de passe")
+            )
         ;
     }
 

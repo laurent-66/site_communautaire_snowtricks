@@ -21,7 +21,11 @@ class NewTrickType extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Nom de la figure', 'required' => false])
             ->add('description', TextareaType::class, ['label' => 'Description','required' => false])
-            ->add('figureGroup', EntityType::class, ['choice_label' => 'name','class' => FigureGroup::class, 'label' => 'Groupe de figure'])
+            ->add(
+                'figureGroup',
+                EntityType::class,
+                ['choice_label' => 'name','class' => FigureGroup::class, 'label' => 'Groupe de figure']
+            )
             ->add('coverImageFile', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
