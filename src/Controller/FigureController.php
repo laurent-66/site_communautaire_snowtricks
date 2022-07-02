@@ -564,17 +564,14 @@ class FigureController extends AbstractController
                     $codeYoutube = Youtube::typeUrl($urlVideo);
                     $currentVideo->setUrlVideo($codeYoutube);
                     $currentVideo->setFigure($currentfigure);
-
                     $this->entityManager->persist($currentVideo);
                     $this->entityManager->flush($currentVideo);
-
                     $currentfigure->addVideo($currentVideo);
                     $this->entityManager->persist($currentfigure);
                     $this->entityManager->flush($currentfigure);
                 } catch (FileException $e) {
                     dump($e);
                 }
-
 
                     return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
             }
