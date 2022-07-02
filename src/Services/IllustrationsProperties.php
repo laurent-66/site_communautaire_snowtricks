@@ -19,17 +19,20 @@ class IllustrationsProperties
             $tag = "img";
 
             $uri_Illustration = $arrayIllustration[$i]->getUrlIllustration();
+            $alternativeAttribute = $arrayIllustration[$i]->getAlternativeAttribute();
+
+
             $urlFixtureIllustration = stristr($uri_Illustration,"https");
 
             if ( $urlFixtureIllustration ) {
 
-                $objectImage = ["path"=> $uri_Illustration, "type" => $tag, "fixture" => "true", "id" => $id ];
+                $objectImage = ["path"=> $uri_Illustration, "alternativeAttribute"=> $alternativeAttribute, "type" => $tag, "fixture" => "true", "id" => $id ];
 
             } else {
 
                 $url_illustration = "/uploads/illustrationsCollection/".$uri_Illustration;
 
-                $objectImage = ["path"=>$url_illustration, "type" => $tag, "fixture" => "false", "id" => $id ];
+                $objectImage = ["path"=>$url_illustration, "alternativeAttribute"=> $alternativeAttribute, "type" => $tag, "fixture" => "false", "id" => $id ];
             }
             array_push($arrayImages, $objectImage);
         

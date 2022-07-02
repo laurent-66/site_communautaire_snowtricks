@@ -189,20 +189,12 @@ class FigureController extends AbstractController
         $figureId = $figure->getId();
 
         $comments = $this->commentRepository->getCommentsPagination($figureId, $page = 1);
-        $paginator = $this->commentRepository->getCommentByLimit(1, Comment::LIMIT_PER_PAGE);
-
-                
+        $paginator = $this->commentRepository->getCommentByLimit(1, Comment::LIMIT_PER_PAGE);     
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
-        $arrayImagesWithPropreties = IllustrationsProperties::generateProperties($arrayIllustration);
-
-
+        $arrayImagesWithPropreties = IllustrationsProperties::generateProperties($arrayIllustration); 
         $arrayVideo = $this->videoRepository->findBy(['figure' => $figure]); 
         $arrayVideosWithProperties = VideosProperties::generateProperties($arrayVideo);
-
         $arrayMedias = array_merge($arrayImagesWithPropreties,$arrayVideosWithProperties);
-
-
-
         $formComment = $this->createForm(CommentType::class);
         $formComment->handleRequest($request);
 
