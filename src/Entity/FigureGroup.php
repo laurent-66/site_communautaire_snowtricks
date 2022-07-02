@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Entity;
+
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -7,38 +9,34 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="App\Repository\FigureGroupRepository")
  * @ORM\Table(name="figureGroup")
  */
-class FigureGroup 
+class FigureGroup
 {
     /**
      * @var int
-     * 
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
+/**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string")
      */
     protected $name;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $createdAt;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -49,7 +47,7 @@ class FigureGroup
     /* getter and setter */
 
     /**
-     * @return int 
+     * @return int
      */
     public function getId(): int
     {
@@ -57,7 +55,7 @@ class FigureGroup
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getName(): string
     {
@@ -73,7 +71,7 @@ class FigureGroup
     }
 
         /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getCreatedAt(): Datetime
     {
@@ -89,7 +87,7 @@ class FigureGroup
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getUpdatedAt(): Datetime
     {
@@ -103,5 +101,4 @@ class FigureGroup
     {
         $this->updatedAt = $updatedAt;
     }
-
 }

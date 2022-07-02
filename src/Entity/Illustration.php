@@ -8,16 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
  * @ORM\Entity(repositoryClass="App\Repository\IllustrationRepository")
  * @ORM\Table(name="illustration")
  */
-class Illustration 
+class Illustration
 {
     /**
      * @var int
-     * 
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -26,28 +25,28 @@ class Illustration
 
     /**
      * @var string
-     * 
-     * 
+     *
+     *
      * @ORM\Column(type="string")
      */
     protected $urlIllustration;
 
     /**
      * @var string
-     * 
-     * 
+     *
+     *
      * @ORM\Column(type="string")
      */
     protected $alternativeAttribute;
 
 
     /**
-    * 
+    *
     * @var UploadedFile
     *
-    * @Assert\NotNull( 
-    * message = "La valeur ne peut être vide.", groups="base"  
-    * ) 
+    * @Assert\NotNull(
+    * message = "La valeur ne peut être vide.", groups="base"
+    * )
     *
     *
     * @Assert\Image(
@@ -58,25 +57,25 @@ class Illustration
     *
     */
     protected $fileIllustration;
- 
+
 
     /**
-     * @var Datetime 
-     * 
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $createdAt;
 
     /**
-     * @var Datetime 
-     * 
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
 
     /**
-     * @var Boolean 
-     * 
+     * @var Boolean
+     *
      * @ORM\column(type="boolean")
      */
     private $fixture;
@@ -89,7 +88,7 @@ class Illustration
 
     /**
      * @var Figure
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure")
      * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
      */
@@ -98,7 +97,7 @@ class Illustration
     /* getter and setter */
 
     /**
-     * @return int 
+     * @return int
      */
     public function getId(): int
     {
@@ -106,7 +105,7 @@ class Illustration
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getUrlIllustration(): string
     {
@@ -122,7 +121,7 @@ class Illustration
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getCreatedAt(): Datetime
     {
@@ -138,7 +137,7 @@ class Illustration
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getUpdatedAt(): Datetime
     {
@@ -176,7 +175,7 @@ class Illustration
     }
 
     /**
-     * @return Figure 
+     * @return Figure
      */
     public function getFigure()
     {
@@ -192,7 +191,7 @@ class Illustration
     }
 
     /**
-     * 
+     *
      * @return UploadedFile|null
      */
     public function getFileIllustration(): ?UploadedFile
@@ -201,7 +200,7 @@ class Illustration
     }
 
     /**
-     * @param 
+     * @param
      */
     public function setFileIllustration($fileIllustration): void
     {
@@ -213,7 +212,7 @@ class Illustration
      */
     public function getAlternativeAttribute(): ?string
     {
-        return $this->alternativeAttribute; 
+        return $this->alternativeAttribute;
     }
 
     /**
@@ -221,6 +220,6 @@ class Illustration
      */
     public function setAlternativeAttribute(?string $alternativeAttribute): void
     {
-        $this->alternativeAttribute = $alternativeAttribute; 
+        $this->alternativeAttribute = $alternativeAttribute;
     }
 }

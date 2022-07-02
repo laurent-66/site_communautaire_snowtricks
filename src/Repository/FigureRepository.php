@@ -25,9 +25,8 @@ class FigureRepository extends ServiceEntityRepository
         $querybuilder = $this->createQueryBuilder('a')
             ->setFirstResult(($page - 1) * $limitPerPage)
             ->setMaxResults($limitPerPage)
-            ->orderBy('a.updatedAt','DESC');
-            
+            ->orderBy('a.updatedAt', 'DESC');
+
         return new Paginator($querybuilder);
     }
-
 }

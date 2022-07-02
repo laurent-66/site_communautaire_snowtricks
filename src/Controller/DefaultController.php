@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class DefaultController extends AbstractController
 {
-    private  $figureRepository;
+    private $figureRepository;
 
     public function __construct(FigureRepository $figureRepository)
     {
@@ -23,9 +23,9 @@ class DefaultController extends AbstractController
      *
      * @param Request $request
      * @return response
-     * 
+     *
      * @Route("/", name="homePage", methods={"get"})
-     * 
+     *
      */
     public function home(Request $request)
     {
@@ -33,23 +33,22 @@ class DefaultController extends AbstractController
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
         return $this->render(
-            'core/figures/home.html.twig', 
+            'core/figures/home.html.twig',
             [
                 'figures' => $paginator,
                 'page' => 1,
                 'pageTotal' => ceil(count($paginator) / Figure::LIMIT_PER_PAGE)
             ]
         );
-
     }
 
     /**
      * response ajax
      *
      * @route("/ajax/figures", name="get_figure_ajax", methods={"get"})
-     * 
+     *
      * @param Request $request
-     * 
+     *
      */
     public function getFiguresWithAjaxRequest(Request $request)
     {
@@ -61,4 +60,4 @@ class DefaultController extends AbstractController
             ]
         );
     }
-} 
+}

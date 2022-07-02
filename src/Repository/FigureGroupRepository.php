@@ -18,5 +18,4 @@ class FigureGroupRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, FigureGroup::class);
     }
-
 }

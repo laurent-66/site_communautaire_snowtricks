@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Entity;
+
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -19,87 +21,78 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @var int
-     * 
+     *
      * @ORM\Id()
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-    /**
+/**
      * @var string
-     * 
-     * @Assert\NotBlank( 
+     *
+     * @Assert\NotBlank(
      * message = "La valeur ne peut être vide.", groups="base"
      * )
-     * 
-     * 
+     *
+     *
      * @ORM\Column(type="string")
      */
     protected $pseudo;
-
-    /**
+/**
      * @var string
-     * 
-     * @Assert\NotBlank( 
+     *
+     * @Assert\NotBlank(
      * message = "La valeur ne peut être vide.", groups="base"
      * )
-     * 
+     *
      * @Assert\Email(
      * message = "l'email '{{ value }}' n'est pas un email valide.", groups="base"
      * )
-     * 
+     *
      * @ORM\Column(type="string", length=255)
      */
     protected $email;
-
-    /**
+/**
      * @var string
      * @Assert\NotBlank(
      * message = "La valeur ne peut être vide.",
      * groups="base"
      * )
-     * 
+     *
      * @Assert\Length(min=8, minMessage="Votre mot de passe doit faire au moins 8 caractères !", groups="base")
-     * 
-     * 
+     *
+     *
      * @ORM\Column(type="string")
      */
     protected $password;
-
-    /**
+/**
      * @var string
-     * 
+     *
      * @ORM\Column(type="string")
      */
     protected $urlPhoto;
-
-
-    /**
+/**
      * Undocumented variable
      *
-     * @Assert\NotBlank( 
+     * @Assert\NotBlank(
      * message = "La valeur ne peut être vide.",
      * groups="uploadFile"
-     * ) 
-     * 
+     * )
+     *
      */
     protected $urlPhotoFile;
-
-    /**
+/**
      *
      * @var string
-     * 
-     * @Assert\NotBlank( 
+     *
+     * @Assert\NotBlank(
      * message = "La valeur ne peut être vide1.", groups="altAttrUploadFile"
      * )
-     * 
-     * @ORM\Column(type="string", length=255) 
-     * 
+     *
+     * @ORM\Column(type="string", length=255)
+     *
      */
     protected $alternativeAttribute;
-
-
     public function __construct()
     {
         $this->figures = new ArrayCollection();
@@ -111,39 +104,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * Instance d'objet ArrayCollection déclarer dans constructeur
      *
      * @var Collection|Figure[]
-     * 
+     *
      * @ORM\OneToMany(targetEntity="App\Entity\Figure", mappedBy="author")
      */
     protected $figures;
-
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $createdAt;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
-
-    /**
-     * @var Boolean 
-     * 
+/**
+     * @var Boolean
+     *
      * @ORM\column(type="boolean")
      */
     private $fixture;
-
-
-    /* getter and setter */
+/* getter and setter */
 
     /**
-     * @return int 
+     * @return int
      */
     public function getId(): int
     {
@@ -151,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getPseudo(): ?string
     {
@@ -167,7 +153,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getEmail(): ?string
     {
@@ -184,7 +170,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     /**
-     * @return string 
+     * @return string
      */
     public function getPassword(): ?string
     {
@@ -201,9 +187,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     /**
-     * @return string 
+     * @return string
      */
-    public function getUrlPhoto(): ?string 
+    public function getUrlPhoto(): ?string
     {
         return $this->urlPhoto;
     }
@@ -218,7 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 
 
-    public function getUrlPhotoFile(): ?string 
+    public function getUrlPhotoFile(): ?string
     {
         return $this->urlPhotoFile;
     }
@@ -235,15 +221,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->alternativeAttribute;
     }
 
-    public function setAlternativeAttribute( string $alternativeAttribute): void
+    public function setAlternativeAttribute(string $alternativeAttribute): void
     {
         $this->alternativeAttribute = $alternativeAttribute;
-
     }
 
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getCreatedAt(): Datetime
     {
@@ -259,7 +244,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getUpdatedAt(): Datetime
     {
@@ -301,7 +286,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**Uniquement le getter pour récupérer la liste des figures */
 
     /**
-     * @return Figure[]|Collection 
+     * @return Figure[]|Collection
      */
     public function getFigures(): ArrayCollection
     {
@@ -314,20 +299,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         /** si notre collection ne contient pas la figure alors enregistre la */
         /** method add, contains...etc sont issues de l'objet Collection */
-        if(!$this->figures->contains($figure))
-        {
+        if (!$this->figures->contains($figure)) {
             $this->figures->add($figure);
             $figure->setAuthor($this);
         }
-
     }
 
     public function removeFigure(Figure $figure)
     {
         /** si notre collection bien la figure alors on la supprime */
         /** method add, contains...etc sont issues de l'objet Collection */
-        if($this->figures->contains($figure))
-        {
+        if ($this->figures->contains($figure)) {
             $this->figures->removeElement($figure);
         }
     }
@@ -337,10 +319,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      *
      * @return string
      */
-    public function getLastPasswordToken() {
+    public function getLastPasswordToken()
+    {
 
         return $this->lastPasswordToken;
-        
     }
 
     /**
@@ -349,7 +331,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @param string $lastPasswordToken
      * @return void
      */
-    public function setLastPasswordToken(string $lastPasswordToken) {
+    public function setLastPasswordToken(string $lastPasswordToken)
+    {
 
         $this->lastPasswordToken = $lastPasswordToken;
     }
@@ -363,7 +346,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return '';
     }
-    
+
     public function eraseCredentials()
     {
         return;
@@ -376,5 +359,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->email;
     }
-
 }

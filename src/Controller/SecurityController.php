@@ -26,16 +26,13 @@ use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
 class SecurityController extends AbstractController
 {
-
     private $entityManager;
     private $passwordHasher;
 
     public function __construct(
-
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager
-    )
-    {
+    ) {
         $this->passwordHasher = $passwordHasher;
         $this->entityManager = $entityManager;
     }
@@ -72,18 +69,18 @@ class SecurityController extends AbstractController
 
             return $this->redirectToRoute('homePage');
         }
-        
+
         return $this->render('core/auth/register.html.twig', ['form' => $form->createView()]);
-    } 
+    }
 
 
     /**
-     * 
+     *
      * @return Response
-     * 
+     *
      * @Route("/account/login", name="login")
      */
-     function login(AuthenticationUtils $authenticationUtils): Response
+    function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -92,37 +89,33 @@ class SecurityController extends AbstractController
         $lastUsername = $authenticationUtils->getLastUsername();
 
         return $this->render('core/auth/login.html.twig', [
-            'last_username' => $lastUsername,
-            'error'         => $error,
+           'last_username' => $lastUsername,
+           'error'         => $error,
         ]);
 
         return $this->render('core/auth/login.html.twig');
     }
 
-    
+
 
     /**
      * form password forget: request mail + Generation of the link url of connection + sending message by mail
-     * 
+     *
      * @Route("/account/login_link", name="loginLink")
      */
     public function requestLoginLink(
-
         NotifierInterface $notifier,
-        LoginLinkHandlerInterface $loginLinkHandler, 
-        UserRepository $userRepository, 
+        LoginLinkHandlerInterface $loginLinkHandler,
+        UserRepository $userRepository,
         Request $request
-        
-        )
-    {
+    ) {
         // check if login form is submitted
         if ($request->isMethod('POST')) {
             // load the user in some way (e.g. using the form input)
             $email = $request->request->get('email');
             $user = $userRepository->findOneBy(['email' => $email]);
 
-            if($user) {
-
+            if ($user) {
                 $loginLinkDetails = $loginLinkHandler->createLoginLink($user);
 
                 $notification = new LoginLinkNotification(
@@ -133,12 +126,9 @@ class SecurityController extends AbstractController
                 $recipient = new Recipient($user->getEmail());
 
                 $notifier->send($notification, $recipient);
-                
+
                 return $this->render('core/security/login_link_sent.html.twig');
-
-
             } else {
-
                 return $this->render('core/security/login_link_sent.html.twig');
             }
         }
@@ -149,9 +139,9 @@ class SecurityController extends AbstractController
 
 
     /**
-    * 
+    *
     * Connection link authenticator
-    * 
+    *
     * @Route("/account/login_check", name="login_check")
     */
     public function check(Request $request)
@@ -176,20 +166,20 @@ class SecurityController extends AbstractController
      *
      * @param Request $request
      * @return Response
-     * 
+     *
      * @Route("/account/resetPassword", name="resetPassword")
      */
-    public function resetPassword(Request $request) {
+    public function resetPassword(Request $request)
+    {
 
-        if($this->getUser()){
-
+        if ($this->getUser()) {
             $passwordUpdate = new PasswordUpdate();
 
             $formUpdatePassword = $this->createForm(PasswordUpdateType::class, $passwordUpdate);
 
             $formUpdatePassword->handleRequest($request);
 
-            if($formUpdatePassword->isSubmitted() && $formUpdatePassword->isValid()) {
+            if ($formUpdatePassword->isSubmitted() && $formUpdatePassword->isValid()) {
                 $user = $this->getUser();
                 $data = $formUpdatePassword->getData();
                 $newPassword = $data->getNewPassword();
@@ -203,7 +193,7 @@ class SecurityController extends AbstractController
 
             return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
         }
-        
+
             return $this->redirectToRoute('homePage');
     }
 
@@ -213,25 +203,23 @@ class SecurityController extends AbstractController
      *
      * @param Request $request
      * @return Response
-     * 
+     *
      * @Route("/account/updateProfil", name="updatProfilPage")
      */
-     function updateProfil( 
-         Request $request, 
-         SluggerInterface $slugger,
-         RegisterFileUploaded $registerFileUploaded,
-         UniqueIdImage $uniqueIdImage
-         )
-    {
+    function updateProfil(
+        Request $request,
+        SluggerInterface $slugger,
+        RegisterFileUploaded $registerFileUploaded,
+        UniqueIdImage $uniqueIdImage
+    ) {
 
         $user = $this->getUser();
 
-        $form = $this->createForm(UpdateProfilType::class, $user );
+        $form = $this->createForm(UpdateProfilType::class, $user);
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-
+        if ($form->isSubmitted() && $form->isValid()) {
             $objectUploadedFile = $form->get('urlPhotoFile')->getData();
             $updateUser = $form->getData();
             $updatePseudoUser = $updateUser->getPseudo();
@@ -239,42 +227,30 @@ class SecurityController extends AbstractController
             $urlPhotoUser = $updateUser->getUrlPhoto();
             $updateAttributeUser = $updateUser->getAlternativeAttribute();
 
-            if( $objectUploadedFile ) {
-
+            if ($objectUploadedFile) {
                 $newFilename = $uniqueIdImage->generateUniqIdFileName($objectUploadedFile, $slugger);
 
                 try {
                     $pathUrlPhoto = $this->getParameter('images_profil_directory');
 
-                    if ( $urlPhotoUser !== "defaultProfil.jpg") {
-
+                    if ($urlPhotoUser !== "defaultProfil.jpg") {
                         DeleteImageStored::deleteImage($urlPhotoUser, $pathUrlPhoto);
 
                         $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
-
-
-                    } else if ($urlPhotoUser === "defaultProfil.jpg") {
-
+                    } elseif ($urlPhotoUser === "defaultProfil.jpg") {
                         $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
-
                     }
-
                 } catch (FileException $e) {
                     dump($e);
-       
-                }  
+                }
 
                 $updateUser->setUrlPhoto($newFilename);
                 $updateUser->setAlternativeAttribute($updateAttributeUser);
                 $this->entityManager->persist($updateUser);
-
-
             } else {
-
                 $updateUser->setUrlPhoto('defaultProfil.jpg');
                 $updateUser->setAlternativeAttribute('Avatar par defaut');
-                $this->entityManager->persist($updateUser); 
-
+                $this->entityManager->persist($updateUser);
             }
 
             $updateUser->setPseudo($updatePseudoUser);
@@ -286,7 +262,6 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('homePage');
         }
 
-        return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user'=> $user]);
+        return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user' => $user]);
     }
-
 }

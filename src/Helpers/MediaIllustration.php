@@ -12,31 +12,27 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class MediaIllustrations extends AbstractController
 {
     public function __construct(
-        SluggerInterface $slugger, 
+        SluggerInterface $slugger,
         EntityManagerInterface $entityManager,
         FigureRepository $figureRepository,
         IllustrationRepository $illustrationRepository
-        
-        )
-    {
+    ) {
         $this->slugger = $slugger;
         $this->entityManager = $entityManager;
         $this->figureRepository = $figureRepository;
         $this->illustrationRepository = $illustrationRepository;
-
     }
 
 
-    public function add( string $slug, array $imagesCollection)
+    public function add(string $slug, array $imagesCollection)
     {
-        $currentfigure = $this->figureRepository->findOneBySlug($slug); 
+        $currentfigure = $this->figureRepository->findOneBySlug($slug);
 
-        foreach( $imagesCollection as $objectIllustration ) {
-
+        foreach ($imagesCollection as $objectIllustration) {
             $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
             $originalFilename = pathinfo($image, PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $newFilename = $safeFilename.'-'.uniqid().'.'.$objectIllustration->getFileIllustration()->guessExtension();
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $objectIllustration->getFileIllustration()->guessExtension();
             $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
 
             try {
@@ -50,7 +46,6 @@ class MediaIllustrations extends AbstractController
                 $objectIllustration->setFigure($currentfigure);
                 $this->entityManager->persist($objectIllustration);
                 $currentfigure->addIllustration($objectIllustration);
-
             } catch (FileException $e) {
                 dump($e);
             }
@@ -58,18 +53,18 @@ class MediaIllustrations extends AbstractController
     }
 
 
-    public function delete($slug, $id) {
-    
+    public function delete($slug, $id)
+    {
+
         $currentIllustration = $this->illustrationRepository->findOneById($id);
         $fileName = $currentIllustration->getUrlIllustration();
         $this->entityManager->remove($currentIllustration);
         $this->entityManager->flush();
 
         $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
-        $filePath = $pathIllustrationsCollection."/".$fileName;
+        $filePath = $pathIllustrationsCollection . "/" . $fileName;
         unlink($filePath);
-        
-        return $this->redirectToRoute('trickEditPage', ['slug'=> $slug]);
 
+        return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
     }
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Services;
 
@@ -6,22 +6,16 @@ namespace App\Services;
 
 class Youtube
 {
+    public static function typeUrl(string $urlVideo)
+    {
 
-    public static function typeUrl(string $urlVideo) {
-        
-        if ( stristr($urlVideo,"embed") ) {
-
+        if (stristr($urlVideo, "embed")) {
             $attrSrc = stristr($urlVideo, 'embed/');
             $codeYoutube = substr($attrSrc, 6, 11);
-
-        }else{
-
+        } else {
             $codeYoutube = substr($urlVideo, -11);
-
         }
 
         return $codeYoutube;
-
-    } 
-
+    }
 }

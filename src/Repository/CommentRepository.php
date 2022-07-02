@@ -23,12 +23,12 @@ class CommentRepository extends ServiceEntityRepository
 
     public function getCommentsPagination(int $figureId, int $page, int $limit = 5)
     {
-        return $this->createQueryBuilder('c') 
+        return $this->createQueryBuilder('c')
             ->innerJoin('c.figure', 'f')
             ->where('f.id = :figureId')
             ->setParameter('figureId', $figureId)
             ->orderBy('c.updatedAt', 'DESC')
-            ->setFirstResult(($page -1) * $limit)
+            ->setFirstResult(($page - 1) * $limit)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
@@ -39,9 +39,8 @@ class CommentRepository extends ServiceEntityRepository
         $querybuilder = $this->createQueryBuilder('a')
             ->setFirstResult(($page - 1) * $limitPerPage)
             ->setMaxResults($limitPerPage)
-            ->orderBy('a.updatedAt','DESC');
-            
+            ->orderBy('a.updatedAt', 'DESC');
+
         return new Paginator($querybuilder);
     }
-
 }

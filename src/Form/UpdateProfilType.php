@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class UpdateProfilType extends AbstractType
 {
-
     /**
      * Undocumented function
      *
@@ -26,22 +25,22 @@ class UpdateProfilType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('pseudo', TextType::class, ['label'=> 'Pseudo','required' => false])
-            ->add('email', TextType::class, ["label"=>"Email",'required' => false])
+            ->add('pseudo', TextType::class, ['label' => 'Pseudo','required' => false])
+            ->add('email', TextType::class, ["label" => "Email",'required' => false])
             ->add('urlPhotoFile', FileType::class, [
 
                 'label' => 'Image de profil (jpeg,jpg ou png)',
                 'required' => false,
-            ]) 
+            ])
 
-            ->add( 'alternativeAttribute', TextType::class , [
+            ->add('alternativeAttribute', TextType::class, [
 
-                'label'=> 'Décrivez l\'image en un mot', 
+                'label' => 'Décrivez l\'image en un mot',
                 'required' => false
-            ]) 
+            ])
 
-            ->add('save', SubmitType::class,[
-                "label"=>"Modifier le profil",
+            ->add('save', SubmitType::class, [
+                "label" => "Modifier le profil",
                 "attr" => [
                     'class' => 'btn btn-success d-block my-4 mx-auto'
                 ]
