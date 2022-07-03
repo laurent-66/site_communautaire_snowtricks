@@ -528,10 +528,8 @@ class FigureController extends AbstractController
         $stateFixtureCurrentTrick = $currentTrick->getFixture();
 
         if ($stateFixtureCurrentTrick === false && $fileNameCoverImage !== "defaultCoverImage") {
-
             $pathCoverImage = $this->getParameter('images_directory');
-            DeleteImageStored::deleteImage($fileNameCoverImage, $pathCoverImage);
-            
+            DeleteImageStored::deleteImage($fileNameCoverImage, $pathCoverImage); 
         }
 
         $this->entityManager->remove($currentTrick);
@@ -561,7 +559,6 @@ class FigureController extends AbstractController
             $formEditMediasTrick->handleRequest($request);
 
             if ($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) {
-
                 //delete file Illustration stored
                 $fileName = $currentIllustration->getUrlIllustration();
                 $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
@@ -654,11 +651,8 @@ class FigureController extends AbstractController
         $fileName = $currentIllustration->getUrlIllustration();
         $this->entityManager->remove($currentIllustration);
         $this->entityManager->flush();
-
         $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
-
         DeleteImageStored::deleteImage($fileName, $pathIllustrationsCollection);
-
         return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
     }
 
@@ -670,13 +664,9 @@ class FigureController extends AbstractController
 
     public function trickDeleteVideo($slug, $id)
     {
-
         $currentIdVideo = $this->videoRepository->findOneById($id);
-
         $this->entityManager->remove($currentIdVideo);
-
         $this->entityManager->flush();
-
         return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
     }
 
@@ -694,7 +684,6 @@ class FigureController extends AbstractController
 
         if ($figure->getFixture() === false) {
             $pathCoverImage = $this->getParameter('images_directory');
-
             DeleteImageStored::deleteImage($currentCoverImage, $pathCoverImage);
         }
 
