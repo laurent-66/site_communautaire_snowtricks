@@ -191,7 +191,10 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('homePage');
             }
 
-            return $this->render('core/auth/updatePassword.html.twig', [ 'formUpdatePassword' => $formUpdatePassword->createView()]);
+            return $this->render(
+                'core/auth/updatePassword.html.twig',
+                [ 'formUpdatePassword' => $formUpdatePassword->createView()]
+            );
         }
 
             return $this->redirectToRoute('homePage');
