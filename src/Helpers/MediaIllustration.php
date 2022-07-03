@@ -32,7 +32,8 @@ class MediaIllustrations extends AbstractController
             $image = $objectIllustration->getFileIllustration()->getClientOriginalName();
             $originalFilename = pathinfo($image, PATHINFO_FILENAME);
             $safeFilename = $this->slugger->slug($originalFilename);
-            $newFilename = $safeFilename . '-' . uniqid() . '.' . $objectIllustration->getFileIllustration()->guessExtension();
+            $newFilename = $safeFilename . '-' . uniqid() . '.' . $objectIllustration->getFileIllustration()
+            ->guessExtension();
             $alternativeAttribute = $objectIllustration->getAlternativeAttribute();
 
             try {
