@@ -561,6 +561,13 @@ class FigureController extends AbstractController
             $formEditMediasTrick->handleRequest($request);
 
             if ($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) {
+
+                //delete file Illustration stored
+                $fileName = $currentIllustration->getUrlIllustration();
+                $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
+                DeleteImageStored::deleteImage($fileName, $pathIllustrationsCollection);
+
+                // add File Illustration
                 $formData = $formEditMediasTrick->getData();
                 $illustration = $formData->getFileIllustration();
 
@@ -581,10 +588,10 @@ class FigureController extends AbstractController
                     $illustrationsCollectionDirectory
                 );
 
+                // register url Illustration
                 $currentIllustration->setUrlIllustration($newFilename);
                 $currentIllustration->setAlternativeAttribute($originalFilename);
                 $currentIllustration->setFixture(0);
-
                 $currentIllustration->setFigure($currentfigure);
                 $this->entityManager->persist($currentIllustration);
 
