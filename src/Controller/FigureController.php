@@ -398,7 +398,6 @@ class FigureController extends AbstractController
                                 array_push($arrayObjectVideo, $objectVideo);
                             } catch (FileException $e) {
                                 dump($e);
-                                exit;
                             }
                         }
                     }
