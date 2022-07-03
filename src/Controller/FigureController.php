@@ -482,7 +482,6 @@ class FigureController extends AbstractController
                 $this->entityManager->flush();
             } catch (Exception $e) {
                 dump($e);
-                exit;
             }
             return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
         }
