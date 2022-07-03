@@ -528,11 +528,11 @@ class FigureController extends AbstractController
         $stateFixtureCurrentTrick = $currentTrick->getFixture();
 
         if ($stateFixtureCurrentTrick === false && $fileNameCoverImage !== "defaultCoverImage") {
+
             $pathCoverImage = $this->getParameter('images_directory');
-
             DeleteImageStored::deleteImage($fileNameCoverImage, $pathCoverImage);
+            
         }
-
 
         $this->entityManager->remove($currentTrick);
         $this->entityManager->flush();
