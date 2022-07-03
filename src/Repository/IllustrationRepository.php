@@ -18,5 +18,4 @@ class IllustrationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Illustration::class);
     }
-
 }

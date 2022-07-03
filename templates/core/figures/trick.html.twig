@@ -57,9 +57,9 @@
                                         {% if media.type == "img" %}                  
                                             <div class="col-sm-12 col-md-12 col-lg-12">
                                                 <div class="card card-carousel px-0 mx-0 bg-light rounded-3">
-                                                    <img class="img-fluid-desktop d-block" src="{{media.path}}" alt="slide 2">
+                                                    <img class="img-fluid-desktop d-block" src="{{media.path}}" alt="{{media.alternativeAttribute}}">
                                                 </div> 
-                                            </div>
+                                            </div> 
 
                                         {% else %}
 
@@ -94,7 +94,7 @@
                     {% for media in arrayMedias %}
                         {% if media.type == "img" %}
                             <div class="card px-0 mx-0 mb-3 bg-light rounded-3 d-block" style="width:100%; height: auto;">
-                                <img class="img-fluid d-block" src="{{media.path}}" alt="slide 2">
+                                <img class="img-fluid d-block" src="{{media.path}}" alt="{{media.alternativeAttribute}}">
                                 <div class="card-body bg-light">
                                     {% if app.user %}
                                         <a href="{{ path('trickEditMediasPage', {'slug': figure.slug, 'id': media.id } ) }}?type=image" class="btn btn-info mr-2">

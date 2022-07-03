@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Entity;
 
 use DateTime;
@@ -10,42 +11,38 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\VideoRepository")
  * @ORM\Table(name="video")
  */
-class Video 
+class Video
 {
     /**
      * @var int
-     * 
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     protected $id;
-
-    /**
+/**
      * @var string
-     * 
-     * @Assert\NotBlank( 
+     *
+     * @Assert\NotBlank(
      * message = "La valeur ne peut être vide.", groups="base"
      * )
-     * 
+     *
      * @ORM\Column(type="string")
      */
     protected $urlVideo;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $createdAt;
-
-    /**
-     * @var Datetime 
-     * 
+/**
+     * @var Datetime
+     *
      * @ORM\column(type="datetime")
      */
     protected $updatedAt;
-
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -55,17 +52,15 @@ class Video
 
     /**
      * @var Figure
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="App\Entity\Figure")
      * @ORM\JoinColumn(name="figure_id", referencedColumnName="id")
      */
     protected $figure;
-
-
-    /* getter and setter */
+/* getter and setter */
 
     /**
-     * @return int 
+     * @return int
      */
     public function getId(): int
     {
@@ -73,7 +68,7 @@ class Video
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getUrlVideo(): ?string
     {
@@ -90,7 +85,7 @@ class Video
 
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getCreatedAt(): Datetime
     {
@@ -106,7 +101,7 @@ class Video
     }
 
     /**
-     * @return Datetime 
+     * @return Datetime
      */
     public function getUpdatedAt(): Datetime
     {
@@ -122,7 +117,7 @@ class Video
     }
 
     /**
-     * @return Figure 
+     * @return Figure
      */
     public function getFigure()
     {

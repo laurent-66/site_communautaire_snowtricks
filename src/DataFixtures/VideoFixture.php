@@ -1,4 +1,5 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Video;
@@ -9,7 +10,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class VideoFixture extends Fixture implements DependentFixtureInterface
 {
-
     public function load(ObjectManager $manager)
     {
 
@@ -22,8 +22,8 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
         // https://youtu.be/SQyTWk7OxSI
         // https://youtu.be/nHMjX8RL3Oc
         // https://youtu.be/QMrelVooJR4
-        // https://youtu.be/de6DOa1C380 
-        // https://youtu.be/V9xuy-rVj9w 
+        // https://youtu.be/de6DOa1C380
+        // https://youtu.be/V9xuy-rVj9w
         // https://youtu.be/NQ1MERtpFLQ
         // https://youtu.be/2vNVpnjVsYg
         // https://youtu.be/gbHU6J6PRRw
@@ -34,24 +34,23 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
             'Ey5elKTrUCk',
             '2RjS4-T7IdU',
             'SQyTWk7OxSI',
-            'nHMjX8RL3Oc', 
-            'QMrelVooJR4', 
-            'de6DOa1C380', 
-            'V9xuy-rVj9w', 
-            'NQ1MERtpFLQ', 
+            'nHMjX8RL3Oc',
+            'QMrelVooJR4',
+            'de6DOa1C380',
+            'V9xuy-rVj9w',
+            'NQ1MERtpFLQ',
             '2vNVpnjVsYg',
             'gbHU6J6PRRw'
             ];
 
-        for($i = 0 ; $i < count($datasYoutube) ; $i++ ) {
+        for ($i = 0; $i < count($datasYoutube); $i++) {
             $video = new Video();
-            $figRandom = rand(0,9);
-            $video->setFigure($this->getReference('fig-ref_'.$figRandom ));
+            $figRandom = rand(0, 9);
+            $video->setFigure($this->getReference('fig-ref_' . $figRandom));
             $video->setUrlVideo($datasYoutube[$i]);
             $manager->persist($video);
             $manager->flush();
         }
-
     }
 
 
@@ -61,5 +60,4 @@ class VideoFixture extends Fixture implements DependentFixtureInterface
             FigureFixture::class
         ];
     }
-
 }

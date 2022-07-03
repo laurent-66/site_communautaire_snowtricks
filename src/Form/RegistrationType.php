@@ -20,12 +20,13 @@ class RegistrationType extends AbstractType
      * @param array $options
      * @return array
      */
-    private function getConfiguration($label, $placeholder, $options = []) {
+    private function getConfiguration($label, $placeholder, $options = [])
+    {
         return array_merge([
             'label' => $label,
             'attr' => [
                 'placeholder' => $placeholder,
-                
+
             ],
             'required' => false
         ], $options);
@@ -36,7 +37,11 @@ class RegistrationType extends AbstractType
         $builder
             ->add('pseudo', TextType::class, $this->getConfiguration("pseudo", "votre pseudo"))
             ->add('email', TextType::class, $this->getConfiguration("Email", "Votre adresse email"))
-            ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "choisissez un mot de passe"))
+            ->add(
+                'password',
+                PasswordType::class,
+                $this->getConfiguration("Mot de passe", "choisissez un mot de passe")
+            )
         ;
     }
 
@@ -47,4 +52,4 @@ class RegistrationType extends AbstractType
             'validation_groups' => ['updateMail','base']
         ]);
     }
-} 
+}

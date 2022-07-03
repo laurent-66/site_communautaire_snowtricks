@@ -20,43 +20,43 @@ class EditTrickType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class,[
-                'label'=>'Modifier le nom de la figure',
+            ->add('name', TextType::class, [
+                'label' => 'Modifier le nom de la figure',
                 'required' => false,
             ])
 
-            ->add('coverImageFile', FileType::class, [ 
+            ->add('coverImageFile', FileType::class, [
 
                 'label' => 'Image de couverture (jpeg,jpg ou png)',
-                'required' => false, 
+                'required' => false,
             ])
 
-            ->add( 'alternativeAttribute', TextType::class , [
+            ->add('alternativeAttribute', TextType::class, [
 
-                'label'=> 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
+                'label' => 'Décrivez l\'image en un mot (par défaut le nom du fichier sera choisie)',
                 'required' => false,
             ])
 
             ->add('description', TextareaType::class, [
-                    'label'=>'Modifier la description de la figure',
+                    'label' => 'Modifier la description de la figure',
                     'required' => false,
-                    'attr' => ['rows'=>'5'],
+                    'attr' => ['rows' => '5'],
                 ])
-                
-            ->add('figureGroup', EntityType::class,['choice_label'=> 'name','class' => FigureGroup::class])
+
+            ->add('figureGroup', EntityType::class, ['choice_label' => 'name','class' => FigureGroup::class])
 
             ->add(
                 'illustrations',
-                CollectionType::class, 
+                CollectionType::class,
                 [
-                    'entry_type' => IllustrationType::class, 
+                    'entry_type' => IllustrationType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                    'allow_delete' => true, 
-                    'label'=> false, 
-                    'by_reference'=> false,
-                     
-                ], 
+                    'allow_delete' => true,
+                    'label' => false,
+                    'by_reference' => false,
+
+                ],
             )
 
             ->add(
@@ -66,9 +66,9 @@ class EditTrickType extends AbstractType
                     'entry_type' => VideoType::class,
                     'entry_options' => ['label' => false],
                     'allow_add' => true,
-                    'allow_delete' => true, 
-                    'label'=> false,
-                    'by_reference'=> false,
+                    'allow_delete' => true,
+                    'label' => false,
+                    'by_reference' => false,
                 ]
             )
         ;

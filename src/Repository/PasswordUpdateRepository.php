@@ -18,5 +18,4 @@ class PasswordUpdateRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PasswordUpdate::class);
     }
-
 }
