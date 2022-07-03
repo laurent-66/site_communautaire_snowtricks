@@ -528,11 +528,11 @@ class FigureController extends AbstractController
         $stateFixtureCurrentTrick = $currentTrick->getFixture();
 
         if ($stateFixtureCurrentTrick === false && $fileNameCoverImage !== "defaultCoverImage") {
+
             $pathCoverImage = $this->getParameter('images_directory');
-
             DeleteImageStored::deleteImage($fileNameCoverImage, $pathCoverImage);
+            
         }
-
 
         $this->entityManager->remove($currentTrick);
         $this->entityManager->flush();
@@ -561,6 +561,13 @@ class FigureController extends AbstractController
             $formEditMediasTrick->handleRequest($request);
 
             if ($formEditMediasTrick->isSubmitted() && $formEditMediasTrick->isValid()) {
+
+                //delete file Illustration stored
+                $fileName = $currentIllustration->getUrlIllustration();
+                $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
+                DeleteImageStored::deleteImage($fileName, $pathIllustrationsCollection);
+
+                // add File Illustration
                 $formData = $formEditMediasTrick->getData();
                 $illustration = $formData->getFileIllustration();
 
@@ -581,10 +588,10 @@ class FigureController extends AbstractController
                     $illustrationsCollectionDirectory
                 );
 
+                // register url Illustration
                 $currentIllustration->setUrlIllustration($newFilename);
                 $currentIllustration->setAlternativeAttribute($originalFilename);
                 $currentIllustration->setFixture(0);
-
                 $currentIllustration->setFigure($currentfigure);
                 $this->entityManager->persist($currentIllustration);
 

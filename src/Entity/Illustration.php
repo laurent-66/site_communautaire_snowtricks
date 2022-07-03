@@ -212,7 +212,7 @@ class Illustration
      */
     public function getAlternativeAttribute(): ?string
     {
-        return $this->alternativeAttribute;
+        return $this->alternativeAttribute; 
     }
 
     /**
