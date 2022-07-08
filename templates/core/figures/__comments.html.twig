@@ -10,11 +10,17 @@
                     <div><img class="authorPictureComment" src="/uploads/profilImage/{{comment.author.urlPhoto}}" alt="author image"></div>
                 {% endif %} 
             </div>
-            <div class="col-sm-11 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3 content-comment">
-                <strong>le : {{comment.updatedAt|date('d/m/Y', timezone="Europe/Paris")}} à {{comment.updatedAt|date('H:i', timezone="Europe/Paris")}}</strong><br>
-                <strong>{{comment.author.pseudo}} a dit :</strong> 
-                <blockquote> {{comment.content}}</blockquote> 
-            </div>
+
+
+            {# {% if comment.fixture == 0 %} #}
+                <div class="col-sm-11 col-md-11 col-lg-11 bg-light rounded mb-3 py-3 px-3 content-comment">
+                    <strong>le : {{comment.updatedAt|date('d/m/Y', timezone="Europe/Paris")}} à {{comment.updatedAt|date('H:i', timezone="Europe/Paris")}}</strong><br>
+                    <strong>{{comment.author.pseudo}} a dit :</strong> 
+                    <blockquote> {{comment.content}}</blockquote> 
+                </div>
+            {# {% endif %}  #}
+
+
         </div>
     {% endfor %}
 {% else %} 

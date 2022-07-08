@@ -100,6 +100,7 @@ class Figure
      * @ORM\column(type="boolean")
      */
     private $fixture;
+    
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -373,7 +374,7 @@ class Figure
     /**
      * @param Comment $comment
      */
-    public function setComment(Comment $comment): void
+    public function setComment(?Comment $comment): void
     {
         $this->comment = $comment;
     }
