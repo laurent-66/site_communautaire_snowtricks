@@ -215,56 +215,59 @@ class SecurityController extends AbstractController
         RegisterFileUploaded $registerFileUploaded,
         UniqueIdImage $uniqueIdImage
     ) {
+        if($this->getUser()) {
 
-        $user = $this->getUser();
+            $user = $this->getUser();
 
-        $form = $this->createForm(UpdateProfilType::class, $user);
+            $form = $this->createForm(UpdateProfilType::class, $user);
 
-        $form->handleRequest($request);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $objectUploadedFile = $form->get('urlPhotoFile')->getData();
-            $updateUser = $form->getData();
-            $updatePseudoUser = $updateUser->getPseudo();
-            $updateEmailUser = $updateUser->getEmail();
-            $urlPhotoUser = $updateUser->getUrlPhoto();
-            $updateAttributeUser = $updateUser->getAlternativeAttribute();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $objectUploadedFile = $form->get('urlPhotoFile')->getData();
+                $updateUser = $form->getData();
+                $updatePseudoUser = $updateUser->getPseudo();
+                $updateEmailUser = $updateUser->getEmail();
+                $urlPhotoUser = $updateUser->getUrlPhoto();
+                $updateAttributeUser = $updateUser->getAlternativeAttribute();
 
-            if ($objectUploadedFile) {
-                $newFilename = $uniqueIdImage->generateUniqIdFileName($objectUploadedFile, $slugger);
+                if ($objectUploadedFile) {
+                    $newFilename = $uniqueIdImage->generateUniqIdFileName($objectUploadedFile, $slugger);
 
-                try {
-                    $pathUrlPhoto = $this->getParameter('images_profil_directory');
+                    try {
+                        $pathUrlPhoto = $this->getParameter('images_profil_directory');
 
-                    if ($urlPhotoUser !== "defaultProfil.jpg") {
-                        DeleteImageStored::deleteImage($urlPhotoUser, $pathUrlPhoto);
+                        if ($urlPhotoUser !== "defaultProfil.jpg") {
+                            DeleteImageStored::deleteImage($urlPhotoUser, $pathUrlPhoto);
 
-                        $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
-                    } elseif ($urlPhotoUser === "defaultProfil.jpg") {
-                        $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
+                            $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
+                        } elseif ($urlPhotoUser === "defaultProfil.jpg") {
+                            $registerFileUploaded->registerFile($objectUploadedFile, $newFilename, $pathUrlPhoto);
+                        }
+                    } catch (FileException $e) {
+                        dump($e);
                     }
-                } catch (FileException $e) {
-                    dump($e);
+
+                    $updateUser->setUrlPhoto($newFilename);
+                    $updateUser->setAlternativeAttribute($updateAttributeUser);
+                    $this->entityManager->persist($updateUser);
+                } else {
+                    $updateUser->setUrlPhoto('defaultProfil.jpg');
+                    $updateUser->setAlternativeAttribute('Avatar par defaut');
+                    $this->entityManager->persist($updateUser);
                 }
 
-                $updateUser->setUrlPhoto($newFilename);
-                $updateUser->setAlternativeAttribute($updateAttributeUser);
+                $updateUser->setPseudo($updatePseudoUser);
+                $updateUser->setEmail($updateEmailUser);
+
                 $this->entityManager->persist($updateUser);
-            } else {
-                $updateUser->setUrlPhoto('defaultProfil.jpg');
-                $updateUser->setAlternativeAttribute('Avatar par defaut');
-                $this->entityManager->persist($updateUser);
+                $this->entityManager->flush();
+
+                return $this->redirectToRoute('homePage');
             }
-
-            $updateUser->setPseudo($updatePseudoUser);
-            $updateUser->setEmail($updateEmailUser);
-
-            $this->entityManager->persist($updateUser);
-            $this->entityManager->flush();
-
+            return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user' => $user]);
+        } else {
             return $this->redirectToRoute('homePage');
         }
-
-        return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user' => $user]);
     }
 }
