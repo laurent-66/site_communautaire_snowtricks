@@ -69,6 +69,7 @@ class FigureController extends AbstractController
  */
     public function create(Request $request)
     {
+        $test="";
         if($this->getUser()) {
 
             $codeYoutube = '';
@@ -166,9 +167,8 @@ class FigureController extends AbstractController
             );
 
         } else {
-            // $messageError = "Accés refusé : veuillez vous authentifier";
-            // $error = true;
-            // return $this->render('core/figures/home.html.twig', ['error'=>$error , 'messageError'=>$messageError]);
+            $test= true;
+            // return $this->redirectToRoute('homePage', ['error'=>$test]);
             return $this->redirectToRoute('homePage');
         }
 
