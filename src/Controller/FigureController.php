@@ -78,6 +78,7 @@ class FigureController extends AbstractController
         if ($formTrick->isSubmitted() && $formTrick->isValid()) {
             $newTrick = $formTrick->getData();
             $newTrick->setAuthor($this->getUser());
+            $newTrick->setComment(null);
             $newTrick->setfixture(0);
             $coverImage = $newTrick->getCoverImageFile();
             $alternativeAttribute = $newTrick->getAlternativeAttribute();
@@ -180,6 +181,8 @@ class FigureController extends AbstractController
     {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
+        // dump($figure);
+        // exit;
         $figureId = $figure->getId();
 
         $comments = $this->commentRepository->getCommentsPagination($figureId, $page = 1);
@@ -197,6 +200,7 @@ class FigureController extends AbstractController
                 $newComment = $formComment->getData();
                 $newComment->setFigure($figure);
                 $newComment->setAuthor($this->getUser());
+                $newComment->setFixture(0);
                 $this->entityManager->persist($newComment);
                 $this->entityManager->flush();
             } catch (Exception $e) {

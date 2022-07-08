@@ -34,5 +34,5 @@ element.addEventListener('click', async (e) => {
                 arrowUpLinkEnabled.style.display='block';
             } 
 
-        }
+        } 
 }) 

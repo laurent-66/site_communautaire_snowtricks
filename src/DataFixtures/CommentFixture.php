@@ -6,12 +6,18 @@ use DateTime;
 use Faker\Factory;
 use App\Entity\Comment;
 use App\DataFixtures\UserFixture;
+use App\Repository\FigureRepository;
+use App\Repository\CommentRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class CommentFixture extends Fixture implements DependentFixtureInterface
 {
+    public function __construct(FigureRepository $figureRepository)
+    {
+        $this->figureRepository = $figureRepository;
+    }
     public function load(ObjectManager $manager)
     {
 
@@ -25,7 +31,19 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
             $datetime = $faker->datetime();
             $comment = new Comment();
             $comment->setContent($content);
-            $comment->setUpdatedAt($datetime);
+            $comment->setCreatedAt(new \DateTime());
+            $comment->setUpdatedAt(new \DateTime());
+            $comment->setFixture(1);
+
+
+            // $figureId = $this->getReference('fig-ref_1')->getId();
+            // dump($figureId);
+            // $figure = $this->figureRepository->find($figureId);
+            // dump($figure);
+            // exit;
+            // dump($this->getReference('user_' . $authorRefRandom));
+            // exit;
+
             $comment->setAuthor($this->getReference('user_' . $authorRefRandom));
             $comment->setFigure($this->getReference('fig-ref_' . $figRandom));
             $manager->persist($comment);
