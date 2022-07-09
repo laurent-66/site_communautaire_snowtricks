@@ -267,6 +267,7 @@ class SecurityController extends AbstractController
             }
             return $this->renderForm('core/auth/updateProfil.html.twig', ['form' => $form, 'user' => $user]);
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
     }

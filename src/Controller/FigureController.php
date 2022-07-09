@@ -156,7 +156,7 @@ class FigureController extends AbstractController
                 $newTrick->setFixture(0);
                 $this->entityManager->persist($newTrick);
                 $this->entityManager->flush();
-
+                $this->addFlash('success','La figure a été créé avec succès !');
                 return $this->redirectToRoute('homePage');
             }
 
@@ -166,6 +166,7 @@ class FigureController extends AbstractController
             );
 
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
 
@@ -458,6 +459,7 @@ class FigureController extends AbstractController
             );
 
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
     }
@@ -493,10 +495,12 @@ class FigureController extends AbstractController
                     $this->entityManager->persist($figure);
 
                     $this->entityManager->flush();
+                    $this->addFlash('success','L\'image de couverture a été modifié avec succès !');
+                    return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
+
                 } catch (Exception $e) {
                     dump($e);
                 }
-                return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
             }
 
             return $this->render(
@@ -506,6 +510,7 @@ class FigureController extends AbstractController
             );
 
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }          
 
@@ -552,8 +557,11 @@ class FigureController extends AbstractController
 
             $this->entityManager->remove($currentTrick);
             $this->entityManager->flush();
+            $this->addFlash('success','La figure a été supprimé avec succès !');
             return $this->redirectToRoute('homePage');
+
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
     }
@@ -616,7 +624,7 @@ class FigureController extends AbstractController
                     $currentfigure->addIllustration($currentIllustration);
                     $this->entityManager->persist($currentfigure);
                     $this->entityManager->flush();
-
+                    $this->addFlash('successCollection','L\'illustration a été modifié avec succès !');
                     return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
                 }
 
@@ -641,11 +649,12 @@ class FigureController extends AbstractController
                         $currentfigure->addVideo($currentVideo);
                         $this->entityManager->persist($currentfigure);
                         $this->entityManager->flush($currentfigure);
+                        $this->addFlash('successCollection','La video a été modifié avec succès !');
+                        return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
+
                     } catch (FileException $e) {
                         dump($e);
                     }
-
-                        return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
                 }
 
                 return $this->render(
@@ -655,6 +664,7 @@ class FigureController extends AbstractController
                 );
             }
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
     }
@@ -677,8 +687,10 @@ class FigureController extends AbstractController
             $this->entityManager->flush();
             $pathIllustrationsCollection = $this->getParameter('illustrationsCollection_directory');
             DeleteImageStored::deleteImage($fileName, $pathIllustrationsCollection);
+            $this->addFlash('successCollection','L\'illustration a été supprimé avec succès !');
             return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
     }
@@ -695,8 +707,10 @@ class FigureController extends AbstractController
             $currentIdVideo = $this->videoRepository->findOneById($id);
             $this->entityManager->remove($currentIdVideo);
             $this->entityManager->flush();
+            $this->addFlash('successCollection','La vidéo a été supprimé avec succès !');
             return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
 
@@ -725,10 +739,11 @@ class FigureController extends AbstractController
             $figure->setFixture(0);
             $this->entityManager->persist($figure);
             $this->entityManager->flush();
+            $this->addFlash('success','L\'image de couverture a été supprimé avec succès !');
             return $this->redirectToRoute('trickEditPage', ['slug' => $slug]);
         } else {
+            $this->addFlash('access_denied','Accés non authorisé !');
             return $this->redirectToRoute('homePage');
         }
-
     }
 }
