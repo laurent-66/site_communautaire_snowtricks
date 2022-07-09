@@ -423,13 +423,12 @@ class FigureController extends AbstractController
                         $figure->setDescription($descriptionfield);
                         $figure->setFigureGroup($figureGroupSelect);
                         $figure->setFixture($fixtureDefinition);
-
                         $this->entityManager->persist($figure);
                         $this->entityManager->flush();
                         $this->addFlash('success','La figure a été modifié avec succès !');
-
                         $newSlug = $figure->getSlug();
                         return $this->redirectToRoute('trickViewPage', ['slug' => $newSlug]);
+
 
                     } else {
                         $messageError = 'Le nom de la figure est déjà existant';
@@ -457,7 +456,7 @@ class FigureController extends AbstractController
                 'messageError' => $messageError ,
                 'error' => false ]
             );
-            
+
         } else {
             return $this->redirectToRoute('homePage');
         }
