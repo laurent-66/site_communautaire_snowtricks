@@ -3,19 +3,24 @@
 namespace App\Controller;
 
 use App\Entity\Figure;
+use App\ImageOptimizer;
 use App\Repository\FigureRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class DefaultController extends AbstractController
 {
     private $figureRepository;
 
-    public function __construct(FigureRepository $figureRepository)
+    public function __construct(FigureRepository $figureRepository, ImageOptimizer $imageOptimizer, SluggerInterface $slugger )
     {
         $this->figureRepository = $figureRepository;
+        $this->imageOptimizer = $imageOptimizer;
+        $this->slugger = $slugger;
+
     }
 
     /**
@@ -32,6 +37,15 @@ class DefaultController extends AbstractController
 
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
+        foreach($paginator as $figure) {
+            $name = $figure->getName();
+            $nameSlugTrick = $this->slugger->slug($name)->lower();
+            $pathCoverImageFixture = $this->getParameter('cover_image_fixture_repository');
+            $filename = $pathCoverImageFixture.'\\'.$nameSlugTrick;
+            dump($filename);
+            // $this->imageOptimizer->resize($filename);
+        }
+exit;
         return $this->render(
             'core/figures/home.html.twig',
             [
