@@ -37,15 +37,19 @@ class DefaultController extends AbstractController
 
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
-        foreach($paginator as $figure) {
-            $name = $figure->getName();
-            $nameSlugTrick = $this->slugger->slug($name)->lower();
-            $pathCoverImageFixture = $this->getParameter('cover_image_fixture_repository');
-            $filename = $pathCoverImageFixture.'\\'.$nameSlugTrick;
-            dump($filename);
-            // $this->imageOptimizer->resize($filename);
-        }
-exit;
+        $this->imageOptimizer->resize("C:\Users\laure\Documents\ProjectPhp\snowtricks\public\images\snowTrickCollection\\front-flip-copy.jpg");
+        exit;
+
+        // foreach($paginator as $figure) {
+        //     $name = $figure->getName();
+        //     $nameSlugTrick = $this->slugger->slug($name)->lower();
+        //     $pathCoverImageFixture = $this->getParameter('cover_image_fixture_repository');
+        //     $filename = $pathCoverImageFixture.'\\'.$nameSlugTrick;
+        //     dump($filename);
+        //     $this->imageOptimizer->resize($filename);
+        // }
+
+
         return $this->render(
             'core/figures/home.html.twig',
             [
