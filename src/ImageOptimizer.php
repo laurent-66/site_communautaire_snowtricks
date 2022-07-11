@@ -4,6 +4,7 @@ namespace App;
 
 use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
 
 class ImageOptimizer
 {
@@ -29,7 +30,14 @@ class ImageOptimizer
             $height = $width / $ratio;
         }
 
+        // $photo = $this->imagine->open($filename);
+        // $photo->resize(new Box($width, $height))->save($filename);
+
         $photo = $this->imagine->open($filename);
-        $photo->resize(new Box($width, $height))->save($filename);
+        $photo->thumbnail(new Box($width, $height, ImageInterface::THUMBNAIL_OUTBOUND))->save($filename);
+
+
+
+
     }
 }
