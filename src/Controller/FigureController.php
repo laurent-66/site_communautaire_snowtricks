@@ -57,7 +57,7 @@ class FigureController extends AbstractController
         $this->figureGroupRepository = $figureGroupRepository;
         $this->uniqueIdImage = $uniqueIdImage;
         $this->registerFileUploaded = $registerFileUploaded;
-    }
+    } 
 
 
 /**
@@ -89,7 +89,7 @@ class FigureController extends AbstractController
 
                     $newFilename = $this->uniqueIdImage->generateUniqIdFileName($coverImage);
 
-                    $imagesDirectory = $this->getParameter('images_directory');
+                    $imagesDirectory = $this->getParameter('images_directory'); 
 
                     $this->registerFileUploaded->registerFile($coverImage, $newFilename, $imagesDirectory);
 

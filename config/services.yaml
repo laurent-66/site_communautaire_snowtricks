@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     images_directory: '%kernel.project_dir%\public\uploads\coverImage'
+    cover_image_fixture_repository: '%kernel.project_dir%\public\images\snowTrickCollection'
     images_default_directory: '%kernel.project_dir%\public\images\default'
     images_profil_directory: '%kernel.project_dir%\public\uploads\profilImage'
     illustrationsCollection_directory: '%kernel.project_dir%\public\uploads\illustrationsCollection'
