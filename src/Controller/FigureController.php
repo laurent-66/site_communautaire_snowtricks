@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Figure;
 use App\Entity\Comment;
+use App\ImageOptimizer;
 use App\Form\CommentType;
 use App\Services\Youtube;
 use App\Form\NewTrickType;
@@ -67,7 +68,7 @@ class FigureController extends AbstractController
  *
  * @Route("tricks/new", name="newtrickPage")
  */
-    public function create(Request $request)
+    public function create(Request $request, ImageOptimizer $imageOptimizer)
     {
         if($this->getUser()) {
 
@@ -156,6 +157,18 @@ class FigureController extends AbstractController
                 $newTrick->setFixture(0);
                 $this->entityManager->persist($newTrick);
                 $this->entityManager->flush();
+
+                //resizing coverImage
+
+                $nameTrick = $newTrick->getCoverImage();
+                $fileExtension = stristr(strtolower($nameTrick),'.');
+                $nameTrickOnly = substr($nameTrick, 0, -strlen($fileExtension));
+                $pathCoverImage = $this->getParameter('images_directory');
+                $filename = $pathCoverImage.'\\'.$nameTrickOnly.$fileExtension;
+                $imageOptimizer->resize($filename);
+
+                ////
+
                 $this->addFlash('success','La figure a été créé avec succès !');
                 return $this->redirectToRoute('homePage');
             }

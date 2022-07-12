@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class DefaultController extends AbstractController
+class DefaultController extends AbstractController 
 {
     private $figureRepository;
 
@@ -35,21 +35,23 @@ class DefaultController extends AbstractController
     public function home(Request $request)
     {
 
-        $figuresList = $this->figureRepository->findAll();
+        // $figuresList = $this->figureRepository->findAll();
 
-        foreach($figuresList as $figure) {
+        // foreach($figuresList as $figure) {
 
-            $nameTrick = $figure->getCoverImage();
-            $fileExtension = stristr(strtolower($nameTrick),'.');
-            $nameTrickOnly = substr($nameTrick, 0, -strlen($fileExtension));
-            if($figure->getFixture() == 1) {
-                $pathCoverImage = $this->getParameter('cover_image_fixture_repository');
-            } else {
-                $pathCoverImage = $this->getParameter('images_directory');
-            }
-            $filename = $pathCoverImage.'\\'.$nameTrickOnly.$fileExtension;
-            $this->imageOptimizer->resize($filename);
-        }
+        //     if($figure->getFixture() == 0) {
+        //     if($figure->getFixture() == 0) {
+
+        //         $nameTrick = $figure->getCoverImage();
+        //         $fileExtension = stristr(strtolower($nameTrick),'.');
+        //         $nameTrickOnly = substr($nameTrick, 0, -strlen($fileExtension));
+        //         $pathCoverImage = $this->getParameter('images_directory');
+        //         $filename = $pathCoverImage.'\\'.$nameTrickOnly.$fileExtension;
+        //         $this->imageOptimizer->resize($filename);
+        //     } 
+
+        // }
+
 
 
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
