@@ -11,6 +11,7 @@ class ImageOptimizer
     private const MAX_WIDTH = 800;
     private const MAX_HEIGHT = 800;
 
+
     private $imagine;
 
     public function __construct()
@@ -23,6 +24,7 @@ class ImageOptimizer
         list($iwidth, $iheight) = getimagesize($filename);
         $coordCenterX = $iwidth/2;
         $coordCenterY = $iheight/2;
+
         $ratio = $iwidth / $iheight;
         $width = self::MAX_WIDTH;
         $height = self::MAX_HEIGHT;
