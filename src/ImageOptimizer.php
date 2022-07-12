@@ -2,14 +2,14 @@
 
 namespace App;
 
-use Imagine\Gd\Imagine;
 use Imagine\Image\Box;
-use Imagine\Image\ImageInterface;
+use Imagine\Gd\Imagine;
+use Imagine\Image\Point;
 
 class ImageOptimizer
 {
-    private const MAX_WIDTH = 200;
-    private const MAX_HEIGHT = 150;
+    private const MAX_WIDTH = 800;
+    private const MAX_HEIGHT = 600;
 
     private $imagine;
 
@@ -27,17 +27,16 @@ class ImageOptimizer
         if ($width / $height > $ratio) {
             $width = $height * $ratio;
         } else {
-            $height = $width / $ratio;
+            $height = $width / $ratio; 
         }
 
         // $photo = $this->imagine->open($filename);
         // $photo->resize(new Box($width, $height))->save($filename);
 
-        $photo = $this->imagine->open($filename);
-        $photo->thumbnail(new Box($width, $height, ImageInterface::THUMBNAIL_OUTBOUND))->save($filename);
-
-
-
-
+        $this->imagine->open($filename)
+                        ->resize(new Box($width, $height))
+                        ->crop(new Point(0, 0), new Box($width,$height))
+                        ->save($filename);
     }
 }
+
