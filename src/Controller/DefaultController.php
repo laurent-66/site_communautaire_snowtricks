@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class DefaultController extends AbstractController
+class DefaultController extends AbstractController 
 {
     private $figureRepository;
 
