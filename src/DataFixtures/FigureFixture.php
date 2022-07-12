@@ -29,7 +29,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'saisie de la carre frontside de la planche,
                  entre les deux pieds, avec la main arrière ',
-                'Cover_image' => 'Indy-grab.JPG',
+                'Cover_image' => 'Indy-grab800x600.jpg',
                 'alternative_attribute' => 'Indy-grab',
                 'figure_group' => 0,
                 'pseudo_id' => 0,
@@ -42,7 +42,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'saisie de l\'avant de la planche,avec la main
                  avant, du côté de la carre frontside.',
-                'Cover_image' => 'Japan-air-grab.jpg',
+                'Cover_image' => 'Japan-air-grab800x600.jpg',
                 'alternative_attribute' => 'Japan air grab',
                 'figure_group' => 1,
                 'pseudo_id' => 0,
@@ -55,7 +55,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'saisie de la carre frontside de la planche
                  entre les deux pieds avec la main avant',
-                'Cover_image' => 'mute-grab.jpg',
+                'Cover_image' => 'mute-grab800x600.jpg',
                 'alternative_attribute' => 'mute grab',
                 'figure_group' => 2,
                 'pseudo_id' => 1,
@@ -67,7 +67,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'name' => 'Nose grab',
                 'description' => 'saisie de la partie 
                 avant de la planche, avec la main avant',
-                'Cover_image' => 'Nose-grab.jpg',
+                'Cover_image' => 'Nose-grab800x600.jpg',
                 'alternative_attribute' => 'nose grab',
                 'figure_group' => 3,
                 'pseudo_id' => 2,
@@ -80,7 +80,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'saisie de la carre backside de la planche, entre les deux pieds, 
                 avec la main avant. Le rider est en position goofy.',
-                'Cover_image' => 'Sad-melancholie.jpg',
+                'Cover_image' => 'Sad-melancholie800x600.jpg',
                 'alternative_attribute' => 'sad ou melancholie',
                 'figure_group' => 4,
                 'pseudo_id' => 1,
@@ -91,7 +91,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             [
                 'name' => 'Seat belt',
                 'description' => 'saisie du carre frontside à l\'arrière avec la main avant',
-                'Cover_image' => 'Seatbelt.jpg',
+                'Cover_image' => 'Seatbelt800x600.jpg',
                 'alternative_attribute' => 'Seat belt',
                 'figure_group' => 5,
                 'pseudo_id' => 1,
@@ -104,7 +104,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'saisie de la carre backside de la planche entre les deux pieds avec la main arrière,
                  sur cette image le rider est en position regular (son pied gauche est à l\'avant).',
-                'Cover_image' => 'stalefish.jpg',
+                'Cover_image' => 'stalefish800x600.jpg',
                 'alternative_attribute' => 'stalefish',
 
                 'figure_group' => 6,
@@ -118,7 +118,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'saisie de la partie arrière de la planche, avec la main arrière. 
                 Le rider est ici en position goofy.',
-                'Cover_image' => 'tail-grab.jpg',
+                'Cover_image' => 'tail-grab800x600.jpg',
                 'alternative_attribute' => 'tail grab',
                 'figure_group' => 7,
                 'pseudo_id' => 0,
@@ -130,7 +130,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'name' => 'Truck driver',
                 'description' =>
                 'saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)',
-                'Cover_image' => 'truck-driver.jpg',
+                'Cover_image' => 'truck-driver800x600.jpg',
                 'alternative_attribute' => 'Truck driver',
                 'figure_group' => 8,
                 'pseudo_id' => 1,
@@ -143,7 +143,7 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
                 'description' =>
                 'Le rider en position regular, effectue un front flip en saisissant la partie arrière de la planche,
                  avec la main arrière.',
-                'Cover_image' => 'front flip.jpg',
+                'Cover_image' => 'front-flip800x600.jpg',
                 'alternative_attribute' => 'Tail grab avec front flip',
                 'figure_group' => 7,
                 'pseudo_id' => 2,
