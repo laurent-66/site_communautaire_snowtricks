@@ -8,8 +8,8 @@ use Imagine\Image\Point;
 
 class ImageOptimizer
 {
-    private const MAX_WIDTH = 800;
-    private const MAX_HEIGHT = 800;
+    private const MAX_WIDTH = 900;
+    private const MAX_HEIGHT = 700;
 
 
     private $imagine;
@@ -22,9 +22,6 @@ class ImageOptimizer
     public function resize(string $filename): void
     {
         list($iwidth, $iheight) = getimagesize($filename);
-        $coordCenterX = $iwidth/2;
-        $coordCenterY = $iheight/2;
-
         $ratio = $iwidth / $iheight;
         $width = self::MAX_WIDTH;
         $height = self::MAX_HEIGHT;
@@ -34,12 +31,9 @@ class ImageOptimizer
             $height = $width / $ratio; 
         }
 
-        // $photo = $this->imagine->open($filename);
-        // $photo->resize(new Box($width, $height))->save($filename);
-
         $this->imagine->open($filename)
-                        ->resize(new Box(self::MAX_WIDTH, self::MAX_HEIGHT))
-                        ->crop(new Point( 0, 100), new Box(800, 600))
+                        ->resize(new Box($width , $height))
+                        ->crop(new Point( 50, 0), new Box(800, 600))
                         ->save($filename);
 
     }

@@ -199,11 +199,6 @@ class FigureController extends AbstractController
 
         $figure = $this->figureRepository->findOneBySlug($slug);
         $figureId = $figure->getId();
-
-        // $comments = $this->commentRepository->findByFigure($figureId);
-        // dump($comments);
-        // exit; 
-
         $comments = $this->commentRepository->getCommentsPagination($figureId, 1, Comment::LIMIT_PER_PAGE );
         $paginator = $this->commentRepository->getCommentByLimit($figureId, 1, Comment::LIMIT_PER_PAGE);
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
