@@ -4,11 +4,11 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    images_directory: '%kernel.project_dir%\public\uploads\coverImage'
-    cover_image_fixture_repository: '%kernel.project_dir%\public\images\snowTrickCollection'
-    images_default_directory: '%kernel.project_dir%\public\images\default'
-    images_profil_directory: '%kernel.project_dir%\public\uploads\profilImage'
-    illustrationsCollection_directory: '%kernel.project_dir%\public\uploads\illustrationsCollection'
+    images_directory: '%kernel.project_dir%/public/uploads/coverImage'
+    cover_image_fixture_repository: '%kernel.project_dir%/public/images/snowTrickCollection'
+    images_default_directory: '%kernel.project_dir%/public/images/default'
+    images_profil_directory: '%kernel.project_dir%/public/uploads/profilImage'
+    illustrationsCollection_directory: '%kernel.project_dir%/public/uploads/illustrationsCollection'
 
 services:
     # default configuration for services in *this* file

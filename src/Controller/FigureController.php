@@ -158,15 +158,12 @@ class FigureController extends AbstractController
                 $this->entityManager->flush();
 
                 //resizing coverImage
-
                 $nameTrick = $newTrick->getCoverImage();
                 $fileExtension = stristr(strtolower($nameTrick),'.');
                 $nameTrickOnly = substr($nameTrick, 0, -strlen($fileExtension));
                 $pathCoverImage = $this->getParameter('images_directory');
-                $filename = $pathCoverImage.'\\'.$nameTrickOnly.$fileExtension;
+                $filename = $pathCoverImage.'/'.$nameTrickOnly.$fileExtension;
                 $imageOptimizer->resize($filename);
-
-                ////
 
                 $this->addFlash('success','La figure a été créé avec succès !');
                 return $this->redirectToRoute('homePage');
@@ -269,7 +266,7 @@ class FigureController extends AbstractController
      * @Route("/tricks/{slug}/edit", name="trickEditPage")
      */
 
-    public function trickEdit($slug, Request $request)
+    public function trickEdit($slug, Request $request, ImageOptimizer $imageOptimizer)
     {
         if($this->getUser()) {
 
@@ -438,6 +435,15 @@ class FigureController extends AbstractController
                         $figure->setFixture($fixtureDefinition);
                         $this->entityManager->persist($figure);
                         $this->entityManager->flush();
+
+                        //resizing coverImage
+                        $nameTrick = $figure->getCoverImage();
+                        $fileExtension = stristr(strtolower($nameTrick),'.');
+                        $nameTrickOnly = substr($nameTrick, 0, -strlen($fileExtension));
+                        $pathCoverImage = $this->getParameter('images_directory');
+                        $filename = $pathCoverImage.'/'.$nameTrickOnly.$fileExtension;
+                        $imageOptimizer->resize($filename);
+
                         $this->addFlash('success','La figure a été modifié avec succès !');
                         $newSlug = $figure->getSlug();
                         return $this->redirectToRoute('trickViewPage', ['slug' => $newSlug]);

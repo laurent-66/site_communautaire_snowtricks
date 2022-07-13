@@ -29,25 +29,13 @@ class CommentFixture extends Fixture implements DependentFixtureInterface
             $authorRefRandom = rand(0, 2);
             $figRandom = rand(0, 9);
             $content = $faker->sentence($nbWords = 30, $variableNbWords = true);
-            $datetime = $faker->datetime();
-
             $comment = new Comment();
-
             $comment->setContent($content);
             $comment->setCreatedAt(new \DateTime());
             $comment->setUpdatedAt(new \DateTime());
             $comment->setFixture(1);
-
             $comment->setAuthor($this->getReference('user_' . $authorRefRandom));
-
-            $figure = $this->getReference('fig-ref_' . $figRandom);
-
-            if($figure->getFixture() == 1) {
-
-                $comment->setFigure($figure);
-
-            }
-            
+            $comment->setFigure($this->getReference('fig-ref_' . $figRandom));            
             $manager->persist($comment);
             $manager->flush(); 
         }
