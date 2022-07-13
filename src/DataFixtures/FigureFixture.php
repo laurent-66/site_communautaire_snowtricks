@@ -170,7 +170,6 @@ class FigureFixture extends Fixture implements DependentFixtureInterface
             $manager->flush();
             $this->addReference(sprintf(self::FIG_REF, $i), $figure);
         }
-        // dump($this->getReference('fig-ref_1'));
 
     }
 
