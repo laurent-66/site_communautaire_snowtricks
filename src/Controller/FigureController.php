@@ -80,7 +80,6 @@ class FigureController extends AbstractController
             if ($formTrick->isSubmitted() && $formTrick->isValid()) {
                 $newTrick = $formTrick->getData();
                 $newTrick->setAuthor($this->getUser());
-                $newTrick->setComment(null);
                 $newTrick->setfixture(0);
                 $coverImage = $newTrick->getCoverImageFile();
                 $alternativeAttribute = $newTrick->getAlternativeAttribute();
