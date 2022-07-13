@@ -160,10 +160,10 @@
                     {{form_end(formComment)}}
                     <div class="separator"></div>
                 {% endif %} 
-                <div class="row">
+                <div class="row"> 
                     <h3 class="text-center mx-auto mb-3" id="title-block-comment">Commentaires des snowboarders</h3>
                 </div>
-                <div class="container mb-3 mx-0 px-3"  id="container-figures"> 
+                <div class="container mb-3 mx-0 px-3" id="container-figures"> 
                     {% include "core/figures/__comments.html.twig" with {'comments': comments} %}
                 </div>
                 <div class="container-arrowUp d-flex flex-row justify-content-end">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
                 <div style="display:flex; justify-content:center;">
-		            <button class="btn btn-primary my-3" id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ page + 1 }}" data-comment-ajax="{{ path('get_comment_ajax')}}">Charger plus de commentaires</button>
+		            <button class="btn btn-primary my-3"  id="load-more" data-total-page="{{ pageTotal }}" data-next-page="{{ pageTotal > page ? page + 1 : page }}" data-comment-ajax="{{ path('get_comment_ajax', {'id': figure.id})}}">Charger plus de commentaires</button>
 	            </div>
             </div>
         </div>
