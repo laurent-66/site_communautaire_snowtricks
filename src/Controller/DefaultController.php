@@ -34,26 +34,6 @@ class DefaultController extends AbstractController
      */
     public function home(Request $request)
     {
-
-        // $figuresList = $this->figureRepository->findAll();
-
-        // foreach($figuresList as $figure) {
-
-        //     if($figure->getFixture() == 0) {
-        //     if($figure->getFixture() == 0) {
-
-        //         $nameTrick = $figure->getCoverImage();
-        //         $fileExtension = stristr(strtolower($nameTrick),'.');
-        //         $nameTrickOnly = substr($nameTrick, 0, -strlen($fileExtension));
-        //         $pathCoverImage = $this->getParameter('images_directory');
-        //         $filename = $pathCoverImage.'\\'.$nameTrickOnly.$fileExtension;
-        //         $this->imageOptimizer->resize($filename);
-        //     } 
-
-        // }
-
-
-
         $paginator = $this->figureRepository->getFigureByLimit(1, Figure::LIMIT_PER_PAGE);
 
         return $this->render(

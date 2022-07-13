@@ -5,6 +5,18 @@ const loader = document.querySelector('.loading');
 const arrowUpLinkEnabled = document.querySelector(".linkEnabled");
 const arrowUpLinkDisabled = document.querySelector(".linkDisabled");
 
+
+
+//define the quantity of comment
+let quantityComments = containerfigures.children.length;
+
+if( quantityComments > 9) {
+    arrowUpLinkEnabled.style.display='block';
+
+} 
+if((Number(element.dataset.nextPage)) === 1) {
+    element.disabled = true;
+}
 element.addEventListener('click', async (e) => { 
     loader.style.display='block';	
     const totalPage = e.target.dataset.totalPage;
@@ -21,18 +33,12 @@ element.addEventListener('click', async (e) => {
             if((Number(nextPage)) === Number(totalPage)) {
                 element.disabled = true;
             }
+
             // else increment to one the attribute value "data-next-page" in tag button
             element.dataset.nextPage = Number(nextPage) + 1;
 
             //add comment bellow page
             containerfigures.innerHTML += data.html;
 
-            //define the quantity of comment
-            let quantityComments = containerfigures.children.length;
-
-            if( quantityComments > 4) {
-                arrowUpLinkEnabled.style.display='block';
-            } 
-
-        } 
+        }  
 }) 

@@ -154,6 +154,7 @@ class FigureController extends AbstractController
                 }
 
                 $newTrick->setFixture(0);
+
                 $this->entityManager->persist($newTrick);
                 $this->entityManager->flush();
 
@@ -197,12 +198,14 @@ class FigureController extends AbstractController
     {
 
         $figure = $this->figureRepository->findOneBySlug($slug);
-        // dump($figure);
-        // exit;
         $figureId = $figure->getId();
 
-        $comments = $this->commentRepository->getCommentsPagination($figureId, $page = 1);
-        $paginator = $this->commentRepository->getCommentByLimit(1, Comment::LIMIT_PER_PAGE);
+        // $comments = $this->commentRepository->findByFigure($figureId);
+        // dump($comments);
+        // exit; 
+
+        $comments = $this->commentRepository->getCommentsPagination($figureId, 1, Comment::LIMIT_PER_PAGE );
+        $paginator = $this->commentRepository->getCommentByLimit($figureId, 1, Comment::LIMIT_PER_PAGE);
         $arrayIllustration = $this->illustrationRepository->findBy(['figure' => $figure]);
         $arrayImagesWithPropreties = IllustrationsProperties::generateProperties($arrayIllustration);
         $arrayVideo = $this->videoRepository->findBy(['figure' => $figure]);
@@ -211,7 +214,7 @@ class FigureController extends AbstractController
         $formComment = $this->createForm(CommentType::class);
         $formComment->handleRequest($request);
 
-        if ($formComment->isSubmitted() && $formComment->isValid()) {
+        if ($formComment->isSubmitted() && $formComment->isValid()) { 
             try {
                 $newComment = $formComment->getData();
                 $newComment->setFigure($figure);
@@ -242,16 +245,16 @@ class FigureController extends AbstractController
     /**
      * response ajax for button loadMore comments
      *
-     * @route("/ajax/comments", name="get_comment_ajax", methods={"get"})
+     * @route("/ajax/{id}/comments", name="get_comment_ajax", methods={"get"})
      *
      * @param Request $request
      *
      */
-    public function getCommentsWithAjaxRequest(Request $request)
+    public function getCommentsWithAjaxRequest(Request $request, $id) 
     {
         $pageTargeted = $request->query->getInt('page');
 
-        $comments = $this->commentRepository->getCommentByLimit($pageTargeted, Comment::LIMIT_PER_PAGE);
+        $comments = $this->commentRepository->getCommentByLimit($id, $pageTargeted, Comment::LIMIT_PER_PAGE);
         return new JsonResponse(
             [
                 "html" => $this->renderView('core/figures/__comments.html.twig', ['comments' => $comments])
